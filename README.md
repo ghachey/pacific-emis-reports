@@ -11,3 +11,7 @@ This Pacific EMIS reports is one of several components of the Pacific EMIS proje
 ## Project Documentation
 
 The documentation for the whole project can be found at https://docs.pacific-emis.org/
+
+## Historical Note
+
+The software in this repository used to be with the main application at https://bitbucket.org/softwords/pineapples/. All issues that were previously discussed up to this point were documented there. All issues and contributions will now be managed within this repository.
