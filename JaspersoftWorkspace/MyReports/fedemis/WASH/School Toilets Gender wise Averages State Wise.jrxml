@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="School Toilets Gender wise Averages State Wise" pageWidth="752" pageHeight="572" orientation="Landscape" columnWidth="752" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15fc577e-027f-4fe3-a316-011a1af5203e">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+	<template><![CDATA["fedemis/Templates/FedEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC" fontName="Open Sans Semibold" fontSize="10"/>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Row_Crosstab" style="Crosstab Data" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 1)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#ECECEC" hTextAlign="Right"/>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab 1_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Dataset1" uuid="e36bf2bc-4d66-42f5-a55c-1959fc516de5">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select 
+	Districts.dName,
+	isnull(a.genderCode,'') as genderCode,
+	isnull(a.toiUse,'') as toiUse,
+	isnull(b.Students,0) as Students,
+	isnull(a.totalToilets,0) as totalToilets, 
+	case 
+	when isnull(b.Students,0)>0 
+	then isnull(b.Students,0)/isnull(a.totalToilets,0) 
+	else 0 end as Average
+	from 
+			(select t2.dCode,t1.genderCode,t1.toiUse,sum(t1.total) as totalToilets from (select ssID,
+			case when toiUse='Boys' then  'M'
+				 when toiUse='Girls' then 'F'
+	                    else 'C' end as genderCode,
+	toiUse,
+	sum(toiNumUsable) as total  
+	from Toilets group by toiUse,ssID)t1
+	right join
+	(select 
+		LEFT(schNo,3) as 'dCode',
+		SurveyDimensionID 
+		from measureToilets where SurveyYear= $P{Year})t2 on t1.ssID=t2.SurveyDimensionID 
+group by t2.dCode,t1.genderCode,t1.toiUse)a
+
+left join 
+(
+	select 
+LEFT(e.schNo,3) as dCode,
+e.GenderCode,SUM(e.Students) as Students 
+	from (
+			select c.schNo,
+				   c.surveyYear,
+				   c.GenderCode,c.Students 
+				   from (select schno, 
+							surveyYear,
+							GenderCode,
+							sum(isnull(Enrol,0)) as Students 
+							from warehouse.enrol where surveyYear= $P{Year}   group by surveyYear,schNo,GenderCode
+union all
+select schno,
+		surveyYear,
+		'C',
+		sum(isnull(Enrol,0)) as Students 
+		from warehouse.enrol 
+		where surveyYear= $P{Year}   group by surveyYear,schNo)c 
+		right join measureToilets ml on c.schNo=ml.schNo and c.surveyYear=ml.SurveyYear)e 
+		inner join measureToilets ml on e.schNo=ml.schNo and e.surveyYear=ml.SurveyYear 
+group by LEFT(e.schNo,3),e.GenderCode
+)b on a.dCode=b.dCode and a.genderCode=b.GenderCode 
+
+right join Districts on a.dCode=Districts.dID]]>
+		</queryString>
+		<field name="dName" class="java.lang.String"/>
+		<field name="genderCode" class="java.lang.String"/>
+		<field name="toiUse" class="java.lang.String"/>
+		<field name="Students" class="java.lang.Integer"/>
+		<field name="totalToilets" class="java.lang.Integer"/>
+		<field name="Average" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select 
+	Districts.dName,
+	isnull(a.genderCode,'') as genderCode,
+	isnull(a.toiUse,'') as toiUse,
+	isnull(b.Students,0) as Students,
+	isnull(a.totalToilets,0) as totalToilets, 
+	case 
+	when isnull(b.Students,0)>0 
+	then isnull(b.Students,0)/isnull(a.totalToilets,0) 
+	else 0 end as Average
+	from 
+			(select t2.dCode,t1.genderCode,t1.toiUse,sum(t1.total) as totalToilets from (select ssID,
+			case when toiUse='Boys' then  'M'
+				 when toiUse='Girls' then 'F'
+	                    else 'C' end as genderCode,
+	toiUse,
+	sum(toiNumUsable) as total  
+	from Toilets group by toiUse,ssID)t1
+	right join
+	(select 
+		LEFT(schNo,3) as 'dCode',
+		SurveyDimensionID 
+		from measureToilets where SurveyYear= $P{Year})t2 on t1.ssID=t2.SurveyDimensionID 
+group by t2.dCode,t1.genderCode,t1.toiUse)a
+
+left join 
+(
+	select 
+LEFT(e.schNo,3) as dCode,
+e.GenderCode,SUM(e.Students) as Students 
+	from (
+			select c.schNo,
+				   c.surveyYear,
+				   c.GenderCode,c.Students 
+				   from (select schno, 
+							surveyYear,
+							GenderCode,
+							sum(isnull(Enrol,0)) as Students 
+							from warehouse.enrol where surveyYear= $P{Year}   group by surveyYear,schNo,GenderCode
+union all
+select schno,
+		surveyYear,
+		'C',
+		sum(isnull(Enrol,0)) as Students 
+		from warehouse.enrol 
+		where surveyYear= $P{Year}   group by surveyYear,schNo)c 
+		right join measureToilets ml on c.schNo=ml.schNo and c.surveyYear=ml.SurveyYear)e 
+		inner join measureToilets ml on e.schNo=ml.schNo and e.surveyYear=ml.SurveyYear 
+group by LEFT(e.schNo,3),e.GenderCode
+)b on a.dCode=b.dCode and a.genderCode=b.GenderCode 
+
+right join Districts on a.dCode=Districts.dID]]>
+	</queryString>
+	<field name="dName" class="java.lang.String"/>
+	<field name="genderCode" class="java.lang.String"/>
+	<field name="toiUse" class="java.lang.String"/>
+	<field name="Students" class="java.lang.Integer"/>
+	<field name="totalToilets" class="java.lang.Integer"/>
+	<field name="Average" class="java.lang.Integer"/>
+	<summary>
+		<band height="260" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report" renderType="svg" theme="aegean">
+					<reportElement x="0" y="12" width="240" height="200" uuid="d29db3b2-7952-4344-935a-114ef1bf8586">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{toiUse}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{dName}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{totalToilets}]]></valueExpression>
+						<labelExpression><![CDATA[$F{toiUse}]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<componentElement>
+				<reportElement x="260" y="20" width="490" height="20" uuid="4822b738-d48c-4324-8c27-2fea3767a474"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="Dataset1" uuid="161ef43b-ebad-43f9-9ef3-ecaf44452aaa">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="20" width="490">
+						<textField>
+							<reportElement style="Row" mode="Opaque" x="0" y="0" width="100" height="20" uuid="07bca16f-3210-4fdb-bd4a-3d06062fbd4e"/>
+							<box rightPadding="2"/>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Open Sans" size="12"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{dName}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement style="Row" mode="Opaque" x="100" y="0" width="100" height="20" uuid="27f471ca-ea45-4cee-8a3a-00e83cd43638"/>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Left" verticalAlignment="Middle">
+								<font fontName="Open Sans" size="12"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{toiUse}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement style="Row" mode="Opaque" x="200" y="0" width="120" height="20" uuid="7f0be868-170e-432d-aa77-e8842e394704"/>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font fontName="Open Sans" size="12"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{Students}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement style="Row" mode="Opaque" x="320" y="0" width="100" height="20" uuid="3d3301c4-9cae-4296-8faf-472d00d8525d">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							</reportElement>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font fontName="Open Sans" size="12"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{totalToilets}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement style="Row" mode="Opaque" x="420" y="0" width="70" height="20" uuid="1bed1176-1a89-4b26-8e93-256731837c91">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							</reportElement>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font fontName="Open Sans" size="12"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{Average}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<textField>
+				<reportElement style="Crosstab Heading" x="360" y="0" width="100" height="20" uuid="9b0a635c-17c6-4373-93ca-e4615b7c776b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Gender"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Crosstab Heading" x="460" y="0" width="120" height="20" uuid="48790ed8-1e27-4311-956a-68a894cd3ae9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total Students"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Crosstab Heading" x="580" y="0" width="100" height="20" uuid="31158ab8-2ce3-4ea5-b007-e8ec159fd8cc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total Toilets"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Crosstab Heading" x="680" y="0" width="70" height="20" uuid="540ceb6a-aff6-4ea0-a655-4523240e898d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Average"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Crosstab Heading" x="260" y="0" width="100" height="20" uuid="882fdb3c-0cfa-4be7-9079-4f5aa28de5fa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["District"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="240" width="750" height="20" uuid="929467b4-eaa1-4219-a78b-0d8ddc684260"/>
+				<textElement>
+					<font fontName="Open Sans" size="12"/>
+				</textElement>
+				<text><![CDATA[Note : Total students are considered from surveyed schools students ]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

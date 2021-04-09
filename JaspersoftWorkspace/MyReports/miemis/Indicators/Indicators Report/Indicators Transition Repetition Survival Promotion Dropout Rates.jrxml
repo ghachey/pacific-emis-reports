@@ -1,0 +1,845 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Education Indicators Transition, Repetition, Survival, Promotion, Dropout Rates By Nation" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="8751f277-debd-4243-93c6-3c5676386150">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.jasperserver.url" value="http://data.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Indicators/Education_Indicators_Report_Book_By_Nation_files/Education_Indicators_Transition__Repetition__Survival__Promotion__Dropout_Rates_By_Nation.jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Indicators/Education_Indicators_Report_Book_By_Nation"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F2F2F2">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#F2F2F2"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Row">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Table 9: Nation Flow Rates by Year , Grade and Gender" uuid="ce9676ad-cdf1-4ed9-9e53-e950ad2681c8">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select *,dl.LevelCode from (
+		select a.surveyyear,a.yearofed,
+		isnull(a.repeatratemale,0) as repeatratemale,
+		a.repeatratemale as nullrepeatratemale,
+		 isnull(b.repeatratefemale,0) as repeatratefemale,
+		repeatratefemale as nullrepeatratefemale,
+		 isnull(c.promoteratemale,0) as promoteratemale,
+		promoteratemale as nullpromoteratemale,
+		  isnull(d.promoteratefemale,0) as promoteratefemale,
+		  promoteratefemale as nullpromoteratefemale,
+		 isnull(e.dropoutratemale,0) as dropoutratemale,
+		dropoutratemale as nulldropoutratemale,
+		isnull(f.dropoutratefemale,0) as dropoutratefemale,
+		dropoutratefemale as nulldropoutratefemale,
+		isnull(g.survivalratemale,0) as survivalratemale,
+		survivalratemale as nullsurvivalratemale,
+		isnull(h.survivalratefemale,0) as survivalratefemale,
+		survivalratefemale as nullsurvivalratefemale
+		
+		
+		from 
+		
+		(select surveyyear,yearofed,round(repeatrate*100,2) as repeatratemale
+		from warehouse.FlowNation 
+		where GenderCode = 'M')a
+		
+		
+		join (select surveyyear,yearofed,round(repeatrate*100,2) as repeatratefemale
+		from warehouse.FlowNation 
+		where GenderCode = 'F') b
+		on a.surveyyear = b.surveyyear
+		and a.yearofed = b.yearofed
+		
+		join(select surveyyear,yearofed,round(promoterate*100,2) as promoteratemale
+		from warehouse.FlowNation 
+		where GenderCode = 'M')c
+		on b.surveyyear = c.surveyyear
+		and b.yearofed = c.yearofed
+		
+		join(select surveyyear,yearofed,round(promoterate*100,2) as promoteratefemale
+		from warehouse.FlowNation 
+		where GenderCode = 'F')d
+		on c.surveyyear = d.surveyyear
+		and c.yearofed = d.yearofed
+		
+		join (select surveyyear,yearofed,round(dropoutrate*100,2) as dropoutratemale
+		from warehouse.FlowNation 
+		where GenderCode = 'M')e
+		on d.surveyyear = e.surveyyear
+		and d.yearofed = e.yearofed
+		
+		
+		join (select surveyyear,yearofed,round(dropoutrate*100,2) as dropoutratefemale
+		from warehouse.FlowNation 
+		where GenderCode = 'F')f
+		on e.surveyyear = f.surveyyear
+		and e.yearofed = f.yearofed
+		
+		
+		
+		join(select surveyyear,yearofed,round(survivalrate*100,2) as survivalratemale
+		from warehouse.FlowNation 
+		where GenderCode = 'M')g
+		on f.surveyyear = g.surveyyear
+		and f.yearofed = g.yearofed
+		
+		
+		join (select surveyyear,yearofed,round(survivalrate*100,2) as survivalratefemale
+		from warehouse.FlowNation 
+		where GenderCode = 'F')h
+		on g.surveyyear = h.surveyyear
+		and g.yearofed = h.yearofed
+		where a.surveyyear<=$P{Year} and a.surveyyear>=($P{Year}-5)
+)fnl join DimensionLevel dl on fnl.YearOfEd=dl.[Year of Education] where dl.levelcode!='GPRE9'
+order by 1,2]]>
+		</queryString>
+		<field name="surveyyear" class="java.lang.Integer"/>
+		<field name="yearofed" class="java.lang.Integer"/>
+		<field name="repeatratemale" class="java.lang.Double"/>
+		<field name="nullrepeatratemale" class="java.lang.Double"/>
+		<field name="repeatratefemale" class="java.lang.Double"/>
+		<field name="nullrepeatratefemale" class="java.lang.Double"/>
+		<field name="promoteratemale" class="java.lang.Double"/>
+		<field name="nullpromoteratemale" class="java.lang.Double"/>
+		<field name="promoteratefemale" class="java.lang.Double"/>
+		<field name="nullpromoteratefemale" class="java.lang.Double"/>
+		<field name="dropoutratemale" class="java.lang.Double"/>
+		<field name="nulldropoutratemale" class="java.lang.Double"/>
+		<field name="dropoutratefemale" class="java.lang.Double"/>
+		<field name="nulldropoutratefemale" class="java.lang.Double"/>
+		<field name="survivalratemale" class="java.lang.Double"/>
+		<field name="nullsurvivalratemale" class="java.lang.Double"/>
+		<field name="survivalratefemale" class="java.lang.Double"/>
+		<field name="nullsurvivalratefemale" class="java.lang.Double"/>
+		<field name="LevelCode" class="java.lang.String"/>
+		<field name="Level" class="java.lang.String"/>
+		<field name="Year of Education" class="java.lang.Short"/>
+		<field name="LevelGV" class="java.lang.String"/>
+		<field name="edLevelCode" class="java.lang.String"/>
+		<field name="Education Level" class="java.lang.String"/>
+		<field name="edLevelAltCode" class="java.lang.String"/>
+		<field name="Education Level Alt" class="java.lang.String"/>
+		<field name="edLevelAlt2Code" class="java.lang.String"/>
+		<field name="Education Level Alt2" class="java.lang.String"/>
+		<field name="SectorCode" class="java.lang.String"/>
+		<field name="Sector" class="java.lang.String"/>
+		<field name="edLevelMin" class="java.lang.Integer"/>
+		<field name="edLevelMax" class="java.lang.Integer"/>
+		<field name="edLevelAltMin" class="java.lang.Integer"/>
+		<field name="edLevelAltMax" class="java.lang.Integer"/>
+		<field name="edLevelAlt2Min" class="java.lang.Integer"/>
+		<field name="edLevelAlt2Max" class="java.lang.Integer"/>
+		<field name="ISCED SubClass" class="java.lang.String"/>
+		<field name="ISCED Level" class="java.lang.String"/>
+		<field name="ISCED Level Name" class="java.lang.String"/>
+		<field name="COLUMN_40" class="java.lang.String"/>
+		<variable name="Repeate_Male" class="java.lang.Double" resetType="Group" resetGroup="Group1" calculation="Average">
+			<variableExpression><![CDATA[$F{repeatratemale}]]></variableExpression>
+		</variable>
+		<variable name="Repeate_Female" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Average">
+			<variableExpression><![CDATA[$F{repeatratefemale}]]></variableExpression>
+		</variable>
+		<variable name="Promotion_Male" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Average">
+			<variableExpression><![CDATA[$F{promoteratemale}]]></variableExpression>
+		</variable>
+		<variable name="Promotion_Female" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Average">
+			<variableExpression><![CDATA[$F{promoteratefemale}]]></variableExpression>
+		</variable>
+		<variable name="Dropout_Male" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Average">
+			<variableExpression><![CDATA[$F{dropoutratemale}]]></variableExpression>
+		</variable>
+		<variable name="Dropout_Female" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Average">
+			<variableExpression><![CDATA[$F{dropoutratefemale}]]></variableExpression>
+		</variable>
+		<variable name="Survival_Male" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Average">
+			<variableExpression><![CDATA[$F{survivalratemale}]]></variableExpression>
+		</variable>
+		<variable name="Survival_Female" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Average">
+			<variableExpression><![CDATA[$F{survivalratefemale}]]></variableExpression>
+		</variable>
+		<variable name="Repeate_Male_GrandTotal" class="java.lang.Double" calculation="Average">
+			<variableExpression><![CDATA[$F{repeatratemale}]]></variableExpression>
+		</variable>
+		<variable name="Repeate_Female_GrandTotal" class="java.lang.Float" calculation="Average">
+			<variableExpression><![CDATA[$F{repeatratefemale}]]></variableExpression>
+		</variable>
+		<variable name="Promotion_Male_GrandTotal" class="java.lang.Float" calculation="Average">
+			<variableExpression><![CDATA[$F{promoteratemale}]]></variableExpression>
+		</variable>
+		<variable name="Promotion_Female_GrandTotal" class="java.lang.Float" calculation="Average">
+			<variableExpression><![CDATA[$F{promoteratefemale}]]></variableExpression>
+		</variable>
+		<variable name="Dropout_Male_GrandTotal" class="java.lang.Float" calculation="Average">
+			<variableExpression><![CDATA[$F{dropoutratemale}]]></variableExpression>
+		</variable>
+		<variable name="Dropout_Female_GrandTotal" class="java.lang.Float" calculation="Average">
+			<variableExpression><![CDATA[$F{dropoutratefemale}]]></variableExpression>
+		</variable>
+		<variable name="Survival_Male_GrandTotal" class="java.lang.Float" calculation="Average">
+			<variableExpression><![CDATA[$F{survivalratemale}]]></variableExpression>
+		</variable>
+		<variable name="Survival_Female_GrandTotal" class="java.lang.Float" calculation="Average">
+			<variableExpression><![CDATA[$F{survivalratefemale}]]></variableExpression>
+		</variable>
+		<group name="Group1">
+			<groupExpression><![CDATA[$F{surveyyear}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select a.surveyyear,a.yearofed,a.repeatratemale,b.repeatratefemale,c.promoteratemale,d.promoteratefemale,e.dropoutratemale,f.dropoutratefemale,
+g.survivalratemale,h.survivalratefemale
+
+from 
+
+(select surveyyear,yearofed,round(isnull(repeatrate,0)*100,2) as repeatratemale
+from warehouse.FlowNation 
+where GenderCode = 'M')a
+
+
+join (select surveyyear,yearofed,round(isnull(repeatrate,0)*100,2) as repeatratefemale
+from warehouse.FlowNation 
+where GenderCode = 'F') b
+on a.surveyyear = b.surveyyear
+and a.yearofed = b.yearofed
+
+join(select surveyyear,yearofed,round(isnull(promoterate,0)*100,2) as promoteratemale
+from warehouse.FlowNation 
+where GenderCode = 'M')c
+on b.surveyyear = c.surveyyear
+and b.yearofed = c.yearofed
+
+join(select surveyyear,yearofed,round(isnull(promoterate,0)*100,2) as promoteratefemale
+from warehouse.FlowNation 
+where GenderCode = 'F')d
+on c.surveyyear = d.surveyyear
+and c.yearofed = d.yearofed
+
+join (select surveyyear,yearofed,round(isnull(dropoutrate,0)*100,2) as dropoutratemale
+from warehouse.FlowNation 
+where GenderCode = 'M')e
+on d.surveyyear = e.surveyyear
+and d.yearofed = e.yearofed
+
+
+join (select surveyyear,yearofed,round(isnull(dropoutrate,0)*100,2) as dropoutratefemale
+from warehouse.FlowNation 
+where GenderCode = 'F')f
+on e.surveyyear = f.surveyyear
+and e.yearofed = f.yearofed
+
+
+
+join(select surveyyear,yearofed,round(isnull(survivalrate,0)*100,2) as survivalratemale
+from warehouse.FlowNation 
+where GenderCode = 'M')g
+on f.surveyyear = g.surveyyear
+and f.yearofed = g.yearofed
+
+
+join (select surveyyear,yearofed,round(isnull(survivalrate,0)*100,2) as survivalratefemale
+from warehouse.FlowNation 
+where GenderCode = 'F')h
+on g.surveyyear = h.surveyyear
+and g.yearofed = h.yearofed
+
+order by 1,2]]>
+	</queryString>
+	<field name="surveyyear" class="java.lang.Integer"/>
+	<field name="yearofed" class="java.lang.Integer"/>
+	<field name="repeatratemale" class="java.lang.Double"/>
+	<field name="repeatratefemale" class="java.lang.Double"/>
+	<field name="promoteratemale" class="java.lang.Double"/>
+	<field name="promoteratefemale" class="java.lang.Double"/>
+	<field name="dropoutratemale" class="java.lang.Double"/>
+	<field name="dropoutratefemale" class="java.lang.Double"/>
+	<field name="survivalratemale" class="java.lang.Double"/>
+	<field name="survivalratefemale" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="130" splitType="Stretch">
+			<componentElement>
+				<reportElement positionType="Float" x="-20" y="20" width="550" height="94" uuid="3e4d7fbe-124e-4d62-b305-105ab587ba8b">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table 9: Nation Flow Rates by Year , Grade and Gender" uuid="a480c4f4-f2fd-42d8-a053-6487f4c36aa2">
+						<datasetParameter name="Year">
+							<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="70" uuid="1eb74e96-2c83-4052-8fe8-2eae304b6a45">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableHeader style="Table_TH" height="45" rowSpan="2">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="45" uuid="be076fd9-ea0c-4b0d-b97d-9f3356b29a07"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TH" height="20" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="20" uuid="fe7b1801-33bf-4e25-bbd0-439f239542c9"/>
+								<textElement textAlignment="Center" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Grand Total]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_CH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+								</box>
+								<textField evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="70" height="15" uuid="f2849aa6-4e2f-4da9-9596-582cb9ec5848"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{surveyyear}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="70" height="15" uuid="42ea4d50-6662-4164-9af9-335aa5f52ef7"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{LevelCode}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="120" uuid="c2b0dd44-6250-4e57-b74e-2c8ffeb0513b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="30" uuid="d63cb6b1-8339-4034-b18b-f88e102fce38"/>
+								<box leftPadding="9"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Repeat Rate]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:column width="60" uuid="868bd2f4-c6a0-483c-a68a-406f4f0e5dfa">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+							<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="60" height="15" uuid="3870c170-38a3-4270-b85d-327db7d8a52d">
+										<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+									</reportElement>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[M]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:tableFooter style="Table_TH" height="20" rowSpan="1">
+								<textField evaluationTime="Report" pattern="00.00&apos;%&apos;">
+									<reportElement x="0" y="0" width="60" height="20" uuid="0e7d6cd4-2599-4375-a1cb-ba1228de0783"/>
+									<textElement textAlignment="Right" verticalAlignment="Bottom">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Repeate_Male_GrandTotal}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table_CH" height="15" rowSpan="1">
+									<textField evaluationTime="Group" evaluationGroup="Group1" pattern="00.00&apos;%&apos;">
+										<reportElement x="0" y="0" width="60" height="15" printWhenGroupChanges="Group1" uuid="0991fcd3-0b45-4052-82b0-4308dcbbc3cb"/>
+										<box>
+											<bottomPen lineColor="#C8C8C8"/>
+										</box>
+										<textElement textAlignment="Right" verticalAlignment="Middle">
+											<font fontName="Open Sans" size="9" isBold="true"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$V{Repeate_Male}]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="15">
+								<textField pattern="00.00&apos;%&apos;">
+									<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="60" height="15" uuid="361689ae-2b2d-49a4-bac0-59f5e0f0e5c9"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{nullrepeatratemale}==null?"N/A":$F{nullrepeatratemale}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="60" uuid="3c9c064b-7a3e-4c04-abff-6450adf43be1">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+							<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="60" height="15" uuid="3d84927e-0eb3-4447-ad24-edf8687e2378"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[F]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:tableFooter style="Table_TH" height="20" rowSpan="1">
+								<textField evaluationTime="Report" pattern="00.00&apos;%&apos;">
+									<reportElement x="0" y="0" width="60" height="20" uuid="9e48b29c-fa20-4870-9404-04ac143f54cb"/>
+									<textElement textAlignment="Right" verticalAlignment="Bottom">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Repeate_Female_GrandTotal}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table_CH" height="15" rowSpan="1">
+									<textField evaluationTime="Group" evaluationGroup="Group1" pattern="00.00&apos;%&apos;">
+										<reportElement x="0" y="0" width="60" height="15" printWhenGroupChanges="Group1" uuid="13eae22c-92fe-4522-9176-657b0d257e7b"/>
+										<box>
+											<bottomPen lineColor="#C8C8C8"/>
+										</box>
+										<textElement textAlignment="Right" verticalAlignment="Middle">
+											<font fontName="Open Sans" size="9" isBold="true"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$V{Repeate_Female}]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="15">
+								<textField pattern="00.00&apos;%&apos;">
+									<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="60" height="15" uuid="0a29736f-aaf2-4d8f-a55c-b1fd752bb01e"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{nullrepeatratefemale}==null?"N/A":$F{nullrepeatratefemale}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+					<jr:columnGroup width="120" uuid="d2e6ee98-8d3a-4f88-b8c4-b926b16b78fc">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="30" uuid="8f29aaf6-a93d-49a6-85a1-4a022965751e"/>
+								<box leftPadding="9"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Promotion Rate]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:column width="60" uuid="1df265af-b463-401e-b4ce-b5033fb00826">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+							<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="60" height="15" uuid="f441bd7d-c875-4778-9e9b-6edce2e26fbd"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[M]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:tableFooter style="Table_TH" height="20" rowSpan="1">
+								<textField evaluationTime="Report" pattern="00.00&apos;%&apos;">
+									<reportElement x="0" y="0" width="60" height="20" uuid="687d4edc-f164-493a-920b-6f2f33c528b8"/>
+									<textElement textAlignment="Right" verticalAlignment="Bottom">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Promotion_Male_GrandTotal}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table_CH" height="15" rowSpan="1">
+									<textField evaluationTime="Group" evaluationGroup="Group1" pattern="00.00&apos;%&apos;">
+										<reportElement x="0" y="0" width="60" height="15" printWhenGroupChanges="Group1" uuid="076ef224-4850-497e-a57b-18edced9e60c"/>
+										<box>
+											<bottomPen lineColor="#C8C8C8"/>
+										</box>
+										<textElement textAlignment="Right" verticalAlignment="Middle">
+											<font fontName="Open Sans" size="9" isBold="true"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$V{Promotion_Male}]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="15">
+								<textField pattern="00.00&apos;%&apos;">
+									<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="60" height="15" uuid="befe25a2-71ac-4355-9f30-fcd21d40f405"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{nullpromoteratemale}==null?"N/A":$F{nullpromoteratemale}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="60" uuid="b9449579-475b-48e6-a81a-63d64c69a92d">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+							<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="60" height="15" uuid="926206be-9f2c-41b4-becc-0d13fa9f12ac"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[F]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:tableFooter style="Table_TH" height="20" rowSpan="1">
+								<textField evaluationTime="Report" pattern="00.00&apos;%&apos;">
+									<reportElement x="0" y="0" width="60" height="20" uuid="89beaa47-c15f-4318-b53a-d41bf6b7647a"/>
+									<textElement textAlignment="Right" verticalAlignment="Bottom">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Promotion_Female_GrandTotal}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table_CH" height="15" rowSpan="1">
+									<textField evaluationTime="Group" evaluationGroup="Group1" pattern="00.00&apos;%&apos;">
+										<reportElement x="0" y="0" width="60" height="15" printWhenGroupChanges="Group1" uuid="4b97e351-5270-4feb-b3a6-6a62b7a497b5"/>
+										<box>
+											<bottomPen lineColor="#C8C8C8"/>
+										</box>
+										<textElement textAlignment="Right" verticalAlignment="Middle">
+											<font fontName="Open Sans" size="9" isBold="true"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$V{Promotion_Female}]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="15">
+								<textField pattern="00.00&apos;%&apos;">
+									<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="60" height="15" uuid="3ea3f213-9cf8-4df2-babc-053db1763ce0"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{nullpromoteratefemale}==null?"N/A":$F{nullpromoteratefemale}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+					<jr:columnGroup width="120" uuid="b6f3d0bd-7221-42fb-8f04-dcd615079c4c">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="30" uuid="944628ea-6703-4427-a120-5f46769843fb"/>
+								<box leftPadding="9"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Dropout Rate]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:column width="60" uuid="dff304c3-dc2b-4036-9f58-b9b321c210e7">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+							<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="60" height="15" uuid="56612831-d6d6-4c50-ab84-3cf90d7a3c46"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[M]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:tableFooter style="Table_TH" height="20" rowSpan="1">
+								<textField evaluationTime="Report" pattern="00.00&apos;%&apos;">
+									<reportElement x="0" y="0" width="60" height="20" uuid="97e45068-3833-4a04-a6da-da81a6ecca3d"/>
+									<textElement textAlignment="Right" verticalAlignment="Bottom">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Dropout_Male_GrandTotal}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table_CH" height="15" rowSpan="1">
+									<textField evaluationTime="Group" evaluationGroup="Group1" pattern="00.00&apos;%&apos;">
+										<reportElement x="0" y="0" width="60" height="15" printWhenGroupChanges="Group1" uuid="b1b7f937-7e7b-452a-a18f-46c3cb9c40c8"/>
+										<box>
+											<bottomPen lineColor="#C8C8C8"/>
+										</box>
+										<textElement textAlignment="Right" verticalAlignment="Middle">
+											<font fontName="Open Sans" size="9" isBold="true"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$V{Dropout_Male}]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="15">
+								<textField pattern="00.00&apos;%&apos;">
+									<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="60" height="15" uuid="b4c885b3-b255-4296-a58f-14453ae30a59"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{nulldropoutratemale}==null?"N/A":$F{nulldropoutratemale}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="60" uuid="fc49c709-670b-4bc7-b85d-5ec2bc30965a">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+							<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="60" height="15" uuid="185a8e12-8af5-4143-852c-6ef7577d8238"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[F]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:tableFooter style="Table_TH" height="20" rowSpan="1">
+								<textField evaluationTime="Report" pattern="00.00&apos;%&apos;">
+									<reportElement x="0" y="0" width="60" height="20" uuid="e9f5be04-a2b2-4f6e-b796-00253b2bc02f"/>
+									<textElement textAlignment="Right" verticalAlignment="Bottom">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Dropout_Female_GrandTotal}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table_CH" height="15" rowSpan="1">
+									<textField evaluationTime="Group" evaluationGroup="Group1" pattern="00.00&apos;%&apos;">
+										<reportElement x="0" y="0" width="60" height="15" printWhenGroupChanges="Group1" uuid="dc4ec2c2-76c2-487c-8985-9e1874991e77"/>
+										<box>
+											<bottomPen lineColor="#C8C8C8"/>
+										</box>
+										<textElement textAlignment="Right" verticalAlignment="Middle">
+											<font fontName="Open Sans" size="9" isBold="true"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$V{Dropout_Female}]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="15">
+								<textField pattern="00.00&apos;%&apos;">
+									<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="60" height="15" uuid="575df3b5-2415-425b-a205-0130023d5720"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{nulldropoutratefemale}==null?"N/A":$F{nulldropoutratefemale}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+					<jr:columnGroup width="120" uuid="248e54d0-e825-42be-871c-598b3db383f1">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="30" uuid="383f85ed-5c6a-47fd-a880-efd1d49dc3b1"/>
+								<box leftPadding="9"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Survival Rate]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:column width="61" uuid="fbd364eb-76c2-4028-9883-d45ba981018e">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+							<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="61" height="15" uuid="83dfc561-fc41-4faf-8098-882f436cc7f5"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[M]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:tableFooter style="Table_TH" height="20" rowSpan="1">
+								<textField evaluationTime="Report" pattern="00.00&apos;%&apos;">
+									<reportElement x="0" y="0" width="61" height="20" uuid="63a22deb-f4ef-422f-b681-00a167e14b06"/>
+									<textElement textAlignment="Right" verticalAlignment="Bottom">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Survival_Male_GrandTotal}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table_CH" height="15" rowSpan="1">
+									<textField evaluationTime="Group" evaluationGroup="Group1" pattern="00.00&apos;%&apos;">
+										<reportElement x="0" y="0" width="61" height="15" printWhenGroupChanges="Group1" uuid="545e7405-82fc-4f5a-b602-9af534a6bc23"/>
+										<box>
+											<bottomPen lineColor="#C8C8C8"/>
+										</box>
+										<textElement textAlignment="Right" verticalAlignment="Middle">
+											<font fontName="Open Sans" size="9" isBold="true"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$V{Survival_Male}]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="15">
+								<textField pattern="00.00&apos;%&apos;">
+									<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="61" height="15" uuid="b8a10672-3f32-4817-b5d4-da2c369b904d"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{nullsurvivalratemale}==null?"N/A":$F{nullsurvivalratemale}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="59" uuid="57d5aaf4-7e46-41a7-904d-2f609a173e9a">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="59" height="15" uuid="29b81f3a-13bb-4582-84e9-86f20c512127"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[F]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:tableFooter style="Table_TH" height="20" rowSpan="1">
+								<textField evaluationTime="Report" pattern="00.00&apos;%&apos;">
+									<reportElement x="0" y="0" width="59" height="20" uuid="1e3af7c8-aaff-46f9-ac71-93d61cd9b841"/>
+									<textElement textAlignment="Right" verticalAlignment="Bottom">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Survival_Female_GrandTotal}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table_CH" height="15" rowSpan="1">
+									<textField evaluationTime="Group" evaluationGroup="Group1" pattern="00.00&apos;%&apos;">
+										<reportElement x="0" y="0" width="59" height="15" printWhenGroupChanges="Group1" uuid="a8858131-73d2-4035-bfd6-830d13a2ad30"/>
+										<box>
+											<bottomPen lineColor="#C8C8C8"/>
+										</box>
+										<textElement textAlignment="Right" verticalAlignment="Middle">
+											<font fontName="Open Sans" size="9" isBold="true"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$V{Survival_Female}]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="15">
+								<textField pattern="00.00&apos;%&apos;">
+									<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="59" height="15" uuid="cffff7e3-9968-411d-8e0e-adab104d5d22"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{nullsurvivalratefemale}==null?"N/A":$F{nullsurvivalratefemale}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<textField bookmarkLevel="2">
+				<reportElement x="122" y="-1" width="310" height="20" uuid="60432b81-926c-4a52-9c21-a9e74c3a835a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nation Flow Rates by Year , Grade and Gender"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Nation Flow Rates by Year , Grade and Gender"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

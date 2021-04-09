@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Changes_in_Enrollments" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - KEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/KEMIS_Reports/Statistical_Brief/Changes_in_Enrollments"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="636"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="350"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="345"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="650"/>
+	<template><![CDATA["../Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[2016]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[----  Table: schools-year/grade (row) pct. change in enrolments for boys, girls and overall for the last two years
+
+select ClassLevel,
+	   MthisYear,
+	   FthisYear,
+	   TthisYear,
+	   Myear1,
+	   Fyear1,
+	   Tyear1,
+	   Myear2,
+	   Fyear2,
+	   Tyear2,
+	   ROUND( ( Cast(MthisYear as numeric) - Myear1) / Myear1 * 100.0, 1) as MchangeYear1,
+	   ROUND( ( Cast(FthisYear as numeric) - Fyear1) / Fyear1 * 100.0 , 1) as FchangeYear1,
+	   ROUND( ( Cast(TthisYear as numeric) - Tyear1) / Tyear1 * 100.0 , 1) as TchangeYear1,
+	   ROUND( ( Cast(MthisYear as numeric) - Myear2) / Myear2 * 100.0 , 1) as MchangeYear2,
+	   ROUND( ( Cast(FthisYear as numeric) - Fyear2) / Fyear2 * 100.0 , 1) as FchangeYear2,
+	   ROUND( ( Cast(TthisYear as numeric) - Tyear2) / Tyear2 * 100.0 , 1) as TchangeYear2,
+
+	   CASE 
+		 WHEN ClassLevel like 'P%'  THEN 1
+		 WHEN ClassLevel like 'JS%' THEN 2
+		 WHEN ClassLevel like 'SS%' THEN 3
+		 ELSE 999
+       END as sortOrder
+from (
+	select ClassLevel,
+		   SUM(CASE WHEN surveyYear = $P{year} and GenderCode = 'M' THEN d.T ELSE 0 END) as MthisYear,
+		   SUM(CASE WHEN surveyYear = $P{year} and GenderCode = 'F' THEN d.T ELSE 0 END) as FthisYear,
+		   SUM(CASE WHEN surveyYear = $P{year} THEN d.T ELSE 0 END) as TthisYear,
+
+		   SUM(CASE WHEN surveyYear = $P{year} - 1 and GenderCode = 'M' THEN d.T ELSE 0 END) as Myear1,
+		   SUM(CASE WHEN surveyYear = $P{year} - 1 and GenderCode = 'F' THEN d.T ELSE 0 END) as Fyear1,
+		   SUM(CASE WHEN surveyYear = $P{year} - 1 THEN d.T ELSE 0 END) as Tyear1,
+
+		   SUM(CASE WHEN surveyYear = $P{year} - 2 and GenderCode = 'M' THEN d.T ELSE 0 END) as Myear2,
+		   SUM(CASE WHEN surveyYear = $P{year} - 2 and GenderCode = 'F' THEN d.T ELSE 0 END) as Fyear2,
+		   SUM(CASE WHEN surveyYear = $P{year} - 2 THEN d.T ELSE 0 END) as Tyear2
+
+	from (
+		select surveyYear, 
+			   ClassLevel,
+			   GenderCode,
+			   SUM(enrol) as T
+		from warehouse.enrol
+		where surveyYear > $P{year} - 3
+		group by surveyYear, ClassLevel, GenderCode
+		
+	) d
+
+	group by ClassLevel
+
+) dd
+order by sortOrder, ClassLevel]]>
+	</queryString>
+	<field name="ClassLevel" class="java.lang.String"/>
+	<field name="MthisYear" class="java.lang.Integer"/>
+	<field name="FthisYear" class="java.lang.Integer"/>
+	<field name="TthisYear" class="java.lang.Integer"/>
+	<field name="Myear1" class="java.lang.Double"/>
+	<field name="Fyear1" class="java.lang.Integer"/>
+	<field name="Tyear1" class="java.lang.Integer"/>
+	<field name="Myear2" class="java.lang.Integer"/>
+	<field name="Fyear2" class="java.lang.Integer"/>
+	<field name="Tyear2" class="java.lang.Integer"/>
+	<field name="MchangeYear1" class="java.lang.Double"/>
+	<field name="FchangeYear1" class="java.math.BigDecimal"/>
+	<field name="TchangeYear1" class="java.math.BigDecimal"/>
+	<field name="MchangeYear2" class="java.math.BigDecimal"/>
+	<field name="FchangeYear2" class="java.math.BigDecimal"/>
+	<field name="TchangeYear2" class="java.math.BigDecimal"/>
+	<field name="sortOrder" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="124" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="90" y="0" width="353" height="62" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
+				<text><![CDATA[Stats Brief]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="10" forecolor="#08298C" backcolor="#08298C" uuid="d2c1de46-cc23-45d7-baae-f3db758a22f4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-20" y="-10" width="10" height="10" forecolor="#08298C" backcolor="#08298C" uuid="82be1372-47c3-4488-8799-e379cf02a1dc">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="565" y="-10" width="10" height="10" forecolor="#08298C" backcolor="#08298C" uuid="381229bf-790d-4ab8-92ba-f2c4c103310d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-20" y="-9" width="22" height="19" forecolor="#FFFFFF" uuid="eb7e3cd7-5c3b-404f-92ca-e40918a0f081">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="553" y="-9" width="22" height="19" forecolor="#FFFFFF" uuid="48197aee-8bf4-4b7f-8728-a4843a0b870b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Page footer" x="120" y="60" width="320" height="55" uuid="aac0dd0e-695e-4839-8e52-4212d1369f89"/>
+				<textElement textAlignment="Center">
+					<font size="19"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Enrollments by Class Level for " + $P{year} + " compared to previous two years"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="463" y="0" width="92" height="115" uuid="f63e4ed0-d89f-46c4-ada9-43f63ccf5878"/>
+				<imageExpression><![CDATA["../Images/Kiribati Crest.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="-1" y="0" width="92" height="115" uuid="ca7cba89-5a0c-4b19-b4df-20c56f2da156"/>
+				<imageExpression><![CDATA["../Images/Kiribati Crest.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-1" y="30" width="555" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="30" height="16" uuid="1f0dcac7-13c9-4191-b63f-8487b4a8b1ea"/>
+				<text><![CDATA[Level]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="80" y="0" width="100" height="30" uuid="e0734474-cfca-4dc2-bd96-ed30d369a496"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Enrollments
+M       F       T]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="236" y="0" width="90" height="30" uuid="5cefe5b9-5491-445c-b701-d954cabc636b"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[1 Year Increase 
+M        F       T]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="380" y="0" width="90" height="30" uuid="4870c041-c02b-466e-a738-78ffb5822076"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[2 Year Increase 
+M        F       T]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="10" y="0" width="20" height="15" uuid="bfefe933-16f9-470c-a919-9b23dfc00ac7"/>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+						<paragraph lineSpacing="1_1_2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ClassLevel}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="76" y="0" width="20" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{MthisYear}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="106" y="0" width="20" height="15" uuid="a9bc7f13-ec57-4f97-923d-7d40d9af6aee"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{FthisYear}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="136" y="0" width="20" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TthisYear}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="236" y="0" width="20" height="15" uuid="60405738-aa6f-4c7c-bf71-7b8e7364c920"/>
+					<textElement textAlignment="Left">
+						<paragraph lineSpacing="Proportional"/>
+					</textElement>
+					<textFieldExpression><![CDATA[CEIL($F{MchangeYear1}*10.0) / 10.0]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="266" y="0" width="20" height="15" uuid="b5541f7c-81a7-4e7c-ad97-a9048ce51930"/>
+					<textElement textAlignment="Left">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{FchangeYear1}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="296" y="0" width="20" height="15" uuid="c336e8fd-b093-47fc-81b5-4d872a118501"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TchangeYear1}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="380" y="0" width="20" height="15" uuid="5b196a2b-77ab-4ed5-8818-e1a49291f904"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{MchangeYear2}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="410" y="0" width="20" height="15" uuid="c16df2e6-0a0b-49e3-8ca2-a4af36db5d01"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{FchangeYear2}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="440" y="0" width="20" height="15" uuid="09785525-abd2-4a85-b576-982aae8650ac"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TchangeYear2}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#8298C0" backcolor="#9BC2FF" uuid="183682bc-d976-4756-83e0-6625a3f98ed1"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="533" y="0" width="40" height="20" uuid="0193f9b3-1559-491a-8580-b6988863b6a1"/>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="453" y="0" width="80" height="20" uuid="d00b105e-494b-418b-8ac9-8b1b4824f4f0"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="0616f3fe-0354-456f-8911-ec30ec51a5ae"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="406" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

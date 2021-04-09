@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="YearByYearGrowth" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3fb32593-9097-492b-998d-298eafb1414a">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="234"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="757"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - KEMIS-TEST"/>
+	<template><![CDATA["../../Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2016]]></defaultValueExpression>
+	</parameter>
+	<parameter name="schoolNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["KSSS018"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[-- •	Table: enrolment-year by year/grade percent change (5 years), compared to all schools of the same type on the same island if PS, all schools of the same type in the district if JSS, all SS school of the same jurisdiction if SS
+SELECT p.ClassLevel,
+       ROUND((CAST(p.SchEnrollYear2 AS numeric) - p.SchEnrollYear1) / p.SchEnrollYear1 * 100.0, 1) AS SchPercentChangeYear2,
+	   ROUND((CAST(p.SchEnrollYear3 AS numeric) - p.SchEnrollYear2) / p.SchEnrollYear2 * 100.0, 1) AS SchPercentChangeYear3,
+	   ROUND((CAST(p.SchEnrollYear4 AS numeric) - p.SchEnrollYear3) / p.SchEnrollYear3 * 100.0, 1) AS SchPercentChangeYear4,
+	   ROUND((CAST(p.SchEnrollYear5 AS numeric) - p.SchEnrollYear4) / p.SchEnrollYear4 * 100.0, 1) AS SchPercentChangeYear5,
+	   ROUND((CAST(p.SchEnrollYear6 AS numeric) - p.SchEnrollYear5) / p.SchEnrollYear5 * 100.0, 1) AS SchPercentChangeYear6,
+	   ROUND((CAST(g.AvgEnrollYear2 AS numeric) - g.AvgEnrollYear1) / g.AvgEnrollYear1 * 100.0, 1) AS AvgPercentChangeYear2,
+	   ROUND((CAST(g.AvgEnrollYear3 AS numeric) - g.AvgEnrollYear2) / g.AvgEnrollYear2 * 100.0, 1) AS AvgPercentChangeYear3,
+	   ROUND((CAST(g.AvgEnrollYear4 AS numeric) - g.AvgEnrollYear3) / g.AvgEnrollYear3 * 100.0, 1) AS AvgPercentChangeYear4,
+	   ROUND((CAST(g.AvgEnrollYear5 AS numeric) - g.AvgEnrollYear4) / g.AvgEnrollYear4 * 100.0, 1) AS AvgPercentChangeYear5,
+	   ROUND((CAST(g.AvgEnrollYear6 AS numeric) - g.AvgEnrollYear5) / g.AvgEnrollYear5 * 100.0, 1) AS AvgPercentChangeYear6
+FROM (
+	 	SELECT o.ClassLevel,
+	 		   SUM(CASE WHEN o.surveyYear = ($P{year} - 5) AND o.schNo = $P{schoolNo} THEN o.TotalEnrollment ELSE 0 END) AS SchEnrollYear1,
+	 		   SUM(CASE WHEN o.surveyYear = ($P{year} - 4) AND o.schNo = $P{schoolNo} THEN o.TotalEnrollment ELSE 0 END) AS SchEnrollYear2,
+	 		   SUM(CASE WHEN o.surveyYear = ($P{year} - 3) AND o.schNo = $P{schoolNo} THEN o.TotalEnrollment ELSE 0 END) AS SchEnrollYear3,
+	 		   SUM(CASE WHEN o.surveyYear = ($P{year} - 2) AND o.schNo = $P{schoolNo} THEN o.TotalEnrollment ELSE 0 END) AS SchEnrollYear4,
+	 		   SUM(CASE WHEN o.surveyYear = ($P{year} - 1) AND o.schNo = $P{schoolNo} THEN o.TotalEnrollment ELSE 0 END) AS SchEnrollYear5,
+	 		   SUM(CASE WHEN o.surveyYear = ($P{year}) AND o.schNo = $P{schoolNo} THEN o.TotalEnrollment ELSE 0 END) AS SchEnrollYear6
+	 	FROM (
+	 			SELECT we.surveyYear, we.schNo, s.schType, i.iCode, iGroup, we.ClassLevel, SUM(we.Enrol) AS TotalEnrollment
+	 			FROM warehouse.enrol we
+	 				 LEFT OUTER JOIN Schools s ON we.schNo = s.schNo
+	 				 LEFT OUTER JOIN Islands i ON s.iCode = i.iCode
+	 			WHERE (we.surveyYear BETWEEN ($P{year} - 5) AND $P{year})
+	 				  AND s.schType = (SELECT schType FROM Schools WHERE schNo = $P{schoolNo})    
+	 			GROUP BY we.surveyYear, we.schNo, s.schType, i.iCode, iGroup, we.ClassLevel
+	 		 ) AS o
+	 	GROUP BY o.ClassLevel
+	 ) AS p
+	 LEFT OUTER JOIN 
+	 (
+		SELECT f.ClassLevel,
+			   SUM(CASE WHEN f.surveyYear = ($P{year} - 5) THEN f.AvgEnrollSize END) AS AvgEnrollYear1,
+			   SUM(CASE WHEN f.surveyYear = ($P{year} - 4) THEN f.AvgEnrollSize END) AS AvgEnrollYear2,
+			   SUM(CASE WHEN f.surveyYear = ($P{year} - 3) THEN f.AvgEnrollSize END) AS AvgEnrollYear3,
+			   SUM(CASE WHEN f.surveyYear = ($P{year} - 2) THEN f.AvgEnrollSize END) AS AvgEnrollYear4,
+			   SUM(CASE WHEN f.surveyYear = ($P{year} - 1) THEN f.AvgEnrollSize END) AS AvgEnrollYear5,
+			   SUM(CASE WHEN f.surveyYear = ($P{year}) THEN f.AvgEnrollSize END) AS AvgEnrollYear6
+		FROM (
+				SELECT d.surveyYear, d.ClassLevel, AVG(d.TotalEnrollment) AS AvgEnrollSize
+				FROM 
+					(
+						SELECT we.surveyYear, we.schNo, s.schType, 
+								CASE
+									WHEN s.schType LIKE 'P%' THEN i.iCode
+									WHEN s.schType IN ('JS','SS') THEN i.iGroup
+									ELSE ''
+								END AS [Group],
+								we.ClassLevel, 
+								SUM(we.Enrol) AS TotalEnrollment
+						FROM warehouse.enrol we
+								LEFT OUTER JOIN Schools s ON we.schNo = s.schNo
+								LEFT OUTER JOIN Islands i ON s.iCode = i.iCode
+						WHERE (we.surveyYear BETWEEN ($P{year} - 5) AND $P{year})
+								AND s.schType = (SELECT schType FROM Schools WHERE schNo = $P{schoolNo})   
+						GROUP BY we.surveyYear, we.schNo, s.schType, CASE WHEN s.schType LIKE 'P%' THEN i.iCode WHEN s.schType IN ('JS','SS') THEN i.iGroup ELSE '' END, we.ClassLevel
+					) AS d
+				WHERE d.[Group] = (SELECT CASE WHEN s.schType LIKE 'P%' THEN i.iCode WHEN s.schType IN ('JS','SS') THEN i.iGroup ELSE '' END AS [GROUPING]
+									FROM Schools s 
+										LEFT OUTER JOIN Islands i ON s.iCode = i.iCode
+									WHERE s.schNo = $P{schoolNo})
+				GROUP BY d.surveyYear, d.ClassLevel
+			) f
+		GROUP BY f.ClassLevel
+	 ) g ON p.ClassLevel = g.ClassLevel
+ORDER BY p.ClassLevel]]>
+	</queryString>
+	<field name="ClassLevel" class="java.lang.String"/>
+	<field name="SchPercentChangeYear2" class="java.math.BigDecimal"/>
+	<field name="SchPercentChangeYear3" class="java.math.BigDecimal"/>
+	<field name="SchPercentChangeYear4" class="java.math.BigDecimal"/>
+	<field name="SchPercentChangeYear5" class="java.math.BigDecimal"/>
+	<field name="SchPercentChangeYear6" class="java.math.BigDecimal"/>
+	<field name="AvgPercentChangeYear2" class="java.math.BigDecimal"/>
+	<field name="AvgPercentChangeYear3" class="java.math.BigDecimal"/>
+	<field name="AvgPercentChangeYear4" class="java.math.BigDecimal"/>
+	<field name="AvgPercentChangeYear5" class="java.math.BigDecimal"/>
+	<field name="AvgPercentChangeYear6" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" x="0" y="0" width="554" height="30" uuid="1a652692-054a-40f3-ade5-68d8da36626d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[5 Year Growth Rate (%) By Class Level]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="3" y="30" width="555" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="-1" y="15" width="30" height="16" uuid="1f0dcac7-13c9-4191-b63f-8487b4a8b1ea"/>
+				<text><![CDATA[Level]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="2" width="80" height="14" uuid="0063fc7d-b1fe-491b-b89d-7882bad8aaad">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{year} - 4]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="2" width="80" height="14" uuid="30b52211-b50b-4bed-8e88-3de912600881">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{year} - 3]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="240" y="2" width="80" height="14" uuid="642518fb-679e-4a6b-a80b-3664e0092f17">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{year} - 2]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="2" width="80" height="14" uuid="be8854a2-135a-4ba1-8819-0089eb09885e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{year} - 1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="2" width="80" height="14" uuid="be8854a2-135a-4ba1-8819-0089eb09885e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="80" y="16" width="80" height="14" uuid="e0734474-cfca-4dc2-bd96-ed30d369a496">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Sch          Avg*]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="160" y="16" width="80" height="14" uuid="84245899-014e-41cc-81fa-0ecb9ec67fc3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Sch          Avg*]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="240" y="16" width="80" height="14" uuid="d181e41d-5b67-477f-be77-4c01139efcdb">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Sch          Avg*]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="400" y="16" width="80" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Sch          Avg*]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="320" y="16" width="80" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Sch          Avg*]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="14" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="-1" y="-1" width="20" height="15" uuid="bfefe933-16f9-470c-a919-9b23dfc00ac7"/>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+						<paragraph lineSpacing="1_1_2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ClassLevel}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="80" y="0" width="20" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{SchPercentChangeYear2}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="160" y="0" width="20" height="15" uuid="a9bc7f13-ec57-4f97-923d-7d40d9af6aee"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{SchPercentChangeYear3}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="240" y="0" width="20" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{SchPercentChangeYear4}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="320" y="0" width="20" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{SchPercentChangeYear5}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="400" y="0" width="20" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{SchPercentChangeYear6}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="130" y="0" width="20" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{AvgPercentChangeYear2}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="210" y="0" width="20" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{AvgPercentChangeYear3}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="290" y="0" width="20" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{AvgPercentChangeYear4}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="370" y="0" width="20" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{AvgPercentChangeYear5}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="450" y="-1" width="20" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{AvgPercentChangeYear6}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Schools Water Source Survey" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="25963718-45f6-4722-99ff-412169e811fd">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="ireport.jasperserver.url" value="http://reports.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin|"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Wash/Schools_Water_Source_Survey_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Wash/Schools_Water_Source_Survey"/>
+	<template><![CDATA["repo:/Templates/FedEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC" fontName="Open Sans Semibold" fontSize="10"/>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab 1_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="CrossTab_Row" fontName="Open Sans" fontSize="10">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F2F2F2" fontName="Open Sans"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="WaterSourcePublicPrivate" uuid="136ef72e-cba6-460e-a13c-cd843e03959b">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="120"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="873"/>
+		<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="941"/>
+		<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="45"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select t2.schLandOwner,'Schools with Water Supply' as 'withAndWithoutWater',COUNT(t1.WaterSupplyType) 'Total Schools' from 
+(select 
+	[Year OF Data],
+	schNo,
+	WaterSupplyType 
+	from vtblWaterSupplyEst)t1
+	left join 
+	(select 
+		schNo,
+		schLandOwner 
+		from Schools where schClosed = 0)t2 on t1.schNo=t2.schNo where t1.WaterSupplyType!='No Water Source' and t1.[Year OF Data]=$P{Year} GROUP BY t2.schLandOwner 
+
+union all
+
+select t2.schLandOwner,'Schools without Water Supply',COUNT(t1.WaterSupplyType) 'Total Schools' from 
+(select 
+	[Year OF Data],
+	schNo,
+	WaterSupplyType 
+	from vtblWaterSupplyEst)t1
+	left join 
+	(select 
+		schNo,
+		schLandOwner 
+		from Schools where schClosed = 0)t2 on t1.schNo=t2.schNo where t1.WaterSupplyType='No Water Source' and t1.[Year OF Data]=$P{Year}  GROUP BY t2.schLandOwner 
+		
+		order by 2,1 desc]]>
+		</queryString>
+		<field name="schLandOwner" class="java.lang.String"/>
+		<field name="withAndWithoutWater" class="java.lang.String"/>
+		<field name="Total Schools" class="java.lang.Integer"/>
+		<group name="schLandOwner">
+			<groupExpression><![CDATA[$F{schLandOwner}]]></groupExpression>
+		</group>
+		<group name="withAndWithoutWater">
+			<groupExpression><![CDATA[$F{withAndWithoutWater}]]></groupExpression>
+		</group>
+		<group name="Total Schools">
+			<groupExpression><![CDATA[$F{Total Schools}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="srvyNonSrvySch" uuid="3db94b0b-f5bc-4e99-9a97-b96541d51922">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select (select count(*) from Schools where schClosed = 0) 'Total Schools',
+(select count(*) from vtblWaterSupplyEst where [Survey Year]= $P{Year} ) as SurveyedSchools ,
+(select count(*) from Schools where schClosed = 0)-
+(select count(*) from vtblWaterSupplyEst where [Survey Year]= $P{Year} ) as notSurveyedSchools]]>
+		</queryString>
+		<field name="Total Schools" class="java.lang.Integer"/>
+		<field name="SurveyedSchools" class="java.lang.Integer"/>
+		<field name="notSurveyedSchools" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="TotalWaterSource" uuid="934d2268-7e5a-4e8e-babb-1af9c7dbc03b">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="228"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="765"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select 
+		WaterSupplyType,
+		COUNT(WaterSupplyType) Schools 
+		 from vtblWaterSupplyEst where [Year OF Data]=$P{Year}  group by WaterSupplyType order by 2]]>
+		</queryString>
+		<field name="WaterSupplyType" class="java.lang.String"/>
+		<field name="Schools" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="StateWiseRsrcAvai" uuid="d1aca619-a3ba-442b-873a-485bc81361d9">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+		<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="791"/>
+		<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="195"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select d.dName,'Schools with Water supply' as WithAndWithoutWaterSupply, COUNT(vw.WaterSupplyType) as 'noOfSchools'  from 
+(select dID,dName from Districts)d
+left join 
+(select [Survey Year], 
+		left(schNo,3) as dShort ,
+		WaterSupplyType 
+		from vtblWaterSupplyEst 
+			where WaterSupplyType!='No Water Source' and 
+				  [Survey Year]=$P{Year}) vw
+on d.dID=vw.dShort group by dName
+
+union all 
+select d1.dName,'Schools without Water supply' as WithAndWithoutWaterSupply, COUNT(vw1.WaterSupplyType)  from 
+(select dID,dName from Districts)d1
+left join 
+(select [Survey Year], 
+		left(schNo,3) as dShort ,
+		WaterSupplyType 
+		from vtblWaterSupplyEst 
+			where WaterSupplyType='No Water Source' and 
+				  [Survey Year]=$P{Year}) vw1
+on d1.dID=vw1.dShort group by d1.dName]]>
+		</queryString>
+		<field name="dName" class="java.lang.String"/>
+		<field name="WithAndWithoutWaterSupply" class="java.lang.String"/>
+		<field name="noOfSchools" class="java.lang.Integer"/>
+		<group name="Group1">
+			<groupExpression><![CDATA[$F{dName}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Last5YearWaterSrc" uuid="363ae3d3-aa76-4dac-8792-146b19959991">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="265"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="728"/>
+		<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="800"/>
+		<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="186"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[Select t1.[Survey Year],'Water Source Availability' watersource,
+isnull(t2.WithWaterSource,0) WithWaterSource,
+isnull(t3.WithoutWaterSource,0) WithoutWaterSource,
+Total,
+isnull(t2.WithWaterSource,0)*100/Total WaterSourcePercentage
+
+from (
+Select [Survey Year],count(*) Total
+from vtblWaterSupplyEst 
+where [Survey Year] between $P{Year}-5 and $P{Year}
+group by [Survey Year]
+) t1 left join (
+select [Survey Year],
+count(*) 'WithWaterSource'
+
+from vtblWaterSupplyEst 
+where WaterSupplyType!='No Water Source' and [Survey Year] between $P{Year}-5 and $P{Year} 
+group by [Survey Year]
+) t2 on t1.[Survey Year] = t2.[Survey Year]
+left join  (
+select [Survey Year],
+count(*) 'WithoutWaterSource'
+
+from vtblWaterSupplyEst 
+where WaterSupplyType='No Water Source' and [Survey Year] between $P{Year}-5 and $P{Year}
+group by [Survey Year]
+) t3 on t1.[Survey Year] = t3.[Survey Year] order by 1]]>
+		</queryString>
+		<field name="Survey Year" class="java.lang.Integer"/>
+		<field name="watersource" class="java.lang.String"/>
+		<field name="WithWaterSource" class="java.lang.Integer"/>
+		<field name="WithoutWaterSource" class="java.lang.Integer"/>
+		<field name="Total" class="java.lang.Integer"/>
+		<field name="WaterSourcePercentage" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select (select 	count(WaterSupplyType) as 'Total Schools' 
+from vtblWaterSupplyEst 
+where WaterSupplyType!='No Water Source' and [Year OF Data]= $P{Year} )as 'Schools with Water Supply',
+(select 
+	count(WaterSupplyType) 
+from vtblWaterSupplyEst 
+where WaterSupplyType='No Water Source' and [Year OF Data]=$P{Year}) as 'Schools without Water Supply']]>
+	</queryString>
+	<field name="Schools with Water Supply" class="java.lang.Integer"/>
+	<field name="Schools without Water Supply" class="java.lang.Integer"/>
+	<group name="Group1">
+		<groupHeader>
+			<band height="161">
+				<textField>
+					<reportElement x="482" y="59" width="135" height="86" uuid="32f85240-36e3-42c6-8f36-d9bfc9e9e7de"/>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="20"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Schools with Water Supply}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="617" y="59" width="135" height="86" uuid="291e3e1a-7596-4013-8fb4-6bda8e35a924">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="20"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Schools without Water Supply}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="482" y="26" width="135" height="33" backcolor="#F2F2F2" uuid="2edd1932-f7d7-47b2-b241-e07045912427">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Schools With Water Supply]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="617" y="26" width="135" height="33" backcolor="#F2F2F2" uuid="474e0400-bfdb-405e-8029-3e5c7b8cb3a7">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Schools Without Water Supply]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement x="0" y="59" width="468" height="86" uuid="5babcf67-1367-4d3a-a5fc-310a8dc94073"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="srvyNonSrvySch" uuid="bc158e18-0066-4036-88df-195233697ee9">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="86" width="468">
+							<textField>
+								<reportElement x="0" y="0" width="156" height="86" uuid="c545e781-eac4-4960-855d-c57862792640">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<box>
+									<pen lineWidth="0.5" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="20"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total Schools}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="156" y="0" width="156" height="86" uuid="c8ff130a-79c2-496d-8185-c0c39eb64e46">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<box>
+									<pen lineWidth="0.5" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="20"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SurveyedSchools}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="312" y="0" width="156" height="86" uuid="d4231974-2c1a-4460-b794-b5bf197e983c">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<box>
+									<pen lineWidth="0.5" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="20"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{notSurveyedSchools}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="26" width="156" height="33" backcolor="#F2F2F2" uuid="808b0bd9-e06b-4d0f-8906-4573f39cd518">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Schools]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="156" y="26" width="156" height="33" backcolor="#F2F2F2" uuid="43c67fd5-2bd4-4de0-bc06-a6bbebbc3434">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Schools Surveyed]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="312" y="26" width="156" height="33" backcolor="#F2F2F2" uuid="d005c4c1-16ad-4002-b744-653875be30c0">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Schools Not Surveyed]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<title>
+		<band height="136" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="126" height="126" uuid="c7ed6ab8-fd41-41d3-992a-f902c838e352">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["miemis/Images/rmi-seal.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="126" y="0" width="499" height="62" uuid="3ed5e7c5-0983-4617-9788-83e7832f92a4"/>
+				<textElement>
+					<font fontName="Open Sans" size="40"/>
+				</textElement>
+				<text><![CDATA[School Water Survey]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="126" y="62" width="499" height="32" uuid="fff0330e-13ea-496e-99ac-9e771fa4176f"/>
+				<textElement>
+					<font fontName="Open Sans"/>
+				</textElement>
+				<text><![CDATA[Schools with Water Source Availablity]]></text>
+			</staticText>
+			<image>
+				<reportElement x="625" y="0" width="127" height="126" uuid="8f15376b-b80d-43a1-9a86-b35cf77a2902">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["repo:/images/fsm_ndoe.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Opaque" x="-21" y="-20" width="793" height="10" forecolor="#08298C" backcolor="#08298C" uuid="c8524551-29bf-427d-9878-c9124175093c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-21" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="1d49ae5a-f7c2-49ce-91ab-6247530cd760">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="753" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="30dd085f-45a1-4752-bdbe-e849e00fee90">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-21" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="0b2ac5f6-e7b3-4b31-be00-257148e07cf4">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="733" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="dc8f87d8-9489-4d86-aafc-676b47ba458b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<staticText>
+				<reportElement style="Title text" x="127" y="94" width="497" height="16" uuid="c4dfa89d-3700-4c48-92e6-6588f81e61f1">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans"/>
+				</textElement>
+				<text><![CDATA[This report shows schools with and without water source availablity]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Title text" x="126" y="110" width="499" height="16" uuid="812321d7-0506-4006-91c0-e6979bc4be83">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Of The Year"+" - "+$P{Year}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="33">
+			<subreport>
+				<reportElement x="0" y="10" width="752" height="23" uuid="ab7499c4-3a4d-4ce7-bad8-a6e3bca00518"/>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Schools with Water Source Private and Public.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="33">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<subreport>
+				<reportElement x="0" y="11" width="752" height="22" uuid="6fda535b-005b-4046-979e-7d0594b12d0c"/>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Schools with Water Source State-wise.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="33">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<subreport>
+				<reportElement x="0" y="10" width="752" height="23" uuid="f30778c5-4ad2-48e8-aeea-90ce4e72ce0d"/>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Schools with Main Source of Drinking Water.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="33">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<subreport>
+				<reportElement x="0" y="8" width="752" height="25" uuid="1f6d629d-58df-4453-9504-729ed92d92eb"/>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Last 5 Years Water Source Availability.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

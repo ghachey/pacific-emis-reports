@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Education Indicators Age Specific Enrollment Rate By Nation" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="44b1dcde-4948-4568-9513-3b4c5c48e9f8">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KEMIS"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:7080/jasperserver-pro/"/>
+	<property name="ireport.jasperserver.user" value="superuser"/>
+	<property name="ireport.jasperserver.report.resource" value="/organizations/organization_1/reports/Test/Education_Indicators_Age_Specific_Enrollment_Rate_By_Nation_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/organizations/organization_1/reports/Test/Education_Indicators_Age_Specific_Enrollment_Rate_By_Nation"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F2F2F2">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Row">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{ROW_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Table 8: ASER by Year, State and Gender" uuid="94d89308-afb3-4bce-ab8a-b993f8c952d3">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="297"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="693"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[Select 
+z.Surveyyear,
+z.Age,
+a.DistrictCode,
+a.Aser,
+a.AserMale,
+a.AserFemale
+from (select distinct(Surveyyear),Age
+from [warehouse].[EnrolPopDistrictR]
+where
+ Age between 5 and 18
+and Surveyyear<=$P{Year} and Surveyyear>=$P{Year}-5 
+group by Surveyyear,districtCode,age ) as z left outer join 
+(
+select Surveyyear,Age,DistrictCode, round((sum(enrol)/cast(sum(pop) as float))*100,2) as Aser ,
+round((sum(enrolM)/cast(sum(popM) as float))*100,2) as AserMale,
+round((sum(enrolF)/cast(sum(popF) as float))*100,2) as AserFemale
+from [warehouse].[EnrolPopDistrictR]
+where Age between 5 and 18
+and Surveyyear<=$P{Year} and Surveyyear>=$P{Year}-5
+group by Age,SurveyYear, DistrictCode
+) a on a.SurveyYear=z.SurveyYear
+and a.age=z.age]]>
+		</queryString>
+		<field name="Surveyyear" class="java.lang.Integer"/>
+		<field name="Age" class="java.lang.Integer"/>
+		<field name="DistrictCode" class="java.lang.String"/>
+		<field name="Aser" class="java.lang.Double"/>
+		<field name="AserMale" class="java.lang.Double"/>
+		<field name="AserFemale" class="java.lang.Double"/>
+		<group name="Group1">
+			<groupExpression><![CDATA[$F{Surveyyear}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Figure 18:Age Specific Participation to Education System Chart " uuid="b89c84bf-f137-44be-ab83-17a046244d6d">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="240"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="750"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select SurveyYear, Age, 'Not Enrolled' as EnrollStatus ,
+round(((sum(pop)-sum(enrol))/cast(sum(pop) as float))*100,2) as Percentage  
+from warehouse.EnrolPopNationR
+where Age between 5 and 18
+and  SurveyYear= $P{Year}  
+group by SurveyYear,Age
+
+union
+
+select SurveyYear, Age , 'Enrolled' as EnrollStatus ,
+round((sum(enrol)/cast(sum(pop) as float))*100,2) as Percentage 
+from warehouse.EnrolPopNationR
+where Age between 5 and 18
+and  SurveyYear= $P{Year} 
+group by SurveyYear,Age
+order by Age]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="Age" class="java.lang.Integer"/>
+		<field name="EnrollStatus" class="java.lang.String"/>
+		<field name="Percentage" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Figure 19: Age Specific Enrollment Rate trend" uuid="e39268e3-e7d5-4968-88c6-8045b3a5a46a">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="227"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="763"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select SurveyYear, Age,
+ round((sum(enrol)/cast(sum(pop) as float))*100,2) as Percentage 
+from [warehouse].[EnrolPopNationR]
+where Age between 5 and 18
+and SurveyYear >= $P{Year} -5 and  surveyyear<= $P{Year} 
+group by SurveyYear,Age
+order by Age,SurveyYear]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="Age" class="java.lang.Integer"/>
+		<field name="Percentage" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Figure 20: Age Specific Participation to Education System by State Chart" uuid="e3f36c38-dd21-40b9-adfc-e083a8e91977">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="161"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="829"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select coalesce(DistrictCode,'N/A') DistrictCode,SurveyYear,Age,
+ round((sum(enrol)/cast(sum(pop) as float))*100,2) as Percentage 
+from [warehouse].[EnrolPopDistrictR]
+where Age between 5 and 18
+and SurveyYear= $P{Year} 
+group by DistrictCode,SurveyYear,Age
+order by SurveyYear,Age,DistrictCode]]>
+		</queryString>
+		<field name="DistrictCode" class="java.lang.String"/>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="Age" class="java.lang.Integer"/>
+		<field name="Percentage" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select a.surveyyear,a.yearofed,a.DistrictCode,
+repeatratemale,
+repeatrateFemale,
+promoteratemale,
+promoteratefemale,
+dropoutratemale,
+dropoutratefemale,
+survivalratemale,
+survivalratefemale from 
+
+(select surveyyear,yearofed, DistrictCode,round(sum(isnull(repeatrate,0))*100,2) as repeatratemale
+from warehouse.DistrictFlow 
+where GenderCode = 'M'
+group by surveyyear,DistrictCode,yearofed ) a
+
+join (select surveyyear,yearofed, DistrictCode,round(sum(isnull(repeatrate,0))*100,2) as repeatratefemale
+from warehouse.DistrictFlow 
+where GenderCode = 'F'
+group by surveyyear,DistrictCode,yearofed) b
+on a.surveyyear = b.surveyyear
+and a.yearofed = b.yearofed
+and a.DistrictCode=b.DistrictCode
+
+join(select surveyyear,yearofed, DistrictCode,round(sum(isnull(promoterate,0))*100,2) as promoteratemale
+from warehouse.DistrictFlow 
+where GenderCode = 'M'
+group by surveyyear,DistrictCode,yearofed)c
+on b.surveyyear = c.surveyyear
+and b.yearofed = c.yearofed
+and b.DistrictCode=c.DistrictCode
+
+join(select surveyyear,yearofed, DistrictCode,round(sum(isnull(promoterate,0))*100,2) as promoteratefemale
+from warehouse.DistrictFlow 
+where GenderCode = 'F'
+group by surveyyear,DistrictCode,yearofed)d
+on c.surveyyear = d.surveyyear
+and c.yearofed = d.yearofed
+and c.DistrictCode=d.DistrictCode
+
+join (select surveyyear,yearofed, DistrictCode,round(sum(isnull(dropoutrate,0))*100,2) as dropoutratemale
+from warehouse.DistrictFlow 
+where GenderCode = 'M'
+group by surveyyear,DistrictCode,yearofed)e
+on d.surveyyear = e.surveyyear
+and d.yearofed = e.yearofed
+and d.DistrictCode=e.DistrictCode
+
+join (select surveyyear,yearofed, DistrictCode,round(sum(isnull(dropoutrate,0))*100,2) as dropoutratefemale
+from warehouse.DistrictFlow 
+where GenderCode = 'F'
+group by surveyyear,DistrictCode,yearofed)f
+on e.surveyyear = f.surveyyear
+and e.yearofed = f.yearofed
+and e.DistrictCode=f.DistrictCode
+
+join(select surveyyear,yearofed, DistrictCode,round(sum(isnull(survivalrate,0))*100,2) as survivalratemale
+from warehouse.DistrictFlow 
+where GenderCode = 'M'
+group by surveyyear,DistrictCode,yearofed)g
+on f.surveyyear = g.surveyyear
+and f.yearofed = g.yearofed
+and f.DistrictCode=g.DistrictCode
+
+join (select surveyyear,yearofed, DistrictCode,round(sum(isnull(survivalrate,0))*100,2) as survivalratefemale
+from warehouse.DistrictFlow 
+where GenderCode = 'F'
+group by surveyyear,DistrictCode,yearofed)h
+on g.surveyyear = h.surveyyear
+and g.yearofed = h.yearofed
+and g.DistrictCode=h.DistrictCode
+where a.surveyyear=2018
+order by a.surveyyear,a.yearofed,a.DistrictCode]]>
+	</queryString>
+	<field name="surveyyear" class="java.lang.Integer"/>
+	<field name="yearofed" class="java.lang.Integer"/>
+	<field name="DistrictCode" class="java.lang.String"/>
+	<field name="repeatratemale" class="java.lang.Double"/>
+	<field name="repeatrateFemale" class="java.lang.Double"/>
+	<field name="promoteratemale" class="java.lang.Double"/>
+	<field name="promoteratefemale" class="java.lang.Double"/>
+	<field name="dropoutratemale" class="java.lang.Double"/>
+	<field name="dropoutratefemale" class="java.lang.Double"/>
+	<field name="survivalratemale" class="java.lang.Double"/>
+	<field name="survivalratefemale" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="872" splitType="Immediate">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="58" y="200" width="438" height="19" uuid="14be5ee0-2543-48ad-99fd-335ba5385015"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Age Specific Participation to Education System Chart "]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Age Specific Participation to Education System Chart "+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="440" width="381" height="20" uuid="311ff01c-dd34-413c-90a4-d89c95635411"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Age Specific Enrollment Rate trend"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Age Specific Enrollment Rate trend"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<barChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="488" width="567" height="200" uuid="337069f9-b95a-43b3-88d8-085e4d70cf30">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 20: Age Specific Participation to Education System by State Chart" uuid="6fc5aaa4-6521-414c-8860-4fd916794acf">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{DistrictCode}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{Age}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#4472C4"/>
+						<seriesColor seriesOrder="1" color="#F58A51"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA[$P{Year}]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans" isBold="false"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00.00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="690" width="381" height="20" uuid="e3fd9927-246e-4ced-956d-a1fef48685e3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Age Specific Participation to Education System by State Chart"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Age Specific Participation to Education System by State Chart"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<stackedBarChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="-2" width="567" height="200" uuid="fdd9d497-c904-44c0-b874-c8a0e4e54893">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 18:Age Specific Participation to Education System Chart " uuid="38de75ad-b690-44d8-aa46-c518113a45d2">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{EnrollStatus}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{Age}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#6B8FFA"/>
+						<seriesColor seriesOrder="1" color="#E67030"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA[$P{Year}]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00.00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</stackedBarChart>
+			<lineChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="238" width="567" height="200" uuid="70fed8cc-c4e1-4367-9939-945fdaea44ee">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 19: Age Specific Enrollment Rate trend" uuid="23dae3a6-0413-48d4-9afd-55d41f8106f3">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{SurveyYear}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{Age}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#5B9BD5"/>
+						<seriesColor seriesOrder="1" color="#ED7D31"/>
+						<seriesColor seriesOrder="2" color="#E2E2E2"/>
+						<seriesColor seriesOrder="3" color="#FFC000"/>
+						<seriesColor seriesOrder="4" color="#4472C4"/>
+						<seriesColor seriesOrder="5" color="#70AD47"/>
+					</plot>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00.00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<textField bookmarkLevel="2">
+				<reportElement x="122" y="733" width="310" height="20" uuid="4f61a829-143c-421b-a2b3-5f2ed4c08dca">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ASER by Year, State and Gender"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["ASER by Year, State and Gender"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<crosstab>
+				<reportElement x="-20" y="753" width="560" height="100" uuid="db75b69d-2f0d-4f9b-aed9-b848e3b1da7a">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab 1_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab 1_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab 1_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab 1_CD"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<crosstabDataset>
+					<dataset>
+						<datasetRun subDataset="Table 8: ASER by Year, State and Gender" uuid="ff1ffeb0-327a-4f01-b3e9-13f0a9680dc8">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+				</crosstabDataset>
+				<crosstabHeaderCell>
+					<cellContents style="Table_TH">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<textField>
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="60" height="45" uuid="518d21d8-8c1c-4149-8019-125499ea0626"/>
+							<box>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							</box>
+							<textFieldExpression><![CDATA[""]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="Surveyyear" width="30" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{Surveyyear}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Table_CH">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<textField>
+								<reportElement x="0" y="0" width="30" height="30" uuid="854d050a-4047-45ce-ad82-6f1703cd980e"/>
+								<textElement>
+									<font fontName="Open Sans" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Surveyyear}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Table_TH">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<staticText>
+								<reportElement style="Table_TH" x="0" y="0" width="60" height="25" forecolor="#000000" uuid="e1d9de32-7121-4011-b774-8e832845c0ea"/>
+								<textElement>
+									<font fontName="Open Sans" size="9" isBold="false"/>
+								</textElement>
+								<text><![CDATA[Grand Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="Age" width="30" totalPosition="Start">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{Age}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Table_TD">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="30" height="15" uuid="df073b9c-c626-4ae2-b242-e3ebd58d27ca"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement>
+									<font fontName="Open Sans"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Age}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Table_CH">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<staticText>
+								<reportElement x="0" y="0" width="30" height="15" uuid="b491f1fc-b83b-4936-aca2-8c0bb0b66dfd"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#F2F2F2"/>
+								</box>
+								<textElement>
+									<font fontName="Open Sans"/>
+								</textElement>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="DistrictCode" height="45">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{DistrictCode}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Table_TH">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<textField>
+								<reportElement x="0" y="0" width="125" height="20" uuid="b3a43737-4caa-4e4d-be2b-dd963c2875d8">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<box>
+									<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement>
+									<font fontName="Open Sans" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{DistrictCode} == null ? "N/A" : $V{DistrictCode}]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="20" width="44" height="25" uuid="3019b3c7-5052-401f-86f4-c16294901c5e">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<textElement>
+									<font fontName="Open Sans" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["ASER"]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="44" y="20" width="41" height="25" uuid="16ee2827-0d08-488d-9cf0-983e93d160c8">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+								</reportElement>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<textElement>
+									<font fontName="Open Sans" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["ASER Male"]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true">
+								<reportElement stretchType="RelativeToTallestObject" x="85" y="20" width="40" height="25" uuid="125db79f-e9bd-4e45-9f62-75405dfeca5b">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<textElement>
+									<font fontName="Open Sans" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["ASER Female"]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents>
+							<staticText>
+								<reportElement x="0" y="0" width="-2147483648" height="-2147483648" uuid="58477603-3c48-4de8-822c-b782bfa216b1"/>
+								<text><![CDATA[Total DistrictCode]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="Aser_MEASURE" class="java.lang.Double" calculation="Average">
+					<measureExpression><![CDATA[$F{Aser}]]></measureExpression>
+				</measure>
+				<measure name="AserMale_MEASURE" class="java.lang.Double" calculation="Average">
+					<measureExpression><![CDATA[$F{AserMale}]]></measureExpression>
+				</measure>
+				<measure name="AserFemale_MEASURE" class="java.lang.Double" calculation="Average">
+					<measureExpression><![CDATA[$F{AserFemale}]]></measureExpression>
+				</measure>
+				<crosstabCell width="125" height="15">
+					<cellContents mode="Opaque" style="Table_TD">
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement style="Row" mode="Opaque" x="0" y="0" width="44" height="15" uuid="ba7a43ee-539a-41d0-8ae2-2f63d8605871"/>
+							<box>
+								<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+							</box>
+							<textElement>
+								<font fontName="Open Sans" size="9"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Aser_MEASURE} == null ? "N/A" : $V{Aser_MEASURE}]]></textFieldExpression>
+						</textField>
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement style="Row" mode="Opaque" x="44" y="0" width="41" height="15" uuid="d3bed72f-07f9-4029-81aa-93faf6845665"/>
+							<box>
+								<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+							</box>
+							<textElement>
+								<font fontName="Open Sans" size="9"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{AserMale_MEASURE} == null ? "N/A" : $V{AserMale_MEASURE}]]></textFieldExpression>
+						</textField>
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement style="Row" mode="Opaque" x="85" y="0" width="40" height="15" uuid="c3ecc7b4-a4d6-4ad7-b171-fb085014d181"/>
+							<box>
+								<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+							</box>
+							<textElement>
+								<font fontName="Open Sans" size="9"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{AserFemale_MEASURE} == null ? "N/A" : $V{AserFemale_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" columnTotalGroup="DistrictCode">
+					<cellContents mode="Opaque" style="Crosstab 1_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="6" forecolor="#FFFFFF" uuid="c774a58c-c260-42a7-927a-fa93df53aabc"/>
+							<textFieldExpression><![CDATA[$V{Aser_MEASURE}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="6" width="60" height="6" forecolor="#FFFFFF" uuid="9569c63e-8372-4c91-9f7b-5bf557bc15c5"/>
+							<textFieldExpression><![CDATA[$V{AserMale_MEASURE}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="12" width="60" height="6" forecolor="#FFFFFF" uuid="3c2b1a7f-a8b8-4b1e-8a51-426dd2d8a6e8"/>
+							<textFieldExpression><![CDATA[$V{AserFemale_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="125" height="25" rowTotalGroup="Surveyyear">
+					<cellContents mode="Opaque" style="Table_TH">
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement x="0" y="0" width="44" height="25" forecolor="#000000" uuid="48c9d90e-24a1-407d-bb98-1ffd1843b7e5"/>
+							<textElement>
+								<font fontName="Open Sans" size="9" isBold="false"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Aser_MEASURE}]]></textFieldExpression>
+						</textField>
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement x="44" y="0" width="41" height="25" forecolor="#000000" uuid="5f449d1c-c458-44b5-91a5-453d116a4f04"/>
+							<textElement>
+								<font fontName="Open Sans" size="9" isBold="false"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{AserMale_MEASURE}]]></textFieldExpression>
+						</textField>
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement x="85" y="0" width="40" height="25" forecolor="#000000" uuid="5174d421-edca-4d88-ab8c-8626bcdf2e16"/>
+							<textElement>
+								<font fontName="Open Sans" size="9" isBold="false"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{AserFemale_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="Surveyyear" columnTotalGroup="DistrictCode">
+					<cellContents mode="Opaque" style="Crosstab 1_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="6" forecolor="#FFFFFF" uuid="64acfca2-49fa-4f13-80e3-2a6d5b922811"/>
+							<textFieldExpression><![CDATA[$V{Aser_MEASURE}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="6" width="60" height="6" forecolor="#FFFFFF" uuid="0d068a99-b761-4ecc-9d7e-79e1a0839868"/>
+							<textFieldExpression><![CDATA[$V{AserMale_MEASURE}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="12" width="60" height="6" forecolor="#FFFFFF" uuid="5201ceff-5004-4545-92ee-6ca3c58bd240"/>
+							<textFieldExpression><![CDATA[$V{AserFemale_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="125" height="15" rowTotalGroup="Age">
+					<cellContents mode="Opaque" style="Table_CH">
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement x="0" y="0" width="44" height="15" uuid="6ed0f7b2-358e-46cf-a0f5-860a4fb50985"/>
+							<box>
+								<bottomPen lineWidth="1.0" lineColor="#F2F2F2"/>
+							</box>
+							<textElement>
+								<font fontName="Open Sans" size="9" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Aser_MEASURE} == null ? "N/A" : $V{Aser_MEASURE}]]></textFieldExpression>
+						</textField>
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement x="44" y="0" width="41" height="15" uuid="7712800d-1b75-4076-86d1-53d618a1a3a2"/>
+							<box>
+								<bottomPen lineWidth="1.0" lineColor="#F2F2F2"/>
+							</box>
+							<textElement>
+								<font fontName="Open Sans" size="9" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{AserMale_MEASURE} == null ? "N/A" : $V{AserMale_MEASURE}]]></textFieldExpression>
+						</textField>
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement x="85" y="0" width="40" height="15" uuid="52ad3277-c895-4d94-91a9-653569fb08c7"/>
+							<box>
+								<bottomPen lineWidth="1.0" lineColor="#F2F2F2"/>
+							</box>
+							<textElement>
+								<font fontName="Open Sans" size="9" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{AserFemale_MEASURE} == null ? "N/A" : $V{AserFemale_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="Age" columnTotalGroup="DistrictCode">
+					<cellContents mode="Opaque" style="Crosstab 1_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="6" forecolor="#FFFFFF" uuid="5cd8b3f4-75e5-4445-bae0-666a0e418ae5"/>
+							<textFieldExpression><![CDATA[$V{Aser_MEASURE}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="6" width="60" height="6" forecolor="#FFFFFF" uuid="51cc784a-b4bd-4dc3-ba7a-d85525955e37"/>
+							<textFieldExpression><![CDATA[$V{AserMale_MEASURE}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="12" width="60" height="6" forecolor="#FFFFFF" uuid="96b04bfa-9ba6-4173-90e5-cf432a6f9f05"/>
+							<textFieldExpression><![CDATA[$V{AserFemale_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

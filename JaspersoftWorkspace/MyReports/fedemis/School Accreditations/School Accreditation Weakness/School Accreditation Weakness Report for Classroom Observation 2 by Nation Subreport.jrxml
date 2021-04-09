@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="School Accreditation Weakness Report for Classroom Observation 2 by Nation Subreport" pageWidth="752" pageHeight="572" orientation="Landscape" columnWidth="752" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b710dd3e-8b0b-4d2c-93bf-8cad27bc49b5">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["fedemis/Templates/FedEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent" fontName="Open Sans Semibold" fontSize="10">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#F2F2F2" fontName="Open Sans Semibold" fontSize="10"/>
+		</conditionalStyle>
+	</style>
+	<style name="CrossTab_Row" fontName="Open Sans" fontSize="10">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F2F2F2" fontName="Open Sans"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select 
+	distinct ISNULL(main.Standard,'N/A') AS Standard, 
+	ISNULL(main.StandardName,'N/A') AS StandardName,
+	isnull(concat(main.Criteria,' : ',main.CriteriaName),'N/A') AS Criteria,
+	isnull(fnl1.totalSchools,0) as 'Level 1',
+	isnull(fnl2.totalSchools,0) as 'Level 2' 
+	from pInspectionRead.SchoolStandardAssessment main
+	
+left join
+(	select ISNULL(t2.Standard,'N/A') AS Standardl1,ISNULL(t2.CriteriaName,'N/A') AS CriteriaNamel1,count(distinct t2.schNo) as totalSchools from (
+								select 
+										ssa.inspID,schNo,Standard, CriteriaName
+										,cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)  as 'Level 1'
+										from pInspectionRead.SchoolStandardAssessment ssa
+												join 
+												(
+													Select inspid
+													,MAX(startDate) inspStart 
+													from warehouse.Accreditations group by inspID
+												)insp on ssa.inspID=insp.inspID
+					
+										where Category='Classroom Observation 2'
+										and ssa.InspectionYear=$P{Year}
+										group by ssa.inspID,schNo,Standard, CriteriaName
+										having 
+										cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)=1
+		)t2 group by t2.Standard,t2.CriteriaName
+)fnl1 on isnull(main.Standard,'N/A')=fnl1.Standardl1 and isnull(main.CriteriaName,'N/A')= fnl1.CriteriaNamel1
+
+left join
+(	select ISNULL(t2.Standard,'N/A') AS Standardl2,ISNULL(t2.CriteriaName,'N/A') AS CriteriaNamel2,count(distinct t2.schNo) as totalSchools from (
+								select 
+										ssa.inspID,schNo,Standard, CriteriaName
+										,cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)  as 'Level 2'
+										from pInspectionRead.SchoolStandardAssessment ssa
+												join 
+												(
+													Select inspid
+													,MAX(startDate) inspStart 
+													from warehouse.Accreditations group by inspID
+												)insp on ssa.inspID=insp.inspID
+					
+										where Category='Classroom Observation 2'
+										and ssa.InspectionYear=$P{Year}
+										group by ssa.inspID,schNo,Standard, CriteriaName
+										having 
+										cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)=2
+		)t2 group by t2.Standard,t2.CriteriaName
+)fnl2 on 
+	isnull(main.Standard,'N/A')=fnl2.Standardl2 and 
+	isnull(main.CriteriaName,'N/A')= fnl2.CriteriaNamel2
+where  main.Category='Classroom Observation 2' and fnl1.totalSchools>0 or fnl2.totalSchools>0 order by 4 desc,5 desc]]>
+	</queryString>
+	<field name="Standard" class="java.lang.String"/>
+	<field name="StandardName" class="java.lang.String"/>
+	<field name="Criteria" class="java.lang.String"/>
+	<field name="Level 1" class="java.lang.Integer"/>
+	<field name="Level 2" class="java.lang.Integer"/>
+	<variable name="TotalLevel1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Level 1}]]></variableExpression>
+	</variable>
+	<variable name="TotalLevel2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Level 2}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="150" height="29" backcolor="#F2F2F2" uuid="f5d96536-2b8e-48cf-ae4e-3054027e912d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<text><![CDATA[Standard]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="150" y="0" width="422" height="29" backcolor="#F2F2F2" uuid="494d1447-55a7-4ed0-a80c-c71304d6b9b8"/>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<text><![CDATA[Criteria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="572" y="0" width="90" height="29" backcolor="#F2F2F2" uuid="91fb4917-dd67-44ad-a59f-663f32cf546e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<text><![CDATA[No of Schools for Score 1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="662" y="0" width="90" height="29" backcolor="#F2F2F2" uuid="754c5631-8634-4d0c-9ae6-4167dd02d287">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<text><![CDATA[No of Schools for Score 2]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<textField>
+				<reportElement style="Row" mode="Opaque" x="0" y="1" width="150" height="42" uuid="9aa63009-81df-4043-a400-c8e1ded5b582">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Standard}+" : "+$F{StandardName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" mode="Opaque" x="150" y="1" width="422" height="42" uuid="af59979e-eca9-485b-bd17-cd4c514650ef"/>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Criteria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" mode="Opaque" x="572" y="1" width="90" height="42" uuid="48b439a1-7031-4de4-8e51-65f755c0cbba"/>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Level 1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" mode="Opaque" x="662" y="1" width="90" height="42" uuid="8f7a66ab-391d-47f4-a426-266fccaa8979"/>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Level 2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Row" mode="Opaque" x="662" y="1" width="90" height="19" backcolor="#F2F2F2" uuid="940df318-e6d4-442c-9d64-738601295d98"/>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TotalLevel2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" mode="Opaque" x="572" y="1" width="90" height="19" backcolor="#F2F2F2" uuid="064797b4-982a-4292-8ec9-d32514821a9d"/>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TotalLevel1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" mode="Opaque" x="150" y="1" width="422" height="19" backcolor="#F2F2F2" uuid="95bb1ede-5360-4539-bc4c-414a8ade75b0"/>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" mode="Opaque" x="0" y="1" width="150" height="19" backcolor="#F2F2F2" uuid="ebaa234c-309d-4c50-8834-4cb08406e683"/>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

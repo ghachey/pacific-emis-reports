@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="6 - Teachers - Details" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="345"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="650"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - KEMIS-TEST"/>
+	<template><![CDATA["../..//Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2016]]></defaultValueExpression>
+	</parameter>
+	<parameter name="schoolNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["KSSS018"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[-- •	Table: teachers- school type (row), pct. qualified, pct. certified all for the last two years
+
+SELECT distinct
+ESTIMATE.LifeYear AS [Survey Year], 
+TS.tchsID As [ID],
+TS.tchFirstName As [FirstName],
+TS.tchFamilyName As [Surname],
+trTeacherStatus.statusDesc AS Status,
+(ESTIMATE.LifeYear-Year([tDOB])) AS Age,
+trTeacherRole.codeDescription AS Role, 
+TS.tchYearsSchool AS YearsAtSchool, 
+TS.tchYears AS YearsTeaching,   
+DimensionLevel.Level AS ClassTaught,
+TS.tchSubjectMajor AS MajorSubject
+
+
+FROM ESTIMATE_BestSurveyTeachers ESTIMATE
+	INNER JOIN TeacherSurvey TS on ESTIMATE.bestssID = TS.ssID 
+	INNER JOIN TeacherIdentity TI on TI.tID = TS.tID
+
+	LEFT JOIN warehouse.TeacherLocation tl on TS.tID = tl.TID
+	LEFT JOIN Schools s on tl.SchNo = s.schNo
+	LEFT JOIN trTeacherRole ON TS.tchRole = trTeacherRole.codeCode 
+	LEFT JOIN TRTeacherQual AS Q ON TS.tchQual = Q.codeCode 
+	LEFT JOIN TRTeacherQual AS QE ON TS.tchEdQual = QE.codeCode 
+	LEFT JOIN DimensionLevel ON TS.tchClass = DimensionLevel.LevelCode
+	LEFT JOIN trTeacherStatus ON TS.tchStatus = trTeacherStatus.statusCode
+
+
+	where Estimate.LifeYear = $P{year}
+	and s.schNo = $P{schoolNo}]]>
+	</queryString>
+	<field name="Survey Year" class="java.lang.Integer"/>
+	<field name="ID" class="java.lang.Integer"/>
+	<field name="FirstName" class="java.lang.String"/>
+	<field name="Surname" class="java.lang.String"/>
+	<field name="Status" class="java.lang.String"/>
+	<field name="Age" class="java.lang.Integer"/>
+	<field name="Role" class="java.lang.String"/>
+	<field name="YearsAtSchool" class="java.lang.Integer"/>
+	<field name="YearsTeaching" class="java.lang.Integer"/>
+	<field name="ClassTaught" class="java.lang.String"/>
+	<field name="MajorSubject" class="java.lang.String"/>
+	<background>
+		<band height="3" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="43" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Page footer" x="0" y="0" width="554" height="40" uuid="aac0dd0e-695e-4839-8e52-4212d1369f89"/>
+				<textElement textAlignment="Left">
+					<font size="19"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Teacher Details"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="37" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-3" y="31" width="555" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="1" y="3" width="22" height="14" uuid="83945965-5222-4487-ab63-ad12f4868dc6"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ID"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="26" y="3" width="58" height="28" uuid="b569130d-e9ce-4a1d-832d-4d6b65f788c5"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["First Name"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="85" y="3" width="56" height="28" uuid="8214b7a3-282a-4cf8-9301-38dfa660b786"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Surname"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="141" y="3" width="42" height="24" uuid="a2dacd4b-5fa9-4e04-8d5a-456fa473c17d"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Status"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="183" y="3" width="36" height="14" uuid="734bb4df-d154-4a5d-90ac-d83306163717"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Age"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="3" width="67" height="14" uuid="1eb05f7e-297d-4e65-be48-b85ddd220df8"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Role"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="287" y="3" width="51" height="24" uuid="8efea85e-94e4-4b66-a7e0-5eaf13473f30"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Years at School"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="338" y="3" width="51" height="28" uuid="46bad0e1-d478-45e1-94e1-d545d15d59f5"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Years Teaching"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="3" width="80" height="28" uuid="c9cb9368-e548-4aec-b518-7a868f0abe7f"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Class Taught"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="471" y="3" width="83" height="28" uuid="ead823bc-b1e1-4a29-9a8a-9895c7dfc2c5"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Major Subject"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="1" y="0" width="552" height="15" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="0" y="0" width="23" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="23" y="0" width="62" height="15" uuid="a9bc7f13-ec57-4f97-923d-7d40d9af6aee"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{FirstName}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="86" y="0" width="55" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Surname}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="141" y="0" width="42" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Status}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="183" y="0" width="37" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Age}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="220" y="0" width="67" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Role}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="287" y="0" width="51" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{YearsAtSchool}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="338" y="0" width="52" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{YearsTeaching}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="390" y="0" width="80" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{ClassTaught}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="470" y="0" width="82" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{MajorSubject}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

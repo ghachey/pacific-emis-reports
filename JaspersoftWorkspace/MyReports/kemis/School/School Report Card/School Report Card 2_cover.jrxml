@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cover Page" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c50b24eb-eb33-413f-8e75-e7e20a5341fd">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KEMIS"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.jasperserver.url" value="http://data.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/School/School_Report_Card_2_Book_files/School_Report_Card_2_cover.jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/School/School_Report_Card_2_Book"/>
+	<parameter name="SchoolNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["KPS001"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT distinct D.dName,S.schName
+	   FROM dbo.Schools AS S
+  LEFT OUTER JOIN dbo.Islands AS I ON S.iCode = I.iCode
+  LEFT OUTER JOIN dbo.Authorities AS A ON S.schAuth = A.authCode
+  LEFT OUTER JOIN dbo.SchoolTypes AS ST ON S.schType = ST.stCode
+  LEFT OUTER JOIN dbo.Districts AS D ON I.iGroup = D.dID
+  WHERE S.schNo = $P{SchoolNo}]]>
+	</queryString>
+	<field name="dName" class="java.lang.String"/>
+	<field name="schName" class="java.lang.String"/>
+	<title>
+		<band height="792" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="612" height="792" uuid="7d5f399a-cbec-48b3-979b-064c0b477ca2">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["kemis/images/KEMIS Coverpage.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement mode="Transparent" x="240" y="488" width="360" height="37" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="ea14ec71-4d03-4073-b97c-f73f2dfdcd6e">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{schName}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="430" y="650" width="125" height="30" forecolor="#FFFF00" backcolor="#FFFFFF" uuid="f02f7c3f-eee8-4785-bb9b-e42a3d83ff1b">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" rotation="None">
+					<font fontName="Open Sans" size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{Year}-1)+"-"+$P{Year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="270" y="529" width="338" height="47" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="77b6955d-fe34-45b2-8560-5caea644c96f">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="26" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SCHOOL REPORT CARD"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="430" y="620" width="170" height="30" forecolor="#FFFF00" backcolor="#FFFFFF" uuid="bf52410d-b7dc-496f-a598-727118a349a9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" rotation="None">
+					<font fontName="Open Sans" size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SCHOOL YEAR"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

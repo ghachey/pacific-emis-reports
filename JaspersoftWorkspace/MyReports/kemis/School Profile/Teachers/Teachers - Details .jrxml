@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Teachers - Details" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" whenResourceMissingType="Error" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KEMIS Localhost"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/KEMIS_Reports/Statistical_Brief/Changes_in_Enrollments"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="636"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="350"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="345"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="650"/>
+	<template><![CDATA["KEMIS Reports/Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[2016]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SchoolCode" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[-- •	Table: teachers- details
+
+select  
+ISNULL(tl.tchFirstName,'') AS FirstName,
+ISNULL(tl.tchFamilyName,'') AS Surname,
+ISNULL(ts.statusDesc,'') AS Status,
+ISNULL(tl.SurveyYear - Year([tchDOB]),'') AS Age,
+ISNULL(tr.codeDescription,'') AS Role,
+ISNULL(tl.tchYearsSchool,'') AS YearsAtSchool,
+ISNULL(tl.tchYears,'') As YearsTeaching,
+ISNULL(dl.Level,'') as ClassTaught,
+ISNULL(tl.tchSubjectMajor,'') As MajorSubject
+
+
+
+from warehouse.TeacherLocation tl
+LEFT JOIN  TRTeacherStatus ts on tl.tchStatus = ts.statusCode
+LEFT JOIN TRTeacherRole  tr on tl.tchRole = tr.codeCode
+LEFT JOIN DimensionLevel dl on tl.tchClass = dl.LevelCode
+LEFT JOIN Schools s on tl.SchNo = s.schNo
+
+	where tl.SurveyYear = $P{year}
+	and s.SchNo = $P{SchoolCode}
+	and tl.tchFirstName is not null
+	
+	order by Role,Status, FirstName]]>
+	</queryString>
+	<field name="FirstName" class="java.lang.String"/>
+	<field name="Surname" class="java.lang.String"/>
+	<field name="Status" class="java.lang.String"/>
+	<field name="Age" class="java.lang.Integer"/>
+	<field name="Role" class="java.lang.String"/>
+	<field name="YearsAtSchool" class="java.lang.Integer"/>
+	<field name="YearsTeaching" class="java.lang.Integer"/>
+	<field name="ClassTaught" class="java.lang.String"/>
+	<field name="MajorSubject" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Page footer" x="1" y="0" width="320" height="55" uuid="aac0dd0e-695e-4839-8e52-4212d1369f89"/>
+				<textElement textAlignment="Left">
+					<font size="19"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Teacher Details for year "+ $P{year}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="53" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-1" y="52" width="555" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="2" y="3" width="82" height="14" uuid="b569130d-e9ce-4a1d-832d-4d6b65f788c5"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["First Name"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="84" y="3" width="72" height="14" uuid="8214b7a3-282a-4cf8-9301-38dfa660b786"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Surname"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="3" width="44" height="14" uuid="a2dacd4b-5fa9-4e04-8d5a-456fa473c17d"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Status"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="3" width="34" height="14" uuid="734bb4df-d154-4a5d-90ac-d83306163717"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Age"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="233" y="3" width="61" height="14" uuid="1eb05f7e-297d-4e65-be48-b85ddd220df8"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Role"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="296" y="3" width="51" height="24" uuid="8efea85e-94e4-4b66-a7e0-5eaf13473f30"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Years at School"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="348" y="3" width="49" height="24" uuid="46bad0e1-d478-45e1-94e1-d545d15d59f5"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Years Teaching"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="398" y="3" width="80" height="14" uuid="c9cb9368-e548-4aec-b518-7a868f0abe7f"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Class Taught"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="3" width="74" height="14" uuid="ead823bc-b1e1-4a29-9a8a-9895c7dfc2c5"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Major Subject"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="3" y="0" width="80" height="15" uuid="a9bc7f13-ec57-4f97-923d-7d40d9af6aee"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{FirstName}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="84" y="0" width="72" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Surname}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="156" y="0" width="44" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Status}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="201" y="0" width="32" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{Age}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="234" y="0" width="60" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Role}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="294" y="0" width="53" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{YearsAtSchool}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="348" y="0" width="48" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{YearsTeaching}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="398" y="0" width="80" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{ClassTaught}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="480" y="0" width="74" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{MajorSubject}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#8298C0" backcolor="#9BC2FF" uuid="183682bc-d976-4756-83e0-6625a3f98ed1"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="533" y="0" width="40" height="20" uuid="0193f9b3-1559-491a-8580-b6988863b6a1"/>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="453" y="0" width="80" height="20" uuid="d00b105e-494b-418b-8ac9-8b1b4824f4f0"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="0616f3fe-0354-456f-8911-ec30ec51a5ae"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="406" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

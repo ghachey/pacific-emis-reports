@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="School_Report_Card" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/School/School_Report_Card"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/School/School_Report_Card_files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<template><![CDATA["repo:/Templates/"+$P{SchoolNo}.substring( 0, 3 )+".jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="SchoolNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["CHK001"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT S.schNo
+      ,S.schName
+      ,S.schAddr1
+      ,S.schPh1
+      ,S.schEmail
+	  ,S.schLandOwner
+	  ,ST.stDescription
+      ,I.iName
+      ,D.dName
+	  ,A.authName
+  FROM dbo.Schools AS S
+  LEFT OUTER JOIN dbo.Islands AS I ON S.iCode = I.iCode
+  LEFT OUTER JOIN dbo.Authorities AS A ON S.schAuth = A.authCode
+  LEFT OUTER JOIN dbo.SchoolTypes AS ST ON S.schType = ST.stCode
+  LEFT OUTER JOIN dbo.Districts AS D ON I.iGroup = D.dID
+  WHERE S.schNo = $P{SchoolNo}
+  ORDER BY S.schNo]]>
+	</queryString>
+	<field name="schNo" class="java.lang.String"/>
+	<field name="schName" class="java.lang.String"/>
+	<field name="schAddr1" class="java.lang.String"/>
+	<field name="schPh1" class="java.lang.String"/>
+	<field name="schEmail" class="java.lang.String"/>
+	<field name="schLandOwner" class="java.lang.String"/>
+	<field name="stDescription" class="java.lang.String"/>
+	<field name="iName" class="java.lang.String"/>
+	<field name="dName" class="java.lang.String"/>
+	<field name="authName" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{schName}]]></groupExpression>
+		<groupHeader>
+			<band height="24">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<frame>
+					<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="612" height="24" uuid="b3ed834b-deb9-47f5-b4c1-d3089a9dec23">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textField bookmarkLevel="1">
+						<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="230" height="24" uuid="d0f38562-ba93-4583-b1a2-4ed613e15bfc">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="20" rightPadding="20"/>
+						<textElement textAlignment="Left" verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA["1.School Details"]]></textFieldExpression>
+						<anchorNameExpression><![CDATA["School Details"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band>
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="175" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" mode="Transparent" x="-20" y="80" width="612" height="28" forecolor="#676566" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="PT Sans Caption" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SCHOOL REPORT CARD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="SubTitle" mode="Opaque" x="0" y="108" width="555" height="17" isPrintWhenDetailOverflows="true" forecolor="#59595C" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[A summary school report card with mostly high level aggregated data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Title text" mode="Transparent" x="-20" y="125" width="612" height="35" isPrintWhenDetailOverflows="true" forecolor="#636365" uuid="eecba6ea-7f8b-4086-8d28-27e4661b970b">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="20" rightPadding="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[The school report card will help you strive to improve the performance of your school by showing information about your own school and how you perform at the Atolls and Islands level and national level]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Top">
+				<reportElement x="-20" y="-20" width="612" height="100" uuid="112632f5-6288-4f6e-824d-666fe9f1d17f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["repo:/images/"+$F{dName}+ "_FedEMIS_Title_Image.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="239" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="173" width="555" height="26" uuid="d3964acb-21e5-4b67-939f-fbd6ac21971e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Type of Schools Details]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="190" y="200" width="175" height="19" uuid="1f452c57-dbb7-446b-a271-f3c057f7b23c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Land Ownership]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="0" y="200" width="180" height="19" uuid="39749432-2466-4950-91b4-9c731676903f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Authority]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="107" width="232" height="26" uuid="d2b377b3-7e55-404c-8a11-213f76b92204">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Contact ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="0" y="133" width="180" height="19" uuid="63056c50-85f6-4ab8-9f49-9de86ffab932">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Phone]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="190" y="133" width="175" height="19" uuid="bc68d423-049a-4718-86f6-04d0f5b3e5c4">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="374" y="200" width="170" height="19" uuid="b6864f0c-33af-4348-bdca-d7f1eb09563b">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[School Type]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="0" y="152" width="180" height="21" uuid="3cee6f40-33ee-462f-813a-73bc6d91f600">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{schPh1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="190" y="152" width="175" height="21" uuid="f4105d3b-4a0c-447f-847a-ec7c934f1bf9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{schEmail}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="0" y="219" width="180" height="20" uuid="754ea6c9-9ec7-41f7-bdde-af18af74a12c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{authName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="190" y="219" width="175" height="20" uuid="373cc92d-5f21-4a20-bf66-7db75f0eabc6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{schLandOwner}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="374" y="219" width="170" height="20" uuid="5fda7ce7-3d0d-48e9-b176-61d950e38cac">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{stDescription}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" mode="Transparent" x="0" y="40" width="460" height="26" uuid="d3812bb4-f8a4-4c57-8052-9ebe055054ed">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Location Details]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" mode="Transparent" x="0" y="67" width="180" height="20" uuid="780fbe21-2810-442c-9cd3-d08f279e2501">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Island]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" mode="Transparent" x="190" y="66" width="175" height="20" uuid="e5c7b877-e79b-425c-820f-3322f3c9e635">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Atolls and Islands]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" mode="Transparent" x="374" y="66" width="170" height="20" uuid="142ef276-8b7f-407e-bff4-1664c378a432">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Address]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" mode="Transparent" x="0" y="87" width="180" height="21" uuid="b2c794ad-efae-431c-a256-132766d4ea9c">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box leftPadding="0" rightPadding="20">
+					<pen lineColor="#EDEEEE"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{iName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" mode="Transparent" x="190" y="87" width="175" height="21" uuid="e8bbf3df-c467-4aae-a950-aed2878d5ebf">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20">
+					<pen lineColor="#EDEEEE"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" mode="Transparent" x="374" y="87" width="170" height="21" uuid="838f3b36-be29-482f-94fe-1ce0b65da48c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20">
+					<pen lineColor="#EDEEEE"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{schAddr1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="0" y="0" width="180" height="19" uuid="b98e5d49-e5d4-4789-951e-b03af4be1e92">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<paragraph rightIndent="20"/>
+				</textElement>
+				<text><![CDATA[School ID]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="0" y="19" width="180" height="21" uuid="e53f255c-2a83-4be8-96d2-97d0dc2eec13">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box leftPadding="0" rightPadding="20">
+					<pen lineColor="#EDEEEE"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{schNo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="190" y="0" width="175" height="19" uuid="93dbb409-6776-4395-93e3-47f979be814a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[School Name]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="190" y="19" width="175" height="21" uuid="4ca63161-8b65-46cd-8925-a563029a2eb4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20">
+					<pen lineColor="#EDEEEE"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="72">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="10" width="612" height="24" uuid="74351afc-b135-4b59-80b2-2a309062dc4d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="230" height="24" uuid="e2b6ec8a-6617-4e12-8a7d-b398d66def11">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA["2.Students"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Students&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="62" width="555" height="10" uuid="3c5498e4-56db-4c66-bf8f-8ab235f924cd">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Enrollments by EdLevel Gender Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="4" width="100" height="1" uuid="c05aedc5-5bcf-4d24-8ce8-33d0de8a153e"/>
+			</break>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-21" y="42" width="595" height="18" uuid="200f8d2b-339e-400a-8a5a-c5d8fe452a26"/>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="e14f25c1-2ab0-4505-87a4-c0216fddd95e">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2.1 Student Enrollment by Grade and Gender"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Student Enrollment by Grade and Gender"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+		</band>
+		<band height="37">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-21" y="0" width="595" height="18" uuid="90ac121e-b1c7-4bf2-bb90-a4cf6dea33ad"/>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="dfc72428-b09d-46d8-9eb7-59db9b352763">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2.2 Student Enrollment History"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Student Enrollment History&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="20" width="555" height="13" uuid="a2563f17-ee7b-4515-a782-6ef3857e9146">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Enrollments History by EdLevel Gender Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="30">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-21" y="0" width="595" height="18" uuid="b303681b-3a26-41da-88ce-b879d58428e4"/>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="0451dd7f-fce4-4336-9b68-17c6cb2c49e0">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2.3 Girl Enrollment Percentage"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Girl Enrollment Percentage"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="20" width="555" height="10" uuid="f0e96fa1-513a-4da0-90db-20dcda12980a"/>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Enrollments History Girl Percentage Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="30">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="595" height="18" uuid="fa62009a-ee92-4b75-8427-4a808b7fe93c"/>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="6ac0753f-c52d-4c6b-96e1-37213339c8b7">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2.4 Repeaters By Grade"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Repeaters By Grade&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="20" width="555" height="10" uuid="84609cb8-ae24-40b0-b3e5-d132efe076d3"/>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Repeaters By Grade and Gender Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="30">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="595" height="18" uuid="d06b8f1f-2dc6-47dd-b406-b5e400bfea76"/>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="7f7bc861-8b27-453a-bccd-c4064d42e3dd">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2.5 Dropouts By Grade"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Dropouts By Grade&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="20" width="555" height="10" uuid="350199d2-cd7e-4b49-aba2-ec5c45d173ba"/>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Dropouts By Grade and Gender Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="45">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="595" height="18" uuid="ca400678-5b1a-4130-89c4-6effa20c69e9"/>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="c8925271-290a-40f4-b5ca-540a40b0d571">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2.6 Dropouts Reasons"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Dropouts Reasons&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement x="0" y="25" width="555" height="20" uuid="8f7ec6aa-7ed8-4426-b941-41953235f5e4">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<text><![CDATA[Coming soon...]]></text>
+			</staticText>
+		</band>
+		<band height="30">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="595" height="18" uuid="84f126d2-4c28-486c-a2c9-074a5e0e3e0e"/>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="9182d003-ba0c-402e-bacb-e596b8431a3c">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2.7 Promotion Rate By Grade"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Promotion Rate By Grade"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="20" width="555" height="10" uuid="7e29690d-7591-43a1-824d-6bf4f46179f2"/>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Promotion Rate By Grade and Gender Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="30">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="595" height="18" uuid="bfa80e5c-095d-4ba7-948d-396ee5cedba2"/>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="420" height="18" uuid="04a845d9-ac76-4b32-bb51-e448c611fa1f">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2.8 Survival Rate By Grade"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Survival Rate By Grade"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="20" width="555" height="10" uuid="28418ef9-e417-439a-947d-30a0f1a53ee1"/>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Survival Rate By Grade and Gender Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="595" height="18" uuid="c6bc394d-6e34-4e3c-8a06-5bc56842761c"/>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="1" y="0" width="410" height="18" uuid="095792ac-7a3c-40c4-8dd7-0a5b47223bbd">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2.9 Under,Over,Official Age Enrollment"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA[" Under,Over,Official Age Enrollment"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement x="0" y="25" width="555" height="20" uuid="61d66967-5e06-430a-b61a-1d4e26180b0f">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box leftPadding="1" rightPadding="20"/>
+				<text><![CDATA[Coming soon...]]></text>
+			</staticText>
+		</band>
+		<band height="34">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<break>
+				<reportElement x="0" y="6" width="100" height="1" uuid="d7af28f6-b2c4-462c-8d28-d794503c6932"/>
+			</break>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="10" width="612" height="24" uuid="05e3fdda-d4ee-47d4-8f4c-53e6eb99abc4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="230" height="24" uuid="535a2a5b-991f-4c75-97fe-2d47a7634bc2">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA["3.Teachers"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Teachers"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+		</band>
+		<band height="40">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="10" width="595" height="18" uuid="7e81c2ad-8977-400c-8710-4579acd03b23"/>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="8f1585f8-b657-4460-b17d-1cab53b3431a">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["3.1 Teachers Qualifications/Certification Status"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Teacher Qualifications / Certification Status&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="30" width="555" height="10" uuid="6cb91e72-3756-4fc9-a226-e4d219bbb7ff">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Teachers Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="40">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="10" width="595" height="18" uuid="9b480db4-4bf1-48b6-a2e5-c0f913f2810e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="95d22075-4025-4a34-bdf8-7963438b9edc">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["3.2 Teachers Qualifications"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Teachers Qualifications&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="30" width="555" height="10" uuid="dc42fcb2-9729-4ef2-bdab-e88bda094c8c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Teacher Qualifications.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="40">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="10" width="595" height="18" uuid="be8c1bbf-9a81-4caf-93ec-58b09becffef">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="dbaa6ccf-eebe-4661-a1d6-c83f6e9bb9e6">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["3.3 Teachers Certifications"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Teachers Certifications&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="30" width="555" height="10" uuid="e29d80df-c7a5-4047-92df-8f2bb7729e35">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Teacher Certifications.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="40">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="10" width="595" height="18" uuid="0c18ee15-1a36-48cd-9eac-9037b0e70fa6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="bdc00285-8c57-4849-9bb0-19469e862fac">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["3.4 School Qualification/Certification Performance"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["School Qualification/Certification Performance&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="30" width="555" height="10" uuid="849da11a-1a67-4e6c-91b4-e12f5eeb13a0">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Teacher Qualifications Summary Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="45">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="10" width="612" height="24" uuid="7ac8fcaf-f06b-4025-8a4e-9aeffdac0dd3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="230" height="24" uuid="29432b26-0d5d-4e6b-bb13-64a146d5644b">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textFieldExpression><![CDATA["4. School Accreditations"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["School Accreditations&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="35" width="555" height="10" uuid="ff7d6757-18e1-4e08-aeef-2f60f19c1e70">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="InspYear">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["SchoolAccreditations.jrxml"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="5" width="100" height="1" uuid="254856eb-ff0e-48ab-b806-af9376a93ced">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</break>
+		</band>
+		<band height="70">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="10" width="612" height="24" uuid="2568bbb8-67ff-48fb-9f83-0bdcf1e95666">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="230" height="24" uuid="2112174d-bb64-4c81-b8b9-f3f277d48971">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textFieldExpression><![CDATA["5. Exams"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Exams&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-21" y="40" width="595" height="18" uuid="a4ac80c9-8cf3-4a05-9868-900b3a085201">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="9ff5e609-adc6-4d9e-8203-54da44a1fe36">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["5.1 School Exam results By Benchmark"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["School Exam results By Benchmark&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="60" width="555" height="10" uuid="fd2df060-1059-469f-b82e-2bfce41012b0">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Exams Results by Year.jrxml"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="5" width="100" height="1" uuid="4eefa49c-c4a8-4bec-848d-49671e87d667">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</break>
+		</band>
+		<band height="30">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="595" height="18" uuid="d611c9fe-0a7b-4b0c-8bba-afbcb1656166">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" mode="Opaque" x="0" y="0" width="410" height="18" uuid="f9f94ea4-083d-47dd-840e-c7f1140ec435">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["5.2 School Exams Results comparing State and Nation"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["School Exams Results comparing State and Nation&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="1" y="20" width="555" height="10" uuid="de77c671-9228-469f-a581-1802916d7c04">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$P{SchoolNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Exams Results comparing State and Nation by ExamName.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="26" splitType="Stretch">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="2" width="612" height="24" uuid="5d8169bd-4a75-48c8-8a68-6d3ad5ba9402"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="550" y="2" width="40" height="20" uuid="e5e27efa-b599-499b-9ca3-848cb511cb7b"/>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="470" y="2" width="80" height="20" uuid="18cfe1ca-f7d6-48b0-9827-28578b42a5e0"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="fbce24bb-3cb1-44a3-8eec-8c067ddbe5b5"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

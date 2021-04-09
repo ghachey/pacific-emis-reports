@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Furniture Information - subreport" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" whenResourceMissingType="Error" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - KEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/KEMIS_Reports/Statistical_Brief/Fastest Growing Schools - subreport"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="636"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="350"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="345"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="650"/>
+	<template><![CDATA["../..//Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SchoolCode" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[----  Table: fastest growing schools- school type (column), list the three fast for each school type and pct. increase
+		
+select svyYear, 
+schNo,
+ft.codeDescription as type,
+ISNULL(cc.codeDescription,'Unknown') as condition,
+SUM(fNum) as count
+from SchoolSurvey ss
+join Furniture f on ss.ssID = f.ssID
+left join lkpFurnitureTypes ft on f.fCode = ft.codeCode
+left join lkpConditionCodes cc on f.fCond = cc.codeCode
+where svyYear =  $P{year}
+and schNo =  $P{SchoolCode}
+and fNum is not Null
+group by svyYear, schNo, ft.codeDescription, cc.codeDescription]]>
+	</queryString>
+	<field name="type" class="java.lang.String"/>
+	<field name="condition" class="java.lang.String"/>
+	<field name="count" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="13" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement style="Column header" x="2" y="-20" width="228" height="33" uuid="2f69c0a0-7fb6-4188-8477-298ea9c6a0c2"/>
+				<textElement textAlignment="Left">
+					<font size="19"/>
+				</textElement>
+				<text><![CDATA[Furniture Information]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="2" y="16" width="478" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="2" y="0" width="98" height="16" uuid="1f0dcac7-13c9-4191-b63f-8487b4a8b1ea"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Type of Furniture]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="140" y="0" width="80" height="16" uuid="5cefe5b9-5491-445c-b701-d954cabc636b"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Condition]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="280" y="0" width="100" height="16" uuid="41d36a7b-e4d4-4e50-a7aa-8d8611a839ac"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[No of Furniture]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="480" height="33" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField>
+					<reportElement x="2" y="4" width="98" height="16" uuid="55e50781-0467-4c02-a6cf-9ec1b715b98d"/>
+					<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="140" y="4" width="80" height="16" uuid="55e50781-0467-4c02-a6cf-9ec1b715b98d"/>
+					<textFieldExpression><![CDATA[$F{condition}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="280" y="4" width="100" height="16" uuid="55e50781-0467-4c02-a6cf-9ec1b715b98d"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Teachers Summary Schools with less than 5 teachers By State" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c9e06802-5ff8-46a8-a2fa-e3cc087812f9">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="349"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="640"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F2F2F2">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table1:Teachers Summary Schools with less than 5 teachers" uuid="dd0f3e01-61b3-4d57-8ae0-9e1ede6c940a">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<parameter name="District" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA["CHK"]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select 
+d.dName as schElectN,
+c.schname,a.TID as tid,b.tGiven as tchFirstName,b.tSurname as tchFamilyName,
+Case when b.tsex = 'M' then 'Male'
+when  b.tsex='F' then 'Female' end as tchGender ,b.tDOB as tchDOB
+ from warehouse.TeacherLocation
+  a inner join [dbo].[TeacherIdentity] b on a.TID=b.tID
+inner join
+ [dbo].[schools] c on a.SchNo=c.SchNo
+ inner join [dbo].[islands] i on c.iCode = i.iCode
+ inner join [dbo].[districts] d on i.iGroup = d.dID
+ where a.surveyYear= $P{Year}
+ and a.SchNo in(
+ select SchNo from warehouse.TeacherLocation
+where surveyYear= $P{Year}
+group by SchNo
+having count(TID)<8
+)
+ and d.dID = $P{District}
+order by schElectN,c.schname,a.TID,b.tGiven]]>
+		</queryString>
+		<field name="schElectN" class="java.lang.String"/>
+		<field name="schname" class="java.lang.String"/>
+		<field name="tid" class="java.lang.Integer"/>
+		<field name="tchFirstName" class="java.lang.String"/>
+		<field name="tchFamilyName" class="java.lang.String"/>
+		<field name="tchGender" class="java.lang.String"/>
+		<field name="tchDOB" class="java.sql.Timestamp"/>
+		<group name="Group1">
+			<groupExpression><![CDATA[$F{schElectN}]]></groupExpression>
+		</group>
+		<group name="Group2">
+			<groupExpression><![CDATA[$F{schname}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<parameter name="District" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["CHK"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select 
+d.dName as schElectN,
+c.schname,a.TID as tid,b.tGiven as tchFirstName,b.tSurname as tchFamilyName,
+Case when b.tsex = 'M' then 'Male'
+when  b.tsex='F' then 'Female' end as tchGender ,b.tDOB as tchDOB,
+(Select vocabTerm from [dbo].[sysVocab] where vocabName = 'District') stateTitle
+ from warehouse.TeacherLocation
+  a inner join [dbo].[TeacherIdentity] b on a.TID=b.tID
+inner join
+ [dbo].[schools] c on a.SchNo=c.SchNo
+ inner join [dbo].[islands] i on c.iCode = i.iCode
+ inner join [dbo].[districts] d on i.iGroup = d.dID
+ where a.surveyYear= $P{Year}
+ and a.SchNo in(
+ select SchNo from warehouse.TeacherLocation
+where surveyYear= $P{Year}
+group by SchNo
+having count(TID)<5
+)
+ and d.dID = $P{District}
+order by schElectN,c.schname,a.TID,b.tGiven]]>
+	</queryString>
+	<field name="schElectN" class="java.lang.String"/>
+	<field name="schname" class="java.lang.String"/>
+	<field name="tid" class="java.lang.Integer"/>
+	<field name="tchFirstName" class="java.lang.String"/>
+	<field name="tchFamilyName" class="java.lang.String"/>
+	<field name="tchGender" class="java.lang.String"/>
+	<field name="tchDOB" class="java.sql.Timestamp"/>
+	<field name="stateTitle" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="91" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" x="0" y="0" width="530" height="19" uuid="bf5f0cdb-d69c-440f-9140-a86d4ff2ba38">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Schools With Less than 5 Teachers For the "+ $F{stateTitle} +" - "+$F{schElectN}]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Schools With Less than 5 Teachers"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<componentElement>
+				<reportElement positionType="Float" x="-20" y="20" width="570" height="60" uuid="7718186e-353e-4647-8c4e-e5cb8496c4c3">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table1:Teachers Summary Schools with less than 5 teachers" uuid="4f1c49d7-3439-41c4-8ca5-0355e3dd8bc4">
+						<datasetParameter name="District">
+							<datasetParameterExpression><![CDATA[$P{District}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="Year">
+							<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="170" uuid="3e585dcf-6a52-4e4b-89c7-e706535ac3cb">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TH" height="0" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_CH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement x="0" y="0" width="170" height="15" uuid="95d5ea49-0acd-4956-b357-51f7a2a4a94f"/>
+									<textElement verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{schElectN}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_CH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField isStretchWithOverflow="true">
+									<reportElement x="0" y="0" width="170" height="15" uuid="355e401d-9378-471b-9dac-44421e9737b2"/>
+									<box leftPadding="10"/>
+									<textElement textAlignment="Left" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{schname}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:columnHeader style="Table_CH" height="0" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</jr:columnHeader>
+						<jr:columnFooter style="Table_CH" height="0" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</jr:columnFooter>
+						<jr:detailCell style="Table_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="44" uuid="4a2aa712-5089-43c3-a765-c75d985a830d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="44" height="15" uuid="ae39fafe-c830-4c8e-82e2-4433133d2ad7"/>
+								<box rightPadding="10"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TID]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TH" height="0" rowSpan="1"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_CH" height="15" rowSpan="1"/>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_CH" height="15" rowSpan="1"/>
+						</jr:groupHeader>
+						<jr:columnHeader style="Table_CH" height="0" rowSpan="1"/>
+						<jr:columnFooter style="Table_CH" height="0" rowSpan="1"/>
+						<jr:detailCell style="Table_TD" height="15">
+							<textField>
+								<reportElement x="0" y="0" width="44" height="15" uuid="33d78416-29ed-4dc8-b4bb-50268f0cc665"/>
+								<box rightPadding="10"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{tid}==null?"N/A":$F{tid}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="105" uuid="014b9550-100f-4633-8732-9869a78cc183">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="105" height="15" uuid="6c23847d-faba-4705-93cf-132f4f1aac8e"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[First Name]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TH" height="0" rowSpan="1"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_CH" height="15" rowSpan="1"/>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_CH" height="15" rowSpan="1"/>
+						</jr:groupHeader>
+						<jr:columnHeader style="Table_CH" height="0" rowSpan="1"/>
+						<jr:columnFooter style="Table_CH" height="0" rowSpan="1"/>
+						<jr:detailCell style="Table_TD" height="15">
+							<textField>
+								<reportElement x="0" y="0" width="105" height="15" uuid="a17a2794-4e64-4f9a-9476-2991ef8876a6"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{tchFirstName}==null?"N/A":$F{tchFirstName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="105" uuid="6e203a14-d573-4f8f-9021-d40fed0b9a27">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="105" height="15" uuid="10553345-9eb6-4255-b6d1-b78a4e4b8930"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Last Name]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TH" height="0" rowSpan="1"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_CH" height="15" rowSpan="1"/>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_CH" height="15" rowSpan="1"/>
+						</jr:groupHeader>
+						<jr:columnHeader style="Table_CH" height="0" rowSpan="1"/>
+						<jr:columnFooter style="Table_CH" height="0" rowSpan="1"/>
+						<jr:detailCell style="Table_TD" height="15">
+							<textField>
+								<reportElement x="0" y="0" width="105" height="15" uuid="a299e3f5-3cb2-4009-af39-47d2976aafbe"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{tchFamilyName}==null?"N/A":$F{tchFamilyName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="2d5ba59c-4753-4ef1-9a8d-6cb1ccd5e17f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="15" uuid="ed17791e-cb23-4b97-a714-55235a8d16ed"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Gender]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TH" height="0" rowSpan="1"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_CH" height="15" rowSpan="1"/>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_CH" height="15" rowSpan="1"/>
+						</jr:groupHeader>
+						<jr:columnHeader style="Table_CH" height="0" rowSpan="1"/>
+						<jr:columnFooter style="Table_CH" height="0" rowSpan="1"/>
+						<jr:detailCell style="Table_TD" height="15">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="15" uuid="f684816e-a4da-483d-b462-6e9e3a47acfe"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{tchGender}==null?"N/A":$F{tchGender}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="66" uuid="75db14b0-f6b7-46b5-84b3-67f25c775c83">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableHeader style="Table_TH" height="15" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="66" height="15" uuid="c730a5a5-463e-4c0a-9138-28907b863334"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[DOB]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TH" height="0" rowSpan="1"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_CH" height="15" rowSpan="1"/>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_CH" height="15" rowSpan="1"/>
+						</jr:groupHeader>
+						<jr:columnHeader style="Table_CH" height="0" rowSpan="1"/>
+						<jr:columnFooter style="Table_CH" height="0" rowSpan="1"/>
+						<jr:detailCell style="Table_TD" height="15">
+							<textField pattern="dd/M/yyyy">
+								<reportElement x="0" y="0" width="66" height="15" uuid="8f0bbbae-ad1d-4c0b-9bfe-6a38e19c48cf"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{tchDOB}==null?"N/A":$F{tchDOB}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

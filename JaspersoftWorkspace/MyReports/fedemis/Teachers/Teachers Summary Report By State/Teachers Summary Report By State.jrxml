@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Teachers Summary Report By State" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8b63a1f3-92f9-4ee9-b169-047cd8a3836d">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.2.81:6040/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Teachers/Teachers_Summary_Report_By_State_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Teachers/Teachers_Summary_Report_By_State"/>
+	<template><![CDATA["repo:/Templates/"+$P{District}+".jrtx"]]></template>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<parameter name="District" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["CHK"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select DID from dbo.districts where did=$P{District}]]>
+	</queryString>
+	<field name="DID" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="61" splitType="Stretch">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="592" height="20" uuid="b6a26aae-51f5-47d9-9329-20d8e0c466e7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="b6e63a38-9f1b-4fd4-b864-0ac0af728878">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["1. Basic statistics by schools"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Basic statistics by schools"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="30" width="592" height="20" uuid="abe644d1-b0c1-4b9d-bf0d-5b72f0eae858">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="8d2ca15a-e403-4fb7-a3f4-fb510562fb6b">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["1.1 Schools with less than 5 teachers "]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Schools With Less than 5 Teachers"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="50" width="570" height="10" uuid="01528f4b-43fd-49b5-b016-9a0013a7b0af">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Teachers Summary Schools with less than 5 teachers By State.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="30">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="590" height="20" uuid="c267071d-7b17-435f-9236-8d01401942ba">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" x="0" y="0" width="500" height="20" uuid="829a82d1-8c3d-4ec8-b4cd-202eaaeba03d">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["1.2 Schools with teachers less then 3 years away from retirement age "]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Schools with teachers less then 3 years away from retirement age"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="20" width="570" height="10" uuid="fe511671-1b78-4e14-a396-4d4c9a0a5653">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Teachers Summary Schools with teachers less then 3 years away from retirement age By State.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="60">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="5" width="592" height="20" uuid="810e96b6-e172-43ef-8985-046f113c1e54">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="b289d2f0-9a81-4bc7-b902-df8b82fa57c5"/>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2. Unqualified Teachers"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Unqualified Teachers"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="30" width="590" height="20" uuid="08c39030-e88c-4678-951e-a42b97e9c5f6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="6a0b0e3e-b51a-4dee-aab0-788a8fff05a2">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2.1 Schools with non-qualified teachers "]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Schools with non-qualified teachers"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="50" width="570" height="10" uuid="f27e9120-7beb-4c74-8bb1-c746050f8374">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Teachers Summary Schools with non qualified teachers By State.jrxml"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="2" width="100" height="1" uuid="52ea4f6c-8d59-492e-9d4f-a623985a1ca7"/>
+			</break>
+		</band>
+		<band height="30">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="592" height="20" uuid="9894fd09-dae9-448b-b2c5-806a0171f329">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="2a45f83b-11b4-438d-ab16-03a6fc0b498c">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2.2 Schools with non-certified teachers "]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Schools with non-certified teachers"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="20" width="570" height="10" uuid="951a8acf-3048-44f4-bc4d-db80690a8bd9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Teachers Summary Schools with non certified teachers By State.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="61">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="5" width="590" height="20" uuid="54a4e427-724c-4abd-9947-c75981957ba4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="0cd874b7-42ee-4c53-934e-57ba5815873f"/>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["3.Teachers Qualification/Certifications By Education Level"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Teachers Qualification/Certifications By Education Level"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="30" width="592" height="20" uuid="20519ef2-2c18-46d6-8ab2-1a4c1b3a2e38">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="75d7c514-842e-4240-8d99-6f4afa6a86c0">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["3.1 Teachers In Early Childhood Education"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Teachers In Early Childhood Education"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<break>
+				<reportElement x="0" y="2" width="100" height="1" uuid="c92f6941-a86d-439f-aa15-106a35643ccb"/>
+			</break>
+			<subreport>
+				<reportElement x="0" y="51" width="570" height="10" uuid="23f6e1a9-7848-44aa-bc47-d30ab9e55037">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Teachers Summary For Qualified and Certified in Early Childhood Education By State.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="32">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="1" width="592" height="20" uuid="5b659613-16c1-4d5d-a4b3-910bb40915b2">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="ce842415-eab2-4e62-9c50-f0b14345fc44">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["3.2 Teachers In Primary Education"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Teachers In Primary Education"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="22" width="570" height="10" uuid="5f8baa6d-bffe-4504-8107-6690f95b14a1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Teachers Summary For Qualified and Certified in Primary Education By State.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="32">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="1" width="592" height="20" uuid="93b97a7c-2494-4677-a256-fd2699b2063c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="b332fde0-5197-4579-813b-414c5abad17e">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["3.3 Teachers In Secondary Education"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Teachers In Secondary Education"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="22" width="570" height="10" uuid="a8eb2d19-88f2-410d-8d4b-3764f27b6b43">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Teachers Summary For Qualified and Certified in Secondary Education By State.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="32">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="1" width="592" height="20" uuid="456e9f38-5c18-4fb2-8b6a-0a4e688acbb6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="a25e407e-6f53-4b1e-b2db-c358c5c81521">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["3.4 Teachers Qualifications And Certifications"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Teachers Qualifications And Certifications"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="22" width="570" height="10" uuid="de29b14b-f7d6-4a50-ba56-d34cd68a193f"/>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Teachers Summary For Qualified and Certified by State Education Level and Age Group By State.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="17" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Page footer" x="0" y="1" width="160" height="15" forecolor="#000000" uuid="eab79fa2-9916-49c5-b4fe-b9471b44ddb7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Page footer" x="448" y="2" width="80" height="15" forecolor="#000000" uuid="9d48967f-b982-4acc-9675-fe21edcbf922">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Page footer" x="528" y="2" width="40" height="15" forecolor="#000000" uuid="dcfb575f-267b-470f-b015-a3b003ff46ad"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="132" y="2" width="309" height="14" uuid="be0cdc20-cfcf-43d3-aefd-d2ff3c6dd694">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Teachers Summary"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

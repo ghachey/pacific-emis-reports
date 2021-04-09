@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="National_Standard_Performance_Accreditation_Progress" pageWidth="752" pageHeight="572" orientation="Landscape" columnWidth="752" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/School_Accreditations/National_Standard_Performance_Accreditation_Progress"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/School_Accreditations/National_Standard_Performance_Accreditation_Progress_files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="287"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="703"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT T1.District
+	,T2.[Total Schools]
+	,T3.[Total Schools Evaluated]
+	,T1.[Total Schools Accredited]
+	,T1.[Level 1]
+	,T1.[Level 2]
+	,T1.[Level 3]
+	,T1.[Level 4]
+FROM (
+	SELECT [dName] AS District
+		,SUM(CASE 
+				WHEN [InspectionResult] = 'Level 1'
+					THEN 1
+				ELSE 0
+				END) AS 'Level 1'
+		,SUM(CASE 
+				WHEN [InspectionResult] = 'Level 2'
+					THEN 1
+				ELSE 0
+				END) AS 'Level 2'
+		,SUM(CASE 
+				WHEN [InspectionResult] = 'Level 3'
+					THEN 1
+				ELSE 0
+				END) AS 'Level 3'
+		,SUM(CASE 
+				WHEN [InspectionResult] = 'Level 4'
+					THEN 1
+				ELSE 0
+				END) AS 'Level 4'
+		,SUM(CASE 
+				WHEN [InspectionResult] = 'Level 2'
+					THEN 1
+				ELSE 0
+				END) + SUM(CASE 
+				WHEN [InspectionResult] = 'Level 3'
+					THEN 1
+				ELSE 0
+				END) + SUM(CASE 
+				WHEN [InspectionResult] = 'Level 4'
+					THEN 1
+				ELSE 0
+				END) AS 'Total Schools Accredited'
+	FROM [warehouse].[Accreditations] Acc
+		INNER JOIN [Schools] on Acc.schNo = [Schools].schNo
+		INNER JOIN [Islands] ON [Schools].iCode = [Islands].iCode
+		INNER JOIN [Districts] ON [Islands].iGroup = [Districts].dID
+		Where InspectionYear =  $P{Year} 
+	GROUP BY [dName]
+	) T1
+INNER JOIN (
+	-- Total schools in EMIS grouped by district
+	SELECT [dName] AS District
+		,COUNT(*) AS 'Total Schools'
+	FROM [Schools]
+	INNER JOIN [Islands] ON [Schools].iCode = [Islands].iCode
+	INNER JOIN [Districts] ON [Islands].iGroup = [Districts].dID
+	GROUP BY [dName]
+	) T2 ON T1.District = T2.District
+INNER JOIN (
+	-- Total schools in EMIS with an school accreditation inspection
+	SELECT [dName] AS District
+		,COUNT(*) AS 'Total Schools Evaluated'
+	FROM [warehouse].[Accreditations] Acc
+		INNER JOIN [Schools] on Acc.schNo = [Schools].schNo
+		INNER JOIN [Islands] ON [Schools].iCode = [Islands].iCode
+		INNER JOIN [Districts] ON [Islands].iGroup = [Districts].dID
+	Where InspectionYear =  $P{Year} 
+	GROUP BY [dName]
+	) T3 ON T1.District = T3.District]]>
+	</queryString>
+	<field name="District" class="java.lang.String"/>
+	<field name="Total Schools" class="java.lang.Integer"/>
+	<field name="Total Schools Evaluated" class="java.lang.Integer"/>
+	<field name="Total Schools Accredited" class="java.lang.Integer"/>
+	<field name="Level 1" class="java.lang.Integer"/>
+	<field name="Level 2" class="java.lang.Integer"/>
+	<field name="Level 3" class="java.lang.Integer"/>
+	<field name="Level 4" class="java.lang.Integer"/>
+	<variable name="Total_Schools_Tot" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Total Schools}]]></variableExpression>
+	</variable>
+	<variable name="Total_Schools_Evaluated_Tot" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Total Schools Evaluated}]]></variableExpression>
+	</variable>
+	<variable name="Total_Schools_Accredited_Tot" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Total Schools Accredited}]]></variableExpression>
+	</variable>
+	<variable name="Level_1_Tot" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Level 1}]]></variableExpression>
+	</variable>
+	<variable name="Level_2_Tot" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Level 2}]]></variableExpression>
+	</variable>
+	<variable name="Level_3_Tot" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Level 3}]]></variableExpression>
+	</variable>
+	<variable name="Level_4_Tot" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Level 4}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<summary>
+		<band height="572" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<stackedBarChart>
+				<chart evaluationTime="Report" renderType="svg" theme="aegean">
+					<reportElement positionType="Float" x="1" y="0" width="750" height="572" uuid="2a4d3391-f7f6-458b-a04c-4c42417aaf06">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<chartTitle>
+						<titleExpression><![CDATA["Schools Levels"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend position="Bottom">
+						<font isBold="true"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Level 1"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{District}]]></categoryExpression>
+						<valueExpression><![CDATA[-$F{Level 1}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Level 2"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{District}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Level 2}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Level 3"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{District}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Level 3}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Level 4"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{District}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Level 4}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot orientation="Horizontal">
+						<seriesColor seriesOrder="0" color="#FF1E00"/>
+						<seriesColor seriesOrder="1" color="#F0DC20"/>
+						<seriesColor seriesOrder="2" color="#96C761"/>
+						<seriesColor seriesOrder="3" color="#2DA620"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</stackedBarChart>
+		</band>
+	</summary>
+</jasperReport>

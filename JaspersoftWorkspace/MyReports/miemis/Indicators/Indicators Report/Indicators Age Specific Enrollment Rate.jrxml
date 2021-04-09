@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Education Indicators Age Specific Enrollment Rate By Nation" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="44b1dcde-4948-4568-9513-3b4c5c48e9f8">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:7080/jasperserver-pro/"/>
+	<property name="ireport.jasperserver.user" value="superuser"/>
+	<property name="ireport.jasperserver.report.resource" value="/organizations/organization_1/reports/Test/Education_Indicators_Age_Specific_Enrollment_Rate_By_Nation_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/organizations/organization_1/reports/Test/Education_Indicators_Age_Specific_Enrollment_Rate_By_Nation"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<subDataset name="Figure 18:Age Specific Participation to Education System Chart " uuid="b89c84bf-f137-44be-ab83-17a046244d6d">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="240"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="750"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select SurveyYear, Age, 'Not Enrolled' as EnrollStatus ,
+round(((sum(pop)-sum(enrol))/cast(sum(pop) as float))*100,2) as Percentage  
+from warehouse.EnrolPopNationR
+where Age between 5 and 18
+and  SurveyYear= $P{Year}  
+group by SurveyYear,Age
+
+union
+
+select SurveyYear, Age , 'Enrolled' as EnrollStatus ,
+round((sum(enrol)/cast(sum(pop) as float))*100,2) as Percentage 
+from warehouse.EnrolPopNationR
+where Age between 5 and 18
+and  SurveyYear= $P{Year} 
+group by SurveyYear,Age
+order by Age]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="Age" class="java.lang.Integer"/>
+		<field name="EnrollStatus" class="java.lang.String"/>
+		<field name="Percentage" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Figure 19: Age Specific Enrollment Rate trend" uuid="e39268e3-e7d5-4968-88c6-8045b3a5a46a">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="227"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="763"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select SurveyYear, Age,
+ round((sum(enrol)/cast(sum(pop) as float))*100,2) as Percentage 
+from [warehouse].[EnrolPopNationR]
+where Age between 5 and 18
+and SurveyYear >= $P{Year} -5 and  surveyyear<= $P{Year} 
+group by SurveyYear,Age
+order by Age,SurveyYear]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="Age" class="java.lang.Integer"/>
+		<field name="Percentage" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select a.surveyyear,a.yearofed,a.DistrictCode,
+repeatratemale,
+repeatrateFemale,
+promoteratemale,
+promoteratefemale,
+dropoutratemale,
+dropoutratefemale,
+survivalratemale,
+survivalratefemale from 
+
+(select surveyyear,yearofed, DistrictCode,round(sum(isnull(repeatrate,0))*100,2) as repeatratemale
+from warehouse.FlowDistrict 
+where GenderCode = 'M'
+group by surveyyear,DistrictCode,yearofed ) a
+
+join (select surveyyear,yearofed, DistrictCode,round(sum(isnull(repeatrate,0))*100,2) as repeatratefemale
+from warehouse.FlowDistrict 
+where GenderCode = 'F'
+group by surveyyear,DistrictCode,yearofed) b
+on a.surveyyear = b.surveyyear
+and a.yearofed = b.yearofed
+and a.DistrictCode=b.DistrictCode
+
+join(select surveyyear,yearofed, DistrictCode,round(sum(isnull(promoterate,0))*100,2) as promoteratemale
+from warehouse.FlowDistrict 
+where GenderCode = 'M'
+group by surveyyear,DistrictCode,yearofed)c
+on b.surveyyear = c.surveyyear
+and b.yearofed = c.yearofed
+and b.DistrictCode=c.DistrictCode
+
+join(select surveyyear,yearofed, DistrictCode,round(sum(isnull(promoterate,0))*100,2) as promoteratefemale
+from warehouse.FlowDistrict 
+where GenderCode = 'F'
+group by surveyyear,DistrictCode,yearofed)d
+on c.surveyyear = d.surveyyear
+and c.yearofed = d.yearofed
+and c.DistrictCode=d.DistrictCode
+
+join (select surveyyear,yearofed, DistrictCode,round(sum(isnull(dropoutrate,0))*100,2) as dropoutratemale
+from warehouse.FlowDistrict 
+where GenderCode = 'M'
+group by surveyyear,DistrictCode,yearofed)e
+on d.surveyyear = e.surveyyear
+and d.yearofed = e.yearofed
+and d.DistrictCode=e.DistrictCode
+
+join (select surveyyear,yearofed, DistrictCode,round(sum(isnull(dropoutrate,0))*100,2) as dropoutratefemale
+from warehouse.FlowDistrict 
+where GenderCode = 'F'
+group by surveyyear,DistrictCode,yearofed)f
+on e.surveyyear = f.surveyyear
+and e.yearofed = f.yearofed
+and e.DistrictCode=f.DistrictCode
+
+join(select surveyyear,yearofed, DistrictCode,round(sum(isnull(survivalrate,0))*100,2) as survivalratemale
+from warehouse.FlowDistrict 
+where GenderCode = 'M'
+group by surveyyear,DistrictCode,yearofed)g
+on f.surveyyear = g.surveyyear
+and f.yearofed = g.yearofed
+and f.DistrictCode=g.DistrictCode
+
+join (select surveyyear,yearofed, DistrictCode,round(sum(isnull(survivalrate,0))*100,2) as survivalratefemale
+from warehouse.FlowDistrict 
+where GenderCode = 'F'
+group by surveyyear,DistrictCode,yearofed)h
+on g.surveyyear = h.surveyyear
+and g.yearofed = h.yearofed
+and g.DistrictCode=h.DistrictCode
+where a.surveyyear=2018
+order by a.surveyyear,a.yearofed,a.DistrictCode]]>
+	</queryString>
+	<field name="surveyyear" class="java.lang.Integer"/>
+	<field name="yearofed" class="java.lang.Integer"/>
+	<field name="DistrictCode" class="java.lang.String"/>
+	<field name="repeatratemale" class="java.lang.Double"/>
+	<field name="repeatrateFemale" class="java.lang.Double"/>
+	<field name="promoteratemale" class="java.lang.Double"/>
+	<field name="promoteratefemale" class="java.lang.Double"/>
+	<field name="dropoutratemale" class="java.lang.Double"/>
+	<field name="dropoutratefemale" class="java.lang.Double"/>
+	<field name="survivalratemale" class="java.lang.Double"/>
+	<field name="survivalratefemale" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="480" splitType="Immediate">
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="58" y="200" width="438" height="19" uuid="14be5ee0-2543-48ad-99fd-335ba5385015"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Age Specific Participation to Education System Chart "]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Age Specific Participation to Education System Chart "+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="440" width="381" height="20" uuid="311ff01c-dd34-413c-90a4-d89c95635411"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Age Specific Enrollment Rate trend"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Age Specific Enrollment Rate trend"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<stackedBarChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="-2" width="567" height="200" uuid="fdd9d497-c904-44c0-b874-c8a0e4e54893">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 18:Age Specific Participation to Education System Chart " uuid="38de75ad-b690-44d8-aa46-c518113a45d2">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{EnrollStatus}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{Age}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#6B8FFA"/>
+						<seriesColor seriesOrder="1" color="#E67030"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA[$P{Year}]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00.00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</stackedBarChart>
+			<lineChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="238" width="567" height="200" uuid="70fed8cc-c4e1-4367-9939-945fdaea44ee">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 19: Age Specific Enrollment Rate trend" uuid="23dae3a6-0413-48d4-9afd-55d41f8106f3">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{SurveyYear}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{Age}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#5B9BD5"/>
+						<seriesColor seriesOrder="1" color="#ED7D31"/>
+						<seriesColor seriesOrder="2" color="#E2E2E2"/>
+						<seriesColor seriesOrder="3" color="#FFC000"/>
+						<seriesColor seriesOrder="4" color="#4472C4"/>
+						<seriesColor seriesOrder="5" color="#70AD47"/>
+					</plot>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00.00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+		</band>
+	</summary>
+</jasperReport>

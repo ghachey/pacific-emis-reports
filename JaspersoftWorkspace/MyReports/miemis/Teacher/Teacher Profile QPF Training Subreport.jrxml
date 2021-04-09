@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Teacher Profile QPF Training Subreport" pageWidth="753" pageHeight="612" orientation="Landscape" columnWidth="753" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="8b4131db-332d-4c39-97a6-c6c5c69ed596">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="217"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="773"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:6040/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Teacher/Teacher_Profile_QPF_Training_Subreport_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Teacher/Teacher_Profile_QPF_Training_Subreport"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["miemis/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="TeacherID" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["4215919"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT TT.trID
+      ,TT.tID
+      ,TT.trYear
+      ,TT.trPre
+      ,TT.trComplete
+      ,TT.trQual
+      ,TT.trInstitution
+      ,TT.trDuration
+      ,TT.trDurationUnit
+      ,TT.trMajor
+      ,TT.trMinor
+      ,TT.trProgress
+      ,TT.trProgressPerc
+      ,TT.trComment
+      ,TT.trEffectiveDate
+      ,TT.trExpirationDate
+	  ,TT.codeDescription
+  FROM [warehouse].[TempSchoolTeacherDetails] TT
+  WHERE TT.codeGroup = 'IQBE Training'  AND TT.tID = $P{TeacherID}
+  Group By TT.trID
+      ,TT.tID
+      ,TT.trYear
+      ,TT.trPre
+      ,TT.trComplete
+      ,TT.trQual
+      ,TT.trInstitution
+      ,TT.trDuration
+      ,TT.trDurationUnit
+      ,TT.trMajor
+      ,TT.trMinor
+      ,TT.trProgress
+      ,TT.trProgressPerc
+      ,TT.trComment
+      ,TT.trEffectiveDate
+      ,TT.trExpirationDate
+	  ,TT.codeDescription]]>
+	</queryString>
+	<field name="trID" class="java.lang.Integer"/>
+	<field name="tID" class="java.lang.Integer"/>
+	<field name="trYear" class="java.lang.Integer"/>
+	<field name="trPre" class="java.lang.String"/>
+	<field name="trComplete" class="java.lang.Boolean"/>
+	<field name="trQual" class="java.lang.String"/>
+	<field name="trInstitution" class="java.lang.String"/>
+	<field name="trDuration" class="java.lang.Integer"/>
+	<field name="trDurationUnit" class="java.lang.String"/>
+	<field name="trMajor" class="java.lang.String"/>
+	<field name="trMinor" class="java.lang.String"/>
+	<field name="trProgress" class="java.lang.String"/>
+	<field name="trProgressPerc" class="java.lang.Integer"/>
+	<field name="trComment" class="java.lang.String"/>
+	<field name="trEffectiveDate" class="java.sql.Timestamp"/>
+	<field name="trExpirationDate" class="java.sql.Timestamp"/>
+	<field name="codeDescription" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement key="" style="Column header 2" x="190" y="0" width="160" height="15" uuid="b5fa30c2-8a98-41d9-b9c4-2b84b7816a60"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Date Effective]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="350" y="0" width="125" height="15" uuid="d4534845-239a-45a3-9b02-d3188f74f4cc">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="475" y="0" width="125" height="15" uuid="1dd12af1-b5fc-41bf-beb5-9e38994dbe11"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Completed]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="0" y="0" width="190" height="15" uuid="b26d9891-9829-4ed4-9221-89db898d8aac">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Certification]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement key="" mode="Opaque" x="0" y="0" width="600" height="15" uuid="ef1e8ab9-1181-46c4-9a0e-351ffe625848"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="190" height="15" uuid="d899cf04-7c84-4118-8f5c-63d132149fd4">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{codeDescription}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="190" y="0" width="160" height="15" uuid="49e4f088-9b25-4a49-b548-21e936ad3008">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{trEffectiveDate}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="350" y="0" width="125" height="15" uuid="f61b53a5-9370-47d6-9204-7b1a4996e953">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{trYear}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="475" y="0" width="125" height="15" uuid="d01accd5-a25d-4097-b476-7338eabb9441">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{trComplete}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

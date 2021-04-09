@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Fastest Growing Schools - subreport" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/KEMIS_Reports/Statistical_Brief/Fastest Growing Schools - subreport"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="636"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="350"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="345"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="650"/>
+	<template><![CDATA["../Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2015"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="schoolType" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["KPS%"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[----  Table: fastest growing schools- school type (column), list the three fast for each school type and pct. increase
+		
+select top 3 e.schNo,
+	   s.schName,
+	   e.[current],
+	   e.prev1,
+       round( 100 * (Cast(e.[current] as numeric)  - e.prev1) / e.prev1, 1) as growth1
+from
+	(select e.schNo,
+	   SUM(CASE WHEN surveyYear = $P{year} THEN e.Enrol ELSE 0 END) as 'current',
+	   SUM(CASE WHEN surveyYear = $P{year} - 1 THEN e.Enrol ELSE 0 END) as 'prev1'
+	from
+		(select e.schNo, 
+			   e.surveyYear,
+			   sum(e.Enrol) as Enrol
+		from warehouse.enrol e
+		group by e.schNo, e.surveyYear
+		) e
+		group by e.schNo
+	) e
+join Schools s on s.schNo = e.schNo
+where e.prev1 > 1
+and e.schNo like $P{schoolType}
+order by growth1 DESC]]>
+	</queryString>
+	<field name="schNo" class="java.lang.String"/>
+	<field name="schName" class="java.lang.String"/>
+	<field name="current" class="java.lang.Integer"/>
+	<field name="prev1" class="java.lang.Integer"/>
+	<field name="growth1" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="2" y="16" width="552" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="2" y="0" width="50" height="16" uuid="1f0dcac7-13c9-4191-b63f-8487b4a8b1ea"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[School]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="310" y="0" width="64" height="16" uuid="5cefe5b9-5491-445c-b701-d954cabc636b"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Enrollment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="380" y="0" width="150" height="16" uuid="4870c041-c02b-466e-a738-78ffb5822076"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Increase from previous year]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="33" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField>
+					<reportElement x="2" y="4" width="58" height="16" uuid="55e50781-0467-4c02-a6cf-9ec1b715b98d"/>
+					<textFieldExpression><![CDATA[$F{schNo}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="70" y="4" width="230" height="16" uuid="bc55d1d5-cba7-49e2-a8c8-033ffd59ec62"/>
+					<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="310" y="4" width="58" height="16" uuid="ad6d5d7e-e25d-4e13-a588-de2e237283ee"/>
+					<textFieldExpression><![CDATA[$F{current}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="380" y="4" width="58" height="16" uuid="6456adc4-50ee-4b8b-9ee9-f6045d2a6c6f"/>
+					<textFieldExpression><![CDATA[$F{growth1}.stripTrailingZeros().toPlainString() + " %"]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

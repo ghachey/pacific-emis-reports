@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Teacher_Qualifications_Academic_Degree_Subreport" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="792" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="8b4131db-332d-4c39-97a6-c6c5c69ed596">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="232"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="768"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["repo:/Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3" fontName="Open Sans Semibold" fontSize="12"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="TeacherID" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[4215919]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT TT.trID
+      ,TT.tID
+      ,TT.trYear
+      ,TT.trPre
+      ,TT.trComplete
+      ,TT.trQual
+      ,TT.trInstitution
+      ,TT.trDuration
+      ,TT.trDurationUnit
+      ,TT.trMajor
+      ,TT.trMinor
+      ,TT.trProgress
+      ,TT.trProgressPerc
+      ,TT.trComment
+      ,TT.trEffectiveDate
+      ,TT.trExpirationDate
+	  ,TT.codeDescription
+  FROM [warehouse].[TempSchoolTeacherDetails] AS TT
+WHERE  TT.tID = $P{TeacherID}
+group by TT.trID
+      ,TT.tID
+      ,TT.trYear
+      ,TT.trPre
+      ,TT.trComplete
+      ,TT.trQual
+      ,TT.trInstitution
+      ,TT.trDuration
+      ,TT.trDurationUnit
+      ,TT.trMajor
+      ,TT.trMinor
+      ,TT.trProgress
+      ,TT.trProgressPerc
+      ,TT.trComment
+      ,TT.trEffectiveDate
+      ,TT.trExpirationDate
+	  ,TT.codeDescription]]>
+	</queryString>
+	<field name="trID" class="java.lang.Integer"/>
+	<field name="tID" class="java.lang.Integer"/>
+	<field name="trYear" class="java.lang.Integer"/>
+	<field name="trPre" class="java.lang.String"/>
+	<field name="trComplete" class="java.lang.Boolean"/>
+	<field name="trQual" class="java.lang.String"/>
+	<field name="trInstitution" class="java.lang.String"/>
+	<field name="trDuration" class="java.lang.Integer"/>
+	<field name="trDurationUnit" class="java.lang.String"/>
+	<field name="trMajor" class="java.lang.String"/>
+	<field name="trMinor" class="java.lang.String"/>
+	<field name="trProgress" class="java.lang.String"/>
+	<field name="trProgressPerc" class="java.lang.Integer"/>
+	<field name="trComment" class="java.lang.String"/>
+	<field name="trEffectiveDate" class="java.sql.Timestamp"/>
+	<field name="trExpirationDate" class="java.sql.Timestamp"/>
+	<field name="codeDescription" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement key="" style="Column header 2" x="679" y="0" width="101" height="15" uuid="fa48a0a9-2613-4883-8980-00bbf45f4246">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="5">
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Completed]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="140" y="0" width="180" height="15" uuid="b5fa30c2-8a98-41d9-b9c4-2b84b7816a60">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Institution]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="320" y="0" width="110" height="15" uuid="d4534845-239a-45a3-9b02-d3188f74f4cc"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Major]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="430" y="0" width="110" height="15" uuid="1dd12af1-b5fc-41bf-beb5-9e38994dbe11"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Minor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="540" y="0" width="59" height="15" uuid="2ee30f67-a0e9-4fb2-b07e-e6de02e84b2d">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Duration]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="599" y="0" width="80" height="15" uuid="29d03ff7-d026-42a5-bb57-1e147cd788d9">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box rightPadding="5">
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Progress %]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="0" y="0" width="140" height="15" uuid="b26d9891-9829-4ed4-9221-89db898d8aac">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Degree]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement key="" style="Row" mode="Opaque" x="0" y="0" width="780" height="17" uuid="ef1e8ab9-1181-46c4-9a0e-351ffe625848">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</frame>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" x="430" y="0" width="110" height="15" uuid="d899cf04-7c84-4118-8f5c-63d132149fd4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trMinor}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" x="599" y="0" width="80" height="15" uuid="de1c1a48-3738-44ae-a3d8-745181c51afa">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box rightPadding="5">
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trProgressPerc}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Row" x="679" y="0" width="101" height="15" uuid="323d9e16-5085-4385-95df-10668f55d956">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="5">
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trComplete}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" x="540" y="0" width="59" height="15" uuid="9d953c77-ab14-4866-a890-9207d143b804">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box rightPadding="1">
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trDuration}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" stretchType="RelativeToTallestObject" x="0" y="0" width="140" height="15" uuid="065c187e-7824-4b1a-a020-d2712f54b802">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codeDescription}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" x="140" y="0" width="180" height="15" uuid="f74b278f-1526-4192-baed-fd0374211eee">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trInstitution}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" x="320" y="0" width="110" height="15" uuid="46f63cc6-2bf7-4131-b3c0-3e06d560a495">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trMajor}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="17" width="780" height="1" uuid="7f3b8e5e-787f-4c32-bafa-ae93dfd5487b">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

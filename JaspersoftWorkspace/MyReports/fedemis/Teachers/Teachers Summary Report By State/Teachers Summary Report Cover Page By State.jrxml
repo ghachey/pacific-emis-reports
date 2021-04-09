@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cover Page" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c50b24eb-eb33-413f-8e75-e7e20a5341fd">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.callouts" value="callouts.2.fg=0,0,0\ncallouts.1.text=You can dynamically specify a title\nby setting the default value of the\nBookTitle parameter, or transform\nthis text field in a static text.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncallouts.1.fg=0,0,0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncallouts.2.text=You can dynamically specify a subtitle\nby setting the default value of the\nBookTitle parameter, or transform\nthis text field in a static text.\n\ncallouts.2.bg=255,255,0\ncallouts.2.bounds=650,210,219,70\ncallouts.1.pins=587,113\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncallouts.1.bounds=650,70,220,80\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncallouts.1.bg=255,255,0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.jasperserver.url" value="http://192.168.2.185:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Teachers/Teachers_Summary_Report_By_State"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Teachers/Teachers_Summary_Report_By_State_files/Teachers_Summary_Report_Cover_Page_By_State.jrxml"/>
+	<style name="YearColor" mode="Transparent" forecolor="#AD9477" backcolor="#4A3015">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{dname}.equals("Kosrae")]]></conditionExpression>
+			<style forecolor="#84C67D" backcolor="#12824C"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{dname}.equals("Pohnpei")]]></conditionExpression>
+			<style forecolor="#90D7F6" backcolor="#096C97"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{dname}.equals("Yap")]]></conditionExpression>
+			<style forecolor="#DEA783" backcolor="#924D34"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Year" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<parameter name="District" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["CHK"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select dname from dbo.districts where did=$P{District}]]>
+	</queryString>
+	<field name="dname" class="java.lang.String"/>
+	<title>
+		<band height="792" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="612" height="792" uuid="7d5f399a-cbec-48b3-979b-064c0b477ca2">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["repo:/images/"+$F{dname}+ "_FedEMIS_Coverpage.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement mode="Opaque" x="213" y="684" width="392" height="42" backcolor="#FFFFFF" uuid="1db38715-2911-4f99-8305-9f38b3705eeb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="23" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Teachers Summary Report"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="213" y="647" width="359" height="37" backcolor="#FFFFFF" uuid="cd856722-5179-400a-bce6-9e03d6098d7c">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dname}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="YearColor" mode="Opaque" x="40" y="682" width="30" height="99" uuid="f08238ae-2537-4b8a-9842-d3a583ef7a1f"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" rotation="Left">
+					<font fontName="Open Sans" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{Year}-1)+"-"+$P{Year}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement mode="Transparent" x="51" y="528" width="120" height="118" backcolor="#FFFFFF" uuid="07deca8e-08f4-4ec0-bba2-b018007b1094"/>
+				<imageExpression><![CDATA["repo:/images/"+$F{dname}+ "_logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+</jasperReport>

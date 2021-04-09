@@ -21,3 +21,19 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Only check-in Don't checking Jasper configuration and other non-report definition stuff
+!JaspersoftWorkspace/
+
+JaspersoftWorkspace/*
+!JaspersoftWorkspace/MyReports/
+JaspersoftWorkspace/MyReports/JasperReportsServer-*/
+JaspersoftWorkspace/MyReports/.classpath
+JaspersoftWorkspace/MyReports/.project
+JaspersoftWorkspace/MyReports/.settings
+JaspersoftWorkspace/MyReports/.metadata
+JaspersoftWorkspace/MyReports/**/.metadata
+JaspersoftWorkspace/MyReports/**/.classpath
+JaspersoftWorkspace/MyReports/**/.project
+JaspersoftWorkspace/MyReports/**/.settings
+*.jasper

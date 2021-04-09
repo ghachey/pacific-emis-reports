@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="School Age Enrollment By SchoolType" pageWidth="612" pageHeight="792" columnWidth="61" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.101.10:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Schools/Current_Number_of_Schools_by_Type"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Schools/Current_Number_of_Schools_by_Type_files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["fedemis/Templates/"+$P{SchoolNo}.substring( 0, 3 )+".jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Age Enrollment For stack Bar" uuid="939901dc-115f-4ba4-bba9-060826a06d51">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+		</parameter>
+		<parameter name="SchoolNo" class="java.lang.String">
+			<defaultValueExpression><![CDATA["CHK001"]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select schName,SchooltypeCode,'Under Age' as Age,sum(UnderAge) as AgeSum
+from [warehouse].[EdLevelAge] ED inner join [dbo].[Schools] as S on s.schtype=ED.SchooltypeCode 
+where  surveyYear=$P{Year}
+ and s.schno=$P{SchoolNo}
+group by schName,SchooltypeCode
+union 
+select schName,SchooltypeCode,'Official Age' as Age,sum(officialAge) as AgeSum
+from [warehouse].[EdLevelAge] ED inner join [dbo].[Schools] as S on s.schtype=ED.SchooltypeCode 
+where  surveyYear=$P{Year}
+and s.schno=$P{SchoolNo}
+group by schName,SchooltypeCode
+union
+select schName,SchooltypeCode,'Over Age'as age,sum(overAge) as AgeSum
+from [warehouse].[EdLevelAge] ED inner join [dbo].[Schools] as S on s.schtype=ED.SchooltypeCode 
+where  surveyYear=$P{Year}
+ and s.schno=$P{SchoolNo}
+group by schName,SchooltypeCode]]>
+		</queryString>
+		<field name="schName" class="java.lang.String"/>
+		<field name="SchooltypeCode" class="java.lang.String"/>
+		<field name="Age" class="java.lang.String"/>
+		<field name="AgeSum" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="Age Enrollment for CrossTab" uuid="2734b0de-e83f-41e3-be11-ce4be40f6b78">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+		</parameter>
+		<parameter name="SchoolNo" class="java.lang.String">
+			<defaultValueExpression><![CDATA["CHK001"]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select schName,case when GenderCode='F'then 'Female' when  GenderCode='M' then 'Male' else GenderCode end as GenderCode,'Under Age' as AgeType,sum(UnderAge) as AgeSum
+from [warehouse].[EdLevelAge] ED inner join [dbo].[Schools] as S on s.schtype=ED.SchooltypeCode 
+where  surveyYear=$P{Year}
+and s.schno=$P{SchoolNo}
+group by schName,GenderCode
+union 
+select schName,case when GenderCode='F'then 'Female' when  GenderCode='M' then 'Male' else GenderCode end as GenderCode,'Official Age' as AgeType,sum(officialAge) as AgeSum
+from [warehouse].[EdLevelAge] ED inner join [dbo].[Schools] as S on s.schtype=ED.SchooltypeCode 
+where  surveyYear=$P{Year}
+and s.schno=$P{SchoolNo}
+group by schName,GenderCode
+union
+select schName,case when GenderCode='F'then 'Female' when  GenderCode='M' then 'Male' else GenderCode end as GenderCode,'Over Age'as AgeType,sum(overAge) as AgeSum
+from [warehouse].[EdLevelAge] ED inner join [dbo].[Schools] as S on s.schtype=ED.SchooltypeCode 
+where  surveyYear=$P{Year}
+and s.schno=$P{SchoolNo}
+group by schName,GenderCode]]>
+		</queryString>
+		<field name="schName" class="java.lang.String"/>
+		<field name="GenderCode" class="java.lang.String"/>
+		<field name="AgeType" class="java.lang.String"/>
+		<field name="AgeSum" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SchoolNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["CHK001"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT s.schType as School_Type,
+       stDescription as Description,
+       count(s.schNo) as Number
+FROM dbo.Schools s
+     INNER JOIN dbo.SchoolTypes t on s.schType = t.stCode
+GROUP BY s.schType,stDescription
+ORDER BY CASE s.schType
+         WHEN 'STECE' THEN 1
+		 WHEN 'STPS'  THEN 2
+		 WHEN 'STSS' THEN 3
+		 WHEN 'STEPS' THEN 4
+		 WHEN 'STPSS' THEN 5
+		 WHEN 'STEPSS' THEN 6
+         WHEN 'STRTC' THEN 7
+         WHEN 'STCC' THEN 8
+         WHEN 'STU' THEN 9
+		 END]]>
+	</queryString>
+	<field name="School_Type" class="java.lang.String"/>
+	<field name="Description" class="java.lang.String"/>
+	<field name="Number" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="350" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<crosstab>
+				<reportElement positionType="Float" x="80" y="0" width="404" height="60" uuid="664ee9be-111e-4962-8952-72c3514fb4cf">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+				</reportElement>
+				<crosstabDataset>
+					<dataset>
+						<datasetRun subDataset="Age Enrollment for CrossTab" uuid="bed20267-e01e-470a-9e7a-c40f75532ae3">
+							<datasetParameter name="SchoolNo">
+								<datasetParameterExpression><![CDATA[$P{SchoolNo}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+				</crosstabDataset>
+				<crosstabHeaderCell>
+					<cellContents>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<textField>
+							<reportElement style="Crosstab Heading" x="0" y="0" width="110" height="20" uuid="170a9184-e063-462a-a3fc-ef1c0011b1f4"/>
+							<textElement>
+								<font isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA["Gender"]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="AgeType" width="110" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{AgeType}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<textField>
+								<reportElement style="Crosstab Heading" x="0" y="0" width="110" height="20" uuid="f42d2b72-26c3-4dc8-a3ff-9d88b3604d1f"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{AgeType}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<staticText>
+								<reportElement style="Crosstab Heading" x="0" y="0" width="110" height="20" uuid="7ff4f73f-2ca7-42d0-b8c3-ba45898d2344"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total ]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="GenderCode" height="20" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{GenderCode}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<textField>
+								<reportElement style="Crosstab Heading" x="0" y="0" width="80" height="20" uuid="1c18f368-6938-4855-8040-f96d1a16ee24"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{GenderCode}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<staticText>
+								<reportElement style="Crosstab Heading" x="0" y="0" width="80" height="20" uuid="62d36d87-d5c5-494f-9469-7e138407f684"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total GenderCode]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="AgeSum_MEASURE" class="java.lang.Integer" calculation="Sum">
+					<measureExpression><![CDATA[$F{AgeSum}]]></measureExpression>
+				</measure>
+				<crosstabCell width="80" height="20">
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<textField>
+							<reportElement x="0" y="0" width="80" height="20" uuid="93e3321d-fb3a-4764-bba7-7b77f24e7347"/>
+							<box>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font fontName="Open Sans" size="10"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{AgeSum_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="80" height="20" columnTotalGroup="GenderCode">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="80" height="20" uuid="02513d5c-387b-4fcf-8b7c-80aeef27755d"/>
+							<textFieldExpression><![CDATA[$V{AgeSum_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="80" height="20" rowTotalGroup="AgeType">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="80" height="20" uuid="b6a72312-a45a-4fb2-add6-2dc2b61dd224"/>
+							<textFieldExpression><![CDATA[$V{AgeSum_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="80" height="20" rowTotalGroup="AgeType" columnTotalGroup="GenderCode">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="80" height="20" uuid="f3b24340-a4e9-42d4-9edb-790e018f43f0"/>
+							<textFieldExpression><![CDATA[$V{AgeSum_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+			<pieChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="42" y="80" width="487" height="260" uuid="30a9dc9b-4250-46d8-93bc-2a445f25f59d">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<chartTitle>
+						<font fontName="Open Sans" size="16"/>
+						<titleExpression><![CDATA["Age Enrollment Of The Year"+"("+$P{Year}+")"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="Age Enrollment For stack Bar" uuid="aa5367a2-376c-44b4-86bf-6eccc997c7d5">
+							<datasetParameter name="SchoolNo">
+								<datasetParameterExpression><![CDATA[$P{SchoolNo}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{Age}]]></keyExpression>
+					<valueExpression><![CDATA[$F{AgeSum}]]></valueExpression>
+					<labelExpression><![CDATA[$F{Age}]]></labelExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+		</band>
+	</summary>
+</jasperReport>

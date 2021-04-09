@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="School Enrollment by Age and Grades" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a8a4c883-1df4-4ca1-aaef-5e41b95e08ee">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<template><![CDATA["fedemis/Templates/"+$P{SchoolNo}.substring( 0, 3 )+".jrtx"]]></template>
+	<parameter name="SchoolNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["PNI303"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select schname,classlevel,Age,
+case when classlevel='GK' then 0  
+            when  classlevel='G1' then 1 
+              when classlevel='G2' then 2 
+                when classlevel='G3' then 3 
+                  when classlevel='G4' then 4 
+                    when classlevel='G5' then 5 
+                      when classlevel='G6' then 6 
+                        when classlevel='G7' then 7 
+                          when classlevel='G8' then 8 
+                            when classlevel='G9' then 9 
+                              when classlevel='G10' then 10 
+                                when classlevel='G11' then 11 
+                                  when classlevel='G12' then 12 
+                                   end as order1,
+
+count(case when Enrol is null then 0 else 1 end) as enrolcount  
+from [warehouse].[tableEnrol] ET inner join [dbo].[Schools] S on s.schType=ET.SchoolTypeCode
+where SurveyYear=$P{Year}
+and schNo=$P{SchoolNo}
+group by schname,classlevel,Age
+order by order1]]>
+	</queryString>
+	<field name="schname" class="java.lang.String"/>
+	<field name="classlevel" class="java.lang.String"/>
+	<field name="Age" class="java.lang.Integer"/>
+	<field name="order1" class="java.lang.Integer"/>
+	<field name="enrolcount" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="100">
+			<staticText>
+				<reportElement style="Title" x="100" y="0" width="353" height="62" uuid="c753c2b4-040e-478e-9851-5d5d68584951"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Source Sans Pro" size="36" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Schools Summary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="100" y="58" width="352" height="22" forecolor="#08298C" uuid="36ae50ed-ee71-4c02-99c8-7383365c7b9d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Source Sans Pro" size="16"/>
+				</textElement>
+				<text><![CDATA[ Enrollments by Age and Grades]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="100" height="100" uuid="1aba0ba3-b295-4e68-9708-e921c551c34c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["../images/fsm-seal.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="453" y="0" width="100" height="100" uuid="31063088-54b0-4e48-a3ed-a35277c972e2">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["../images/fsm-ndoe.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="10" forecolor="#08298C" backcolor="#08298C" uuid="a200cad7-8983-447b-be77-4354f44b4c98"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-20" y="-10" width="10" height="10" forecolor="#08298C" backcolor="#08298C" uuid="96fc49ad-ec3c-492f-be0a-0c8954656b5c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="565" y="-10" width="10" height="10" forecolor="#08298C" backcolor="#08298C" uuid="da9d6f2a-ff52-4c95-a178-ee14e8942c06">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-20" y="-9" width="22" height="19" forecolor="#FFFFFF" uuid="55d1bc85-f799-4d23-a356-e8a4abc2c839">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="553" y="-9" width="22" height="19" forecolor="#FFFFFF" uuid="11730b9a-79d2-4dfe-b9cd-f544579ec5dc">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<textField>
+				<reportElement style="Title text" x="100" y="80" width="352" height="16" uuid="d5c624c5-a1a5-413b-a8d6-84cd4bc2d5b5">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Of The Year"+" - "+$P{Year}+" "+" And School"+" - "+$F{schname}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<summary>
+		<band height="100" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="10" width="553" height="90" uuid="c78fad39-c272-4bf8-a0ec-0889d25c603c">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+				</reportElement>
+				<crosstabHeaderCell>
+					<cellContents>
+						<frame>
+							<reportElement x="0" y="0" width="90" height="20" uuid="ea12380d-2437-4e7d-8b6c-6b372a20b21b"/>
+							<textField>
+								<reportElement style="Crosstab Heading" x="0" y="0" width="60" height="20" uuid="1c8167a9-3529-4df7-9c91-39895447557a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA["SchoolName"]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Crosstab Heading" x="60" y="0" width="30" height="20" uuid="af394675-e680-4ae6-a41d-340ded07642c"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA["Age"]]></textFieldExpression>
+							</textField>
+						</frame>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="schname" width="60" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{schname}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Heading" x="0" y="0" width="60" height="20" uuid="1ca6b00d-d31b-41f2-844b-98fb724af674"/>
+								<textFieldExpression><![CDATA[$V{schname}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<staticText>
+								<reportElement style="Crosstab Heading" x="0" y="0" width="90" height="20" uuid="cb89135a-616a-4ca5-9321-e635e4871e43"/>
+								<text><![CDATA[Total ]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="Age" width="30" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{Age}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<textField>
+								<reportElement style="Crosstab Data" x="0" y="0" width="30" height="20" uuid="a923a9c7-1978-42fa-b6db-f90c2f0aee68"/>
+								<textFieldExpression><![CDATA[$V{Age}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<staticText>
+								<reportElement style="Crosstab Data" x="0" y="0" width="30" height="0" uuid="30ddc73b-29a1-4583-883f-4b9ae0b1073d"/>
+								<text><![CDATA[Total Age]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="order1" height="0" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{order1}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<textField>
+								<reportElement x="0" y="0" width="30" height="0" uuid="f48b24f5-b5e8-41ca-a71c-28364b422ad1"/>
+								<textFieldExpression><![CDATA[$V{order1}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<staticText>
+								<reportElement style="Crosstab Heading" x="0" y="0" width="40" height="20" uuid="44b03645-484c-4749-abe3-a934c43fb2d0"/>
+								<textElement textAlignment="Right"/>
+								<text><![CDATA[Total order1]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="classlevel" height="20" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{classlevel}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<textField>
+								<reportElement style="Crosstab Heading" x="0" y="0" width="30" height="20" uuid="708a36b5-f750-4896-bce0-52b59a629af5"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{classlevel}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<staticText>
+								<reportElement x="0" y="0" width="0" height="20" uuid="92bc2456-720b-4680-8580-33dfb0256727"/>
+								<text><![CDATA[Total classlevel]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="enrolcount_MEASURE" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{enrolcount}]]></measureExpression>
+				</measure>
+				<crosstabCell width="30" height="20">
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="30" height="20" uuid="009ca3e9-5823-4f1e-aa1d-64fb5db7452a"/>
+							<textFieldExpression><![CDATA[$V{enrolcount_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="40" height="20" columnTotalGroup="order1">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="40" height="20" uuid="6e2fd719-7a04-4ecd-950a-2c609bd23368"/>
+							<textFieldExpression><![CDATA[$V{enrolcount_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" columnTotalGroup="classlevel">
+					<cellContents mode="Opaque">
+						<textField>
+							<reportElement x="0" y="0" width="0" height="20" uuid="6bfec11e-eca2-4d32-a4eb-bf40e15563cb"/>
+							<textFieldExpression><![CDATA[$V{enrolcount_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="30" height="20" rowTotalGroup="schname">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="30" height="20" uuid="b65835dc-da96-4844-b09c-2ac5a201e9b8"/>
+							<textFieldExpression><![CDATA[$V{enrolcount_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="40" height="20" rowTotalGroup="schname" columnTotalGroup="order1">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="40" height="20" uuid="7afb420d-d4b5-49e4-b136-1338118b26b7"/>
+							<textFieldExpression><![CDATA[$V{enrolcount_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" rowTotalGroup="schname" columnTotalGroup="classlevel">
+					<cellContents mode="Opaque">
+						<textField>
+							<reportElement x="0" y="0" width="0" height="20" uuid="af2a35ba-4e74-49fc-a41b-eec2887e9000"/>
+							<textFieldExpression><![CDATA[$V{enrolcount_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="30" height="0" rowTotalGroup="Age">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="30" height="0" uuid="9872bf36-d7b0-4c93-a5e6-df7c35076d8c"/>
+							<textFieldExpression><![CDATA[$V{enrolcount_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="40" height="0" rowTotalGroup="Age" columnTotalGroup="order1">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="40" height="0" uuid="187d8a1f-b753-4a7f-890d-b3144add2ba7"/>
+							<textFieldExpression><![CDATA[$V{enrolcount_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="Age" columnTotalGroup="classlevel">
+					<cellContents mode="Opaque">
+						<textField>
+							<reportElement x="0" y="0" width="0" height="0" uuid="e0bdc342-d512-458b-bdf2-eb77483d2371"/>
+							<textFieldExpression><![CDATA[$V{enrolcount_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

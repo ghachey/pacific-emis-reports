@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Recommendations Classroom Observation Standards" pageWidth="752" pageHeight="572" orientation="Landscape" columnWidth="752" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3565900d-ed24-4a70-aba5-defc5a84704b">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="199"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="794"/>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="StandardColor" mode="Transparent" backcolor="#FFFFFF">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{School Evaluation Standards}.equals("Standard 1: Planning and Preparation") && 
+($V{COLUMN_COUNT}==3 || $V{COLUMN_COUNT}==4 || $V{COLUMN_COUNT}==7 || $V{COLUMN_COUNT}==8)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#C8C8C8"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{COLUMN_COUNT}==1]]></conditionExpression>
+			<style mode="Opaque" backcolor="#8ED15E"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{COLUMN_COUNT}==5]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F5DD87"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{School Evaluation Standards}.equals("Standard 4: Student Assessment") ||
+$V{School Evaluation Standards}.equals("Standard 5: Evaluation and Professional Development")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#C8C8C8"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{Recommendations}.equals("Continue to maintain in these Criteria")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#8ED15E"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{Recommendations}.equals("Improve in these Criteria")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F5DD87"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="SchoolNo" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["CHK002"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select criteria,
+	case  
+	when Standard='CO.1' then 'Standard 1: Planning and Preparation'
+	when Standard='CO.2' then 'Standard 2: Classroom Management'
+	when Standard='CO.3' then 'Standard 3: Teaching and Learning'
+	when Standard='CO.4' then 'Standard 4: Student Assessment'
+	when Standard='CO.5' then 'Standard 5: Evaluation and Professional Development' else '' end as 'School Evaluation Standards',
+	'Continue to maintain in these Criteria' as 'Recommendations',
+	row_number() over (partition by Standard order by Standard) as 'Level',
+	case when isnull(sum(cast(cast((case when RIGHT(Score,1)>5 then CEILING(Score) when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end) as int) as numeric)),0)>3 
+	then isnull(sum(cast(cast((case when RIGHT(Score,1)>5 then CEILING(Score) when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end) as int) as numeric)),0) else -1 end as  'CMC'
+from 
+	pInspectionRead.SchoolStandardAssessment where schNo= $P{SchoolNo}   and InspectionYear=$P{Year}  and Category IN
+	(select top 1
+	Category 
+	from 
+	pInspectionRead.SchoolStandardAssessment 
+	where 
+	schNo=$P{SchoolNo}   and InspectionYear=$P{Year} and 
+	CategoryType='CLASSROOM_OBSERVATION' GROUP BY Category  order by sum(Score)
+)
+ group by Standard, criteria
+
+union all
+
+select criteria,
+	case 
+	when Standard='CO.1' then 'Standard 1: Planning and Preparation'
+	when Standard='CO.2' then 'Standard 2: Classroom Management'
+	when Standard='CO.3' then 'Standard 3: Teaching and Learning'
+	when Standard='CO.4' then 'Standard 4: Student Assessment'
+	when Standard='CO.5' then 'Standard 5: Evaluation and Professional Development' else '' end as 'Classroom Observation Standards',
+	'Improve in these Criteria',
+	row_number() over (partition by Standard order by Standard)+4 as 'Level',
+	case when isnull(sum(cast(cast((case when RIGHT(Score,1)>5 then CEILING(Score) when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end) as int) as numeric)),0)<=3 
+	 then isnull(sum(cast(cast((case when RIGHT(Score,1)>5 then CEILING(Score) when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end) as int) as numeric)),0) else -1 end as  'ITC'
+from 
+pInspectionRead.SchoolStandardAssessment where schNo=$P{SchoolNo}   and InspectionYear=$P{Year} and Category IN (select top 1
+	Category from 
+	pInspectionRead.SchoolStandardAssessment 
+	where 
+	schNo=$P{SchoolNo}   and InspectionYear=$P{Year} and 
+	CategoryType='CLASSROOM_OBSERVATION' GROUP BY Category  order by sum(Score)
+)
+ group by Standard, criteria order by 2,4]]>
+	</queryString>
+	<field name="criteria" class="java.lang.String"/>
+	<field name="School Evaluation Standards" class="java.lang.String"/>
+	<field name="Recommendations" class="java.lang.String"/>
+	<field name="Level" class="java.lang.Long"/>
+	<field name="CMC" class="java.math.BigDecimal"/>
+	<group name="School Evaluation Standards">
+		<groupExpression><![CDATA[$F{School Evaluation Standards}]]></groupExpression>
+	</group>
+	<title>
+		<band height="74" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="301" y="21" width="120" height="53" backcolor="#8ED15E" uuid="94e9e3eb-719c-44ea-a202-c4359c5ece6e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="4" rightPadding="2">
+					<pen lineWidth="1.0" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Continue to maintain in these Criteria "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="421" y="21" width="120" height="53" backcolor="#F5DD87" uuid="d8d76ce8-e185-4082-8cb7-19c76e6f6d96">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="4" rightPadding="2">
+					<pen lineWidth="1.0" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Improve in these Criteria"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="21" width="300" height="53" uuid="c127fb9b-176f-46ae-8b81-eaaaf8ec4765">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Open Sans" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Classroom Observation 1 Standards"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="1" y="1" width="540" height="20" backcolor="#C8C8C8" uuid="5fe7d51d-64d2-42e3-82bf-d9f6608abe3f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Recommendations"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<summary>
+		<band height="60" splitType="Stretch">
+			<crosstab>
+				<reportElement x="1" y="0" width="748" height="60" uuid="129f9e1f-991e-4f72-841c-6850587c5041">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+				</reportElement>
+				<crosstabHeaderCell>
+					<cellContents>
+						<box>
+							<pen lineWidth="1.0"/>
+							<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+							<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+						</box>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="School Evaluation Standards" width="300">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{School Evaluation Standards}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Transparent" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							</box>
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="300" height="20" uuid="60db0604-79a6-4ca5-bdcb-43002e264e5c"/>
+								<box leftPadding="2"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="12" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{School Evaluation Standards}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents>
+							<staticText>
+								<reportElement x="0" y="0" width="-2147483648" height="-2147483648" uuid="aa3cc3de-cf0a-428e-9322-7aeb68516691"/>
+								<text><![CDATA[Total School Evaluation Standards]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="Recommendations" height="0">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{Recommendations}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="30" height="0" uuid="31cf8974-fbb3-489a-a113-9aae71206f03"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Recommendations}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents>
+							<staticText>
+								<reportElement x="0" y="0" width="-2147483648" height="-2147483648" uuid="0da68211-9756-4cb2-9b32-fac95477b1ad"/>
+								<text><![CDATA[Total Recommendations]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="Level" height="20">
+					<bucket class="java.lang.Long">
+						<bucketExpression><![CDATA[$F{Level}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Transparent" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<box>
+								<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							</box>
+							<textField isBlankWhenNull="true">
+								<reportElement style="StandardColor" x="0" y="0" width="30" height="20" uuid="8f72f432-d115-473d-baa8-930bf95c38c9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="12" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Level}==1 ? "C1" :
+$V{Level}==2 ? "C2" :
+$V{Level}==3 ? "C3" :
+$V{Level}==4 ? "C4" :
+$V{Level}==5 ? "C1" :
+$V{Level}==6 ? "C2" :
+$V{Level}==7 ? "C3" : "C4"]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents>
+							<staticText>
+								<reportElement x="0" y="0" width="-2147483648" height="-2147483648" uuid="795e6aab-bd78-4c97-8a3f-9dfe80ed56f9"/>
+								<text><![CDATA[Total Level]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="CMC_MEASURE" class="java.math.BigDecimal">
+					<measureExpression><![CDATA[$F{CMC}]]></measureExpression>
+				</measure>
+				<crosstabCell width="30" height="20">
+					<cellContents mode="Transparent" style="Crosstab_CD">
+						<box>
+							<pen lineWidth="1.0"/>
+							<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+							<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+						</box>
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement style="StandardColor" x="0" y="0" width="30" height="20" uuid="43952dcb-d2e4-419c-a887-863bd9b3af22"/>
+							<box leftPadding="0">
+								<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Open Sans" size="12" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{CMC_MEASURE}.intValue()>=0 ? "√" : ""]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" columnTotalGroup="Recommendations">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="35207dee-f37f-4f24-9d24-3b738f00622c"/>
+							<textFieldExpression><![CDATA[$V{CMC_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" columnTotalGroup="Level">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" uuid="4c7a21d0-ec76-4ee9-b0b5-7ae71240f11a"/>
+							<textFieldExpression><![CDATA[$V{CMC_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="School Evaluation Standards">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="8ff2d6f2-48b4-461a-a5e2-6482fe01f084"/>
+							<textFieldExpression><![CDATA[$V{CMC_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="School Evaluation Standards" columnTotalGroup="Recommendations">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="4296d20e-99f1-4377-b743-914643ec4770"/>
+							<textFieldExpression><![CDATA[$V{CMC_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="School Evaluation Standards" columnTotalGroup="Level">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="c1159644-bdfb-4234-9555-dfcdbc5acb42"/>
+							<textFieldExpression><![CDATA[$V{CMC_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

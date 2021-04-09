@@ -1,0 +1,2373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Schools with Resources and Infrastructure By State" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f8c04e53-52f6-4ead-b2df-a3b88a373723">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://data.pss.edu.mh:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Schools/Schools_with_Resources_and_Infrastructure_By_Atoll_and_Island_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Schools/Schools_with_Resources_and_Infrastructure_By_Atoll_and_Island"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="153"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="840"/>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent" fontName="Open Sans Semibold" fontSize="10">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#F2F2F2" fontName="Open Sans Semibold" fontSize="10"/>
+		</conditionalStyle>
+	</style>
+	<style name="CrossTab_Row" fontName="Open Sans" fontSize="10">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F2F2F2" fontName="Open Sans"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="BuildingsData" uuid="28469a80-321d-407d-b912-789e09958ea1">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<parameter name="Atoll" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[14]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[Select a.BuildingsRange, isnull(b.NoofSchools,0) NoofSchools from (
+Select '0' as BuildingsRange, 1 as BuildingsRangeOrder
+UNION
+Select '1 to 2', 2
+UNION
+Select '> 2', 4
+) a left join (
+	Select District, 
+	Case when Buildings = 0 then '0'
+	when Buildings >= 1 and Buildings <= 2 then '1 to 2'
+	else '> 2' end as BuildingsRange,
+	Count(schNo) as NoofSchools
+	from (
+	Select distinct schNo, [District Short] District, isnull(ssNumBuildings,0) Buildings
+	from warehouse.TempResourcesAndInfrastructure
+	   Where svyYear = $P{Year}  and [District Code] = $P{Atoll}
+	) t1
+	Group by District, Case when Buildings = 0 then '0'
+	when Buildings >= 1 and Buildings <= 2 then '1 to 2'
+	else '> 2' end
+) b on a.BuildingsRange = b.BuildingsRange
+Order By a.BuildingsRangeOrder]]>
+		</queryString>
+		<field name="BuildingsRange" class="java.lang.String"/>
+		<field name="NoofSchools" class="java.lang.Integer"/>
+		<variable name="TotalSchools" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{NoofSchools}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="ClassroomsData" uuid="93736eba-2cb5-4d27-a3b7-163190817abf">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<parameter name="Atoll" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[14]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[Select a.ClassroomsRange, isnull(b.NoofSchools,0) NoofSchools from (
+Select '0' as ClassroomsRange, 1 as ClassroomsRangeOrder
+UNION
+Select '1 to 5', 2
+UNION
+Select '> 5', 5
+) a left join (
+	Select District, 
+	Case when Classrooms= 0  then '0'
+	when Classrooms >= 1 and Classrooms <= 5 then '1 to 5'
+	else '> 5' end as ClassroomsRange,
+	Count(schNo) as NoofSchools
+	from (
+	Select distinct schNo, [District Short] District, isnull(ssNumClassrooms,0) Classrooms
+	from warehouse.TempResourcesAndInfrastructure
+	Where svyYear =$P{Year}  and [District Code] = $P{Atoll}
+	) t1
+	Group by District, Case when Classrooms = 0 then '0'
+	when Classrooms >= 1 and Classrooms <= 5 then '1 to 5'
+	else '> 5' end
+) b on a.ClassroomsRange = b.ClassroomsRange
+Order By a.ClassroomsRangeOrder]]>
+		</queryString>
+		<field name="ClassroomsRange" class="java.lang.String"/>
+		<field name="NoofSchools" class="java.lang.Integer"/>
+		<variable name="TotalSchools" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{NoofSchools}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="PoorClassroomData" uuid="ad7a07c8-5b09-44d2-8ac4-a7356d5fc239">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<parameter name="Atoll" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[14]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[Select a.PercentRange, isnull(b.NoofSchools,0) NoofSchools from (
+Select '0%' as PercentRange, 1 as PercentRangeOrder
+UNION
+Select '1 to 2%', 2
+UNION
+Select '>2%', 3
+) a left join (
+	Select Case when PoorPercent >= 0 and PoorPercent <= 1 then '0%'
+		when PoorPercent > 2 and PoorPercent <= 3 then '1 to 2%'
+		else '>2%' end as PercentRange,
+	Count(SchNo) NoofSchools
+	from (
+		Select District, schNo, Classrooms, PoorClassrooms,
+		Case when PoorClassrooms = 0 then 0
+			else (PoorClassrooms*100)/Classrooms end as PoorPercent
+		from (
+			Select distinct schNo, [District Short] District, 
+			isnull(ssNumClassrooms,0) Classrooms,
+			isnull(ssNumClassroomsPoor,0) PoorClassrooms
+			from warehouse.TempResourcesAndInfrastructure
+			Where svyYear =$P{Year} and [District Code] = $P{Atoll}
+		) t1
+	) t2 group by District, Case when PoorPercent >= 0 and PoorPercent <= 1 then '0%'
+		when PoorPercent > 2 and PoorPercent <= 3 then '1 to 2%'
+		else '>2%' end
+) b on a.PercentRange = b.PercentRange
+Order By a.PercentRangeOrder]]>
+		</queryString>
+		<field name="PercentRange" class="java.lang.String"/>
+		<field name="NoofSchools" class="java.lang.Integer"/>
+		<variable name="TotalSchools" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{NoofSchools}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="PowrSupply" uuid="c678f649-c629-46d9-ad3c-e2310aec158f">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<parameter name="Atoll" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[14]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select 
+	resSplit 'PowerSupplyType',
+	replace(replace(isnull(resAvail,0),-1,'Yes'),0,'No') as 'Availability', 
+	count(schNo) as 'TotalSchools' from warehouse.TempResourcesAndInfrastructure where resName='Power Supply' 
+and svyYear = $P{Year} and [District Code] = $P{Atoll}
+group by resSplit, replace(replace(isnull(resAvail,0),-1,'Yes'),0,'No')]]>
+		</queryString>
+		<field name="PowerSupplyType" class="java.lang.String"/>
+		<field name="Availability" class="java.lang.String"/>
+		<field name="TotalSchools" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="CommunicationData" uuid="ca8e8f21-31fa-44ff-99af-d042eb00397a">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<parameter name="Atoll" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[14]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select 
+  case when resSplit='Computers' then 1
+       when resSplit= 'Internet' then 2
+	   when resSplit= 'Copier' then 3
+	   when resSplit= 'Telephone' then 4
+	   when resSplit= 'Fax' then 5
+	   when resSplit= 'Computer Lab' then 6
+	   else 7 end as orderTitle,
+	resSplit 'PowerSupplyType',
+	replace(replace(isnull(resAvail,0),-1,'Yes'),0,'No') as 'Availability', 
+	count(schNo) as 'TotalSchools' from warehouse.TempResourcesAndInfrastructure where resName='ICT' 
+and svyYear = $P{Year} and [District Code] =$P{Atoll}
+group by resSplit, replace(replace(isnull(resAvail,0),-1,'Yes'),0,'No') order by 1]]>
+		</queryString>
+		<field name="orderTitle" class="java.lang.Integer"/>
+		<field name="PowerSupplyType" class="java.lang.String"/>
+		<field name="Availability" class="java.lang.String"/>
+		<field name="TotalSchools" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="TotalBldgClsPrCls" uuid="e8349338-39b0-453f-9e0a-f7a06ed32a22">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<parameter name="Atoll" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[14]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select sum(t1.totalBuildings) as 'totalBuildings',
+	sum(t1.totalClassrooms) as 'totalClassrooms',
+	sum(t1.totalPoorClassrooms) as 'totalPoorClassrooms' from (select schNo, 
+	max(isnull(ssNumBuildings,0)) as 'totalBuildings',
+	max(isnull(ssNumClassrooms,0)) as 'totalClassrooms',
+	max(isnull(ssNumClassroomsPoor,0))  as 'totalPoorClassrooms' 
+	from warehouse.TempResourcesAndInfrastructure 
+	where svyYear= $P{Year}  and [District Code]= $P{Atoll}  group by schNo)t1]]>
+		</queryString>
+		<field name="totalBuildings" class="java.lang.Integer"/>
+		<field name="totalClassrooms" class="java.lang.Integer"/>
+		<field name="totalPoorClassrooms" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="DetailedSchoolData" uuid="43393ec2-1809-46b0-9f3b-3dfd57b35569">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<parameter name="Atoll" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[14]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select 
+schName,
+t1.schNo,
+totalBuildings,totalClassrooms,totalPoorClassrooms,
+[Computers], 
+[Internet], 
+[Copier], 
+[Telephone],
+[Fax],
+[Computer Lab], 
+[Use of technology]
+
+
+from (select schno,
+	max(isnull(ssNumBuildings,0)) as 'totalBuildings',
+	max(isnull(ssNumClassrooms,0)) as 'totalClassrooms',
+	max(isnull(ssNumClassroomsPoor,0))  as 'totalPoorClassrooms' 
+	from warehouse.TempResourcesAndInfrastructure 
+	where svyYear= $P{Year}  and [District Code]= $P{Atoll}  group by schNo)t1
+	join 
+
+	(
+SELECT schno,schName,isnull([Telephone],0)		  as  [Telephone], 
+        isnull([Use of technology],0) as [Use of technology], 
+        isnull([Computers],0)		  as [Computers], 
+        isnull([Copier],0)			  as [Copier], 
+        isnull([Internet],0)		  as [Internet], 
+        isnull([Computer Lab],0)	  as [Computer Lab], 
+        isnull([Fax],0)	  as [Fax]
+		FROM   
+(
+select 
+	ri.schno,s.schName, resSplit,cast (resAvail as varchar) as resAvail
+	from warehouse.TempResourcesAndInfrastructure   ri
+	join schools s on ri.schNo=s.schNo
+	where svyYear=$P{Year} and [District Code]=$P{Atoll}  group by ri.schno,s.schName, resAvail,resSplit
+	
+) t 
+PIVOT(
+    MAX(resAvail) 
+    FOR resSplit IN (
+        [Telephone], 
+        [Use of technology], 
+        [Computers], 
+        [Copier], 
+        [Internet], 
+        [Computer Lab], 
+        [Fax])
+) AS pivot_table) t2 on t1.schNo=t2.schNo]]>
+		</queryString>
+		<field name="schName" class="java.lang.String"/>
+		<field name="schNo" class="java.lang.String"/>
+		<field name="totalBuildings" class="java.lang.Integer"/>
+		<field name="totalClassrooms" class="java.lang.Integer"/>
+		<field name="totalPoorClassrooms" class="java.lang.Integer"/>
+		<field name="Computers" class="java.lang.String"/>
+		<field name="Internet" class="java.lang.String"/>
+		<field name="Copier" class="java.lang.String"/>
+		<field name="Telephone" class="java.lang.String"/>
+		<field name="Fax" class="java.lang.String"/>
+		<field name="Computer Lab" class="java.lang.String"/>
+		<field name="Use of technology" class="java.lang.String"/>
+		<variable name="TotalBuildings" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{totalBuildings}]]></variableExpression>
+		</variable>
+		<variable name="TotalClassrooms" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{totalClassrooms}]]></variableExpression>
+		</variable>
+		<variable name="TotalPoorClassrooms" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{totalPoorClassrooms}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Atoll" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[14]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select (select count(schNo) from Schools s 
+join Islands i on  s.iCode=i.iCode 
+join Districts d on i.iGroup=d.dID 
+where d.dID=$P{Atoll}
+and schClosed = 0) as totalSchools,
+
+(select count(distinct schNo) from warehouse.TempResourcesAndInfrastructure
+where svyYear=$P{Year} and [District Code]=$P{Atoll}) as surveyedSchools,
+
+(select count(schNo) from Schools s 
+join Islands i on  s.iCode=i.iCode 
+join Districts d on i.iGroup=d.dID 
+where d.dID=$P{Atoll}
+and schClosed = 0)
+-
+(select count(distinct schNo) from warehouse.TempResourcesAndInfrastructure
+where svyYear= $P{Year}  and [District Code]= $P{Atoll} ) as NotSurveyed,
+(select distinct district from warehouse.TempResourcesAndInfrastructure
+where svyYear= $P{Year}  and [District Code]= $P{Atoll} ) as district]]>
+	</queryString>
+	<field name="totalSchools" class="java.lang.Integer"/>
+	<field name="surveyedSchools" class="java.lang.Integer"/>
+	<field name="NotSurveyed" class="java.lang.Integer"/>
+	<field name="district" class="java.lang.String"/>
+	<group name="Buildings">
+		<groupHeader>
+			<band height="346">
+				<barChart>
+					<chart evaluationTime="Report" theme="aegean">
+						<reportElement x="-1" y="144" width="301" height="200" uuid="16a52fe5-1f7a-459b-b9c9-bcb9f6b3dd4d"/>
+						<chartTitle position="Left">
+							<font fontName="Open Sans" size="12" isBold="false"/>
+							<titleExpression><![CDATA["No. of Schools"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="BuildingsData" uuid="bf897c09-df7d-41e1-8cf5-1c1911ceb76b">
+								<datasetParameter name="Atoll">
+									<datasetParameterExpression><![CDATA[$P{Atoll}]]></datasetParameterExpression>
+								</datasetParameter>
+								<datasetParameter name="Year">
+									<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+								</datasetParameter>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA["No. of Schools"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{BuildingsRange}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{NoofSchools}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+				<textField>
+					<reportElement x="-1" y="57" width="80" height="53" uuid="4c4ad93b-0144-42d9-8a31-d83a014af7b9">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="17"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{totalSchools}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="79" y="57" width="80" height="53" uuid="02ee6b39-c07e-4797-bb8f-97b8b388af24">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="17"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{surveyedSchools}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header 2" mode="Opaque" x="-1" y="0" width="80" height="57" backcolor="#F2F2F2" uuid="053d395c-26d4-4f0c-8d7c-fbc6a1699261">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Schools]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header 2" mode="Opaque" x="79" y="0" width="80" height="57" backcolor="#F2F2F2" uuid="84ee08cb-900f-4d6b-a071-47069919892f">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Schools Surveyed]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="159" y="57" width="80" height="53" uuid="446259cf-2c86-42d1-83b3-ce546f5e223d">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="17"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NotSurveyed}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header 2" mode="Opaque" x="159" y="0" width="80" height="57" backcolor="#F2F2F2" uuid="f97467c5-9299-4718-b771-b79b527745bc">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Schools Not Surveyed]]></text>
+				</staticText>
+				<frame>
+					<reportElement style="Frame 1" mode="Transparent" x="-20" y="121" width="595" height="18" uuid="b66dbefc-00ef-403b-bbfa-2a490f4e2b60"/>
+					<box leftPadding="0"/>
+					<textField bookmarkLevel="2">
+						<reportElement style="Detail Header 2" mode="Opaque" x="0" y="0" width="299" height="18" uuid="ae16a608-009c-4fab-be9b-c50d9eb2cf4f">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="20" rightPadding="20"/>
+						<textElement>
+							<font size="11"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Schools with Buildings Range"]]></textFieldExpression>
+					</textField>
+				</frame>
+				<componentElement>
+					<reportElement x="310" y="146" width="260" height="60" uuid="7623c2df-5ab1-4c0c-9686-a556f7f1168a">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					</reportElement>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="BuildingsData" uuid="47969354-0662-4923-adbe-492fa64e0ce9">
+							<datasetParameter name="Atoll">
+								<datasetParameterExpression><![CDATA[$P{Atoll}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column width="130" uuid="dae7b657-d9be-4f36-9800-6fed5d0e043e">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<jr:columnHeader height="20" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="130" height="20" forecolor="#000000" backcolor="#F2F2F2" uuid="90b9f4e4-dc3d-4f55-9983-5c76db91844f"/>
+									<box>
+										<pen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Buildings Range]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter height="20" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement style="Detail" mode="Opaque" x="0" y="0" width="130" height="20" backcolor="#F2F2F2" uuid="8d473f9e-b1b7-4e74-ae35-a185b79c03e4"/>
+									<textElement textAlignment="Center">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Total"]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell height="20">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="130" height="20" uuid="0e3be443-bfdc-4d0e-b9da-dfd99c19ff9d"/>
+									<box leftPadding="2">
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{BuildingsRange}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="130" uuid="e5982223-07a3-4ca9-b364-a41dc7100ca9">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<jr:columnHeader height="20" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="130" height="20" forecolor="#000000" backcolor="#F2F2F2" uuid="2e311904-cf3b-4d0f-ae70-f0a7327610c8"/>
+									<box>
+										<pen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[No. of Schools]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter height="20" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement style="Detail" mode="Opaque" x="0" y="0" width="130" height="20" backcolor="#F2F2F2" uuid="b257735d-bc7d-406e-bf28-348c3c489bb2"/>
+									<textElement textAlignment="Right">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{TotalSchools}]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell height="20">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="130" height="20" uuid="a65a8194-af0e-4dbb-a9ac-097d3bf61832"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{NoofSchools}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+				<componentElement>
+					<reportElement x="250" y="57" width="320" height="53" uuid="38860e79-b294-4e70-a795-efc3db6610fb"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="TotalBldgClsPrCls" uuid="229197d1-3520-4b93-9227-e5e1f85e91ce">
+							<datasetParameter name="Atoll">
+								<datasetParameterExpression><![CDATA[$P{Atoll}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="53" width="320">
+							<textField>
+								<reportElement x="0" y="0" width="80" height="53" uuid="9c6deff1-3389-47b1-9aaa-42b981491673">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="17"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{totalBuildings}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="80" y="0" width="80" height="53" uuid="08cc1e90-907b-4d75-8898-8fa9dd3555a0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="17"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{totalClassrooms}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="160" y="0" width="80" height="53" uuid="fcce194f-b6a7-4814-8860-d04c7feac90a">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="17"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{totalPoorClassrooms}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement x="240" y="0" width="80" height="53" uuid="d694e1a2-5702-46cc-a61b-25fb6fc6ae2b">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="17"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{totalClassrooms}/$F{totalBuildings}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+				<staticText>
+					<reportElement style="Column header 2" mode="Opaque" x="250" y="0" width="80" height="57" backcolor="#F2F2F2" uuid="e55fa8b6-027a-4410-9450-3bf2206e528b">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Buildings]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header 2" mode="Opaque" x="330" y="0" width="80" height="57" backcolor="#F2F2F2" uuid="25d87837-263a-4af2-9c7e-4ac47e1e56f9">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Classrooms]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header 2" mode="Opaque" x="410" y="0" width="80" height="57" backcolor="#F2F2F2" uuid="1925f34e-d30d-4d58-a3a9-5e28ca9910a0">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Poor Classrooms]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header 2" mode="Opaque" x="490" y="0" width="80" height="57" backcolor="#F2F2F2" uuid="2fe8df2e-16d6-4f4b-a904-222d691e2a8a">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Avg. Classrooms per Building]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Classrooms">
+		<groupHeader>
+			<band height="233">
+				<barChart>
+					<chart evaluationTime="Report" theme="aegean">
+						<reportElement x="0" y="33" width="300" height="200" uuid="9f3a7d12-c3c2-4881-92d4-a865f76e6a81"/>
+						<chartTitle position="Left">
+							<font fontName="Open Sans" size="12" isBold="false" isUnderline="false"/>
+							<titleExpression><![CDATA["No. of Schools"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="ClassroomsData" uuid="f0b7a6f0-4700-4a4f-a8b0-042e28920905">
+								<datasetParameter name="Atoll">
+									<datasetParameterExpression><![CDATA[$P{Atoll}]]></datasetParameterExpression>
+								</datasetParameter>
+								<datasetParameter name="Year">
+									<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+								</datasetParameter>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA["No. of Schools"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{ClassroomsRange}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{NoofSchools}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+				<frame>
+					<reportElement style="Frame 1" mode="Transparent" x="-20" y="10" width="595" height="18" uuid="7faccf2e-1183-4b8d-abae-876927160359"/>
+					<box leftPadding="0"/>
+					<textField bookmarkLevel="2">
+						<reportElement style="Detail Header 2" mode="Opaque" x="0" y="0" width="299" height="18" uuid="8b5ad4d9-30de-40a1-8e4d-ccf97299ee41">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="20" rightPadding="20"/>
+						<textElement>
+							<font size="11"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Schools with Classrooms Range"]]></textFieldExpression>
+					</textField>
+				</frame>
+				<componentElement>
+					<reportElement x="312" y="33" width="260" height="60" uuid="6e8c9168-d63e-49dc-94f1-a32b3f1655ed">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					</reportElement>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="ClassroomsData" uuid="062e33d2-651d-4357-a9fd-2299f951b8cb">
+							<datasetParameter name="Atoll">
+								<datasetParameterExpression><![CDATA[$P{Atoll}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column width="130" uuid="936a694a-1067-4096-9be3-ea50d2f6a0b7">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<jr:columnHeader height="20" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="130" height="20" forecolor="#000000" backcolor="#F2F2F2" uuid="09e84b0f-c411-4558-9d6f-6bc9c1827b79"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Classrooms Range]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter height="20" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement style="Detail" mode="Opaque" x="0" y="0" width="130" height="20" backcolor="#F2F2F2" uuid="ca64166b-3ce2-4e37-b9a8-bdc061064209"/>
+									<textElement textAlignment="Center">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Total"]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell height="20">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="130" height="20" uuid="ac27958f-621f-46e4-9e2f-92393f651606"/>
+									<box leftPadding="2">
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{ClassroomsRange}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="130" uuid="debc61a6-2270-4a72-a7b5-3efbf6ee6a98">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<jr:columnHeader height="20" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="130" height="20" forecolor="#000000" backcolor="#F2F2F2" uuid="49c1e488-5b9e-436a-bce3-cb75a7b7e3fc"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[No. of Schools]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter height="20" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement style="Detail" mode="Opaque" x="0" y="0" width="130" height="20" backcolor="#F2F2F2" uuid="382b00e8-332e-4765-86f5-51534e84a7ad"/>
+									<textElement textAlignment="Right">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{TotalSchools}]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell height="20">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="130" height="20" uuid="7f6577ed-f3a8-449d-8810-0f1837fae793"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{NoofSchools}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="PoorClassroomPercentage">
+		<groupHeader>
+			<band height="239">
+				<barChart>
+					<chart evaluationTime="Report" theme="aegean">
+						<reportElement x="0" y="39" width="300" height="200" uuid="334067bf-6d73-4ba7-8b75-48fdc9866fc9"/>
+						<chartTitle position="Left">
+							<font fontName="Open Sans" size="12" isBold="false"/>
+							<titleExpression><![CDATA["No. of Schools"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="PoorClassroomData" uuid="c8e406a6-d58b-4fc5-8447-0917efdc165f">
+								<datasetParameter name="Atoll">
+									<datasetParameterExpression><![CDATA[$P{Atoll}]]></datasetParameterExpression>
+								</datasetParameter>
+								<datasetParameter name="Year">
+									<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+								</datasetParameter>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA["No. of Schools"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{PercentRange}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{NoofSchools}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+				<frame>
+					<reportElement style="Frame 1" mode="Transparent" x="-21" y="18" width="595" height="18" uuid="a00a5b00-13db-4246-86f9-af2c4c5aa74e"/>
+					<box leftPadding="0"/>
+					<textField bookmarkLevel="2">
+						<reportElement style="Detail Header 2" mode="Opaque" x="0" y="0" width="301" height="18" uuid="93e3e120-b822-4666-9287-bc42829b7a17">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="20" rightPadding="20"/>
+						<textElement>
+							<font size="11"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Poor Classrooms Percentage Range"]]></textFieldExpression>
+					</textField>
+				</frame>
+				<componentElement>
+					<reportElement x="310" y="39" width="260" height="60" uuid="22c63eed-99ce-46dd-9bf9-a3e83cf91aa1">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					</reportElement>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="PoorClassroomData" uuid="73d650c5-11c3-41ee-9313-78988b7b8d3d">
+							<datasetParameter name="Atoll">
+								<datasetParameterExpression><![CDATA[$P{Atoll}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column width="130" uuid="86e3f045-ed97-47bf-a4e6-347b840fba82">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<jr:columnHeader height="20" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="130" height="20" forecolor="#000000" backcolor="#F2F2F2" uuid="e7e032e6-eba2-437f-99a1-b21eafd5590a"/>
+									<box>
+										<pen lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[% of Poor Classrooms Range]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter height="20" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement style="Detail" mode="Opaque" x="0" y="0" width="130" height="20" backcolor="#F2F2F2" uuid="a5e21152-07e9-4c5c-9c7a-a59efa845f82"/>
+									<textElement textAlignment="Center">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Total"]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell height="20">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="130" height="20" uuid="d6176c14-7318-415e-9b07-ff1a6e39dc1a"/>
+									<box leftPadding="2">
+										<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{PercentRange}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="130" uuid="4f20f088-0095-4b2e-8ff1-8b70c972b021">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<jr:columnHeader height="20" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="130" height="20" forecolor="#000000" backcolor="#F2F2F2" uuid="6c5dc654-8fc2-47df-b91f-76acf76e1172"/>
+									<box>
+										<pen lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[No. of Schools]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter height="20" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement style="Detail" mode="Opaque" x="0" y="0" width="130" height="20" backcolor="#F2F2F2" uuid="5e57b01f-028f-494a-bef1-b3f294a7280a"/>
+									<textElement textAlignment="Right">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{TotalSchools}]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell height="20">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="130" height="20" uuid="45d273ed-bd03-4c66-b22e-2dcc01829596"/>
+									<box>
+										<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{NoofSchools}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="PowerSupply">
+		<groupHeader>
+			<band height="275">
+				<frame>
+					<reportElement style="Frame 1" mode="Transparent" x="-20" y="10" width="595" height="18" uuid="e1f5fe5f-a039-42e3-af2b-edcc6621c9ab"/>
+					<box leftPadding="0"/>
+					<textField bookmarkLevel="2">
+						<reportElement style="Detail Header 2" mode="Opaque" x="0" y="0" width="300" height="18" uuid="c22a6b73-5454-4d88-88d9-395154c62816">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="20" rightPadding="20"/>
+						<textElement>
+							<font size="11"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Schools with Power Supply Type Availability"]]></textFieldExpression>
+					</textField>
+				</frame>
+				<stackedBarChart>
+					<chart evaluationTime="Report" theme="aegean">
+						<reportElement x="0" y="34" width="280" height="241" uuid="665b82b8-8884-47df-bcb3-14eba4f53b13">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						</reportElement>
+						<chartTitle position="Left">
+							<font fontName="Open Sans" size="12" isBold="false"/>
+							<titleExpression><![CDATA["No. of Schools"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="PowrSupply" uuid="94e1498c-fc7f-4799-96e8-51147be07cb5">
+								<datasetParameter name="Atoll">
+									<datasetParameterExpression><![CDATA[$P{Atoll}]]></datasetParameterExpression>
+								</datasetParameter>
+								<datasetParameter name="Year">
+									<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+								</datasetParameter>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Availability}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{PowerSupplyType}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{TotalSchools}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+				<crosstab>
+					<reportElement x="291" y="36" width="280" height="100" uuid="db1dcaf4-3e14-499e-b981-0906b91ffecc">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+						<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab 1_CH"/>
+						<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab 1_CG"/>
+						<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab 1_CT"/>
+						<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab 1_CD"/>
+					</reportElement>
+					<crosstabDataset>
+						<dataset>
+							<datasetRun subDataset="PowrSupply" uuid="bb31d217-5ea3-43c8-9814-a03d5b247ccc">
+								<datasetParameter name="Atoll">
+									<datasetParameterExpression><![CDATA[$P{Atoll}]]></datasetParameterExpression>
+								</datasetParameter>
+								<datasetParameter name="Year">
+									<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+						</dataset>
+					</crosstabDataset>
+					<crosstabHeaderCell>
+						<cellContents>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<frame>
+								<reportElement mode="Opaque" x="0" y="0" width="100" height="50" backcolor="#F2F2F2" uuid="c536c1a3-8bec-45b1-a07a-034eb9659b50"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<textField>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="100" height="22" forecolor="#000000" backcolor="#F2F2F2" uuid="b9e0970d-ea7d-467f-a23a-ead9bf058ab3"/>
+									<textElement textAlignment="Right" verticalAlignment="Top">
+										<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Availability"]]></textFieldExpression>
+								</textField>
+								<textField>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="22" width="70" height="14" forecolor="#000000" backcolor="#F2F2F2" uuid="29705290-951b-4d11-a24f-82d1aaad553f">
+										<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+									</reportElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Power"]]></textFieldExpression>
+								</textField>
+								<textField>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="36" width="80" height="14" forecolor="#000000" backcolor="#F2F2F2" uuid="f1d4f2fe-d5b7-4038-a4cf-5ef24f204a3f">
+										<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+									</reportElement>
+									<textElement textAlignment="Center" verticalAlignment="Top">
+										<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA["supply Type"]]></textFieldExpression>
+								</textField>
+								<line>
+									<reportElement x="0" y="0" width="100" height="50" uuid="bea06eaf-384e-4ebc-bf26-13df6866957c">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<graphicElement>
+										<pen lineWidth="0.5" lineColor="#C8C8C8"/>
+									</graphicElement>
+								</line>
+							</frame>
+						</cellContents>
+					</crosstabHeaderCell>
+					<rowGroup name="PowerSupplyType" width="100" totalPosition="End">
+						<bucket class="java.lang.String">
+							<bucketExpression><![CDATA[$F{PowerSupplyType}]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+							<cellContents mode="Transparent" style="Crosstab 1_CH">
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="CrossTab_Row" x="0" y="0" width="100" height="20" uuid="8b6f1305-e571-49f6-b027-ce193eac66ff"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10" isBold="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{PowerSupplyType}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+							<cellContents mode="Transparent" style="Crosstab 1_CT">
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="100" height="20" forecolor="#000000" backcolor="#F2F2F2" uuid="0579cc9c-afd9-4491-a360-a94657db2b10"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Total PowerSupplyType]]></text>
+								</staticText>
+							</cellContents>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					<columnGroup name="Availability" height="50" totalPosition="End">
+						<bucket class="java.lang.String">
+							<bucketExpression><![CDATA[$F{Availability}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents mode="Transparent" style="Crosstab 1_CH">
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="60" height="50" forecolor="#000000" backcolor="#F2F2F2" uuid="21cd04af-aa1f-475d-86d6-e456e119efd6"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Center">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Availability}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents mode="Transparent" style="Crosstab 1_CT">
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="60" height="50" forecolor="#000000" backcolor="#F2F2F2" uuid="03637ff4-e28f-442d-ad9c-842a4b512b64"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Center">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[No. of Schools]]></text>
+								</staticText>
+							</cellContents>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<measure name="TotalSchools_MEASURE" class="java.lang.Integer" calculation="Sum">
+						<measureExpression><![CDATA[$F{TotalSchools}]]></measureExpression>
+					</measure>
+					<crosstabCell width="60" height="20">
+						<cellContents mode="Transparent" style="Crosstab 1_CD">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="CrossTab_Row" x="0" y="0" width="60" height="20" uuid="f09af787-91f1-469c-9f82-f50f5636814a"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TotalSchools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="20" columnTotalGroup="Availability">
+						<cellContents mode="Transparent" style="Crosstab 1_CT">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="CrossTab_Row" x="0" y="0" width="60" height="20" forecolor="#000000" uuid="0f8e1486-3c9d-4f64-8264-9fb4203f1572"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TotalSchools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="20" rowTotalGroup="PowerSupplyType">
+						<cellContents mode="Transparent" style="Crosstab 1_CT">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="20" forecolor="#000000" backcolor="#F2F2F2" uuid="c7310eef-3340-4ec8-9b92-d62c40465b92"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TotalSchools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="20" rowTotalGroup="PowerSupplyType" columnTotalGroup="Availability">
+						<cellContents mode="Transparent" style="Crosstab 1_CT">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="20" forecolor="#000000" backcolor="#F2F2F2" uuid="ad742233-3c5d-4b7a-8e9f-d190e3424991"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TotalSchools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+				</crosstab>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Communication">
+		<groupHeader>
+			<band height="342">
+				<frame>
+					<reportElement style="Frame 1" mode="Transparent" x="-15" y="10" width="595" height="18" uuid="5b4b8011-fc18-4c5a-beef-633acb22473a"/>
+					<box leftPadding="0"/>
+					<textField bookmarkLevel="2">
+						<reportElement style="Detail Header 2" mode="Opaque" x="0" y="0" width="345" height="18" uuid="799b0fb1-4bb0-4d58-b78d-94ac4c1002ba">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="20" rightPadding="20"/>
+						<textElement>
+							<font size="11"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Schools with Communications Facilities Availability"]]></textFieldExpression>
+					</textField>
+				</frame>
+				<stackedBarChart>
+					<chart evaluationTime="Report" theme="aegean">
+						<reportElement x="0" y="34" width="580" height="200" uuid="808f2977-f0ba-4be2-84bd-bcbb68b01e67"/>
+						<chartTitle position="Left">
+							<font fontName="Open Sans" size="12" isBold="false"/>
+							<titleExpression><![CDATA["No. of Schools"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="CommunicationData" uuid="5ff948d2-7093-4849-9324-81c65a7a5cdb">
+								<datasetParameter name="Atoll">
+									<datasetParameterExpression><![CDATA[$P{Atoll}]]></datasetParameterExpression>
+								</datasetParameter>
+								<datasetParameter name="Year">
+									<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+								</datasetParameter>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Availability}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{PowerSupplyType}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{TotalSchools}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+				<crosstab>
+					<reportElement x="1" y="241" width="579" height="101" uuid="83d18e3e-f2ce-4f60-9c77-8b9b798b2dd5">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+						<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+						<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+						<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+						<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+					</reportElement>
+					<crosstabDataset>
+						<dataset>
+							<datasetRun subDataset="CommunicationData" uuid="4fc27e9a-666d-4c81-9adb-f022bbd6c2fb">
+								<datasetParameter name="Atoll">
+									<datasetParameterExpression><![CDATA[$P{Atoll}]]></datasetParameterExpression>
+								</datasetParameter>
+								<datasetParameter name="Year">
+									<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+								</datasetParameter>
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+						</dataset>
+					</crosstabDataset>
+					<crosstabHeaderCell>
+						<cellContents>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<frame>
+								<reportElement mode="Opaque" x="0" y="0" width="100" height="50" backcolor="#F2F2F2" uuid="162dfff4-eb00-4f70-bde2-c8e77eaf4399"/>
+								<textField>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="22" width="70" height="28" forecolor="#000000" backcolor="#F2F2F2" uuid="7ff436cf-a8fd-44b9-99ba-fe257216a586">
+										<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+									</reportElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Availability"]]></textFieldExpression>
+								</textField>
+								<textField>
+									<reportElement style="Column header 2" mode="Opaque" x="10" y="0" width="90" height="14" forecolor="#000000" backcolor="#F2F2F2" uuid="eace7b09-2f27-4978-8081-d3656ba97361">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+										<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+									</reportElement>
+									<textElement textAlignment="Right" verticalAlignment="Bottom">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Communication"]]></textFieldExpression>
+								</textField>
+								<textField>
+									<reportElement style="Column header 2" mode="Opaque" x="30" y="14" width="70" height="14" forecolor="#000000" backcolor="#F2F2F2" uuid="deb93194-5c5a-4c76-9e50-18d378b2609d">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+										<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+									</reportElement>
+									<textElement textAlignment="Center" verticalAlignment="Bottom">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Type"]]></textFieldExpression>
+								</textField>
+								<line>
+									<reportElement x="0" y="0" width="100" height="50" uuid="aff00ea2-4859-45af-9355-0055d6706ce8">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<graphicElement>
+										<pen lineWidth="0.5" lineColor="#C8C8C8"/>
+									</graphicElement>
+								</line>
+							</frame>
+						</cellContents>
+					</crosstabHeaderCell>
+					<rowGroup name="Availability" width="100" totalPosition="End">
+						<bucket order="Descending" class="java.lang.String">
+							<bucketExpression><![CDATA[$F{Availability}]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+							<cellContents mode="Opaque">
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								<textField>
+									<reportElement style="CrossTab_Row" mode="Opaque" x="0" y="0" width="100" height="20" uuid="a7c3fe8b-bad4-4ee4-a03f-b86d3f2320e2"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10" isBold="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Availability}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+							<cellContents mode="Opaque">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="100" height="20" forecolor="#000000" backcolor="#F2F2F2" uuid="74a7c65b-5084-4f4c-b171-af4af260bf37"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Total]]></text>
+								</staticText>
+							</cellContents>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					<columnGroup name="orderTitle" height="0">
+						<bucket class="java.lang.Integer">
+							<bucketExpression><![CDATA[$F{orderTitle}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents mode="Opaque">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<textField>
+									<reportElement x="0" y="0" width="74" height="0" uuid="c7abb7b8-5004-4ce8-a078-8727364e97c1"/>
+									<textFieldExpression><![CDATA[$V{orderTitle}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents>
+								<staticText>
+									<reportElement x="0" y="0" width="-2147483648" height="-2147483648" uuid="b266254d-705d-4f26-827d-7dc5151de3dd"/>
+									<text><![CDATA[Total orderTitle]]></text>
+								</staticText>
+							</cellContents>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<columnGroup name="PowerSupplyType" height="50">
+						<bucket class="java.lang.String">
+							<bucketExpression><![CDATA[$F{PowerSupplyType}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents mode="Opaque">
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								<textField>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="74" height="50" forecolor="#000000" backcolor="#F2F2F2" uuid="47db1883-75e6-4d04-9ec1-aa1af5f34c71"/>
+									<box>
+										<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+									</box>
+									<textElement>
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{PowerSupplyType}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents>
+								<staticText>
+									<reportElement x="0" y="0" width="-2147483648" height="-2147483648" uuid="206529d3-ef58-42db-8af2-12c24c1ea9d9"/>
+									<text><![CDATA[Total PowerSupplyType]]></text>
+								</staticText>
+							</cellContents>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<measure name="TotalSchools_MEASURE" class="java.lang.Integer" calculation="Sum">
+						<measureExpression><![CDATA[$F{TotalSchools}]]></measureExpression>
+					</measure>
+					<crosstabCell width="74" height="20">
+						<cellContents mode="Opaque">
+							<textField>
+								<reportElement style="CrossTab_Row" mode="Opaque" x="0" y="0" width="74" height="20" uuid="4be0aa67-7408-42e5-a609-b8df9856f724"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TotalSchools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="20" columnTotalGroup="orderTitle">
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="d365ef3c-923b-4f6e-93bc-74d2ccd21d34"/>
+								<textFieldExpression><![CDATA[$V{TotalSchools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="20" columnTotalGroup="PowerSupplyType">
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="20" uuid="505a4ec7-74b8-4beb-86f1-52933a042e6d"/>
+								<textFieldExpression><![CDATA[$V{TotalSchools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="74" height="20" rowTotalGroup="Availability">
+						<cellContents mode="Opaque">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="74" height="20" forecolor="#000000" backcolor="#F2F2F2" uuid="89cd86ca-f89e-48b6-a4c3-26705634b43e"/>
+								<textElement textAlignment="Right">
+									<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TotalSchools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="20" rowTotalGroup="Availability" columnTotalGroup="orderTitle">
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="591ee222-d658-4b96-a5f5-da806afb580c"/>
+								<textFieldExpression><![CDATA[$V{TotalSchools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="20" rowTotalGroup="Availability" columnTotalGroup="PowerSupplyType">
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="031fd39f-baca-4d77-b025-30e41eb1dfbe"/>
+								<textFieldExpression><![CDATA[$V{TotalSchools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+				</crosstab>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Test"/>
+	<group name="DetailedSchoolReport">
+		<groupHeader>
+			<band height="184">
+				<componentElement>
+					<reportElement x="0" y="44" width="572" height="140" uuid="0d0808d1-0ebe-4882-8c94-a6f930ba688f">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
+					</reportElement>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="DetailedSchoolData" uuid="7cdf5492-5f93-44d1-a53e-96a616a40afa">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="Atoll">
+								<datasetParameterExpression><![CDATA[$P{Atoll}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column width="50" uuid="5c1dc1d1-a066-493d-8443-1dd0268b6715">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="50" height="30" backcolor="#F2F2F2" uuid="76a33648-b7f5-456b-b041-7f870b5dcf2b"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA["Total"]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader height="70" rowSpan="1">
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="50" height="70" forecolor="#000000" backcolor="#F2F2F2" uuid="7f0891a5-7e66-411b-a9f0-e8235d4f0ced"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Schoo No.]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="30">
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="50" height="30" uuid="52770519-785c-4998-83f8-66e79e726b69"/>
+									<textElement textAlignment="Center">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{schNo}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="110" uuid="d8c7b0e0-24bb-49da-8b35-15caef371f1f">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="110" height="30" backcolor="#F2F2F2" uuid="abb077af-09fc-4e4a-ba46-777a20de53fa"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[""]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader height="70" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="110" height="70" forecolor="#000000" backcolor="#F2F2F2" uuid="151e879a-e116-4a88-b963-8a907285fc45"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Schoo Name]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="30">
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="110" height="30" uuid="c5be70b6-6586-451f-b298-3f01d375a67c"/>
+									<textElement>
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="60" uuid="ea3b5b48-1726-4b56-8d8c-d3772ad4cafa">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="60" height="30" backcolor="#F2F2F2" uuid="faae1449-8f1f-4bad-b81a-5dab5b428440"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{TotalBuildings}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader height="70" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="60" height="70" forecolor="#000000" backcolor="#F2F2F2" uuid="7a77a074-2bc7-4684-806c-a685061dc6ee"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Right">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Total Buildings]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="30">
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="60" height="30" uuid="cc56ccc4-7118-4273-81db-974a92bfa10c"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{totalBuildings}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="60" uuid="db0d054b-3f70-4bff-9bf1-3e1ba8958415">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="60" height="30" backcolor="#F2F2F2" uuid="a2d70609-2d67-4312-abfa-4638f0015cf5"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{TotalClassrooms}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader height="70" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="60" height="70" forecolor="#000000" backcolor="#F2F2F2" uuid="2fe5439a-e65a-4e37-9e19-bd9df73426b4"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Right">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Total Classrooms]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="30">
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="60" height="30" uuid="6f2d1286-c0df-46c7-8c7a-44adbcf531a5"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{totalClassrooms}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="60" uuid="b0796712-93f9-4426-8c21-396e7d892ea5">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="60" height="30" backcolor="#F2F2F2" uuid="44ca5550-075b-4321-994c-4b25d7d2c990"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{TotalPoorClassrooms}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader height="70" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="60" height="70" forecolor="#000000" backcolor="#F2F2F2" uuid="b4f50088-7946-4cb2-8740-1aac0dc57b5b"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Right">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Total Poor Classroms]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="30">
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="60" height="30" uuid="472f225a-613e-4dcb-8893-ccf6f1c9443e"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{totalPoorClassrooms}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="30" uuid="ba5b19c2-ec21-4b7b-8083-09a9e00d9855">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="30" height="30" backcolor="#F2F2F2" uuid="f29d9f5b-d6e0-478f-b9fc-b14b384c8a35"/>
+									<textElement>
+										<font fontName="Open Sans Extrabold" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[""]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader height="70" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="30" height="70" forecolor="#000000" backcolor="#F2F2F2" uuid="299951c3-1606-45af-a0cf-c6ba88570c07"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Right">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Computers]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="30">
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="30" height="30" uuid="034845fb-55c4-417c-a0bb-115f31f9c13e"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{Computers}.equals("-1") ? "Yes":"No"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="30" uuid="343cad60-cfc5-4d4b-bbc7-3511445bdb2f">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="30" height="30" backcolor="#F2F2F2" uuid="34ecd2a3-4438-4ac7-8a6d-fa103e9372b3"/>
+									<textElement>
+										<font fontName="Open Sans Extrabold" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[""]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader height="70" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="30" height="70" forecolor="#000000" backcolor="#F2F2F2" uuid="a7eef3cf-958a-4916-b04b-c6eed0d50b0e"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Right">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Internet]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="30">
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="30" height="30" uuid="4c000fd9-fb0d-403e-a5c1-0a40636ee1b6"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{Internet}.equals("-1") ? "Yes":"No"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="30" uuid="15d4abd0-6eff-4ee8-b8c1-939f039355a5">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="30" height="30" backcolor="#F2F2F2" uuid="9ed7d27f-7e45-4041-a3b3-690165a42c62"/>
+									<textElement>
+										<font fontName="Open Sans Extrabold" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[""]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader height="70" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="30" height="70" forecolor="#000000" backcolor="#F2F2F2" uuid="3efe689c-857c-42f1-8339-3c3b9785fa4c"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Right">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Copier]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="30">
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="30" height="30" uuid="1360d178-3676-4b84-b095-07fc1d5ded2a"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{Copier}.equals("-1") ? "Yes":"No"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="34" uuid="78176734-4a70-4515-850b-25ef0e2ea2bb">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="34" height="30" backcolor="#F2F2F2" uuid="d611b7f8-5dd3-4e42-a77e-5258f89fd87e"/>
+									<textElement>
+										<font fontName="Open Sans Extrabold" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[""]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader height="70" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="34" height="70" forecolor="#000000" backcolor="#F2F2F2" uuid="f707c0cf-3dad-465b-a299-2d3f280bf98d"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Right">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Telephone]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="30">
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="34" height="30" uuid="0264058c-960b-4b87-9f50-bf2030ea2d66"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{Telephone}.equals("-1") ? "Yes":"No"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="30" uuid="73c3f45a-8e7d-4b62-bc71-c7cc1eb908f8">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="30" height="30" backcolor="#F2F2F2" uuid="c16a3fc4-b067-49de-ab3b-2191a3253cd6"/>
+									<textElement>
+										<font fontName="Open Sans Extrabold" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[""]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader height="70" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="30" height="70" forecolor="#000000" backcolor="#F2F2F2" uuid="57e07d3a-d9e2-412f-9681-2778d467300d"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Right">
+										<font fontName="Open Sans Semibold"/>
+									</textElement>
+									<text><![CDATA[Fax]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="30">
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="30" height="30" uuid="49d9b9c6-32b9-4d39-a9d6-9609f1ccc37b"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{Fax}.equals("-1") ? "Yes":"No"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="30" uuid="3f690f75-9833-41f7-8ce8-0c7c30877e56">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="30" height="30" backcolor="#F2F2F2" uuid="896c3a79-fc71-44c7-af85-e446246a7ed1"/>
+									<textElement>
+										<font fontName="Open Sans Extrabold" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[""]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader height="70" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="30" height="70" forecolor="#000000" backcolor="#F2F2F2" uuid="df607df4-22d1-4cb5-91a3-db08b17a7186"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Right">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Computer Lab]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="30">
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="30" height="30" uuid="154afd69-9683-4fa3-b8d0-a1791f8321a0"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{Computer Lab}.equals("-1") ? "Yes":"No"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="40" uuid="0d2cd910-b141-4b4a-901b-c2cc41547932">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="40" height="30" backcolor="#F2F2F2" uuid="9ee20ca2-8c34-4d26-a62d-fbf1cf9bf4ba"/>
+									<textElement>
+										<font fontName="Open Sans Extrabold" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[""]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader height="70" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<staticText>
+									<reportElement style="Column header 2" mode="Opaque" x="0" y="0" width="40" height="70" forecolor="#000000" backcolor="#F2F2F2" uuid="dc5a4aa8-041b-4823-8f21-62e676f95112"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Right">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Use of Technology]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="30">
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Row" mode="Opaque" x="0" y="0" width="40" height="30" uuid="bb0776ae-562a-42d6-80f9-b7e408d7c000"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{Use of technology}.equals("-1") ? "Yes":"No"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+				<frame>
+					<reportElement style="Frame 1" mode="Transparent" x="-20" y="15" width="592" height="18" uuid="9104d2a6-2453-496e-88f4-31320b9b42f0"/>
+					<box leftPadding="0"/>
+					<textField bookmarkLevel="2">
+						<reportElement style="Detail Header 2" mode="Opaque" x="0" y="0" width="350" height="18" uuid="eeb33a16-6add-4b39-a95f-eec6b15abb94">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="20" rightPadding="20"/>
+						<textElement>
+							<font size="11"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Resources and Infrastructure Detailed Report"]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="133" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="126" y="0" width="314" height="62" uuid="6f1655e2-84d4-4295-886b-74b9d9b87945"/>
+				<textElement>
+					<font size="31"/>
+				</textElement>
+				<text><![CDATA[School Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="126" y="62" width="314" height="32" uuid="2cf6bd4f-026b-4741-86b6-780c7bb9ff6f"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[School Resources and Infrastructure]]></text>
+			</staticText>
+			<image>
+				<reportElement x="440" y="0" width="126" height="126" uuid="6626d16f-b59f-4374-8090-07bdd2c7d448">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["repo:/images/rmi_pss.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Opaque" x="-21" y="-20" width="613" height="10" forecolor="#08298C" backcolor="#08298C" uuid="65520dc6-3509-46f8-aa4e-f4cf8430cf2c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-21" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="c439006a-8187-4964-b90d-1cf426b3d4ea">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="572" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="c0c04aec-ce58-4c7b-b990-cce509be8d34">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-21" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="43f3bde2-632d-4e87-b916-164a7344976b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="554" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="b18a152c-bb0b-4bc6-bb0a-8e2112668e02">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<textField>
+				<reportElement style="Title text" x="126" y="94" width="314" height="30" uuid="dac6ff06-b3fa-40a8-994b-213159d4a74c"/>
+				<textFieldExpression><![CDATA["This report shows the detailed view of school resources and infrastructure for Year :"+$P{Year}+" and Atoll and Island :"+$F{district}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="10" y="0" width="126" height="126" uuid="f5dcbca3-9581-44c0-b8a4-718061f2857b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["repo:/images/rmi_seal.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+</jasperReport>

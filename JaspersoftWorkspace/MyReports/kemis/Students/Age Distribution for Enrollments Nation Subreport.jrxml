@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Age Distribution for Enrollments Nation Subreport" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d96cb5f0-ef4e-4d0c-afc6-68d5e0488226">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KEMIS"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="327"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="662"/>
+	<template><![CDATA["kemis/Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row"/>
+	<style name="Row-Crosstab">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{ROW_COUNT}.intValue() % 2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC" fontName="Open Sans" fontSize="8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Age Distibution Trend Dataset" uuid="f8a0ffea-96eb-46d9-8533-c56a0ca235f3">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select surveyYear,'UnderAge' as Age,sum(UnderAge) as AgeSum
+from [warehouse].[DistrictEdLevelAge]
+where  surveyYear between  $P{Year} -5 and  $P{Year} 
+group by surveyYear
+
+union 
+select surveyYear,'OfficialAge' as Age,sum(officialAge) as AgeSum
+from  [warehouse].[DistrictEdLevelAge]
+where   surveyYear between  $P{Year} -5 and  $P{Year} 
+group by surveyYear
+union
+select surveyYear,'OverAge'as age,sum(overAge) as AgeSum
+from [warehouse].[DistrictEdLevelAge]
+where   surveyYear between  $P{Year} -5 and  $P{Year} 
+group by  surveyYear]]>
+		</queryString>
+		<field name="surveyYear" class="java.lang.Integer"/>
+		<field name="Age" class="java.lang.String"/>
+		<field name="AgeSum" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="Age Distribution by State and Gender by Year Dataset" uuid="653f8dbb-1026-44c5-9632-bdf8e7475dac">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KEMIS"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select districtCode,GenderCode,'UnderAge' as Age,isnull(sum(UnderAge),0) as AgeSum
+from [warehouse].[DistrictEdLevelAge]
+where  surveyYear=  $P{Year}  and districtCode is not null
+group by classlevel,districtCode,GenderCode
+
+union 
+select districtCode,GenderCode,'OfficialAge' as Age,isnull(sum(officialAge),0) as AgeSum
+from  [warehouse].[DistrictEdLevelAge]
+where  surveyYear=  $P{Year}  and districtCode is not null
+group by classlevel,districtCode,GenderCode
+union
+select districtCode,GenderCode,'OverAge'as age,isnull(sum(overAge),0) as AgeSum
+from [warehouse].[DistrictEdLevelAge]
+where  surveyYear= $P{Year} and districtCode is not null
+group by  classlevel,districtCode,GenderCode
+order by age]]>
+		</queryString>
+		<field name="districtCode" class="java.lang.String"/>
+		<field name="GenderCode" class="java.lang.String"/>
+		<field name="Age" class="java.lang.String"/>
+		<field name="AgeSum" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="Age Distribution for the Year" uuid="5114a7d2-2a88-44a9-82dd-4e0c54dd0fee">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KEMIS"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select * from (select classlevel,'UnderAge' as Age,sum(UnderAge) as AgeSum
+from [warehouse].[NationEdLevelAge]
+where  surveyYear= $P{Year} 
+group by classlevel
+
+union 
+select classlevel,'OfficialAge' as Age,sum(officialAge) as AgeSum
+from  [warehouse].[NationEdLevelAge]
+where  surveyYear= $P{Year} 
+group by classlevel
+union
+select classlevel,'OverAge'as age,sum(overAge) as AgeSum
+from [warehouse].[NationEdLevelAge]
+where  surveyYear= $P{Year} 
+group by  classlevel) as a 
+order by case when classlevel='GK' then 0  
+            when  classlevel='G1' then 1 
+              when classlevel='G2' then 2 
+                when classlevel='G3' then 3 
+                  when classlevel='G4' then 4 
+                    when classlevel='G5' then 5 
+                      when classlevel='G6' then 6 
+                        when classlevel='G7' then 7 
+                          when classlevel='G8' then 8 
+                            when classlevel='G9' then 9 
+                              when classlevel='G10' then 10 
+                                when classlevel='G11' then 11 
+                                  when classlevel='G12' then 12 
+                                   end]]>
+		</queryString>
+		<field name="classlevel" class="java.lang.String"/>
+		<field name="Age" class="java.lang.String"/>
+		<field name="AgeSum" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[Select 'one' as one]]>
+	</queryString>
+	<field name="one" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="630" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="2" y="5" width="551" height="179" uuid="f62d4729-cdf1-4c7c-a0bb-216ac8067bfc"/>
+					<chartTitle>
+						<font fontName="Open Sans" size="16"/>
+						<titleExpression><![CDATA["Age Distribution for "+$P{Year}]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Age Distribution for the Year" uuid="4ac76dc7-a8cf-4d70-b901-357887e83f9d">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Age}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{classlevel}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{AgeSum}]]></valueExpression>
+						<labelExpression><![CDATA["Total"]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#8C0813"/>
+						<seriesColor seriesOrder="1" color="#3F86DA"/>
+						<seriesColor seriesOrder="2" color="#FFD600"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<lineChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="0" y="193" width="551" height="200" uuid="1de9cbeb-35fe-49ea-8676-2671734152f8"/>
+					<chartTitle>
+						<font fontName="Open Sans" size="16"/>
+						<titleExpression><![CDATA["Age Distribution Trend"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Age Distibution Trend Dataset" uuid="bdc50792-ca90-4c7e-955e-309da3ae9750">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Age}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{surveyYear}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{AgeSum}]]></valueExpression>
+						<labelExpression><![CDATA["Total "]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#8C0813"/>
+						<seriesColor seriesOrder="1" color="#3F86DA"/>
+						<seriesColor seriesOrder="2" color="#FFD600"/>
+					</plot>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<barChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="0" y="414" width="551" height="182" uuid="341112ef-4fc1-4991-ad0c-8f07a8ff073e"/>
+					<chartTitle>
+						<font fontName="Open Sans" size="16"/>
+						<titleExpression><![CDATA["Age Distribution By State"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Age Distribution by State and Gender by Year Dataset" uuid="fe6b2e40-8f3b-44d6-b2f6-141b1f6d15a5">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Age}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{districtCode}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{AgeSum}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot labelRotation="180.0">
+						<seriesColor seriesOrder="0" color="#8C0813"/>
+						<seriesColor seriesOrder="1" color="#3F86DA"/>
+						<seriesColor seriesOrder="2" color="#FFD600"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat labelRotation="180.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" verticalTickLabels="true" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

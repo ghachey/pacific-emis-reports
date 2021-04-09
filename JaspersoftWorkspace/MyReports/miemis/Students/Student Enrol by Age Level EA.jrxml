@@ -1,0 +1,1177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Student_Enrol_by_Age_Level_EA" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="ireport.jasperserver.url" value="http://data.pss.edu.mh:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Students/Student_Enrol_by_Age_Level_EA"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Students/Student_Enrol_by_Age_Level_EA_files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="246"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="744"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["miemis/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[exec warehouse.GridMaker 'A', $P{Year}]]>
+	</queryString>
+	<field name="Authority" class="java.lang.String"/>
+	<field name="Age" class="java.lang.Integer"/>
+	<field name="GPREK_F" class="java.lang.Integer"/>
+	<field name="GK_F" class="java.lang.Integer"/>
+	<field name="G1_F" class="java.lang.Integer"/>
+	<field name="G2_F" class="java.lang.Integer"/>
+	<field name="G3_F" class="java.lang.Integer"/>
+	<field name="G4_F" class="java.lang.Integer"/>
+	<field name="G5_F" class="java.lang.Integer"/>
+	<field name="G6_F" class="java.lang.Integer"/>
+	<field name="G7_F" class="java.lang.Integer"/>
+	<field name="G8_F" class="java.lang.Integer"/>
+	<field name="G9_F" class="java.lang.Integer"/>
+	<field name="G10_F" class="java.lang.Integer"/>
+	<field name="G11_F" class="java.lang.Integer"/>
+	<field name="G12_F" class="java.lang.Integer"/>
+	<field name="Tot_F" class="java.lang.Integer"/>
+	<field name="GPREK_M" class="java.lang.Integer"/>
+	<field name="GK_M" class="java.lang.Integer"/>
+	<field name="G1_M" class="java.lang.Integer"/>
+	<field name="G2_M" class="java.lang.Integer"/>
+	<field name="G3_M" class="java.lang.Integer"/>
+	<field name="G4_M" class="java.lang.Integer"/>
+	<field name="G5_M" class="java.lang.Integer"/>
+	<field name="G6_M" class="java.lang.Integer"/>
+	<field name="G7_M" class="java.lang.Integer"/>
+	<field name="G8_M" class="java.lang.Integer"/>
+	<field name="G9_M" class="java.lang.Integer"/>
+	<field name="G10_M" class="java.lang.Integer"/>
+	<field name="G11_M" class="java.lang.Integer"/>
+	<field name="G12_M" class="java.lang.Integer"/>
+	<field name="Tot_M" class="java.lang.Integer"/>
+	<field name="Tot" class="java.lang.Integer"/>
+	<field name="GPRE9_F" class="java.lang.Integer"/>
+	<field name="GPRE9_M" class="java.lang.Integer"/>
+	<variable name="Group_GPREKF_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{GPREK_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_GKF_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{GK_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_G1F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G1_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_G2F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G2_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_G3F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G3_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_G4F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G4_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_G5F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G5_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_G6F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G6_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_G7F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G7_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_G8F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G8_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_GPR9F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{GPRE9_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_G9F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G9_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_G10F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G10_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_G11F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G11_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_G12F_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G12_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_F" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Tot_F}]]></variableExpression>
+	</variable>
+	<variable name="Group_GPREKM_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{GPREK_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_GKM_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{GK_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_G1M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G1_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_G2M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G2_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_G3M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G3_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_G4M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G4_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_G5M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G5_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_G6M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G6_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_G7M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G7_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_G8M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G8_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_GPR9M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{GPRE9_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_G9M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G9_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_G10M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G10_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_G11M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G11_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_G12M_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{G12_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_M" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Tot_M}]]></variableExpression>
+	</variable>
+	<variable name="Group_Grand_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Tot}]]></variableExpression>
+	</variable>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{Authority}]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<frame>
+					<reportElement mode="Opaque" x="-21" y="7" width="781" height="24" forecolor="#5168AE" backcolor="#9BC2FF" uuid="ff649bda-bbd1-4c2d-bd67-21f69ad64bbf"/>
+					<rectangle>
+						<reportElement mode="Opaque" x="21" y="0" width="36" height="24" backcolor="#08298C" uuid="a7ae31ce-9474-4e4b-9627-eb9152ff7b80"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement style="Group header" x="68" y="0" width="705" height="24" uuid="b5a25815-f4ed-4382-9712-d113dc519d4e"/>
+						<textFieldExpression><![CDATA[$F{Authority}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="17">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<frame>
+					<reportElement mode="Opaque" x="0" y="0" width="760" height="15" uuid="57a629eb-a587-47cf-883b-dbf4f3925b59">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="23" y="1" width="22" height="15" uuid="f1da081a-ef97-4c8c-a89c-2ae83735e1d1">
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_GPREKF_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="45" y="1" width="22" height="15" uuid="0cbd323f-36a1-463f-adf5-cbd91d35a7f2"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_GKF_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="67" y="1" width="22" height="15" uuid="6286270c-2aba-4298-8b8e-4da1a89be1e0"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G1F_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="89" y="1" width="22" height="15" uuid="c805663f-cf94-415f-8a7f-b90b84db9409"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G2F_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="111" y="1" width="22" height="15" uuid="09d7e0c4-9e68-4edc-a2e6-548a5133906d"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G3F_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="133" y="1" width="22" height="15" uuid="3465325f-b7df-4330-a6df-dc1048f3189a"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G4F_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="155" y="1" width="22" height="15" uuid="b93bbd24-b57b-4cc0-98b2-a3c685ef9c5f"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G5F_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="177" y="1" width="22" height="15" uuid="53bdb9c9-b2cf-48a0-b5a7-04fc036e8a2d"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G6F_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="199" y="1" width="22" height="15" uuid="b8dd21de-482f-41e7-ae4e-532284e6a56f"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G7F_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="221" y="1" width="22" height="15" uuid="275263a3-1259-41cc-968e-dbd951f1750a"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G8F_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="265" y="1" width="22" height="15" uuid="3cba9f27-478a-4e16-b1ae-a1b0a36ef9ee"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G9F_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="287" y="1" width="22" height="15" uuid="c1485dc3-0cb4-442e-86df-07ebada8d1f0"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G10F_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="309" y="1" width="22" height="15" uuid="10981143-9829-4dfd-be3d-743b1b192958"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G11F_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="331" y="1" width="22" height="15" uuid="fa7786f7-fc6f-41ec-9b52-38dc694c7830"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G12F_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="353" y="1" width="22" height="15" uuid="112dd390-81c0-4b3a-8d41-17e20d7ea7a1"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_F}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="375" y="1" width="22" height="15" uuid="e67eb40e-220a-4a12-9669-cdde2728131c"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_GPREKM_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="397" y="1" width="22" height="15" uuid="0bb70975-7389-4ff1-90a1-5c28edf7ce8e"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_GKM_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="419" y="1" width="22" height="15" uuid="ab40d4fb-8cc8-4ae9-8668-1f4d3475745b"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G1M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="441" y="1" width="22" height="15" uuid="494cf03a-f2c3-41a0-b402-c1c19b57c338"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G2M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="463" y="1" width="22" height="15" uuid="f0df4c54-e6df-4d22-940b-cae97eb7e509"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G3M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="485" y="1" width="22" height="15" uuid="bd1245e6-6971-41bd-a902-bcaf9fb7995b"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G4M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="507" y="1" width="22" height="15" uuid="0398f0cb-084c-4291-ad24-33ebc0e85755"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G5M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="529" y="1" width="22" height="15" uuid="500d6668-6727-4b50-ba0f-2a7f37eeedf5"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G6M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="551" y="1" width="22" height="15" uuid="117d1649-6269-43a5-98d4-82cd819f884e"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G7M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="573" y="1" width="22" height="15" uuid="b92c2cf3-a064-4641-a9ec-2dacefd4068a"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G8M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="617" y="1" width="22" height="15" uuid="705a8a5a-dd0d-4916-b18c-343d7ecaeba9"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G9M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="639" y="1" width="22" height="15" uuid="3d0664c2-2376-4c98-b9fc-3323dabe546c"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G10M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="661" y="1" width="22" height="15" uuid="ed4a53ed-ed49-4861-acde-8580163404ad"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G11M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="683" y="1" width="22" height="15" uuid="eb19e58e-8277-4f46-b566-2d010583b2f6"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_G12M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="705" y="1" width="22" height="15" uuid="ecc773e5-e3a9-4a89-828a-42b0344ea0e2"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_M}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="727" y="1" width="33" height="15" uuid="d3fec9a6-4336-4c02-b6e0-e3ace60eada1"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Grand_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="595" y="1" width="22" height="15" uuid="6ee95ccc-e301-4eea-8faf-ad095efc8d33">
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_GPR9M_Total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement key="" style="Group footer" x="243" y="1" width="22" height="15" uuid="d679bde3-e21e-4033-9e23-5db9bcb3d1a6">
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_GPR9F_Total}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="16" width="760" height="1" uuid="c1c6c03e-9b23-4184-b193-73948d0c1c7f"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="142" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="126" height="126" uuid="1c003177-754c-448f-8ce1-16868856f545">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["miemis/images/rmi-seal.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="126" y="0" width="500" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
+				<text><![CDATA[Student Enrolments]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="126" y="62" width="500" height="32" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9"/>
+				<text><![CDATA[by Authority, Age and Gender Report]]></text>
+			</staticText>
+			<image>
+				<reportElement x="626" y="0" width="126" height="126" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["miemis/images/rmi-pss.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Opaque" x="-21" y="-20" width="793" height="10" forecolor="#08298C" backcolor="#08298C" uuid="a879b5ed-22f8-4e7b-9093-811aaea43211">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-21" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="0a58d963-ec76-492f-9d28-8419cff95766">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="753" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="f0a00416-98e9-4650-b25b-a7e2a9f68561">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-21" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="503401c2-412f-4738-a96a-cf6a43061701">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="733" y="-9" width="40" height="38" forecolor="#FFFFFF" uuid="70a1c065-3f91-4751-8e67-c995a73a7656">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<textField>
+				<reportElement style="Title text" x="335" y="120" width="82" height="20" uuid="2baf9561-fbe8-40a8-ac88-2b5f2dd0c3a6"/>
+				<textFieldExpression><![CDATA[$P{Year}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Title text" x="126" y="94" width="500" height="26" uuid="e0eba751-1317-443d-8699-51261576f1b3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Report showing student enrolments by school authority (large colored group), age (left vertical axis), gender and grade level (horizontal axis) for year]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="37" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="760" height="1" uuid="e9d2002a-c8ee-4649-a258-640dad29110c"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header 2" x="0" y="19" width="23" height="15" uuid="780fbe21-2810-442c-9cd3-d08f279e2501">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Age]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="23" y="19" width="22" height="15" uuid="37cb9967-17d0-4e14-acc9-73147c650cf9"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[PR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="45" y="19" width="22" height="15" uuid="ee61f937-040f-449f-b764-70d60a85ee5b"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[GK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="67" y="19" width="22" height="15" uuid="9135cd4e-a74c-42e2-845e-43acc8b7d552"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="89" y="19" width="22" height="15" uuid="31d0f108-4be5-4093-916e-bf01a79b4d07"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="111" y="19" width="22" height="15" uuid="8c0f8c45-cd12-40e2-b6f4-d129c63a7c49"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="133" y="19" width="22" height="15" uuid="b8a7704c-7545-477a-a864-685e36686f02"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="155" y="19" width="22" height="15" uuid="e5c7b877-e79b-425c-820f-3322f3c9e635"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="177" y="19" width="22" height="15" uuid="39749432-2466-4950-91b4-9c731676903f"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="199" y="19" width="22" height="15" uuid="142ef276-8b7f-407e-bff4-1664c378a432"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G7]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="221" y="19" width="22" height="15" uuid="ab13210d-fb52-4ff2-a8ee-44ff4729bfbb"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G8]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="265" y="19" width="22" height="15" uuid="a1aa9eb7-8980-4807-9977-73e2e2444c6e"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="287" y="19" width="22" height="15" uuid="bee8e944-3ba7-4e0c-966d-6edf8c0c035b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G10]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="309" y="19" width="22" height="15" uuid="3325ac36-d861-4577-85f1-5f51eca6b81d"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G11]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="331" y="19" width="22" height="15" uuid="83453937-ee89-4cfa-a47e-71adf55d7c6d"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G12]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="353" y="19" width="22" height="15" uuid="91f74d84-e5d0-47a4-b7ec-f9f2391b4c17">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[TF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="375" y="19" width="22" height="15" uuid="230545fa-c3e0-4552-82a7-2e027de83c9f"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[PR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="397" y="19" width="22" height="15" uuid="37421f09-6f65-4f3c-895f-a222698f3b5d"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[GK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="419" y="19" width="22" height="15" uuid="25d873a8-f7a6-4851-a547-92d77fed17b2"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="441" y="19" width="22" height="15" uuid="b9118de6-9daf-40f6-980f-161364cf97ab"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="463" y="19" width="22" height="15" uuid="92bb2c36-48cf-4ea1-885e-5a503466c895"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="485" y="19" width="22" height="15" uuid="c349037b-01f7-4afb-bc3d-4b246809ca76"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="507" y="19" width="22" height="15" uuid="36f75c30-1d23-4351-acb2-545db397e55b"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="529" y="19" width="22" height="15" uuid="fdd5e2f3-965e-4dde-a882-4d362d81dc4b"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="551" y="19" width="22" height="15" uuid="453fb184-ac55-48e3-bde7-1158f4913fb8"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G7]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="573" y="19" width="22" height="15" uuid="4f02573d-bc67-42f9-857e-0eea2f5791f6"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G8]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="617" y="19" width="22" height="15" uuid="36a7ea12-d16f-41bc-b7a8-835a3d174134"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="639" y="19" width="22" height="15" uuid="bc42c00d-c3ca-49ce-a257-9a4ad73de7d0"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G10]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="661" y="19" width="22" height="15" uuid="9008d2f8-57ac-4b5a-83ba-08421920af18"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G11]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="683" y="19" width="22" height="15" uuid="212d85f2-fb9f-4a9d-977a-bf012f596b93"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[G12]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="705" y="19" width="22" height="15" uuid="d78de9d0-7d75-446f-b530-9b4eecde951a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[TM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="727" y="19" width="33" height="15" uuid="9a3e8b19-e40b-45c1-8ca8-4d10651c3556">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header" x="375" y="0" width="345" height="16" uuid="1a317864-0c96-4fb2-a622-976868bfadd0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Male]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header" x="25" y="0" width="352" height="16" uuid="7bd2f613-1fb2-498f-bfda-e86793326542">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Female]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="595" y="19" width="22" height="15" uuid="f900b8f2-a909-43ef-83ef-fa4b3abb3bfe"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[PR9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 2" x="243" y="19" width="22" height="15" uuid="e99ddaee-f6e6-4ac1-9df0-bc25bd3515e5"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[PR9]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="36" width="760" height="1" uuid="1bbb6527-b0fe-42be-b6bf-201c6d73f73a">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="761" height="15" uuid="fa7cec56-4ec1-48e6-a26e-7266a995d174">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="23" height="15" uuid="23fcb5a5-7fff-4e2b-bdc4-41343d0f1a1c"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Age}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="23" y="0" width="22" height="15" uuid="b51dff8a-e087-41c4-ac12-fac0e780df2c"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{GPREK_F}!=0?$F{GPREK_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="45" y="0" width="22" height="15" uuid="e1259a57-c6bf-4e58-8315-ecfedbd75ed3"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{GK_F}!=0?$F{GK_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="67" y="0" width="22" height="15" uuid="4305cc2e-9c2b-47ba-a2b0-eaabd52c76f8"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G1_F}!=0?$F{G1_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="89" y="0" width="22" height="15" uuid="14423335-eb2d-49dd-a50a-5c29f830da6f"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G2_F}!=0?$F{G2_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="111" y="0" width="22" height="15" uuid="c60d8428-68e0-42d8-9f06-d4fd14d02381"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G3_F}!=0?$F{G3_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="133" y="0" width="22" height="15" uuid="7e8ea634-24b8-41d0-a1ff-28a26b605d4d"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G4_F}!=0?$F{G4_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="155" y="0" width="22" height="15" uuid="cb5b7364-f814-46ca-9a18-89cc004f5683"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G5_F}!=0?$F{G5_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="177" y="0" width="22" height="15" uuid="332b8f72-8653-4c60-aa73-db4771288155"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G6_F}!=0?$F{G6_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="199" y="0" width="22" height="15" uuid="c0e45d16-05fc-44ec-a324-1aaf5fbedc0a"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G7_F}!=0?$F{G7_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="221" y="0" width="22" height="15" uuid="cb77b889-b8e4-42c8-b78d-62de3aefeaaf"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G8_F}!=0?$F{G8_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="265" y="0" width="22" height="15" uuid="7ab39625-1ecd-40aa-ac4e-1085cd076db7"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G9_F}!=0?$F{G9_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="287" y="0" width="22" height="15" uuid="78a9dea8-a3bc-4852-befa-a14f9516f359"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G10_F}!=0?$F{G10_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="309" y="0" width="22" height="15" uuid="865ccfaa-06d6-4c49-b700-b4c2628706d5"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G11_F}!=0?$F{G11_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="331" y="0" width="22" height="15" uuid="5c5a7e03-7c7c-4519-94e3-9c7ec054dbf6"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G12_F}!=0?$F{G12_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="353" y="0" width="22" height="15" uuid="7904ccec-ea10-4383-8b7f-dd39f3c0692a"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Tot_F}!=0?$F{Tot_F}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="375" y="0" width="22" height="15" uuid="66b4b5e4-ccdf-4833-aef9-e1bd6660db91"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{GPREK_M}!=0?$F{GPREK_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="397" y="0" width="22" height="15" uuid="4f088829-f5db-4570-877d-1e1ef5daf225"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{GK_M}!=0?$F{GK_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="419" y="0" width="22" height="15" uuid="9d5f4edf-e1ba-4d24-b355-b77c90c8b756"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G1_M}!=0?$F{G1_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="441" y="0" width="22" height="15" uuid="87750a78-3d77-419a-a2ba-dbfeffa42f49"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G2_M}!=0?$F{G2_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="463" y="0" width="22" height="15" uuid="b5d4989c-b6fd-4974-86f9-a8871d210c25"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G3_M}!=0?$F{G3_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="485" y="0" width="22" height="15" uuid="fa932cf0-a514-4fcd-969f-baed58919d3f"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G4_M}!=0?$F{G4_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="507" y="0" width="22" height="15" uuid="1bf05f03-2065-48bf-88a9-d91b1ce41645"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G5_M}!=0?$F{G5_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="529" y="0" width="22" height="15" uuid="b6728d7f-75b8-4639-9192-9b6393280494"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G6_M}!=0?$F{G6_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="551" y="0" width="22" height="15" uuid="bc59d1e3-cf7a-4d8d-a5d0-e3ce01a9abc0"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G7_M}!=0?$F{G7_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="573" y="0" width="22" height="15" uuid="ea8d772b-fc55-4736-afb0-a5b4ff3a3bf2"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G8_M}!=0?$F{G8_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="617" y="0" width="22" height="15" uuid="5cdea793-8a06-48b5-8be7-009a539971af"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G9_M}!=0?$F{G9_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="639" y="0" width="22" height="15" uuid="d07daa1c-0985-43fb-adcb-3c7f9c6a796b"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G10_M}!=0?$F{G10_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="661" y="0" width="22" height="15" uuid="320f4d84-78ce-41d7-a650-1b8175143e50"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G11_M}!=0?$F{G11_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="683" y="0" width="22" height="15" uuid="0e311882-01fb-4317-8953-42ae5c8cefd6"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{G12_M}!=0?$F{G12_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="705" y="0" width="22" height="15" uuid="c5c7b806-1595-4859-8c82-eba91979d999"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Tot_M}!=0?$F{Tot_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="727" y="0" width="33" height="15" uuid="ccdf50a5-a347-4af9-a9b1-9acb3a4809a5"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Tot}!=0?$F{Tot}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="595" y="0" width="22" height="15" uuid="74e96d72-bfcf-4fee-bf26-bf456a352c68">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{GPRE9_M}!=0?$F{GPRE9_M}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="243" y="0" width="22" height="15" uuid="8ef3370d-9642-4a4a-83b7-9b405bdb0053"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{GPRE9_F}!=0?$F{GPRE9_F}:""]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-23" y="1" width="795" height="24" forecolor="#D0B48E" backcolor="#9BC2FF" uuid="5d8169bd-4a75-48c8-8a68-6d3ad5ba9402"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="715" y="1" width="40" height="20" uuid="e5e27efa-b599-499b-9ca3-848cb511cb7b">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="635" y="1" width="80" height="20" uuid="18cfe1ca-f7d6-48b0-9827-28578b42a5e0"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="fbce24bb-3cb1-44a3-8eec-8c067ddbe5b5"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

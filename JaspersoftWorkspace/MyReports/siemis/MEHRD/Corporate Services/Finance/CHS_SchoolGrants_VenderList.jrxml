@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-05-04T13:55:44 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CHS_SchoolGrants_VenderList" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="205d8181-1f26-4f4d-96b0-9c8221839504">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SIEMIS"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.5.197:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin|"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/SIEMIS_Reports/Corporate_Services/Finance/CHS_SchoolGrants_VenderList"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/SIEMIS_Reports/Corporate_Services/Finance/CHS_SchoolGrants_VenderList_files/main_jrxml"/>
+	<parameter name="SurveyYear" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT COALESCE(s.schGLSalaries,'-') as Vender_Code,
+	   s.schName as School_Name,
+	    d.dName as Province,
+		a.authName as Authority,
+	   SUM(CASE WHEN ee.enLevel ='Prep' THEN ee.enSum ELSE 0 END) as Prep,
+	   SUM(CASE WHEN ee.enLevel ='Std 1' THEN ee.enSum ELSE 0 END) as Year_1,
+	   SUM(CASE WHEN ee.enLevel ='Std 2' THEN ee.enSum ELSE 0 END) as Year_2,
+	   SUM(CASE WHEN ee.enLevel ='Std 3' THEN ee.enSum ELSE 0 END) as Year_3,
+	   SUM(CASE WHEN ee.enLevel ='Std 4' THEN ee.enSum ELSE 0 END) as Year_4,
+	   SUM(CASE WHEN ee.enLevel ='Std 5' THEN ee.enSum ELSE 0 END) as Year_5,
+	   SUM(CASE WHEN ee.enLevel ='Std 6' THEN ee.enSum ELSE 0 END) as Year_6,
+	   SUM(CASE WHEN ee.enLevel ='Form 1' THEN ee.enSum ELSE 0 END) as Year_7,
+	   SUM(CASE WHEN ee.enLevel ='Form 2' THEN ee.enSum ELSE 0 END) as Year_8,
+	   SUM(CASE WHEN ee.enLevel ='Form 3' THEN ee.enSum ELSE 0 END) as Year_9,
+	   SUM(CASE WHEN ee.enLevel ='Form 4' THEN ee.enSum ELSE 0 END) as Year_10,
+	   SUM(CASE WHEN ee.enLevel ='Form 5' THEN ee.enSum ELSE 0 END) as Year_11,
+	   SUM(CASE WHEN ee.enLevel ='Form 6' THEN ee.enSum ELSE 0 END) as Year_12,
+	   SUM(CASE WHEN ee.enLevel ='Form 7' THEN ee.enSum ELSE 0 END) as Year_13,
+	   SUM(CASE WHEN ee.enLevel IN ('Prep','Std 1','Std 2','Std 3','Std 4','Std 5','Std 6') THEN ee.enSum ELSE 0 END) as Total_Primary,
+	   SUM(CASE WHEN ee.enLevel IN ('Form 1','Form 2','Form 3') THEN ee.enSum ELSE 0 END) as Total_JSS,
+	    SUM(CASE WHEN ee.enLevel IN ('Form 4','Form 5','Form 6','Form 7') THEN ee.enSum ELSE 0 END) as Total_SSS,
+	   SUM(CASE WHEN ee.enLevel IN ('Form 1','Form 2','Form 3','Form 4','Form 5','Form 6','Form 7') THEN ee.enSum ELSE 0 END) as Total_Secondary,
+	   SUM(CASE WHEN ee.enLevel IN ('Prep','Std 1','Std 2','Std 3','Std 4','Std 5','Std 6','Form 1','Form 2','Form 3','Form 4','Form 5','Form 6','Form 7') THEN ee.enSum ELSE 0 END) as Grand_Total
+FROM pEnrolmentRead.EstimateEnrolment ee
+     INNER JOIN dbo.Schools s ON s.schNo = ee.schNo
+	 INNER JOIN dbo.Islands i ON i.iCode = s.iCode
+	 INNER JOIN dbo.Districts d ON d.dID = i.iGroup
+	 INNER JOIN dbo.Authorities a ON s.schAuth = a.authCode
+WHERE ee.LifeYear = $P{SurveyYear}
+AND s.schType IN ('CHS')
+GROUP BY s.schGLSalaries, s.schName,d.dName,a.authName
+ORDER BY  s.schName]]>
+	</queryString>
+	<field name="Vender_Code" class="java.lang.String"/>
+	<field name="School_Name" class="java.lang.String"/>
+	<field name="Province" class="java.lang.String"/>
+	<field name="Authority" class="java.lang.String"/>
+	<field name="Prep" class="java.lang.Integer"/>
+	<field name="Year_1" class="java.lang.Integer"/>
+	<field name="Year_2" class="java.lang.Integer"/>
+	<field name="Year_3" class="java.lang.Integer"/>
+	<field name="Year_4" class="java.lang.Integer"/>
+	<field name="Year_5" class="java.lang.Integer"/>
+	<field name="Year_6" class="java.lang.Integer"/>
+	<field name="Year_7" class="java.lang.Integer"/>
+	<field name="Year_8" class="java.lang.Integer"/>
+	<field name="Year_9" class="java.lang.Integer"/>
+	<field name="Year_10" class="java.lang.Integer"/>
+	<field name="Year_11" class="java.lang.Integer"/>
+	<field name="Year_12" class="java.lang.Integer"/>
+	<field name="Year_13" class="java.lang.Integer"/>
+	<field name="Total_Primary" class="java.lang.Integer"/>
+	<field name="Total_JSS" class="java.lang.Integer"/>
+	<field name="Total_SSS" class="java.lang.Integer"/>
+	<field name="Total_Secondary" class="java.lang.Integer"/>
+	<field name="Grand_Total" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="240" y="10" width="90" height="16" uuid="3f5e9b19-9c30-4b04-8d1f-34c9f9c80217"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Authority]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="-10" y="10" width="60" height="16" uuid="12aaf7ef-3ce1-4166-85e3-2229b648e89f"/>
+				<text><![CDATA[Vendor ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="150" y="10" width="90" height="16" uuid="d4f41df7-8797-4337-b5a6-79e78ab0c410"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Province]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="50" y="10" width="100" height="16" uuid="0983cbce-be62-4206-a52e-196769b959bb"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[School Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="330" y="10" width="30" height="16" uuid="60e57e34-0234-48d4-8908-9213f6a2664b"/>
+				<text><![CDATA[Prep]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="360" y="10" width="20" height="16" uuid="75425eea-e331-411f-954b-51b2d41b5f87"/>
+				<text><![CDATA[Y1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="380" y="10" width="20" height="16" uuid="ed473595-9218-4b7e-aacf-5a481f7b6283"/>
+				<text><![CDATA[Y2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="400" y="10" width="20" height="16" uuid="6743c10c-8105-4528-8d3f-5af2de81f7e9"/>
+				<text><![CDATA[Y3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="420" y="10" width="20" height="16" uuid="4d0324e7-4a5e-4926-82dc-3bef3983cf27"/>
+				<text><![CDATA[Y4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="440" y="10" width="20" height="16" uuid="9b24d3e8-a2b1-48f4-ba11-030777bcd9d2"/>
+				<text><![CDATA[Y5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="460" y="10" width="20" height="16" uuid="454a080c-44d9-4ea1-96ec-bdd3ef326a9d"/>
+				<text><![CDATA[Y6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="480" y="10" width="20" height="16" uuid="336850ec-d783-4e96-bbc6-5fd5acbc71f5"/>
+				<text><![CDATA[Y7]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="500" y="10" width="20" height="16" uuid="e3c93589-6044-4432-93ab-9836ac9aa079"/>
+				<text><![CDATA[Y8]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="520" y="10" width="20" height="16" uuid="04b36aa0-1e9a-454a-b6b8-a38bcbaaa9c2"/>
+				<text><![CDATA[Y9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="540" y="10" width="30" height="16" uuid="bb41d6b4-4f4e-493d-a384-db7c5d7e7ff8"/>
+				<text><![CDATA[Y10]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="570" y="10" width="30" height="16" uuid="c52fb825-6535-42e0-b173-5751b456d1fd"/>
+				<text><![CDATA[Y11]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="600" y="10" width="30" height="16" uuid="fa0e9f3c-d979-4222-b3b6-b6c65d29c4b9"/>
+				<text><![CDATA[Y12]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="630" y="10" width="30" height="16" uuid="48c64a9e-179b-4260-8030-c48846828392"/>
+				<text><![CDATA[Y13]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="660" y="10" width="30" height="16" uuid="e7d12287-f8a7-4458-89a5-e9e59c811394"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[PS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="690" y="10" width="30" height="16" uuid="f0f2a553-597c-4815-bde4-7b1ac4f34bdd"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[JSS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="720" y="10" width="30" height="16" uuid="665d8be2-9c27-45d9-b1a0-0e2e8deebede"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[SSS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="750" y="10" width="30" height="16" uuid="7daa9e8e-4bc8-4cf7-84fd-a9292128a80b"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[SS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="780" y="10" width="30" height="16" uuid="9120d715-176b-4695-bcc2-7977d734f0ef"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="-10" y="10" width="60" height="20" uuid="6315a38d-e56a-4fe0-849d-398d96275d64"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Vender_Code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="10" width="100" height="20" uuid="573d816c-7371-41c4-8df5-2846d2f2abb5"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{School_Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="10" width="90" height="20" uuid="0588486e-7d8e-41ae-9457-2c4f270ca11d"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Province}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="240" y="10" width="90" height="20" uuid="dd89d069-3536-4d7c-81e2-54eb332a9644"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Authority}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="10" width="30" height="20" uuid="20e9a851-9688-4816-817a-2acfaec688b7"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Prep}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="10" width="20" height="20" uuid="086f31e7-557d-4bef-9f5f-45a30b660bd0"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="10" width="20" height="20" uuid="5e31342f-404c-4904-9306-ebeca3fcc054"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="10" width="20" height="20" uuid="68e58b1c-abb7-4650-86f5-027438a017dd"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="10" width="20" height="20" uuid="27a92be0-0cc2-471e-ac97-4185d23bc729"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="10" width="20" height="20" uuid="66c90d07-423d-4bf1-b88a-ca8d59321bcc"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_5}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="10" width="20" height="20" uuid="3d51e2c8-4ea3-4524-b65b-25e6e42ba141"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_6}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="10" width="20" height="20" uuid="ca3d6cda-a312-4b24-899f-6ef7eaaa55de"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_7}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="10" width="20" height="20" uuid="6468da7c-0e36-4db7-b581-5e208ab575f0"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_8}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="10" width="20" height="20" uuid="6b9114ad-76e2-45d0-a50f-03aa579e6c76"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_9}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="540" y="10" width="30" height="20" uuid="9aaff592-b451-48aa-a56e-974c069456a5"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_10}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="570" y="10" width="30" height="20" uuid="d86b97e5-9ddb-4065-bca9-6c779ceb4891"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_11}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="600" y="10" width="30" height="20" uuid="d8080db1-f950-47a7-ad15-b3351078a4bb"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_12}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="630" y="10" width="30" height="20" uuid="e5e1d8e1-cecb-4798-8f16-a35c1e7a134d"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Year_13}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="660" y="10" width="30" height="20" uuid="bd30f8bc-d732-49b4-a03c-8ffd8194c5ef"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Total_Primary}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="690" y="10" width="30" height="20" uuid="99d2ef17-e7f3-477d-84a9-cfc2ba9429ff"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Total_JSS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="720" y="10" width="30" height="20" uuid="178e5c18-8cb8-4d5e-84cb-7cc9234cf364"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Total_SSS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="750" y="10" width="30" height="20" uuid="e9b2c0a9-b8a2-4c4c-87c3-7e08dc546477"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Total_Secondary}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="780" y="10" width="30" height="20" uuid="d32d0ba9-3aa4-4d61-9447-0ea0bc5b6169"/>
+				<textFieldExpression><![CDATA[$F{Grand_Total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

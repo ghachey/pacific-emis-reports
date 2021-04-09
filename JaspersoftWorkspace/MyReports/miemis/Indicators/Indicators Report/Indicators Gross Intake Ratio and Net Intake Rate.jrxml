@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Education Indicators Gross Intake Ratio and Net Intake Rate By Nation" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="be070e6f-88a5-4660-ba28-745d5ef154a2">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.jasperserver.url" value="http://data.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Indicators/Education_Indicators_Report_Book_By_Nation_files/Education_Indicators_Gross_Intake_Ratio_and_Net_Intake_Rate_By_Nation.jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Indicators/Education_Indicators_Report_Book_By_Nation"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="EdLevelCode" pattern="">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stylecode}.equals( "0" )]]></conditionExpression>
+			<style pattern="" fontName="Open Sans" fontSize="9" isBold="true">
+				<box>
+					<pen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stylecode}.equals( "1" )]]></conditionExpression>
+			<style pattern="" fontName="Open Sans" fontSize="9" isBold="true">
+				<box leftPadding="10"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stylecode}.equals( "3" )]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F2F2F2" pattern="" fontName="Open Sans" fontSize="9" isBold="true"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stylecode}.equals( "2" )]]></conditionExpression>
+			<style>
+				<box leftPadding="15"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Figure 8: GIR/NIR First/Last Year of Primary Education with Gender Chart" uuid="0d94fbb5-7001-4637-a0e5-c13fff6f3062">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select ClassLevel,SurveyYear,'GIR Female' as Category,round((intakeF/cast(popF as float))*100,2) as Percentage 
+from warehouse.ClassLevelER
+where SurveyYear=  $P{Year} 
+and ClassLevel in('G1','G8') 
+union
+select ClassLevel,SurveyYear,'GIR Male' as Category,round((intakeM/cast(popM as float))*100,2) as Percentage from warehouse.ClassLevelER
+where SurveyYear=  $P{Year} 
+and ClassLevel in('G1','G8')  
+union  
+select ClassLevel,SurveyYear,'NIR Male' as Category,round((nIntakeM/cast(popM as float))*100,2) as Percentage from warehouse.ClassLevelER
+where SurveyYear=   $P{Year} 
+and ClassLevel in('G1','G8')  
+union
+select ClassLevel,SurveyYear,'NIR Female' as Category,round((nIntakeF/cast(popF as float))*100,2) as Percentage from warehouse.ClassLevelER
+where SurveyYear=  $P{Year} 
+and ClassLevel in('G1','G8')]]>
+		</queryString>
+		<field name="ClassLevel" class="java.lang.String"/>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="Category" class="java.lang.String"/>
+		<field name="Percentage" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Figure 9: NIR/GIR First/Last Year of Primary Education Trend Chart" uuid="0f550339-0031-4ac7-9863-2cec44e16955">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select * from
+(
+select SurveyYear,'NIR-G1' as Category,round((sum(nIntake)/cast(sum(pop) as float))*100,2) as Percentage 
+from warehouse.ClassLevelER
+where SurveyYear <=   $P{Year}   and  SurveyYear>= ($P{Year}-5) 
+and ClassLevel ='G1'
+group by SurveyYear
+union
+select SurveyYear,'NIR-G8' as Category,round((sum(nIntake)/cast(sum(pop) as float))*100,2) as Percentage from warehouse.ClassLevelER
+where SurveyYear <=   $P{Year}   and  SurveyYear>= ($P{Year}-5) 
+and ClassLevel='G8'
+group by SurveyYear 
+union  
+select SurveyYear,'GIR-G1' as Category,round((sum(intake)/cast(sum(pop) as float))*100,2) as Percentage from warehouse.ClassLevelER
+where SurveyYear <=   $P{Year}   and  SurveyYear>= ($P{Year}-5) 
+and ClassLevel='G1'
+group by SurveyYear 
+union
+select SurveyYear,'GIR-G8' as Category,round((sum(intake)/cast(sum(pop) as float))*100,2) as Percentage from warehouse.ClassLevelER
+where SurveyYear <=   $P{Year}   and  SurveyYear>= ($P{Year}-5) 
+and ClassLevel ='G8'
+group by SurveyYear  ) as a 
+
+order by case when Category='NIR-G1' then 0  
+            when  Category='NIR-G8' then 1 
+              when  Category='GIR-G1' then 2 
+                when Category='GIR-G8' then 3 
+                end]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="Category" class="java.lang.String"/>
+		<field name="Percentage" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Table 4: NIR/GIR by Year, First/Last Year of Primary Education and Gender" uuid="6788be70-0fb3-4510-bab7-e363bd76bdc8">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select SurveyYear,Cast(SurveyYear as Varchar) as EduLevel ,'0' as stylecode,round(SUM(nIntake)/Cast(SUM(pop) as Float)*100,2) as NIR, 
+       round(SUM(nIntakeM)/Cast(SUM(popM) as Float)*100,2) as 'NIR Male',
+       round(SUM(nIntakeF)/Cast(SUM(popF) as Float)*100,2) as 'NIR Femal',
+       round(SUM(intake)/Cast(SUM(pop) as Float)*100,2) as 'GIR',
+       round(SUM(intakeM)/Cast(SUM(popM) as Float)*100,2) as 'GIR male',
+       round(SUM(intakeF)/Cast(SUM(popF) as Float)*100,2) as 'GIR Female'
+from warehouse.ClassLevelER
+where SurveyYear <= $P{Year}  and SurveyYear>=($P{Year} -5)  
+and ClassLevel in ('G1','G8')
+group by SurveyYear
+
+Union  
+select SurveyYear,ClassLevel ,'2' as stylecode,round(SUM(nIntake)/Cast(SUM(pop) as Float)*100,2) as NIR, 
+        round(SUM(nIntakeM)/Cast(SUM(popM) as Float)*100,2) as 'NIR Male',
+       round(SUM(nIntakeF)/Cast(SUM(popF) as Float)*100,2) as 'NIR Femal',
+       round(SUM(intake)/Cast(SUM(pop) as Float)*100,2) as 'GIR',
+       round(SUM(intakeM)/Cast(SUM(popM) as Float)*100,2) as 'GIR male',
+       round(SUM(intakeF)/Cast(SUM(popF) as Float)*100,2) as 'GIR Female'
+
+from warehouse.ClassLevelER
+where SurveyYear <= $P{Year}  and SurveyYear>=($P{Year} -5)
+and ClassLevel in ('G1','G8')
+group by SurveyYear,ClassLevel
+
+Union
+select '2050' as SurveyYear,'Grand Total' as edlevelcode,'3' as stylecode,round(SUM(nIntake)/Cast(SUM(pop) as Float)*100,2) as NIR, 
+         round(SUM(nIntakeM)/Cast(SUM(popM) as Float)*100,2) as 'NIR Male',
+       round(SUM(nIntakeF)/Cast(SUM(popF) as Float)*100,2) as 'NIR Femal',
+       round(SUM(intake)/Cast(SUM(pop) as Float)*100,2) as 'GIR',
+       round(SUM(intakeM)/Cast(SUM(popM) as Float)*100,2) as 'GIR male',
+       round(SUM(intakeF)/Cast(SUM(popF) as Float)*100,2) as 'GIR Female'
+
+from warehouse.ClassLevelER
+where SurveyYear <= $P{Year}  and SurveyYear>=($P{Year} -5)
+and ClassLevel in ('G1','G8')]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="EduLevel" class="java.lang.String"/>
+		<field name="stylecode" class="java.lang.String"/>
+		<field name="NIR" class="java.lang.Double"/>
+		<field name="NIR Male" class="java.lang.Double"/>
+		<field name="NIR Femal" class="java.lang.Double"/>
+		<field name="GIR" class="java.lang.Double"/>
+		<field name="GIR male" class="java.lang.Double"/>
+		<field name="GIR Female" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select 'One' as one]]>
+	</queryString>
+	<field name="one" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="560" splitType="Immediate">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<barChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="0" width="567" height="200" uuid="d49bc820-29bc-4ea3-a658-d47236d54fc2">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<chartTitle position="Bottom">
+						<font fontName="Open Sans" size="10" isBold="true"/>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 8: GIR/NIR First/Last Year of Primary Education with Gender Chart" uuid="d8484cce-62ab-48a3-909c-52fb1b5104e7">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Category}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{ClassLevel}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#8C9BDB"/>
+						<seriesColor seriesOrder="1" color="#E88B20"/>
+						<seriesColor seriesOrder="2" color="#B0A9A9"/>
+						<seriesColor seriesOrder="3" color="#FFCD29"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA[$P{Year}]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans" isBold="false"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Open Sans"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00.00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="200" width="381" height="19" uuid="dc79138e-d9ca-4467-ba53-93d13e65af2d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GIR/NIR First/Last Year of Primary Education with Gender Chart"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["GIR/NIR First/Last Year of Primary Education with Gender Chart"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<lineChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="240" width="567" height="200" uuid="20cce79d-a76a-411d-80df-6d5aa35735c9"/>
+					<chartTitle position="Bottom">
+						<font fontName="Open Sans" size="10" isBold="true"/>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 9: NIR/GIR First/Last Year of Primary Education Trend Chart" uuid="94efa60b-517b-40f7-8b25-d09c7ae7c44b">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Category}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{SurveyYear}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="360.0">
+						<seriesColor seriesOrder="0" color="#25B0BA"/>
+						<seriesColor seriesOrder="1" color="#E67030"/>
+					</plot>
+					<categoryAxisFormat labelRotation="360.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" verticalTickLabels="false" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="440" width="381" height="20" uuid="720c85a3-4840-47de-bf76-f215f5feaf7a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NIR/GIR First/Last Year of Primary Education Trend Chart"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["NIR/GIR First/Last Year of Primary Education Trend Chart"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="480" width="381" height="20" uuid="9c0347d1-6fdd-497a-9c85-2f2abb4fbacd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NIR/GIR by Year, First/Last Year of Primary Education and Gender"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["NIR/GIR by Year, First/Last Year of Primary Education and Gender"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<componentElement>
+				<reportElement positionType="Float" x="-20" y="500" width="567" height="40" uuid="d323be53-1fd2-4b4c-b411-c4a26182b535">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table 4: NIR/GIR by Year, First/Last Year of Primary Education and Gender" uuid="4fa44a3e-125e-4879-8b99-226da024a8e5">
+						<datasetParameter name="Year">
+							<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="85" uuid="0b7b49f8-56b9-4211-bdb2-8bffc15f0b25">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<staticText>
+								<reportElement style="EdLevelCode" x="0" y="0" width="85" height="20" uuid="463b9fe0-29c8-4b9e-89e0-34e2a5151785">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<box>
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="85" height="15" uuid="e0b481e6-fe71-4a31-8a62-806a6768f974"/>
+								<box>
+									<pen lineColor="#FFFFFF"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement>
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{EduLevel}==null?"N/A":$F{EduLevel}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="82" uuid="3511ddf0-f1a4-4741-a9c5-09716286ff08">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="82" height="20" uuid="3e196cc5-2074-477a-ba7d-f163428b1ece"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NIR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="82" height="15" uuid="c44fccbd-7eee-41d1-a906-0a5e9ad3ab4e"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NIR}==null?"N/A":$F{NIR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="82" uuid="ed4ecf88-4578-4bd6-8485-1521ef0e2fbe">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="82" height="20" uuid="c7b1b15a-ae6f-42d8-9296-489f83fa8798"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NIR Male]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="82" height="15" uuid="5be9d890-91eb-4c97-b7f1-38706e3dec02"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NIR Male}==null?"N/A":$F{NIR Male}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="81" uuid="af22409d-8e28-4f2e-9118-50fe46eee600">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="81" height="20" uuid="63f831cc-24c3-4122-beba-69c76c674b57"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NIR Female]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="81" height="15" uuid="10f6015e-fbba-44ca-b7ce-e14b6dd5e497"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NIR Femal}==null?"N/A":$F{NIR Femal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="91a856be-6654-4aca-8a4d-b1ad9df757cc">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="80" height="20" uuid="5a6cc6c0-a2b6-42b1-8353-c0fae85d0720"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[GIR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="80" height="15" uuid="98b635e4-9a9f-4169-8fe5-11090a28f8da"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GIR}==null?"N/A":$F{GIR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="3b9883bc-150d-40eb-bace-5a3688bffa46">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="80" height="20" uuid="d1f379b7-ac4b-40d7-82f2-b0f34a3400ef"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[GIR Male]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="80" height="15" uuid="435c1fe3-e80a-4c55-ab24-d1dea79347a1"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GIR male}==null?"N/A":$F{GIR male}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="77" uuid="37ffeb39-1efd-4cb6-a1d2-5fd4675e2022">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="77" height="20" uuid="cd0fbfba-514e-4fa0-9638-612b706f4dec"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[GIR Female]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="77" height="15" uuid="b0d71315-8eef-443c-a2d0-903c790ae263"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GIR Female}==null?"N/A":$F{GIR Female}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Summary of Classroom Observation Scores" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="69324236-0924-48a3-8f70-bbb7f07e367e">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="StandardColor" mode="Transparent" backcolor="#FFFFFF">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{standard}.equals("CO.1") || $V{standard}.equals("CO.3") || $V{standard}.equals("CO.5")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#E3E3E3"/>
+		</conditionalStyle>
+	</style>
+	<style name="totalStandardLevel">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{totalStandards}.intValue()>=0 && $V{totalStandards}.intValue()<=15 ? "Level 1" : 
+$V{totalStandards}.intValue()>15 && $V{totalStandards}.intValue()<=30 ? "Level 2" : 
+$V{totalStandards}.intValue()>30 && $V{totalStandards}.intValue()<=45 ? "Level 3" : "Level 4")==("Level 1")]]></conditionExpression>
+			<style mode="Opaque" forecolor="#000000" backcolor="#DE0404"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{totalStandards}.intValue()>=0 && $V{totalStandards}.intValue()<=15 ? "Level 1" : 
+$V{totalStandards}.intValue()>15 && $V{totalStandards}.intValue()<=30 ? "Level 2" : 
+$V{totalStandards}.intValue()>30 && $V{totalStandards}.intValue()<=45 ? "Level 3" : "Level 4")==("Level 2")]]></conditionExpression>
+			<style mode="Opaque" forecolor="#000000" backcolor="#F5DD87"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{totalStandards}.intValue()>=0 && $V{totalStandards}.intValue()<=15 ? "Level 1" : 
+$V{totalStandards}.intValue()>15 && $V{totalStandards}.intValue()<=30 ? "Level 2" : 
+$V{totalStandards}.intValue()>30 && $V{totalStandards}.intValue()<=45 ? "Level 3" : "Level 4")==("Level 3")]]></conditionExpression>
+			<style mode="Opaque" forecolor="#000000" backcolor="#8ED15E"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{totalStandards}.intValue()>=0 && $V{totalStandards}.intValue()<=15 ? "Level 1" : 
+$V{totalStandards}.intValue()>15 && $V{totalStandards}.intValue()<=30 ? "Level 2" : 
+$V{totalStandards}.intValue()>30 && $V{totalStandards}.intValue()<=45 ? "Level 3" : "Level 4")==("Level 4")]]></conditionExpression>
+			<style mode="Opaque" forecolor="#000000" backcolor="#5DA658"/>
+		</conditionalStyle>
+	</style>
+	<style name="LevelColorSE1" mode="Opaque">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.1}.intValue()>=0 && $V{SE.1}.intValue()<=50 ? "Level 1" : 
+$V{SE.1}.intValue()>50 && $V{SE.1}.intValue()<=75 ? "Level 2" : 
+$V{SE.1}.intValue()>75 && $V{SE.1}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 1")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#DE0404"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.1}.intValue()>=0 && $V{SE.1}.intValue()<=50 ? "Level 1" : 
+$V{SE.1}.intValue()>50 && $V{SE.1}.intValue()<=75 ? "Level 2" : 
+$V{SE.1}.intValue()>75 && $V{SE.1}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 2")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F5DD87"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.1}.intValue()>=0 && $V{SE.1}.intValue()<=50 ? "Level 1" : 
+$V{SE.1}.intValue()>50 && $V{SE.1}.intValue()<=75 ? "Level 2" : 
+$V{SE.1}.intValue()>75 && $V{SE.1}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 3")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#8ED15E"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.1}.intValue()>=0 && $V{SE.1}.intValue()<=50 ? "Level 1" : 
+$V{SE.1}.intValue()>50 && $V{SE.1}.intValue()<=75 ? "Level 2" : 
+$V{SE.1}.intValue()>75 && $V{SE.1}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 4")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#5DA658"/>
+		</conditionalStyle>
+	</style>
+	<style name="LevelColorSE2">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.2}.intValue()>=0 && $V{SE.2}.intValue()<=50 ? "Level 1" : 
+$V{SE.2}.intValue()>50 && $V{SE.2}.intValue()<=75 ? "Level 2" : 
+$V{SE.2}.intValue()>75 && $V{SE.2}.intValue()<=90 ? "Level 3" : "Level 4")==("Level 1")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#DE0404"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.2}.intValue()>=0 && $V{SE.2}.intValue()<=50 ? "Level 1" : 
+$V{SE.2}.intValue()>50 && $V{SE.2}.intValue()<=75 ? "Level 2" : 
+$V{SE.2}.intValue()>75 && $V{SE.2}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 2")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F5DD87"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.2}.intValue()>=0 && $V{SE.2}.intValue()<=50 ? "Level 1" : 
+$V{SE.2}.intValue()>50 && $V{SE.2}.intValue()<=75 ? "Level 2" : 
+$V{SE.2}.intValue()>75 && $V{SE.2}.intValue()<=90 ? "Level 3" : "Level 4")==("Level 3")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#8ED15E"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.2}.intValue()>=0 && $V{SE.2}.intValue()<=50 ? "Level 1" : 
+$V{SE.2}.intValue()>50 && $V{SE.2}.intValue()<=75 ? "Level 2" : 
+$V{SE.2}.intValue()>75 && $V{SE.2}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 4")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#5DA658"/>
+		</conditionalStyle>
+	</style>
+	<style name="LevelColorSE3" mode="Opaque">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.3}.intValue()>=0 && $V{SE.3}.intValue()<=50 ? "Level 1" : 
+$V{SE.3}.intValue()>50 && $V{SE.3}.intValue()<=75 ? "Level 2" : 
+$V{SE.3}.intValue()>75 && $V{SE.3}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 1")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#DE0404"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.3}.intValue()>=0 && $V{SE.3}.intValue()<=50 ? "Level 1" : 
+$V{SE.3}.intValue()>50 && $V{SE.3}.intValue()<=75 ? "Level 2" : 
+$V{SE.3}.intValue()>75 && $V{SE.3}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 2")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F5DD87"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.3}.intValue()>=0 && $V{SE.3}.intValue()<=50 ? "Level 1" : 
+$V{SE.3}.intValue()>50 && $V{SE.3}.intValue()<=75 ? "Level 2" : 
+$V{SE.3}.intValue()>75 && $V{SE.3}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 3")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#8ED15E"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.3}.intValue()>=0 && $V{SE.3}.intValue()<=50 ? "Level 1" : 
+$V{SE.3}.intValue()>50 && $V{SE.3}.intValue()<=75 ? "Level 2" : 
+$V{SE.3}.intValue()>75 && $V{SE.3}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 4")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#5DA658"/>
+		</conditionalStyle>
+	</style>
+	<style name="LevelColorSE4" mode="Opaque">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.4}.intValue()>=0 && $V{SE.4}.intValue()<=50 ? "Level 1" : 
+$V{SE.4}.intValue()>50 && $V{SE.4}.intValue()<=75 ? "Level 2" : 
+$V{SE.4}.intValue()>75 && $V{SE.4}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 1")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#DE0404"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.4}.intValue()>=0 && $V{SE.4}.intValue()<=50 ? "Level 1" : 
+$V{SE.4}.intValue()>50 && $V{SE.4}.intValue()<=75 ? "Level 2" : 
+$V{SE.4}.intValue()>75 && $V{SE.4}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 2")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F5DD87"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.4}.intValue()>=0 && $V{SE.4}.intValue()<=50 ? "Level 1" : 
+$V{SE.4}.intValue()>50 && $V{SE.4}.intValue()<=75 ? "Level 2" : 
+$V{SE.4}.intValue()>75 && $V{SE.4}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 3")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#8ED15E"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.4}.intValue()>=0 && $V{SE.4}.intValue()<=50 ? "Level 1" : 
+$V{SE.4}.intValue()>50 && $V{SE.4}.intValue()<=75 ? "Level 2" : 
+$V{SE.4}.intValue()>75 && $V{SE.4}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 4")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#5DA658"/>
+		</conditionalStyle>
+	</style>
+	<style name="LevelColorSE5" mode="Opaque">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.5}.intValue()>=0 && $V{SE.5}.intValue()<=50 ? "Level 1" : 
+$V{SE.5}.intValue()>50 && $V{SE.5}.intValue()<=75 ? "Level 2" : 
+$V{SE.5}.intValue()>75 && $V{SE.5}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 1")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#DE0404"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.5}.intValue()>=0 && $V{SE.5}.intValue()<=50 ? "Level 1" : 
+$V{SE.5}.intValue()>50 && $V{SE.5}.intValue()<=75 ? "Level 2" : 
+$V{SE.5}.intValue()>75 && $V{SE.5}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 2")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F5DD87"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.5}.intValue()>=0 && $V{SE.5}.intValue()<=50 ? "Level 1" : 
+$V{SE.5}.intValue()>50 && $V{SE.5}.intValue()<=75 ? "Level 2" : 
+$V{SE.5}.intValue()>75 && $V{SE.5}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 3")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#8ED15E"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.5}.intValue()>=0 && $V{SE.5}.intValue()<=50 ? "Level 1" : 
+$V{SE.5}.intValue()>50 && $V{SE.5}.intValue()<=75 ? "Level 2" : 
+$V{SE.5}.intValue()>75 && $V{SE.5}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 4")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#5DA658"/>
+		</conditionalStyle>
+	</style>
+	<style name="LevelColorSE6" mode="Opaque">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.6}.intValue()>=0 && $V{SE.6}.intValue()<=50 ? "Level 1" : 
+$V{SE.6}.intValue()>50 && $V{SE.6}.intValue()<=75 ? "Level 2" : 
+$V{SE.6}.intValue()>75 && $V{SE.6}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 1")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#DE0404"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.6}.intValue()>=0 && $V{SE.6}.intValue()<=50 ? "Level 1" : 
+$V{SE.6}.intValue()>50 && $V{SE.6}.intValue()<=75 ? "Level 2" : 
+$V{SE.6}.intValue()>75 && $V{SE.6}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 2")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F5DD87"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.6}.intValue()>=0 && $V{SE.6}.intValue()<=50 ? "Level 1" : 
+$V{SE.6}.intValue()>50 && $V{SE.6}.intValue()<=75 ? "Level 2" : 
+$V{SE.6}.intValue()>75 && $V{SE.6}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 3")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#8ED15E"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{SE.6}.intValue()>=0 && $V{SE.6}.intValue()<=50 ? "Level 1" : 
+$V{SE.6}.intValue()>50 && $V{SE.6}.intValue()<=75 ? "Level 2" : 
+$V{SE.6}.intValue()>75 && $V{SE.6}.intValue()<=90 ? "Level 3" : "Level 4").equals("Level 4")]]></conditionExpression>
+			<style mode="Opaque" backcolor="#5DA658"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Dataset1" uuid="a3652c21-0cc6-4a83-ab47-a150fa05f6d9">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+		<parameter name="SchoolNo" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA["CHK002"]]></defaultValueExpression>
+		</parameter>
+		<parameter name="Year" class="java.lang.String">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select 
+	t1.Standard as 'standard',
+	t1.criteria,
+	t1.Level,
+	t1.SubCriteriaOrder,
+	case 
+	when (sum(t1.Subcriteria) over())<(sum(t2.Subcriteria) over()) 
+	then t1.Subcriteria else t2.Subcriteria end as 'Subcriteria'
+from (select 
+	replace(Standard,'SE.','Standard ') as standard,RIGHT(criteria,1) as criteria,
+	concat('Level ',row_number() over (partition by criteria order by subcriteria)) as 'Level',ISNULL(SubCriteria,'NA') as SubCriteriaOrder,
+	cast(cast((case when RIGHT(Score,1)>5 then CEILING(Score) when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end) as int) as decimal)  as 'Subcriteria'
+from 
+   pInspectionRead.SchoolStandardAssessment where schNo=$P{SchoolNo}  and InspectionYear= $P{Year}   and category='Classroom Observation 1'
+   )t1 
+   
+   left join
+
+(select 
+	replace(Standard,'SE.','Standard ') as standard,RIGHT(criteria,1) as criteria,
+	concat('Level ',row_number() over (partition by criteria order by subcriteria)) as 'Level',ISNULL(SubCriteria,'NA') as SubCriteriaOrder,
+	cast(cast((case when RIGHT(Score,1)>5 then CEILING(Score) when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end) as int) as decimal)  as 'Subcriteria'
+from 
+   pInspectionRead.SchoolStandardAssessment where schNo=$P{SchoolNo}  and InspectionYear= $P{Year}  and category='Classroom Observation 2'
+   )t2 on t1.SubCriteriaOrder=t2.SubCriteriaOrder order by t1.standard,t1.criteria,t1.Level,t1.SubCriteriaOrder]]>
+		</queryString>
+		<field name="standard" class="java.lang.String"/>
+		<field name="criteria" class="java.lang.String"/>
+		<field name="Level" class="java.lang.String"/>
+		<field name="SubCriteriaOrder" class="java.lang.String"/>
+		<field name="Subcriteria" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="SchoolNo" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["CHK002"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select 
+		isnull([CO.1],0) as 'SE.1',
+		isnull([CO.2],0) as 'SE.2',
+		isnull([CO.3],0) as 'SE.3', 
+		isnull([CO.4],0) as 'SE.4', 
+		isnull([CO.5],0)as 'SE.5' 
+	from (
+
+select 
+	t1.Standard, case when (sum(t1.total) over())<(sum(t2.total) over()) then t1.total else t2.total end as total
+ from (
+select  schNo,InspectionYear,
+	Standard,
+	sum(cast(cast((case when RIGHT(Score,1)>5 then CEILING(Score) when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end) as int) as numeric)) as total 
+	from 
+	pInspectionRead.SchoolStandardAssessment where schNo= $P{SchoolNo}   and InspectionYear= $P{Year}   and category='Classroom Observation 1' group by Standard,schNo,InspectionYear )t1
+	left join
+(select  schNo,InspectionYear,
+	Standard,
+	sum(cast(cast((case when RIGHT(Score,1)>5 then CEILING(Score) when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end) as int) as numeric)) as total 
+	from 
+	pInspectionRead.SchoolStandardAssessment where schNo=$P{SchoolNo}   and InspectionYear= $P{Year}   and category='Classroom Observation 2' group by Standard,schNo,InspectionYear) t2
+	
+	on t1.Standard=t2.Standard
+	 )src 
+
+		pivot
+	(
+	  max(total)
+	  for Standard in ([CO.1], [CO.2], [CO.3], [CO.4], [CO.5])
+	) piv]]>
+	</queryString>
+	<field name="SE.1" class="java.math.BigDecimal"/>
+	<field name="SE.2" class="java.math.BigDecimal"/>
+	<field name="SE.3" class="java.math.BigDecimal"/>
+	<field name="SE.4" class="java.math.BigDecimal"/>
+	<field name="SE.5" class="java.math.BigDecimal"/>
+	<variable name="totalStandards" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{SE.1}.intValue()+$F{SE.2}.intValue()+$F{SE.3}.intValue()+$F{SE.4}.intValue()+$F{SE.5}.intValue()]]></variableExpression>
+	</variable>
+	<variable name="SE.1" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{SE.1}.doubleValue()*100/10]]></variableExpression>
+	</variable>
+	<variable name="SE.2" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{SE.2}.doubleValue()*100/20]]></variableExpression>
+	</variable>
+	<variable name="SE.3" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{SE.3}.doubleValue()*100/20]]></variableExpression>
+	</variable>
+	<variable name="SE.4" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{SE.4}.doubleValue()*100/5]]></variableExpression>
+	</variable>
+	<variable name="SE.5" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{SE.5}.doubleValue()*100/5]]></variableExpression>
+	</variable>
+	<title>
+		<band height="49">
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="80" y="22" width="100" height="27" backcolor="#E3E3E3" uuid="913b1ae9-eac5-4424-acbb-7257fb07bf75">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Standard 1"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="180" y="22" width="200" height="27" uuid="71c16cf0-1716-4c0c-a903-9d0265b9fe3a"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Standard 2"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="380" y="22" width="200" height="27" backcolor="#E3E3E3" uuid="afd738bb-d0ff-4d5e-8bfd-9ffbbb2bfac1"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Standard 3"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="580" y="22" width="50" height="27" uuid="0fdbc886-d3d9-4b8c-bb3f-c5e6b3b5ea85"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9.5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Standard 4"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="630" y="22" width="50" height="27" backcolor="#E3E3E3" uuid="912c123d-eced-41dd-97ac-45ee57ed0960">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9.5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Standard 5"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="680" y="22" width="40" height="27" backcolor="#E3E3E3" uuid="5e5ee4df-b8ab-45e5-91e9-d9a42107ca02"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="24" width="40" height="25" uuid="e95262e2-5c60-4103-bdd2-87be7b03d106">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineColor="#C8C8C8"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="30" y="22" width="50" height="27" uuid="0d3b4abb-d03a-4ca4-b229-efd46f7e6af5"/>
+				<box rightPadding="3">
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Criteria]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="2" width="720" height="20" backcolor="#C8C8C8" uuid="a38a8a8f-b7fe-4de1-85f0-16c880baba92"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Summary of Classroom Observation Scores"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="61" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="1" width="790" height="60" uuid="13ae62ec-45db-41c8-b206-c42aa9c159d1">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+				</reportElement>
+				<crosstabDataset>
+					<dataset>
+						<datasetRun subDataset="Dataset1" uuid="49b8c751-4cfd-43c8-8d3e-e67c2a259f8d">
+							<datasetParameter name="SchoolNo">
+								<datasetParameterExpression><![CDATA[$P{SchoolNo}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+				</crosstabDataset>
+				<crosstabHeaderCell>
+					<cellContents>
+						<box>
+							<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+							<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+						</box>
+						<frame>
+							<reportElement x="0" y="0" width="80" height="20" uuid="958cecd2-f9d1-451d-b888-bb70f3da1443"/>
+							<line>
+								<reportElement x="40" y="-1" width="40" height="20" uuid="9416e52f-e433-47cc-b89f-880153223a9b"/>
+								<graphicElement>
+									<pen lineColor="#C8C8C8"/>
+								</graphicElement>
+							</line>
+							<staticText>
+								<reportElement x="1" y="4" width="60" height="16" uuid="55a6f70f-7afb-4f55-b0e8-b5fda1105e97"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Sub-Criteria]]></text>
+							</staticText>
+						</frame>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="Level" width="80" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{Level}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Transparent" style="Crosstab_CH">
+							<box>
+								<pen lineWidth="1.0"/>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="80" height="20" uuid="bd3c8b59-70ed-4a36-ba23-77e56022d1bc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Level}.equals("Level 1") ? "a":
+$V{Level}.equals("Level 2") ? "b" :
+$V{Level}.equals("Level 3") ? "c":
+$V{Level}.equals("Level 4") ? "d": "e"]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Transparent" style="Crosstab_CT">
+							<box>
+								<pen lineWidth="1.0"/>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="80" height="20" forecolor="#000000" uuid="92ced79f-bd33-45fc-9b93-92a7614673f8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Level]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="standard" height="0" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{standard}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Transparent" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<textField>
+								<reportElement x="0" y="0" width="50" height="0" uuid="c3bea265-9452-478f-b6ba-31aaba4d5d27"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{standard}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Transparent" style="Crosstab_CT">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="40" height="20" forecolor="#000000" backcolor="#E3E3E3" uuid="11726146-e5f3-4b86-ba8d-6bd83fc23807"/>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Top">
+									<font fontName="Open Sans" isBold="true"/>
+								</textElement>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="criteria" height="20">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{criteria}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Transparent" style="Crosstab_CH">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							</box>
+							<textField isBlankWhenNull="true">
+								<reportElement style="StandardColor" x="0" y="0" width="50" height="20" uuid="b2dcf078-308a-4a0c-aec2-07c37e7a86db"/>
+								<box topPadding="0" bottomPadding="0">
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+									<bottomPen lineWidth="1.25" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{criteria}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents>
+							<staticText>
+								<reportElement x="0" y="0" width="-2147483648" height="-2147483648" uuid="670497a2-53fa-40bb-b950-a4af7a59f462"/>
+								<text><![CDATA[Total criteria]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="Subcriteria_MEASURE" class="java.lang.Integer" calculation="Sum">
+					<measureExpression><![CDATA[$F{Subcriteria}]]></measureExpression>
+				</measure>
+				<crosstabCell width="50" height="20">
+					<cellContents mode="Transparent" style="Crosstab_CD">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<box>
+							<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+							<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+						</box>
+						<textField isBlankWhenNull="true">
+							<reportElement style="StandardColor" mode="Opaque" x="0" y="0" width="50" height="20" uuid="ba38f5fd-fd7c-4146-9579-d24a423621fd">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							</reportElement>
+							<box topPadding="0" bottomPadding="0">
+								<pen lineWidth="1.0"/>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Open Sans" isBold="false"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Subcriteria_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" columnTotalGroup="criteria">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" uuid="da4fa5b4-b4df-43b9-8929-694ae1ce86dd"/>
+							<textFieldExpression><![CDATA[$V{Subcriteria_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" height="20" rowTotalGroup="Level">
+					<cellContents backcolor="#FFFFFF" mode="Transparent" style="Crosstab_CT">
+						<box>
+							<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<bottomPen lineWidth="1.25" lineStyle="Dotted" lineColor="#C8C8C8"/>
+							<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+						</box>
+						<textField isBlankWhenNull="true">
+							<reportElement style="StandardColor" x="0" y="0" width="50" height="20" forecolor="#000000" uuid="b0f18eb7-1453-44c0-a11c-87ec2fec6c22"/>
+							<box topPadding="0" bottomPadding="0">
+								<pen lineWidth="1.0"/>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Open Sans" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Subcriteria_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="Level" columnTotalGroup="criteria">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="72dc4f6b-309e-40e0-9305-c8e77ea4639b"/>
+							<textFieldExpression><![CDATA[$V{Subcriteria_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="40" height="20" columnTotalGroup="standard">
+					<cellContents backcolor="#E3E3E3" mode="Opaque" style="Crosstab_CT">
+						<box>
+							<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+						</box>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="40" height="20" rowTotalGroup="Level" columnTotalGroup="standard">
+					<cellContents backcolor="#E3E3E3" mode="Opaque" style="Crosstab_CT">
+						<box>
+							<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+						</box>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</detail>
+	<summary>
+		<band height="47" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="80" y="0" width="100" height="28" backcolor="#E3E3E3" uuid="1247376c-44e3-407a-9cf0-6de8c06d063b"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="180" y="0" width="200" height="28" uuid="3efa44f9-42a6-41cf-acbb-9527e9816489"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="380" y="0" width="200" height="28" backcolor="#E3E3E3" uuid="2870aecc-3073-45b6-aea4-44d8b78fa0ba"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="580" y="0" width="50" height="28" uuid="32ba5d60-4253-4c5d-9d6c-2df07be37f86"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.4}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="630" y="0" width="50" height="28" backcolor="#E3E3E3" uuid="fd16e101-ddbd-477e-9212-20d4e8e4bb07"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.5}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="680" y="0" width="40" height="27" backcolor="#E3E3E3" uuid="bb1d4b7c-3cf1-4e95-8882-08325a510c2c"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalStandards}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="80" height="28" uuid="88f68f64-1ce7-4917-b01a-f5e3e37863c6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total by Standards"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="28" width="80" height="19" uuid="dcb4e32b-0ede-4472-9750-5d5f399ae5ae">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Level"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" style="LevelColorSE1" x="80" y="27" width="100" height="19" uuid="a4e1f0d7-ebdd-421b-b5d4-a0b645609994"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SE.1}.intValue()>=0 && $V{SE.1}.intValue()<=50 ? "Level 1" : 
+$V{SE.1}.intValue()>50 && $V{SE.1}.intValue()<=75 ? "Level 2" : 
+$V{SE.1}.intValue()>75 && $V{SE.1}.intValue()<=90 ? "Level 3" : "Level 4"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" style="LevelColorSE2" x="180" y="27" width="200" height="19" uuid="a60257e1-984b-491e-83ed-887102092050"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SE.2}.intValue()>=0 && $V{SE.2}.intValue()<=50 ? "Level 1" : 
+$V{SE.2}.intValue()>50 && $V{SE.2}.intValue()<=75 ? "Level 2" : 
+$V{SE.2}.intValue()>75 && $V{SE.2}.intValue()<=90 ? "Level 3" : "Level 4"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" style="LevelColorSE3" x="380" y="27" width="200" height="19" uuid="d9ce8e8f-b4d6-4008-8e02-c373e967c4aa"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SE.3}.intValue()>=0 && $V{SE.3}.intValue()<=50 ? "Level 1" : 
+$V{SE.3}.intValue()>50 && $V{SE.3}.intValue()<=75 ? "Level 2" : 
+$V{SE.3}.intValue()>75 && $V{SE.3}.intValue()<=90 ? "Level 3" : "Level 4"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" style="LevelColorSE4" x="580" y="27" width="50" height="19" uuid="5f38595c-9378-4f8b-98f2-e2bc7604f2d5"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SE.4}.intValue()>=0 && $V{SE.4}.intValue()<=50 ? "Level 1" : 
+$V{SE.4}.intValue()>50 && $V{SE.4}.intValue()<=75 ? "Level 2" : 
+$V{SE.4}.intValue()>75 && $V{SE.4}.intValue()<=90 ? "Level 3" : "Level 4"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="" style="LevelColorSE5" x="630" y="27" width="50" height="19" uuid="50deb87d-ae7f-4f31-9e32-f842b82758aa"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SE.5}.intValue()>=0 && $V{SE.5}.intValue()<=50 ? "Level 1" : 
+$V{SE.5}.intValue()>50 && $V{SE.5}.intValue()<=75 ? "Level 2" : 
+$V{SE.5}.intValue()>75 && $V{SE.5}.intValue()<=90 ? "Level 3" : "Level 4"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="" style="totalStandardLevel" x="680" y="27" width="40" height="19" uuid="5f1aa1be-51a3-4ff8-a2a2-e106aae581ae"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalStandards}.intValue()>=0 && $V{totalStandards}.intValue()<=15 ? "Level 1" : 
+$V{totalStandards}.intValue()>15 && $V{totalStandards}.intValue()<=30 ? "Level 2" : 
+$V{totalStandards}.intValue()>30 && $V{totalStandards}.intValue()<=45 ? "Level 3" : "Level 4"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

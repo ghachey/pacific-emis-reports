@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="6 - Teachers - Certified, Qualified" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - KEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/KEMIS_Reports/Statistical_Brief/Changes_in_Enrollments"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="636"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="350"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="345"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="650"/>
+	<template><![CDATA["../Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[2016]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[-- •	Table: teachers- school type (row), pct. qualified, pct. certified all for the last two years
+
+select e.EnrolThisYear, 
+       e.EnrolPrev1, 
+	   e.EnrolPrev2, 
+	   ROUND( CAST(e.EnrolThisYear as numeric) / t.AllTeachersThisYear, 1) as teacherRatioThisYear,
+	   ROUND( CAST(e.EnrolPrev1 as numeric) / t.AllTeachersPrev1, 1) as teacherRatioPrev1,
+	   ROUND( CAST(e.EnrolPrev2 as numeric) / t.AllTeachersPrev2, 1) as teacherRatioPrev2,
+	   t.* from
+(
+select 
+       Sector,
+	   SUM(CASE WHEN surveyYear = $P{year} - 0 THEN 1 ELSE 0 END) as AllTeachersThisYear,
+	   SUM(CASE WHEN surveyYear = $P{year} - 1 THEN 1 ELSE 0 END) as AllTeachersPrev1,
+	   SUM(CASE WHEN surveyYear = $P{year} - 2 THEN 1 ELSE 0 END) as AllTeachersPrev2,
+
+	   SUM(CASE WHEN surveyYear = $P{year} - 0 THEN Certified ELSE 0 END) as CertifiedThisYear,
+	   SUM(CASE WHEN surveyYear = $P{year} - 1 THEN Certified ELSE 0 END) as CertifiedPrev1,
+	   SUM(CASE WHEN surveyYear = $P{year} - 2 THEN Certified ELSE 0 END) as CertifiedPrev2,
+	   SUM(CASE WHEN surveyYear = $P{year} - 0 THEN Qualified ELSE 0 END) as QualifiedThisYear,
+	   SUM(CASE WHEN surveyYear = $P{year} - 1 THEN Qualified ELSE 0 END) as QualifiedPrev1,
+	   SUM(CASE WHEN surveyYear = $P{year} - 2 THEN Qualified ELSE 0 END) as QualifiedPrev2,
+	   CASE WHEN Sector = 'PRI' THEN 1 WHEN Sector = 'JSS' THEN 2 ELSE 3 END as orderby
+
+from warehouse.TeacherLocation t
+group by Sector
+having Sector is not Null
+) t join 
+(select 
+	Sector,
+	SUM(EnrolThisYear) as EnrolThisYear,
+	SUM(EnrolPrev1) as EnrolPrev1,
+	SUM(EnrolPrev2) as EnrolPrev2
+	 from 
+	(select 
+		   CASE 
+			 WHEN ClassLevel in ('P1', 'P2', 'P3', 'P4', 'P5', 'P6') THEN 'PRI'
+			 WHEN ClassLevel in ('JS1', 'JS2', 'JS3') THEN 'JSS'
+			 WHEN ClassLevel in ('SS1', 'SS2', 'SS3', 'SS4') THEN 'SEC'
+		   END as Sector,
+		   CASE WHEN surveyYear = $P{year} - 0 THEN Enrol ELSE 0 END as EnrolThisYear,
+		   CASE WHEN surveyYear = $P{year} - 1 THEN Enrol ELSE 0 END as EnrolPrev1,
+		   CASE WHEN surveyYear = $P{year} - 2 THEN Enrol ELSE 0 END as EnrolPrev2
+		 
+ 
+	from warehouse.enrol ) e
+	where Sector is not Null
+	group by Sector ) e on t.Sector = e.Sector
+order by orderby]]>
+	</queryString>
+	<field name="EnrolThisYear" class="java.lang.Integer"/>
+	<field name="EnrolPrev1" class="java.lang.Integer"/>
+	<field name="EnrolPrev2" class="java.lang.Integer"/>
+	<field name="teacherRatioThisYear" class="java.math.BigDecimal"/>
+	<field name="teacherRatioPrev1" class="java.math.BigDecimal"/>
+	<field name="teacherRatioPrev2" class="java.math.BigDecimal"/>
+	<field name="Sector" class="java.lang.String"/>
+	<field name="AllTeachersThisYear" class="java.lang.Integer"/>
+	<field name="AllTeachersPrev1" class="java.lang.Integer"/>
+	<field name="AllTeachersPrev2" class="java.lang.Integer"/>
+	<field name="CertifiedThisYear" class="java.lang.Integer"/>
+	<field name="CertifiedPrev1" class="java.lang.Integer"/>
+	<field name="CertifiedPrev2" class="java.lang.Integer"/>
+	<field name="QualifiedThisYear" class="java.lang.Integer"/>
+	<field name="QualifiedPrev1" class="java.lang.Integer"/>
+	<field name="QualifiedPrev2" class="java.lang.Integer"/>
+	<field name="orderby" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="124" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="90" y="0" width="353" height="62" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
+				<text><![CDATA[Stats Brief]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="10" forecolor="#08298C" backcolor="#08298C" uuid="d2c1de46-cc23-45d7-baae-f3db758a22f4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-20" y="-10" width="10" height="10" forecolor="#08298C" backcolor="#08298C" uuid="82be1372-47c3-4488-8799-e379cf02a1dc">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="565" y="-10" width="10" height="10" forecolor="#08298C" backcolor="#08298C" uuid="381229bf-790d-4ab8-92ba-f2c4c103310d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-20" y="-9" width="22" height="19" forecolor="#FFFFFF" uuid="eb7e3cd7-5c3b-404f-92ca-e40918a0f081">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="553" y="-9" width="22" height="19" forecolor="#FFFFFF" uuid="48197aee-8bf4-4b7f-8728-a4843a0b870b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Page footer" x="120" y="60" width="320" height="55" uuid="aac0dd0e-695e-4839-8e52-4212d1369f89"/>
+				<textElement textAlignment="Center">
+					<font size="19"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Enrollments by Class Level for " + $P{year} + " compared to previous two years"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="463" y="0" width="92" height="115" uuid="f63e4ed0-d89f-46c4-ada9-43f63ccf5878"/>
+				<imageExpression><![CDATA["../Images/Kiribati Crest.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="-1" y="0" width="92" height="115" uuid="ca7cba89-5a0c-4b19-b4df-20c56f2da156"/>
+				<imageExpression><![CDATA["../Images/Kiribati Crest.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="53" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-1" y="52" width="555" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="30" height="16" uuid="1f0dcac7-13c9-4191-b63f-8487b4a8b1ea"/>
+				<text><![CDATA[Level]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="32" y="2" width="140" height="14" uuid="83945965-5222-4487-ab63-ad12f4868dc6"/>
+				<textFieldExpression><![CDATA["Number of Teachers"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="32" y="16" width="36" height="14" uuid="9c03ecd3-f421-41ba-bf4c-7a1ab1cf3703"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="16" width="36" height="14" uuid="85d03528-47b3-40cc-b8d8-b06e43c9970a"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="16" width="36" height="14" uuid="324998a3-bff4-4c43-be8c-5441f88f6b71"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 2]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="169" y="3" width="140" height="14" uuid="8214b7a3-282a-4cf8-9301-38dfa660b786"/>
+				<textFieldExpression><![CDATA["Certified Teachers %"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="169" y="17" width="36" height="14" uuid="3bdc02b1-0ce0-472b-84aa-b7a0dc0a707c"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="206" y="17" width="36" height="14" uuid="229a330c-9bab-4f7d-b4bb-c744cb949689"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="242" y="17" width="36" height="14" uuid="179cb8d0-ccd6-4503-86a7-59d3f3f7ff31"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 2]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="308" y="3" width="140" height="14" uuid="a2dacd4b-5fa9-4e04-8d5a-456fa473c17d"/>
+				<textFieldExpression><![CDATA["Qualified Teachers %"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="308" y="17" width="36" height="14" uuid="648b225b-712f-4bec-8049-9b250f726c31"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="345" y="17" width="36" height="14" uuid="1de96aa4-6630-4028-afc9-3233bff0416e"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="381" y="17" width="36" height="14" uuid="dba89819-98f1-4e92-bc5d-1890c9cb93a9"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 2]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="446" y="3" width="140" height="14" uuid="734bb4df-d154-4a5d-90ac-d83306163717"/>
+				<textFieldExpression><![CDATA["Students/Teachers"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="446" y="17" width="36" height="14" uuid="11628034-66e6-456a-8365-2dc917e8718a"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="483" y="17" width="36" height="14" uuid="c5e660d2-896e-424b-acb6-18ed5ba03f53"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="519" y="17" width="36" height="14" uuid="5c1de7a1-c07f-49c5-83b2-29a9a88f9935"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 2]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="10" y="0" width="20" height="15" uuid="bfefe933-16f9-470c-a919-9b23dfc00ac7"/>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+						<paragraph lineSpacing="1_1_2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Sector}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="41" y="0" width="20" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{AllTeachersThisYear}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="74" y="0" width="20" height="15" uuid="a9bc7f13-ec57-4f97-923d-7d40d9af6aee"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{AllTeachersPrev1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="114" y="0" width="20" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{AllTeachersPrev2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="177" y="0" width="20" height="15" uuid="60405738-aa6f-4c7c-bf71-7b8e7364c920"/>
+					<textElement textAlignment="Left">
+						<paragraph lineSpacing="Proportional"/>
+					</textElement>
+					<textFieldExpression><![CDATA[BigDecimal.valueOf(100.0 * $F{CertifiedThisYear} / $F{AllTeachersThisYear}).setScale(1, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="212" y="0" width="20" height="15" uuid="b5541f7c-81a7-4e7c-ad97-a9048ce51930"/>
+					<textElement textAlignment="Left">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
+					<textFieldExpression><![CDATA[BigDecimal.valueOf(100.0 * $F{CertifiedPrev1} / $F{AllTeachersPrev1}).setScale(1, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="248" y="0" width="20" height="15" uuid="c336e8fd-b093-47fc-81b5-4d872a118501"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[BigDecimal.valueOf(100.0 * $F{CertifiedPrev2} / $F{AllTeachersPrev2}).setScale(1, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="314" y="0" width="20" height="15" uuid="5b196a2b-77ab-4ed5-8818-e1a49291f904"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[BigDecimal.valueOf(100.0 * $F{QualifiedThisYear} / $F{AllTeachersThisYear}).setScale(1, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="352" y="0" width="20" height="15" uuid="c16df2e6-0a0b-49e3-8ca2-a4af36db5d01"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[BigDecimal.valueOf(100.0 * $F{QualifiedPrev1} / $F{AllTeachersPrev1}).setScale(1, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="387" y="0" width="20" height="15" uuid="09785525-abd2-4a85-b576-982aae8650ac"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[BigDecimal.valueOf(100.0 * $F{QualifiedPrev2} / $F{AllTeachersPrev2}).setScale(1, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="455" y="0" width="20" height="15" uuid="fa6cf809-caab-4132-a979-6805ad333ad5"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[BigDecimal.valueOf(1.0  * $F{EnrolThisYear} / $F{AllTeachersThisYear}).setScale(1, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="528" y="0" width="20" height="15" uuid="1e90b77b-cddc-4314-a1e7-9593acadafff"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[BigDecimal.valueOf(1.0  * $F{EnrolPrev2} / $F{AllTeachersPrev2}).setScale(1, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="493" y="0" width="20" height="15" uuid="27c0c3f3-8f3e-40a9-b443-c61dbfca1762"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[BigDecimal.valueOf(1.0  * $F{EnrolPrev1} / $F{AllTeachersPrev1}).setScale(1, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#8298C0" backcolor="#9BC2FF" uuid="183682bc-d976-4756-83e0-6625a3f98ed1"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="533" y="0" width="40" height="20" uuid="0193f9b3-1559-491a-8580-b6988863b6a1"/>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="453" y="0" width="80" height="20" uuid="d00b105e-494b-418b-8ac9-8b1b4824f4f0"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="0616f3fe-0354-456f-8911-ec30ec51a5ae"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="406" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

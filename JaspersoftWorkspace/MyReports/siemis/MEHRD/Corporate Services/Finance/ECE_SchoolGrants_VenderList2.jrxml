@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-06-02T17:43:06 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CHS_SchoolGrants_VenderList" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="205d8181-1f26-4f4d-96b0-9c8221839504">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SIEMIS"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.5.197:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin|"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/SIEMIS_Reports/Corporate_Services/Finance/CHS_SchoolGrants_VenderList"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/SIEMIS_Reports/Corporate_Services/Finance/CHS_SchoolGrants_VenderList_files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="318"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="676"/>
+	<parameter name="SurveyYear" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT COALESCE(s.schGLSalaries,'-') as Vender_Code,
+	   s.schName as School_Name,
+	    d.dName as Province,
+		a.authName as Authority,
+
+	   SUM(CASE WHEN ee.enLevel IN ('ECE') THEN ee.enSum ELSE 0 END) as ECE_Total
+FROM pEnrolmentRead.EstimateEnrolment ee
+     INNER JOIN dbo.Schools s ON s.schNo = ee.schNo
+	 INNER JOIN dbo.Islands i ON i.iCode = s.iCode
+	 INNER JOIN dbo.Districts d ON d.dID = i.iGroup
+	 INNER JOIN dbo.Authorities a ON s.schAuth = a.authCode
+WHERE ee.LifeYear = $P{SurveyYear}
+AND s.schType IN ('ECE')
+GROUP BY s.schGLSalaries, s.schName,d.dName,a.authName
+ORDER BY  s.schName]]>
+	</queryString>
+	<field name="Vender_Code" class="java.lang.String"/>
+	<field name="School_Name" class="java.lang.String"/>
+	<field name="Province" class="java.lang.String"/>
+	<field name="Authority" class="java.lang.String"/>
+	<field name="ECE_Total" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="240" y="10" width="90" height="16" uuid="3f5e9b19-9c30-4b04-8d1f-34c9f9c80217"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Authority]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="-10" y="10" width="60" height="16" uuid="12aaf7ef-3ce1-4166-85e3-2229b648e89f"/>
+				<text><![CDATA[Vendor ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="150" y="10" width="90" height="16" uuid="d4f41df7-8797-4337-b5a6-79e78ab0c410"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Province]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="50" y="10" width="100" height="16" uuid="0983cbce-be62-4206-a52e-196769b959bb"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[School Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="10" width="80" height="16" uuid="9120d715-176b-4695-bcc2-7977d734f0ef"/>
+				<text><![CDATA[ECE Total]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="-10" y="10" width="60" height="20" uuid="6315a38d-e56a-4fe0-849d-398d96275d64"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Vender_Code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="10" width="100" height="20" uuid="573d816c-7371-41c4-8df5-2846d2f2abb5"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{School_Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="10" width="90" height="20" uuid="0588486e-7d8e-41ae-9457-2c4f270ca11d"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Province}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="240" y="10" width="90" height="20" uuid="dd89d069-3536-4d7c-81e2-54eb332a9644"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Authority}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="10" width="80" height="20" uuid="d32d0ba9-3aa4-4d61-9447-0ea0bc5b6169"/>
+				<textFieldExpression><![CDATA[$F{ECE_Total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

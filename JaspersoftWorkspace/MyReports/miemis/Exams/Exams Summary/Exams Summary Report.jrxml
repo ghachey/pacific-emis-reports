@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams Summary Report By Nation" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8b63a1f3-92f9-4ee9-b169-047cd8a3836d">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.2.185:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Teachers/Teachers_Report_National/Teachers_Summary_Report_By_Nation_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Teachers/Teachers_Report_National/Teachers_Summary_Report_By_Nation"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select 'One' as one]]>
+	</queryString>
+	<field name="one" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="31" splitType="Immediate">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="612" height="20" uuid="b841b958-f8b7-4b73-9e47-597f2ebe6f2b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="420" height="20" backcolor="#073C78" uuid="63a4f9c5-5adc-48e9-89fc-2972fe665d26">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["1. Exams Results for Nation-wide Performance by Benchmarks"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Exams Results for Nation-wide Performance by Benchmarks"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport overflowType="Stretch">
+				<reportElement positionType="Float" x="0" y="21" width="572" height="10" uuid="d1cef9c9-334e-4a8f-acb7-49a4baf52641">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Exams Results for Nation wide Performance by Benchmarks.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="31" splitType="Immediate">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="612" height="20" uuid="157f6a58-f0ab-4811-a55a-064a67dee31c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" backcolor="#073C78" uuid="817b585a-0044-4fcc-a31a-7084166ad648">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["2. Exam Results for Recent Years by Standards"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Exam Results for Recent Years by Standards"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="21" width="572" height="10" uuid="2dace05a-42a3-490d-be68-fd77bf4a82da"/>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Exam Results for Recent Years by Standards.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="31" splitType="Immediate">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="612" height="20" uuid="f536c899-1a83-418d-b7c3-24659fd87ad4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="570" height="20" backcolor="#073C78" uuid="e245c6cc-96fd-4600-9544-45df24d08497">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["3. Nation Exam Results by Exam, Year, Standard, Benchmark, Level of Achievement and Gender"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Nation Exam Results by Exam, Year, Standard, Benchmark, Level of Achievement and Gender"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="21" width="572" height="10" uuid="c746045e-8229-4d05-b01f-94e0237350ea">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Nation Exam Results by Exam Year Standard Benchmark Level of Achievement and Gender.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="21" width="572" height="10" uuid="237f2c63-ee97-415b-aa2e-b1142518dcd7"/>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Exams Results Comparing States.jrxml"]]></subreportExpression>
+			</subreport>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="612" height="20" uuid="957239ae-a5c9-4982-adef-9dd1c745c58d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" backcolor="#073C78" uuid="2b88f955-aa44-46e3-a38e-464c7eabbe7b">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["4. Exams Results Comparing Atolls"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Exams Results Comparing States"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="21" width="572" height="10" uuid="2a10989b-0cc7-4b3b-a3f7-83bd2639b622">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Exams Results by State Standard Benchmark Level of Achievement and Gender.jrxml"]]></subreportExpression>
+			</subreport>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="612" height="20" uuid="cbd943ac-8a7e-48f8-b33c-e9954958b1eb">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="570" height="20" backcolor="#073C78" uuid="2ab88d30-7407-4647-85c9-20683f273cb8">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["5. Exams Results by Atoll, Standard, Benchmark, Level of Achievement and Gender"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Exams Results by State, Standard, Benchmark, Level of Achievement and Gender"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="17" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Page footer" x="0" y="1" width="197" height="15" forecolor="#000000" uuid="eab79fa2-9916-49c5-b4fe-b9471b44ddb7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Page footer" x="445" y="2" width="80" height="15" forecolor="#000000" uuid="9d48967f-b982-4acc-9675-fe21edcbf922">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Page footer" x="525" y="2" width="40" height="15" forecolor="#000000" uuid="dcfb575f-267b-470f-b015-a3b003ff46ad">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="115" y="2" width="360" height="14" uuid="be0cdc20-cfcf-43d3-aefd-d2ff3c6dd694"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Exams Summary"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

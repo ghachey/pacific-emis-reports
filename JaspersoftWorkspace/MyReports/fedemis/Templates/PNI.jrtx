@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio -->
+<jasperTemplate xmlns="http://jasperreports.sourceforge.net/jasperreports/template" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/template http://jasperreports.sourceforge.net/xsd/jaspertemplate.xsd">
+	<style name="Title" mode="Transparent" forecolor="#676566" hTextAlign="Center" vTextAlign="Top" fontName="" fontSize="16" isBold="true"/>
+	<style name="SubTitle" forecolor="#4B4B4D" hTextAlign="Center" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12"/>
+	<style name="Detail" hTextAlign="Right" vTextAlign="Bottom" fontName="" fontSize="11">
+		<box>
+			<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#EDEEEE"/>
+		</box>
+	</style>
+	<style name="Column header" forecolor="#000000" hTextAlign="Center" vTextAlign="Middle" fontName="Open Sans" fontSize="11" isBold="true"/>
+	<style name="Column header 2" forecolor="#666666" hTextAlign="Center" fontName="Open Sans Semibold" fontSize="10" isBold="true"/>
+	<style name="Page footer" mode="Opaque" forecolor="#000000" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle" rotation="None" fontName="Open Sans" fontSize="10" isBold="false"/>
+	<style name="Group header" mode="Opaque" forecolor="#FFFFFF" backcolor="#0C83B9" vTextAlign="Middle" fontName="Open Sans" fontSize="10" isBold="true"/>
+	<style name="Base" isDefault="true" fontName="Open Sans" fontSize="12"/>
+	<style name="Group footer" hTextAlign="Right" vTextAlign="Middle" fontName="Open Sans" fontSize="7" isBold="true"/>
+	<style name="Title text" hTextAlign="Center" vTextAlign="Middle" fontName="Open Sans" fontSize="10"/>
+	<style name="Sumary" style="Group footer" fontName="Open Sans" fontSize="10"/>
+	<style name="Frame" forecolor="#FFFFFF" backcolor="#0C83B9" fontName="Open Sans">
+		<box>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#8AC3DD"/>
+		</box>
+	</style>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#FFFFFF" fontName="Open Sans">
+		<box>
+			<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#F2F2F2" fontName="Open Sans">
+		<box>
+			<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#F2F2F2" hTextAlign="Right" vTextAlign="Middle" fontName="Open Sans" fontSize="12">
+		<box>
+			<pen lineWidth="0.0" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+			<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF" fontName="Open Sans">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#DCDCDC"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab Heading" mode="Opaque" forecolor="#000000" backcolor="#F2F2F2" hTextAlign="Center" vTextAlign="Middle" fontName="Open Sans" fontSize="9" isBold="true">
+		<box>
+			<pen lineWidth="1.0" lineColor="#F2F2F2"/>
+			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+			<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+			<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+			<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+		</box>
+	</style>
+	<style name="Crosstab Data" mode="Opaque" forecolor="#000000" backcolor="#FFFFFF" hTextAlign="Right" vTextAlign="Middle" fontName="Open Sans" fontSize="9">
+		<box>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+		</box>
+		<paragraph rightIndent="0" spacingAfter="0"/>
+	</style>
+	<style name="Detail Header 1" mode="Opaque" forecolor="#FFFFFF" backcolor="#0C83B9" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans" fontSize="14" isBold="true"/>
+</jasperTemplate>

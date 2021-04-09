@@ -1,0 +1,1261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Teachers Summary For Qualified and Certified by State, Education Level and Age Group By Nation" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="06a4db22-71f6-4501-9c6d-f2ffe43053df">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KEMIS"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.2.185:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Teachers/Teachers_Report_National/Teachers_Summary_For_Qualified_and_Certified_by_State__Education_Level_and_Age_Group_By_Nation"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F2F2F2">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Row">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC" fontName="Open Sans" fontSize="9"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Table 5 : Teacher Qualified and Certifications by State, Education Level and Age Group" uuid="9e064c86-6f32-477e-8b24-c9385794cfb3">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KEMIS"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="209"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="784"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select 
+total.SurveyYear,
+total.DistrictCode,
+total.DistrictName,
+total.Sector,
+total.AgeGroup,
+isnull(total.Total_Teachers,0) Total_Teachers,
+isnull(total.Total_QualifiedTeachers,0) Total_QualifiedTeachers,
+isnull(total.Total_CertifiedTeachers,0) Total_CertifiedTeachers,
+isnull(total.Total_Certified_QualifiedTeachers,0) Total_Certified_QualifiedTeachers,
+isnull(maletotal.Total_Teachers_M,0) Total_Teachers_M,
+isnull(maletotal.Total_QualifiedTeachers_M,0) Total_QualifiedTeachers_M,
+isnull(maletotal.Total_CertifiedTeachers_M,0) Total_CertifiedTeachers_M,
+isnull(maletotal.Total_Certified_QualifiedTeachers_M,0) Total_Certified_QualifiedTeachers_M,
+isnull(femaletotal.Total_Teachers_F,0) Total_Teachers_F,
+isnull(femaletotal.Total_QualifiedTeachers_F,0) Total_QualifiedTeachers_F,
+isnull(femaletotal.Total_CertifiedTeachers_F,0) Total_CertifiedTeachers_F,
+isnull(femaletotal.Total_Certified_QualifiedTeachers_F,0) Total_Certified_QualifiedTeachers_F
+
+ from (
+
+	Select SurveyYear,dID as DistrictCode,dname as DistrictName,Sector,isnull(AgeGroup,'N/A') AgeGroup,
+	sum(numTeachers) as Total_Teachers,
+	sum(qualified) as Total_QualifiedTeachers,
+	sum(certified) as Total_CertifiedTeachers ,
+	sum(CERTQual) as Total_Certified_QualifiedTeachers
+
+	from  warehouse.districtteachercount dtc
+	join dbo.Districts d on dtc.districtcode = d.dID
+	where SurveyYear= $P{Year}
+	group by SurveyYear,dID,dname,Sector,AgeGroup
+
+) total
+
+left join
+
+( ------- male teachers total -------
+	Select dID as DistrictCode,dname as DistrictName,Sector,isnull(AgeGroup,'N/A') AgeGroup,
+	sum(numTeachers) as Total_Teachers_M,
+	sum(qualified) as Total_QualifiedTeachers_M,
+	sum(certified) as Total_CertifiedTeachers_M ,
+	sum(CERTQual) as Total_Certified_QualifiedTeachers_M
+
+	from  warehouse.districtteachercount dtc
+	join dbo.Districts d on dtc.districtcode = d.dID
+	where SurveyYear= $P{Year}
+	and GenderCode='M'
+	group by SurveyYear,dID,dname,GenderCode,Sector,AgeGroup
+) maletotal
+on (total.Sector=maletotal.sector
+and total.AgeGroup=maletotal.AgeGroup and 
+total.DistrictCode=maletotal.DistrictCode
+) 
+
+left join
+
+( ------- female teachers total -------
+	Select dID as DistrictCode,dname as DistrictName,Sector,isnull(AgeGroup,'N/A') AgeGroup,
+	sum(numTeachers) as Total_Teachers_F,
+	sum(qualified) as Total_QualifiedTeachers_F,
+	sum(certified) as Total_CertifiedTeachers_F,
+	sum(CERTQual) as Total_Certified_QualifiedTeachers_F
+
+	from  warehouse.districtteachercount dtc
+	join dbo.Districts d on dtc.districtcode = d.dID
+	where SurveyYear= $P{Year}
+	and GenderCode='F'
+	group by SurveyYear,dID,dname,GenderCode,Sector,AgeGroup
+) femaletotal
+on (total.Sector=femaletotal.sector
+and total.AgeGroup=femaletotal.AgeGroup and 
+total.DistrictCode=femaletotal.DistrictCode
+) 
+order by total.DistrictCode,total.SurveyYear,total.Sector,total.AgeGroup]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="DistrictCode" class="java.lang.String"/>
+		<field name="DistrictName" class="java.lang.String"/>
+		<field name="Sector" class="java.lang.String"/>
+		<field name="AgeGroup" class="java.lang.String"/>
+		<field name="Total_Teachers" class="java.lang.Integer"/>
+		<field name="Total_QualifiedTeachers" class="java.lang.Integer"/>
+		<field name="Total_CertifiedTeachers" class="java.lang.Integer"/>
+		<field name="Total_Certified_QualifiedTeachers" class="java.lang.Integer"/>
+		<field name="Total_Teachers_M" class="java.lang.Integer"/>
+		<field name="Total_QualifiedTeachers_M" class="java.lang.Integer"/>
+		<field name="Total_CertifiedTeachers_M" class="java.lang.Integer"/>
+		<field name="Total_Certified_QualifiedTeachers_M" class="java.lang.Integer"/>
+		<field name="Total_Teachers_F" class="java.lang.Integer"/>
+		<field name="Total_QualifiedTeachers_F" class="java.lang.Integer"/>
+		<field name="Total_CertifiedTeachers_F" class="java.lang.Integer"/>
+		<field name="Total_Certified_QualifiedTeachers_F" class="java.lang.Integer"/>
+		<variable name="State_Total_T" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Teachers}]]></variableExpression>
+		</variable>
+		<variable name="State_Total_QT" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_QualifiedTeachers}]]></variableExpression>
+		</variable>
+		<variable name="State_Total_CT" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_CertifiedTeachers}]]></variableExpression>
+		</variable>
+		<variable name="State_Total_CQT" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Certified_QualifiedTeachers}]]></variableExpression>
+		</variable>
+		<variable name="Sector_Total_T" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Teachers}]]></variableExpression>
+		</variable>
+		<variable name="Sector_Total_QT" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_QualifiedTeachers}]]></variableExpression>
+		</variable>
+		<variable name="Sector_Total_CT" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_CertifiedTeachers}]]></variableExpression>
+		</variable>
+		<variable name="Sector_Total_CQT" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Certified_QualifiedTeachers}]]></variableExpression>
+		</variable>
+		<variable name="Grand_Total_T" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Teachers}]]></variableExpression>
+		</variable>
+		<variable name="Grand_Total_QT" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_QualifiedTeachers}]]></variableExpression>
+		</variable>
+		<variable name="Grand_Total_CT" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_CertifiedTeachers}]]></variableExpression>
+		</variable>
+		<variable name="Grand_Total_CQT" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Certified_QualifiedTeachers}]]></variableExpression>
+		</variable>
+		<variable name="State_Total_TM" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Teachers_M}]]></variableExpression>
+		</variable>
+		<variable name="State_Total_QTM" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_QualifiedTeachers_M}]]></variableExpression>
+		</variable>
+		<variable name="State_Total_CTM" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_CertifiedTeachers_M}]]></variableExpression>
+		</variable>
+		<variable name="State_Total_CQTM" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Certified_QualifiedTeachers_M}]]></variableExpression>
+		</variable>
+		<variable name="State_Total_TF" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Teachers_F}]]></variableExpression>
+		</variable>
+		<variable name="State_Total_QTF" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_QualifiedTeachers_F}]]></variableExpression>
+		</variable>
+		<variable name="State_Total_CTF" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_CertifiedTeachers_F}]]></variableExpression>
+		</variable>
+		<variable name="State_Total_CQTF" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Certified_QualifiedTeachers_F}]]></variableExpression>
+		</variable>
+		<variable name="Sector_Total_TM" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Teachers_M}]]></variableExpression>
+		</variable>
+		<variable name="Sector_Total_QTM" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_QualifiedTeachers_M}]]></variableExpression>
+		</variable>
+		<variable name="Sector_Total_CTM" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_CertifiedTeachers_M}]]></variableExpression>
+		</variable>
+		<variable name="Sector_Total_CQTM" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Certified_QualifiedTeachers_M}]]></variableExpression>
+		</variable>
+		<variable name="Sector_Total_TF" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Teachers_F}]]></variableExpression>
+		</variable>
+		<variable name="Sector_Total_QTF" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_QualifiedTeachers_F}]]></variableExpression>
+		</variable>
+		<variable name="Sector_Total_CTF" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_CertifiedTeachers_F}]]></variableExpression>
+		</variable>
+		<variable name="Sector_Total_CQTF" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Certified_QualifiedTeachers_F}]]></variableExpression>
+		</variable>
+		<variable name="Grand_Total_TM" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Teachers_M}]]></variableExpression>
+		</variable>
+		<variable name="Grand_Total_QTM" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_QualifiedTeachers_M}]]></variableExpression>
+		</variable>
+		<variable name="Grand_Total_CTM" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_CertifiedTeachers_M}]]></variableExpression>
+		</variable>
+		<variable name="Grand_Total_CQTM" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Certified_QualifiedTeachers_M}]]></variableExpression>
+		</variable>
+		<variable name="Grand_Total_TF" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Teachers_F}]]></variableExpression>
+		</variable>
+		<variable name="Grand_Total_QTF" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_QualifiedTeachers_F}]]></variableExpression>
+		</variable>
+		<variable name="Grand_Total_CTF" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_CertifiedTeachers_F}]]></variableExpression>
+		</variable>
+		<variable name="Grand_Total_CQTF" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Total_Certified_QualifiedTeachers_F}]]></variableExpression>
+		</variable>
+		<group name="Group1">
+			<groupExpression><![CDATA[$F{DistrictCode}]]></groupExpression>
+		</group>
+		<group name="Group2">
+			<groupExpression><![CDATA[$F{Sector}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[Select vocabTerm
+ from [dbo].[sysVocab] where vocabName = 'District']]>
+	</queryString>
+	<field name="vocabTerm" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="26">
+			<textField>
+				<reportElement x="-20" y="3" width="572" height="20" uuid="9481481d-e016-4250-adc3-2a7a9a1a2b85">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Teacher Qualified and Certifications by "+ $F{vocabTerm} +", Education Level and Age Group"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="63">
+			<staticText>
+				<reportElement style="Table_TH" x="-20" y="3" width="84" height="60" uuid="141ced10-4d6e-498a-a6eb-04817e1879f3">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="310" y="3" width="58" height="60" uuid="d292f5db-3ecb-4843-a85b-544274575956">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Teachers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="368" y="3" width="60" height="60" uuid="bf7f9d2c-c119-4784-aeab-f704309215e2">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Qualified Teachers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="428" y="3" width="60" height="60" uuid="68b179c1-957f-473a-b365-315a4273fd51">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Certified Teachers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="488" y="3" width="64" height="60" uuid="317f3ea9-c380-4027-a511-45c360dae873">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Certified and Qualified Teachers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="244" y="3" width="66" height="30" uuid="41074d6b-db51-4bc0-b27b-4a9239cb6452">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Certified and Qualified]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="64" y="3" width="60" height="30" uuid="11ee85f9-c36d-4780-8b0e-d903211f3a43">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teachers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="124" y="3" width="60" height="30" uuid="a3cf59b9-4e4f-424a-9b7e-a7b47ed26802">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qualified Teachers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="184" y="3" width="60" height="30" uuid="d70ae43a-839f-426f-980c-3233289c99b6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Certified Teachers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="64" y="33" width="30" height="30" uuid="d1368244-5767-4763-bdfc-660637e65234">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[M]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="94" y="33" width="30" height="30" uuid="a950e183-1421-4a96-8681-7f6de1ed2f22">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[F]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="124" y="33" width="30" height="30" uuid="813ccb9c-fc03-46e6-80ba-f54988843eb5">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[M]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="154" y="33" width="30" height="30" uuid="a099b069-bfbc-42a6-904e-d5376795749e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[F]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="184" y="33" width="30" height="30" uuid="e5d05bd0-9290-40a0-964f-f570c820d828">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[M]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="214" y="33" width="30" height="30" uuid="ce60f04e-e39f-4b9d-bf25-5fa9c4e6bf96">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[F]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="244" y="33" width="33" height="30" uuid="d27eeafe-e657-401f-b095-4aa50fade578">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[M]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table_TH" x="277" y="33" width="33" height="30" uuid="c2e1f3ed-0c25-4cd5-9a26-e101176df743">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[F]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="63">
+			<componentElement>
+				<reportElement positionType="Float" x="-20" y="0" width="572" height="60" uuid="22467ca8-dd93-49c2-823d-57bc16b7f788">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="net.sf.jasperreports.export.headertoolbar.table.name" value=""/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table 5 : Teacher Qualified and Certifications by State, Education Level and Age Group" uuid="3b95f9a5-655a-43f3-ad64-4941155d6c1b">
+						<datasetParameter name="Year">
+							<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="84" uuid="cd978432-882d-4a8b-954c-006cc694ec7d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement x="0" y="0" width="84" height="15" uuid="1ef4f114-99fc-4c75-acd8-08c2564d2edb"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["Grand Total"]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#F2F2F2"/>
+								</box>
+								<textField>
+									<reportElement style="Table_TH" x="0" y="0" width="84" height="15" uuid="45e88150-e956-4174-83b4-b40f9b9c769a"/>
+									<textElement textAlignment="Left" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{DistrictName}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField isStretchWithOverflow="true">
+									<reportElement style="Table_TH" x="0" y="0" width="84" height="15" uuid="921c509f-ece9-42c6-800d-d7c352765e55"/>
+									<box leftPadding="10"/>
+									<textElement textAlignment="Left" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{Sector} == null ? "Teachers with no submitted Class Level (i.e. Grade) taught" : $F{Sector}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="84" height="15" uuid="967728e5-5067-4e9c-ab77-925d46f1101e"/>
+								<box leftPadding="15">
+									<pen lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{AgeGroup}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="30" uuid="217b91b0-c588-4065-a737-791b55a20ac0">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" evaluationTime="Report">
+								<reportElement x="0" y="0" width="30" height="15" uuid="323f608c-01cd-4dce-a30f-a54b80b85de9"/>
+								<box rightPadding="0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Grand_Total_TM}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="30" height="15" printWhenGroupChanges="Group1" uuid="62604d28-b265-4e5d-929a-a51b46c566db">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{State_Total_TM}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="0.5" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+									<reportElement x="0" y="0" width="30" height="15" printWhenGroupChanges="Group2" uuid="cad209e6-9ace-4927-884e-3ca4f0f8ddb7"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Sector_Total_TM}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="30" height="15" uuid="a3aee9a4-80cd-4604-a6f4-c49bc85be195"/>
+								<box rightPadding="0">
+									<pen lineStyle="Dotted"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_Teachers_M}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="30" uuid="861930bb-6011-4231-8f7b-49770426bef7">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" evaluationTime="Report">
+								<reportElement x="0" y="0" width="30" height="15" uuid="70a70eef-963c-4f8b-9f54-dd25d9981337"/>
+								<box rightPadding="0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Grand_Total_TF}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="30" height="15" printWhenGroupChanges="Group1" uuid="43534f58-eb5c-491a-80e4-d965c5f6b7c0">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{State_Total_TF}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<box>
+									<bottomPen lineWidth="0.5" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+									<reportElement x="0" y="0" width="30" height="15" printWhenGroupChanges="Group2" uuid="f24ebde4-54af-49da-a118-6013e816924f"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Sector_Total_TF}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="30" height="15" uuid="fbd9ea1c-dca9-4f0d-a29c-f4b58aedcfea"/>
+								<box rightPadding="0">
+									<pen lineStyle="Dotted"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_Teachers_F}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="30" uuid="fe15fd22-944c-4da8-b8c2-987c8c9c029d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" evaluationTime="Report">
+								<reportElement x="0" y="0" width="30" height="15" uuid="0419b536-f3a9-4bf7-b47d-f73c7569ef34"/>
+								<box rightPadding="0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Grand_Total_QTM}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="30" height="15" printWhenGroupChanges="Group1" uuid="55d66c0c-22a2-4519-bbf2-92427d8fa934">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{State_Total_QTM}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<box>
+									<bottomPen lineWidth="0.5" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+									<reportElement x="0" y="0" width="30" height="15" printWhenGroupChanges="Group2" uuid="82c14501-e512-45e7-b3fb-5d71c8ba8079"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Sector_Total_QTM}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="30" height="15" uuid="0349786c-bd2b-465e-b4f3-7f62db071233"/>
+								<box rightPadding="0">
+									<pen lineStyle="Dotted"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_QualifiedTeachers_M}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="30" uuid="82b8d66b-c3af-44a5-bbb3-f6a2e5968e68">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" evaluationTime="Report">
+								<reportElement x="0" y="0" width="30" height="15" uuid="33a354d8-39ee-4f88-ae1f-b1d717378005"/>
+								<box rightPadding="0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Grand_Total_QTF}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="30" height="15" printWhenGroupChanges="Group1" uuid="59ff89ce-388a-4a37-b4a9-ecbf20fc1218">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{State_Total_QTF}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<box>
+									<bottomPen lineWidth="0.5" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+									<reportElement x="0" y="0" width="30" height="15" printWhenGroupChanges="Group2" uuid="ec4d3de9-bae0-420b-8b86-9fab5c5e9f17"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Sector_Total_QTF}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="30" height="15" uuid="1076225d-cd0b-43c4-bb5c-80f9af86c99a"/>
+								<box rightPadding="0">
+									<pen lineStyle="Dotted"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_QualifiedTeachers_F}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="30" uuid="b94ea030-db8f-45a5-a932-8ea36272f116">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" evaluationTime="Report">
+								<reportElement x="0" y="0" width="30" height="15" uuid="c64d990d-8529-4ad3-bdcd-ad4f85284747"/>
+								<box rightPadding="0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Grand_Total_CTM}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="30" height="15" printWhenGroupChanges="Group1" uuid="3151cee0-7df7-4fcd-8eee-48ed045f40c8">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{State_Total_CTM}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<box>
+									<bottomPen lineWidth="0.5" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+									<reportElement x="0" y="0" width="30" height="15" printWhenGroupChanges="Group2" uuid="1393d74e-58fb-45c6-832c-d2e82dbf3917"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Sector_Total_CTM}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="30" height="15" uuid="b3d11ba8-7385-4365-83ab-bbb5d7803bf4"/>
+								<box rightPadding="0">
+									<pen lineStyle="Dotted"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_CertifiedTeachers_M}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="30" uuid="894f5c9b-0896-4aea-af69-f3cabc57f2a9">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" evaluationTime="Report">
+								<reportElement x="0" y="0" width="30" height="15" uuid="bca2f25c-9112-42ac-b9d9-698c4ba041a7"/>
+								<box rightPadding="0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Grand_Total_CTF}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="30" height="15" printWhenGroupChanges="Group1" uuid="a9bd55ed-d325-48c8-ab9d-fcc31d85782c">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{State_Total_CTF}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<box>
+									<bottomPen lineWidth="0.5" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+									<reportElement x="0" y="0" width="30" height="15" printWhenGroupChanges="Group2" uuid="2f7d87a1-c253-4806-b5b0-67999eac2089"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Sector_Total_CTF}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="30" height="15" uuid="d6dda16e-5066-4a5a-a1e8-b9e707434272"/>
+								<box rightPadding="0">
+									<pen lineStyle="Dotted"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_CertifiedTeachers_F}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="33" uuid="bfccb6db-f40c-4787-8d6c-7fc062ba075a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" evaluationTime="Report">
+								<reportElement x="0" y="0" width="33" height="15" uuid="695f88a8-610d-4bf0-af52-b0a2ab9317f2"/>
+								<box rightPadding="0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Grand_Total_CQTM}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="33" height="15" printWhenGroupChanges="Group1" uuid="b3f4b9c4-154a-49d6-aae0-b9bc594a513a">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{State_Total_CQTM}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<box>
+									<bottomPen lineWidth="0.5" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+									<reportElement x="0" y="0" width="33" height="15" printWhenGroupChanges="Group2" uuid="ea270200-11ad-4f25-8cbc-c9fe3dc02cbd"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Sector_Total_CQTM}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="33" height="15" uuid="13e554f1-d923-4299-a91b-c23ba2a66a46"/>
+								<box rightPadding="0">
+									<pen lineStyle="Dotted"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_Certified_QualifiedTeachers_M}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="33" uuid="261cfb68-9a7a-4083-88c1-b46193ae39ae">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" evaluationTime="Report">
+								<reportElement x="0" y="0" width="33" height="15" uuid="0dbf2c62-ae7d-4c76-bde9-5b98ab6da758"/>
+								<box rightPadding="0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Grand_Total_CQTF}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="33" height="15" printWhenGroupChanges="Group1" uuid="df951e39-be43-46cb-ab59-19c4a286289c">
+										<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+									</reportElement>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{State_Total_CQTF}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_CH" height="15" rowSpan="1">
+								<box>
+									<bottomPen lineWidth="0.5" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+									<reportElement x="0" y="0" width="33" height="15" printWhenGroupChanges="Group2" uuid="fafc4bbd-6cd4-48eb-83f4-6fbf9f866299"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Sector_Total_CQTF}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell height="15">
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="33" height="15" uuid="17c7f4c1-ae2f-4488-9b87-4c604ec79a80"/>
+								<box rightPadding="0">
+									<pen lineStyle="Dotted"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_Certified_QualifiedTeachers_F}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="b158b016-b7f1-49c0-833c-5f37fbdb9d3b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" evaluationTime="Report">
+								<reportElement x="0" y="0" width="58" height="15" uuid="97c52b20-2da5-474c-82c2-fb8820aafc26"/>
+								<box rightPadding="0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Grand_Total_T}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<bottomPen lineWidth="1.0" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="58" height="15" printWhenGroupChanges="Group1" uuid="2ac6e728-ba1c-4559-a3ca-9e7dbd7483ba"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{State_Total_T}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<box>
+									<bottomPen lineWidth="0.5" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+									<reportElement x="0" y="0" width="58" height="15" printWhenGroupChanges="Group2" uuid="115d37ee-2072-4f5d-879c-60ec9151ac05"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Sector_Total_T}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="58" height="15" uuid="f7e3f001-afc4-4642-9ac3-6daf5659084c"/>
+								<box rightPadding="0">
+									<pen lineStyle="Dotted"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_Teachers}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="306069d7-cad6-48f0-bce0-b7eeca6ee917">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" evaluationTime="Report">
+								<reportElement x="0" y="0" width="60" height="15" uuid="bd39e765-ab1c-4262-a512-e644053f3c1e"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Grand_Total_QT}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TH" height="15" rowSpan="1">
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="60" height="15" printWhenGroupChanges="Group1" uuid="b2c8e3b8-ee16-4b2f-8084-1ac84aa6a47b"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{State_Total_QT}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="0.5" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+									<reportElement x="0" y="0" width="60" height="15" printWhenGroupChanges="Group2" uuid="253db227-1668-494e-8cad-5ff4c5219a98"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Sector_Total_QT}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="60" height="15" uuid="089f3ba0-9ce9-4981-9520-28d82d72aea7"/>
+								<box>
+									<pen lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_QualifiedTeachers}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="6aae6e6b-8e79-44e8-846b-619d4b68b942">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" evaluationTime="Report">
+								<reportElement x="0" y="0" width="60" height="15" uuid="a9346295-9149-4bd0-abb3-b63a6f6988ca"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Grand_Total_CT}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="60" height="15" printWhenGroupChanges="Group1" uuid="0452b593-e7ca-4137-9326-711a8935a530"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{State_Total_CT}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<box>
+									<bottomPen lineWidth="0.5" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+									<reportElement x="0" y="0" width="60" height="15" printWhenGroupChanges="Group2" uuid="1b317cac-9d80-48f1-8bf1-f99bfe7576af"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Sector_Total_CT}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="60" height="15" uuid="dadc042f-f9d6-4afa-9bee-f070b60571fe"/>
+								<box>
+									<pen lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_CertifiedTeachers}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="64" uuid="215d9fc5-2512-44df-86b6-15c07f7fa742">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column13"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" evaluationTime="Report">
+								<reportElement x="0" y="0" width="64" height="15" uuid="01ab9b3f-3a82-48cc-a106-d1c283b8b5e1"/>
+								<box rightPadding="0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Grand_Total_CQT}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table_TH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group1">
+									<reportElement x="0" y="0" width="64" height="15" printWhenGroupChanges="Group1" uuid="8690c9ea-fcaa-4b2e-84b3-0f959a5d006e"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{State_Total_CQT}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:groupHeader groupName="Group2">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<box>
+									<bottomPen lineWidth="0.5" lineColor="#F2F2F2"/>
+								</box>
+								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+									<reportElement x="0" y="0" width="64" height="15" printWhenGroupChanges="Group2" uuid="d359b118-b33a-475f-ab83-ac4ef363c293"/>
+									<box rightPadding="0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Open Sans" size="9" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{Sector_Total_CQT}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="64" height="15" uuid="c97c488f-4ab8-42c1-aac9-01b715748b88"/>
+								<box rightPadding="0">
+									<pen lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_Certified_QualifiedTeachers}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

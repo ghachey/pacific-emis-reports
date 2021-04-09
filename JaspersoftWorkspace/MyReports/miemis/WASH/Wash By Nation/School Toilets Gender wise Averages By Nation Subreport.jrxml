@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="School Toilets Gender wise Averages By Nation Subreport" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c9716266-4ab3-4721-917b-47d7060656c5">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-OLD"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["fedemis/Templates/FedEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC" fontName="Open Sans Semibold" fontSize="10"/>
+		</conditionalStyle>
+	</style>
+	<style name="Row_Crosstab" style="Crosstab Data" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 1)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#ECECEC" hTextAlign="Right"/>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab 1_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Dataset1" uuid="8c27992f-3fd7-48db-bafd-548632b5905c">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-OLD"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[DECLARE @mainTable int;
+set @mainTable=(select count(*) as secondaryTable from warehouse.TempWashCoreSurveyData
+ where InspectionYear=$P{Year});
+
+ IF @mainTable>0
+
+BEGIN
+   --------------------------------------Query 1----------------------------------------------------
+Select 
+t1.Gender as genderCode,
+case when t1.Gender ='C' then 'Common'
+when t1.Gender ='M' then 'Boys'
+else 'Girls' end as toiUse,
+SUM(t1.TotalToilets) TotalToilets,
+SUM(t1.UsableToilets) UsableToilets,
+SUM(t1.TotalToilets)-SUM(t1.UsableToilets) UnusableToilets,
+case when isnull(SUM(t2.Students),0)=0 then 0 else isnull(SUM(t2.Students),0)/SUM(t1.UsableToilets) end as Average,
+isnull(SUM(t2.Students),0) Students
+FROM
+(
+	SELECT cte.schNo,'M' as Gender,
+	sum(cast(Case When SubQuestion = 'Total Number' then isnull(BoysToilets,0)
+		else 0 end as int)) as TotalToilets,
+	sum(cast(Case When SubQuestion = 'Number that are usable (accessible, functional, private)' then isnull(BoysToilets,0)
+		else 0 end as int)) as UsableToilets
+	from warehouse.TempWashCoreSurveyData tmp 
+	join (
+	Select schNo, MAX(inspStart) inspStart from warehouse.TempWashCoreSurveyData
+	where InspectionYear = $P{Year} Group by schNo,InspectionYear
+	) cte on 
+	tmp.schNo = cte.schNo and tmp.inspStart = cte.inspStart
+	join Schools sch on tmp.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where SubGroupName='Sanitation' and InspectionYear =$P{Year} group by cte.schNo
+
+	UNION ALL
+
+	SELECT cte.schNo,'F' as Gender,
+	sum(cast(Case When SubQuestion = 'Total Number' then isnull(GirlsToilets,0)
+		else 0 end as int)) as TotalToilets,
+	sum(cast(Case When SubQuestion = 'Number that are usable (accessible, functional, private)' then isnull(GirlsToilets,0)
+		else 0 end as int)) as UsableToilets
+	from warehouse.TempWashCoreSurveyData tmp 
+	join (
+	Select schNo, MAX(inspStart) inspStart from warehouse.TempWashCoreSurveyData
+	where InspectionYear = $P{Year} Group by schNo,InspectionYear
+	) cte on 
+	tmp.schNo = cte.schNo and tmp.inspStart = cte.inspStart
+	join Schools sch on tmp.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where SubGroupName='Sanitation' and InspectionYear =$P{Year} group by cte.schNo
+
+	UNION ALL
+
+	SELECT cte.schNo,'C' as Gender,
+	sum(cast(Case When SubQuestion = 'Total Number' then isnull(CommonUseToilets,0)
+		else 0 end as int)) as TotalToilets,
+	sum(cast(Case When SubQuestion = 'Number that are usable (accessible, functional, private)' then isnull(CommonUseToilets,0)
+		else 0 end as int)) as UsableToilets
+	from warehouse.TempWashCoreSurveyData tmp 
+	join (
+	Select schNo, MAX(inspStart) inspStart from warehouse.TempWashCoreSurveyData
+	where InspectionYear = $P{Year} Group by schNo,InspectionYear
+	) cte on 
+	tmp.schNo = cte.schNo and tmp.inspStart = cte.inspStart
+	join Schools sch on tmp.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where SubGroupName='Sanitation' and InspectionYear =$P{Year} group by cte.schNo
+)t1
+left join 
+(
+	Select 
+	en.schNo, GenderCode, sum(isnull(Enrol,0)) as Students from 
+	warehouse.enrol en
+	join Schools sch on en.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where surveyYear=$P{Year} group by en.schNo,GenderCode
+		UNION ALL
+	Select 
+	en.schno, 'C', sum(isnull(Enrol,0)) as Students from 
+	warehouse.enrol en
+	join Schools sch on en.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where surveyYear=$P{Year} and GenderCode='C' or  GenderCode is null group by en.schno
+) t2 on t1.schNo=t2.schNo and t1.Gender=t2.GenderCode group by t1.Gender
+
+
+   ------------------------------------End of Query 1-----------------------------------------------
+END
+ELSE
+BEGIN
+       --------------------------------------Query 2----------------------------------------------------
+	Select 
+t1.Gender as genderCode,
+t1.toiUse,
+SUM(t1.TotalToilets) TotalToilets,
+SUM(t1.UsableToilets) UsableToilets,
+SUM(t1.TotalToilets)-SUM(t1.UsableToilets) UnusableToilets,
+case when isnull(SUM(t2.Students),0)=0 then 0 else isnull(SUM(t2.Students),0)/SUM(t1.UsableToilets) end as Average,
+isnull(SUM(t2.Students),0) Students
+FROM
+(
+	Select a.Gender,a.toiUse,a.schNo,
+	sum(a.toiNum) as 'TotalToilets',
+	sum(a.toiNumUsable) as 'UsableToilets'
+	from (	
+	select ts.ssID,ts.schNo,
+	case when toiUse='Boys' then 'M'
+	when toiUse='Girls' then 'F'
+	else 'C' end as Gender,	 
+	toiUse, toiNum, toiNumUsable
+	from warehouse.TempToiletsSurvey ts 
+	join SchoolSurvey ss on ss.ssID=ts.ssID 
+	join Schools sch on ss.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where ts.SurveyYear=$P{Year}
+	)a group by a.Gender,a.toiUse,a.schNo
+)t1
+left join 
+(
+	Select 
+	en.schNo, GenderCode, sum(isnull(Enrol,0)) as Students from 
+	warehouse.enrol en
+	join Schools sch on en.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where surveyYear=$P{Year} group by en.schNo,GenderCode
+		UNION ALL
+	Select 
+	en.schno, 'C', sum(isnull(Enrol,0)) as Students from 
+	warehouse.enrol en
+	join Schools sch on en.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where surveyYear=$P{Year} and GenderCode='C' or  GenderCode is null group by en.schno
+) t2 on t1.schNo=t2.schNo and t1.Gender=t2.GenderCode group by t1.Gender,t1.toiUse 
+   ------------------------------------End of Query 2-----------------------------------------------
+END]]>
+		</queryString>
+		<field name="genderCode" class="java.lang.String"/>
+		<field name="toiUse" class="java.lang.String"/>
+		<field name="TotalToilets" class="java.lang.Integer"/>
+		<field name="UsableToilets" class="java.lang.Integer"/>
+		<field name="UnusableToilets" class="java.lang.Integer"/>
+		<field name="Average" class="java.lang.Integer"/>
+		<field name="Students" class="java.lang.Integer"/>
+		<variable name="TotalToilets" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{TotalToilets}]]></variableExpression>
+		</variable>
+		<variable name="TotalUsableToi" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{UsableToilets}]]></variableExpression>
+		</variable>
+		<variable name="TotalStudents" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{Students}]]></variableExpression>
+		</variable>
+		<variable name="TotalUnusableToi" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{UnusableToilets}]]></variableExpression>
+		</variable>
+		<variable name="TotalAverage" class="java.lang.Integer">
+			<variableExpression><![CDATA[$V{TotalUsableToi}==0 ? 0:$V{TotalStudents}/$V{TotalUsableToi}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[DECLARE @mainTable int;
+set @mainTable=(select count(*) as secondaryTable from warehouse.TempWashCoreSurveyData
+ where InspectionYear=$P{Year});
+
+ IF @mainTable>0
+
+BEGIN
+   --------------------------------------Query 1----------------------------------------------------
+Select 
+t1.Gender as genderCode,
+case when t1.Gender ='C' then 'Common'
+when t1.Gender ='M' then 'Boys'
+else 'Girls' end as toiUse,
+SUM(t1.TotalToilets) TotalToilets,
+SUM(t1.UsableToilets) UsableToilets,
+SUM(t1.TotalToilets)-SUM(t1.UsableToilets) UnusableToilets,
+case when isnull(SUM(t1.UsableToilets),0)=0 then 0 else isnull(SUM(t2.Students),0)/SUM(t1.UsableToilets) end as Average,
+isnull(SUM(t2.Students),0) Students
+FROM
+(
+	SELECT cte.schNo,'M' as Gender,
+	sum(cast(Case When SubQuestion = 'Total Number' then isnull(BoysToilets,0)
+		else 0 end as int)) as TotalToilets,
+	sum(cast(Case When SubQuestion = 'Number that are usable (accessible, functional, private)' then isnull(BoysToilets,0)
+		else 0 end as int)) as UsableToilets
+	from warehouse.TempWashCoreSurveyData tmp 
+	join (
+	Select schNo, MAX(inspStart) inspStart from warehouse.TempWashCoreSurveyData
+	where InspectionYear = $P{Year} Group by schNo,InspectionYear
+	) cte on 
+	tmp.schNo = cte.schNo and tmp.inspStart = cte.inspStart
+	join Schools sch on tmp.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where SubGroupName='Sanitation' and InspectionYear =$P{Year} group by cte.schNo
+
+	UNION ALL
+
+	SELECT cte.schNo,'F' as Gender,
+	sum(cast(Case When SubQuestion = 'Total Number' then isnull(GirlsToilets,0)
+		else 0 end as int)) as TotalToilets,
+	sum(cast(Case When SubQuestion = 'Number that are usable (accessible, functional, private)' then isnull(GirlsToilets,0)
+		else 0 end as int)) as UsableToilets
+	from warehouse.TempWashCoreSurveyData tmp 
+	join (
+	Select schNo, MAX(inspStart) inspStart from warehouse.TempWashCoreSurveyData
+	where InspectionYear = $P{Year} Group by schNo,InspectionYear
+	) cte on 
+	tmp.schNo = cte.schNo and tmp.inspStart = cte.inspStart
+	join Schools sch on tmp.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where SubGroupName='Sanitation' and InspectionYear =$P{Year} group by cte.schNo
+
+	UNION ALL
+
+	SELECT cte.schNo,'C' as Gender,
+	sum(cast(Case When SubQuestion = 'Total Number' then isnull(CommonUseToilets,0)
+		else 0 end as int)) as TotalToilets,
+	sum(cast(Case When SubQuestion = 'Number that are usable (accessible, functional, private)' then isnull(CommonUseToilets,0)
+		else 0 end as int)) as UsableToilets
+	from warehouse.TempWashCoreSurveyData tmp 
+	join (
+	Select schNo, MAX(inspStart) inspStart from warehouse.TempWashCoreSurveyData
+	where InspectionYear = $P{Year} Group by schNo,InspectionYear
+	) cte on 
+	tmp.schNo = cte.schNo and tmp.inspStart = cte.inspStart
+	join Schools sch on tmp.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where SubGroupName='Sanitation' and InspectionYear =$P{Year} group by cte.schNo
+)t1
+left join 
+(
+	Select 
+	en.schNo, GenderCode, sum(isnull(Enrol,0)) as Students from 
+	warehouse.enrol en
+	join Schools sch on en.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where surveyYear=$P{Year} group by en.schNo,GenderCode
+		UNION ALL
+	Select 
+	en.schno, 'C', sum(isnull(Enrol,0)) as Students from 
+	warehouse.enrol en
+	join Schools sch on en.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where surveyYear=$P{Year} and GenderCode='C' or  GenderCode is null group by en.schno
+) t2 on t1.schNo=t2.schNo and t1.Gender=t2.GenderCode group by t1.Gender
+
+
+   ------------------------------------End of Query 1-----------------------------------------------
+END
+ELSE
+BEGIN
+       --------------------------------------Query 2----------------------------------------------------
+	Select 
+t1.Gender as genderCode,
+t1.toiUse,
+SUM(t1.TotalToilets) TotalToilets,
+SUM(t1.UsableToilets) UsableToilets,
+SUM(t1.TotalToilets)-SUM(t1.UsableToilets) UnusableToilets,
+case when isnull(SUM(t1.UsableToilets),0)=0 then 0 else isnull(SUM(t2.Students),0)/SUM(t1.UsableToilets) end as Average,
+isnull(SUM(t2.Students),0) Students
+FROM
+(
+	Select a.Gender,a.toiUse,a.schNo,
+	sum(a.toiNum) as 'TotalToilets',
+	sum(a.toiNumUsable) as 'UsableToilets'
+	from (	
+	select ts.ssID,ts.schNo,
+	case when toiUse='Boys' then 'M'
+	when toiUse='Girls' then 'F'
+	else 'C' end as Gender,	 
+	toiUse, toiNum, toiNumUsable
+	from warehouse.TempToiletsSurvey ts 
+	join SchoolSurvey ss on ss.ssID=ts.ssID 
+	join Schools sch on ss.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where ts.SurveyYear=$P{Year}
+	)a group by a.Gender,a.toiUse,a.schNo
+)t1
+left join 
+(
+	Select 
+	en.schNo, GenderCode, sum(isnull(Enrol,0)) as Students from 
+	warehouse.enrol en
+	join Schools sch on en.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where surveyYear=$P{Year} group by en.schNo,GenderCode
+		UNION ALL
+	Select 
+	en.schno, 'C', sum(isnull(Enrol,0)) as Students from 
+	warehouse.enrol en
+	join Schools sch on en.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where surveyYear=$P{Year} and GenderCode='C' or  GenderCode is null group by en.schno
+) t2 on t1.schNo=t2.schNo and t1.Gender=t2.GenderCode group by t1.Gender,t1.toiUse 
+   ------------------------------------End of Query 2-----------------------------------------------
+END]]>
+	</queryString>
+	<field name="genderCode" class="java.lang.String"/>
+	<field name="toiUse" class="java.lang.String"/>
+	<field name="TotalToilets" class="java.lang.Integer"/>
+	<field name="UsableToilets" class="java.lang.Integer"/>
+	<field name="UnusableToilets" class="java.lang.Integer"/>
+	<field name="Average" class="java.lang.Integer"/>
+	<field name="Students" class="java.lang.Integer"/>
+	<summary>
+		<band height="286" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="226" width="590" height="60" uuid="e8953d79-454e-4813-99e7-a5e0f69d2d5e">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Dataset1" uuid="5639dc3b-1d7f-4811-8ab3-4ce8b0806237">
+						<datasetParameter name="Year">
+							<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="e55401d1-dab0-4de5-ad21-97c5acb06732">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableFooter height="20" rowSpan="1">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="20" backcolor="#F2F2F2" uuid="e22919a9-9a00-45de-b8d8-10cbdd946edb"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA["Total"]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="20" rowSpan="1">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="20" backcolor="#F2F2F2" uuid="ef0d4155-6ec0-46f8-908e-b9aa056098bf"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<text><![CDATA[Gender]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="90" height="20" uuid="f4e02e0a-2615-448a-bc49-51efdd5ba53d"/>
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{toiUse}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="b26423cd-b0d2-4697-a3a0-d72bf93d5cc4">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableFooter height="20" rowSpan="1">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="20" backcolor="#F2F2F2" uuid="16977756-d5b4-4105-8634-1d2dc9537399"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TotalToilets}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="20" rowSpan="1">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="20" backcolor="#F2F2F2" uuid="ddcee546-bb2e-4a4d-a66f-02e3b22e4adb"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<text><![CDATA[Total Toilets]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="90" height="20" uuid="0cba225c-d401-4332-a572-7f64fbc28485"/>
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TotalToilets}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="0af2273f-fb72-4c33-9a93-befa662d1171">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:tableFooter height="20" rowSpan="1">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="100" height="20" backcolor="#F2F2F2" uuid="a12274d9-5391-4b9d-91fe-bd6b2743526c"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TotalUsableToi}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="20" rowSpan="1">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="100" height="20" backcolor="#F2F2F2" uuid="18fa14a4-a26c-42d0-9bdf-68d974202a0b"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<text><![CDATA[Usable Toilets]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="100" height="20" uuid="a27476a0-6228-4104-92a0-d32d1fffc3cc"/>
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{UsableToilets}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="995587bd-aec2-47b5-8c2e-027af99048c2">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:tableFooter height="20" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="20" backcolor="#F2F2F2" uuid="902ac8a3-00e3-44b6-baea-c210cd677454"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TotalUnusableToi}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="20" backcolor="#F2F2F2" uuid="08b3cf02-7bca-463f-b7c2-8ef428feb1e0"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<text><![CDATA[Unusable Toilets]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20">
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="90" height="20" uuid="604a1aa7-d1fb-4d1b-814a-2753dd4b3971"/>
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{UnusableToilets}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="fd204337-4ce2-4d63-8efd-43cd8e9d8b89">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:tableFooter height="20" rowSpan="1">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="20" backcolor="#F2F2F2" uuid="4db894cd-6723-493d-a43e-0eb04c62dc76"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TotalStudents}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="20" rowSpan="1">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="20" backcolor="#F2F2F2" uuid="ceb227d8-39a2-4d45-b8b1-b554cce16c2a"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<text><![CDATA[Students]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="90" height="20" uuid="00f663a5-2d84-461b-b174-bfd824eb5674"/>
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Students}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="130" uuid="964167bc-36ae-480d-9e35-8d9add0b0b81">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:tableFooter height="20" rowSpan="1">
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="130" height="20" backcolor="#F2F2F2" uuid="d3e57c6a-a7c5-414f-8935-7b51493eda0d"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TotalAverage}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="130" height="20" backcolor="#F2F2F2" uuid="bcdfee84-4dd3-4648-8151-e3740c524b69"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<text><![CDATA[Avg. Toilets for Students]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20">
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="130" height="20" uuid="f10efaa6-3377-4eba-bfee-bbfe62006627"/>
+								<box>
+									<pen lineWidth="1.0" lineStyle="Dotted"/>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Average}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="0" y="211" width="590" height="15" uuid="fb8e6dce-af74-4af1-a59e-e824c3c6d253">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Note : Total students are considered from surveyed schools students and Average Toilets is considered with Usuable Toilets ]]></text>
+			</staticText>
+			<barChart>
+				<chart evaluationTime="Report" renderType="svg" theme="aegean">
+					<reportElement x="0" y="11" width="590" height="200" uuid="4df44d73-b13d-4c0e-8280-793f21c5b241">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Total Toilets"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{toiUse}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{TotalToilets}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Usable Toilets"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{toiUse}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{UsableToilets}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Unusable Toilets"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{toiUse}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{UnusableToilets}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

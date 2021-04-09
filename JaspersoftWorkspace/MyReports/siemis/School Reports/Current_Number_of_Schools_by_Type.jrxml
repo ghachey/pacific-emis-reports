@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-06-25T14:54:50 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Current_Number_of_Schools_by_Type" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="83260aae-28be-4347-b162-f3ee9ddeaea7">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - SIEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.5.197:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin|"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/SIEMIS_Reports/Summary/Current_Number_of_Schools_by_Type"/>
+	<subDataset name="GroupData" uuid="370ec147-d6d0-414a-8b2d-c0f81a07119c">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SIEMIS"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT 
+       s.schType as School_Type,
+	   stDescription as Description,
+       count(s.schNo) as Number
+FROM dbo.Schools s 
+	 INNER JOIN dbo.Islands i ON i.iCode = s.iCode
+	 INNER JOIN dbo.SchoolTypes t on s.schType = t.stCode
+	 INNER JOIN dbo.Districts d ON d.dID = i.iGroup
+WHERE s.schType NOT IN ('RTC','U')
+AND s.schClosed = 0
+GROUP BY s.schType,stDescription
+ORDER BY CASE s.schType
+         WHEN 'ECE' THEN 1
+		 WHEN 'PS'  THEN 2
+		 WHEN 'CHS' THEN 3
+		 WHEN 'PSS' THEN 4
+		 WHEN 'NSS' THEN 5
+		 END,s.schType]]>
+		</queryString>
+		<field name="School_Type" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Description" class="java.lang.String"/>
+		<field name="Number" class="java.lang.Integer"/>
+	</subDataset>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+       s.schType as School_Type,
+	   stDescription as Description,
+       count(s.schNo) as Number
+FROM dbo.Schools s 
+	 INNER JOIN dbo.Islands i ON i.iCode = s.iCode
+	 INNER JOIN dbo.SchoolTypes t on s.schType = t.stCode
+	 INNER JOIN dbo.Districts d ON d.dID = i.iGroup
+WHERE s.schType NOT IN ('RTC','U')
+AND s.schClosed = 0
+GROUP BY s.schType,stDescription
+ORDER BY CASE s.schType
+         WHEN 'ECE' THEN 1
+		 WHEN 'PS'  THEN 2
+		 WHEN 'CHS' THEN 3
+		 WHEN 'PSS' THEN 4
+		 WHEN 'NSS' THEN 5
+		 END,s.schType]]>
+	</queryString>
+	<field name="School_Type" class="java.lang.String"/>
+	<field name="Description" class="java.lang.String"/>
+	<field name="Number" class="java.lang.Integer"/>
+	<variable name="Grand_Total" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Number}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="20" width="529" height="30" uuid="43c8e035-5404-4219-ac97-8d7acf1370d3"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Current Number of Schools by Type]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="45" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="62" y="10" width="100" height="20" uuid="4d5a1aed-0b47-4ccf-b9c4-e39aeac4f9aa"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[School_Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="10" width="265" height="20" uuid="84f34441-a370-4c85-870f-6c806836b0b1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="429" y="10" width="100" height="20" uuid="7be389f9-3f95-4dba-9e16-0eb9e37e042c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Number]]></text>
+			</staticText>
+			<line>
+				<reportElement x="62" y="30" width="467" height="1" uuid="e57d1a6a-1257-46f4-be7f-dc1266e15268"/>
+			</line>
+			<line>
+				<reportElement x="60" y="0" width="467" height="1" uuid="0818007c-746b-4509-86d6-aeb0f481d03d"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<textField>
+				<reportElement x="63" y="1" width="100" height="20" uuid="c32a3a70-4295-4bab-86fe-40bb99221874"/>
+				<textFieldExpression><![CDATA[$F{School_Type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="1" width="265" height="20" uuid="0fccaf6c-9058-4cef-a423-97c05d3dc57a"/>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="0" width="100" height="20" uuid="bb7bf012-5fcf-468c-b2e2-000621946db7"/>
+				<textFieldExpression><![CDATA[$F{Number}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="410" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<pieChart>
+				<chart evaluationTime="Report">
+					<reportElement x="62" y="30" width="478" height="380" uuid="51dfbcfa-99e4-420e-9e48-ad07a96c4b0b"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset maxCount="30">
+					<dataset>
+						<datasetRun subDataset="GroupData" uuid="2b930841-4cda-4916-9d7b-52787f78f6d3">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{School_Type}]]></keyExpression>
+					<valueExpression><![CDATA[$F{Number}]]></valueExpression>
+					<labelExpression><![CDATA[$F{School_Type}]]></labelExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<textField>
+				<reportElement x="420" y="10" width="100" height="19" uuid="1705a362-111a-41c3-aaad-9a0aa2adb730"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Grand_Total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="10" width="130" height="19" uuid="b398e3da-463e-47c7-b48c-67ff81dea638"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[GRAND TOTAL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="59" y="30" width="471" height="1" uuid="5063f2df-9265-4ec8-9527-0fe1eaaf2680"/>
+			</line>
+			<line>
+				<reportElement x="60" y="5" width="467" height="1" uuid="e99b07eb-1c88-435e-991b-d8e5600b58c8"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

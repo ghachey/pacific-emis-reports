@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Education Indicators Gross Enrollment Ratio and Net Enrollment Rate By Nation" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="be070e6f-88a5-4660-ba28-745d5ef154a2">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.jasperserver.url" value="http://data.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Indicators/Education_Indicators_Report_Book_By_Nation_files/Education_Indicators_Gross_Enrollment_Ratio_and_Net_Enrollment_Rate_By_Nation.jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Indicators/Education_Indicators_Report_Book_By_Nation"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="EdLevelCode" pattern="">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stylecode}.equals( "0" )]]></conditionExpression>
+			<style pattern="" fontName="Open Sans" fontSize="9" isBold="true">
+				<box>
+					<pen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stylecode}.equals( "1" )]]></conditionExpression>
+			<style pattern="" fontName="Open Sans" fontSize="9" isBold="true">
+				<box leftPadding="10"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stylecode}.equals( "3" )]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F2F2F2" pattern="" fontName="Open Sans" fontSize="9" isBold="true"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stylecode}.equals( "2" )]]></conditionExpression>
+			<style>
+				<box leftPadding="15"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC" pattern=""/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Figure 1: GER and NER by Education Level and Gender Chart" uuid="0d94fbb5-7001-4637-a0e5-c13fff6f3062">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select * from
+(
+select edLevelCode,SurveyYear,'GER Female' as Catrgory,round((enrolF/cast(popF as float))*100,2) as Percentage from warehouse.EdLevelER
+where SurveyYear= $P{Year} 
+union
+select edLevelCode,SurveyYear,'GER Male' as Catrgory,round((enrolM/cast(popM as float))*100,2) as Percentage from warehouse.EdLevelER
+where SurveyYear= $P{Year} 
+union  
+select edLevelCode,SurveyYear,'NER Male' as Catrgory,round((nEnrolM/cast(popM as float))*100,2) as Percentage from warehouse.EdLevelER
+where SurveyYear=  $P{Year} 
+union
+select edLevelCode,SurveyYear,'NER Female' as Catrgory,round((nEnrolF/cast(popF as float))*100,2) as Percentage from warehouse.EdLevelER
+where SurveyYear= $P{Year}  ) as a 
+
+order by case when Catrgory='GER Male' then 0  
+            when  Catrgory='GER Female' then 1 
+              when  Catrgory='NER Male' then 2 
+                when Catrgory='NER Female' then 3 
+                end]]>
+		</queryString>
+		<field name="edLevelCode" class="java.lang.String"/>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="Catrgory" class="java.lang.String"/>
+		<field name="Percentage" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Figure 2: Historic trend by GER/NER nation" uuid="0f550339-0031-4ac7-9863-2cec44e16955">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select * from
+(
+select SurveyYear,'GER' as Catrgory,round(sum(enrol)/cast(sum(pop) as float)*100,2) as Percentage
+ from warehouse.EdLevelER
+where SurveyYear <= $P{Year} and SurveyYear>=($P{Year}-5)
+group by SurveyYear
+
+union  
+
+select SurveyYear,'NER' as Catrgory,round(sum(nEnrol)/cast(sum(pop) as float)*100,2) as Percentage 
+from warehouse.EdLevelER
+where SurveyYear <= $P{Year} and SurveyYear>=($P{Year}-5)
+group by SurveyYear ) as a
+order by Catrgory]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="Catrgory" class="java.lang.String"/>
+		<field name="Percentage" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Figure 3: Historic trend by GER/NER by gender" uuid="12146945-6edf-4286-a280-792ad7d6f114">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[Select * from(
+ 
+Select SurveyYear,'GER Female' as GenderType,Cast(SUM(EdLevelER.enrolF)/Cast(SUM(EdLevelER.popF) as Float)*100 as Decimal(36,2)) as Gratio 
+from warehouse.EdLevelER
+where SurveyYear <= $P{Year} and SurveyYear >= ($P{Year}-5)
+Group by SurveyYear
+
+union
+
+Select SurveyYear,'GER Male' as GenderType,Cast(SUM(EdLevelER.enrolM)/Cast(SUM(EdLevelER.popM) as Float)*100 as Decimal(36,2)) as Gratio from warehouse.EdLevelER
+where SurveyYear <= $P{Year} and SurveyYear >= ($P{Year}-5)
+Group by SurveyYear
+
+union  
+
+Select SurveyYear,'NER Male' as GenderType,Cast(SUM(EdLevelER.nEnrolM)/Cast(SUM(EdLevelER.popM) as Float)*100 as Decimal(36,2)) as Gratio from warehouse.EdLevelER
+where SurveyYear <= $P{Year} and SurveyYear >= ($P{Year}-5)
+Group by SurveyYear
+
+union
+
+Select SurveyYear,'NER Female' as GenderType,Cast(SUM(EdLevelER.nEnrolF)/Cast(SUM(EdLevelER.popF) as Float)*100 as Decimal(36,2)) as Gratio from warehouse.EdLevelER
+where SurveyYear <= $P{Year} and SurveyYear >= ($P{Year}-5)
+Group by SurveyYear) as e
+
+Order by SurveyYear,case when GenderType='GER Male' then 0
+              when GenderType='GER Female' then 1 
+              when GenderType='NER Male' then 2 
+              when GenderType='NER Female' then 3
+              end]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="GenderType" class="java.lang.String"/>
+		<field name="Gratio" class="java.math.BigDecimal"/>
+	</subDataset>
+	<subDataset name="Table 2: GER/NER by Year, Education Level and Gender" uuid="6788be70-0fb3-4510-bab7-e363bd76bdc8">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select SurveyYear,Cast(SurveyYear as Varchar) as EduLevel ,'0' as stylecode,
+round(SUM(EdLevelER.enrol)/Cast(SUM(EdLevelER.pop) as Float)*100,2) as GER, 
+       round(SUM(EdLevelER.enrolF)/Cast(SUM(EdLevelER.popF) as Float)*100,2) as 'GER Female',
+       round(SUM(EdLevelER.enrolM)/Cast(SUM(EdLevelER.popM) as Float)*100,2) as 'GER Male',
+       round(SUM(EdLevelER.nenrol)/Cast(SUM(EdLevelER.pop) as Float)*100,2) as NER,
+       round(SUM(EdLevelER.nenrolF)/Cast(SUM(EdLevelER.popF) as Float)*100,2) as 'NER Female',
+       round(SUM(EdLevelER.nenrolM)/Cast(SUM(EdLevelER.popM) as Float)*100,2) as 'NER Male'
+from warehouse.EdLevelER
+where SurveyYear <= $P{Year} and SurveyYear>=($P{Year}-5)
+group by SurveyYear
+
+Union  
+select SurveyYear,edlevelcode as edlevelcode , '2' as stylecode,
+round(SUM(EdLevelER.enrol)/Cast(SUM(EdLevelER.pop) as Float)*100,2) as GER, 
+       round(SUM(EdLevelER.enrolF)/Cast(SUM(EdLevelER.popF) as Float)*100,2) as 'GER Female',
+       round(SUM(EdLevelER.enrolM)/Cast(SUM(EdLevelER.popM) as Float)*100,2) as 'GER Male',
+       round(SUM(EdLevelER.nenrol)/Cast(SUM(EdLevelER.pop) as Float)*100,2) as NER,
+       round(SUM(EdLevelER.nenrolF)/Cast(SUM(EdLevelER.popF) as Float)*100,2) as 'NER Female',
+       round(SUM(EdLevelER.nenrolM)/Cast(SUM(EdLevelER.popM) as Float)*100,2) as 'NER Male'
+from warehouse.EdLevelER
+where SurveyYear <=$P{Year} and SurveyYear>=($P{Year}-5)
+-- and edlevelcode in ('ECE','PRI','SEC')
+group by SurveyYear,edlevelcode
+Union
+select  $P{Year}+1  as SurveyYear,'Grand Total' as edlevelcode,'3' as stylecode,
+round(SUM(EdLevelER.enrol)/Cast(SUM(EdLevelER.pop) as Float)*100,2) as GER, 
+       round(SUM(EdLevelER.enrolF)/Cast(SUM(EdLevelER.popF) as Float)*100,2) as 'GER Female',
+       round(SUM(EdLevelER.enrolM)/Cast(SUM(EdLevelER.popM) as Float)*100,2) as 'GER Male',
+       round(SUM(EdLevelER.nenrol)/Cast(SUM(EdLevelER.pop) as Float)*100,2) as NER,
+       round(SUM(EdLevelER.nenrolF)/Cast(SUM(EdLevelER.popF) as Float)*100,2) as 'NER Female',
+       round(SUM(EdLevelER.nenrolM)/Cast(SUM(EdLevelER.popM) as Float)*100,2) as 'NER Male'
+from warehouse.EdLevelER
+where SurveyYear <= $P{Year} and SurveyYear>=($P{Year}-5)]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="EduLevel" class="java.lang.String"/>
+		<field name="stylecode" class="java.lang.String"/>
+		<field name="GER" class="java.lang.Double"/>
+		<field name="GER Female" class="java.lang.Double"/>
+		<field name="GER Male" class="java.lang.Double"/>
+		<field name="NER" class="java.lang.Double"/>
+		<field name="NER Female" class="java.lang.Double"/>
+		<field name="NER Male" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select 'One' as one]]>
+	</queryString>
+	<field name="one" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="785" splitType="Immediate">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<barChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="0" width="567" height="200" uuid="f92f38ff-8d8b-4594-9327-6f7e578bf7d5">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<chartTitle position="Bottom">
+						<font fontName="Open Sans" size="10" isBold="true"/>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 1: GER and NER by Education Level and Gender Chart" uuid="78169868-2d08-4504-b7bf-a52d8900f1cb">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Catrgory}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{edLevelCode}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#8C9BDB"/>
+						<seriesColor seriesOrder="1" color="#E88B20"/>
+						<seriesColor seriesOrder="2" color="#B0A9A9"/>
+						<seriesColor seriesOrder="3" color="#FFCD29"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA[$P{Year}]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans" isBold="false"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Open Sans"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00.00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="200" width="381" height="19" uuid="dc79138e-d9ca-4467-ba53-93d13e65af2d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GER and NER by Education Level and Gender Chart"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["GER and NER by Education Level and Gender Chart"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<lineChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="240" width="567" height="200" uuid="27141085-537c-4f5e-ac35-22bc86c01027"/>
+					<chartTitle position="Bottom">
+						<font fontName="Open Sans" size="10" isBold="true"/>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 2: Historic trend by GER/NER nation" uuid="263d8d8f-4771-4174-96c1-9d6f5bb7d110">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Catrgory}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{SurveyYear}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="360.0">
+						<seriesColor seriesOrder="0" color="#25B0BA"/>
+						<seriesColor seriesOrder="1" color="#E67030"/>
+					</plot>
+					<categoryAxisFormat labelRotation="360.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" verticalTickLabels="false" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="440" width="381" height="20" uuid="720c85a3-4840-47de-bf76-f215f5feaf7a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Historic trend by GER/NER Nation"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Historic trend by GER/NER Nation"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<lineChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="479" width="567" height="200" uuid="6c006e3e-c9ce-421a-8beb-1d9dd13d5c9e"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 3: Historic trend by GER/NER by gender" uuid="d5fee291-d821-4120-946f-7cd940b5bf74">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{GenderType}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{SurveyYear}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Gratio}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#32C8ED"/>
+						<seriesColor seriesOrder="1" color="#EB6015"/>
+						<seriesColor seriesOrder="2" color="#F5F125"/>
+						<seriesColor seriesOrder="3" color="#C9C2C1"/>
+					</plot>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans" size="10"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00'%'" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans" size="10"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Open Sans" size="10"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<componentElement>
+				<reportElement positionType="Float" x="-20" y="740" width="550" height="35" uuid="153bf3d9-a2c4-4dfa-910d-c1e007d8c1b6">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table 2: GER/NER by Year, Education Level and Gender" uuid="b810b760-5c81-4e2a-a605-4d020ef2dde1">
+						<datasetParameter name="Year">
+							<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="82" uuid="be344651-0356-40f9-8f5a-4cdb8e0fbaff">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<staticText>
+								<reportElement style="EdLevelCode" x="0" y="0" width="82" height="20" uuid="7031e07c-8ac4-4e7c-bf30-d9ff98d4c675">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<box>
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="82" height="15" uuid="ebeec228-2e6a-4416-b6bf-c314fc1e4a95"/>
+								<box>
+									<pen lineColor="#FFFFFF"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textFieldExpression><![CDATA[$F{EduLevel}==null?"N/A":$F{EduLevel}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="79" uuid="979b1fb1-baae-4f9d-80ad-99fe95744cd2">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="79" height="20" uuid="19708f5e-9600-4477-997c-983f5af2864a"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[GER]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="79" height="15" uuid="64a19ee2-7818-47bf-a919-7d12a64cc405"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GER}==null?"N/A":$F{GER}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="79" uuid="aca13e4c-e41b-4ae1-8f1a-8de29231cd38">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="79" height="20" uuid="c71cdaa5-a3c7-49d8-924c-c4430534de48"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[GER Male]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="79" height="15" uuid="04970980-ff7f-48a9-b29e-8e0aa89fa651"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GER Male}==null?"N/A":$F{GER Male}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="79" uuid="32e599ae-4a03-4649-934c-0c4ae955200d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="79" height="20" uuid="b1ffe165-3feb-412f-b544-9fa3de76d9cd"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[GER Female]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="79" height="15" uuid="0046526f-bf09-4c57-b0c1-88f399a21b0d"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GER Female}==null?"N/A":$F{GER Female}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="78" uuid="2b0d1bf9-71b6-4ece-b4fc-10fbbfcb2f27">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="78" height="20" uuid="945421f2-87ee-411e-a70b-506f0f7eb4d5"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NER]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="78" height="15" uuid="9126e8d1-3bba-4bac-8771-05b7feb1ee74"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NER}==null?"N/A":$F{NER}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="78" uuid="c591a992-44fe-47f0-ab8d-586a2a9b4167">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="78" height="20" uuid="0692a20d-d9bf-43a2-9711-a36336c4950b"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NER Male]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="78" height="15" uuid="57c59bb3-ccf7-45cf-a1fb-1aad86eec82e"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NER Male}==null?"N/A":$F{NER Male}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="75" uuid="03563dd0-3a26-4013-a5d2-0d9fffdd4317">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="75" height="20" uuid="e96be37f-84b7-4b2b-b0d7-0d65d87d0b41"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NER Female]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="75" height="15" uuid="19d23a81-3219-430a-8b93-845345467290"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NER Female}==null?"N/A":$F{NER Female}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="680" width="381" height="20" uuid="d816a3b8-db02-446a-af92-75eade3fcc13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Historic trend by GER/NER by Gender"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA[" Historic trend by GER/NER by Gender"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="720" width="381" height="20" uuid="9c0347d1-6fdd-497a-9c85-2f2abb4fbacd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GER/NER by Year, Education Level and  Gender"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["GER/NER by Year, Education Level and  Gender"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="QPF Trained Teachers Summary Subreport" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7fed8672-b785-4c29-aa16-05f405c0ba00">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="235"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="758"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="Year" class="java.lang.Integer"/>
+	<parameter name="State" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT a.District AS dName
+	  ,COUNT(a.TID) TeachersCount
+	  ,COUNT(CASE WHEN a.GenderCode='F' THEN a.TID END) AS FemaleTeachers
+	  ,COUNT(CASE WHEN a.GenderCode='M' THEN a.TID END) AS MaleTeachers
+FROM (
+SELECT TL.[TID]
+	  ,DSS.District
+	  ,[GenderCode] 
+  FROM [warehouse].[TeacherLocation] TL
+  JOIN TeacherIdentity TI ON TL.TID = TI.tID
+  LEFT JOIN [dbo].[DimensionSchoolSurvey] DSS ON TL.SchNo = DSS.[School No] AND TL.SurveyYear = DSS.[Survey Year]
+  LEFT JOIN [warehouse].[TeacherQual] TQ ON TL.TID = TQ.tID AND TL.SurveyYear >= isnull(nullif(TQ.yr, 0), 2000) -- left join includes teachers without a qual also, quals without a year are assumed to have been always qualified (since 2000 to be precise)
+  LEFT JOIN lkpTeacherQual LTQ ON TQ.tchQual = LTQ.codeCode
+  LEFT JOIN TeacherTraining TT ON TQ.tchQual = TT.trQual AND TQ.tID = TT.tID
+  WHERE (
+  Tpk = 1 OR 
+  T00 = 1 OR 
+  T01 = 1 OR 
+  T02 = 1 OR 
+  T03 = 1 OR 
+  T04 = 1 OR 
+  T05 = 1 OR 
+  T06 = 1 OR 
+  T07 = 1 OR 
+  T08 = 1 OR 
+  T09 = 1 OR 
+  T10 = 1 OR 
+  T11 = 1 OR 
+  T12 = 1 OR 
+  T13 = 1 OR 
+  T14 = 1 OR 
+  T15 = 1 OR 
+  T = 1
+  ) -- only teachers
+AND LTQ.codeGroup = 'IQBE Training'
+AND SurveyYear = $P{Year}
+AND DSS.District = $P{State}
+ ) a
+ GROUP BY a.District]]>
+	</queryString>
+	<field name="dName" class="java.lang.String"/>
+	<field name="TeachersCount" class="java.lang.Integer"/>
+	<field name="FemaleTeachers" class="java.lang.Integer"/>
+	<field name="MaleTeachers" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="30" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="-20" y="0" width="204" height="30" backcolor="#F2F2F2" uuid="5321fb34-8a13-441f-8e50-d69d2e7e559f">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total Teachers: "+$F{TeachersCount}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="184" y="0" width="204" height="30" backcolor="#F2F2F2" uuid="737796cd-714e-455f-882e-680e41d4a79d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total Male Teachers: "+$F{MaleTeachers}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="388" y="0" width="204" height="30" backcolor="#F2F2F2" uuid="313227a3-6159-4c5d-87e3-9089771bf099">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total Female Teachers: "+$F{FemaleTeachers}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

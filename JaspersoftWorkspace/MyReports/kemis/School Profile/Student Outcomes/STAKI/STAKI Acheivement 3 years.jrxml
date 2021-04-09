@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="STAKI Acheivement 3 years" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="25e7a11e-e86f-4635-973d-f918302a3b66">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - KEMIS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="561"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="429"/>
+	<template><![CDATA["../../../Templates/KEMIS_Style.jrtx"]]></template>
+	<parameter name="schNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["KPS001"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2016]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+year0.exCode,
+year0.exYear,
+year0.schName,
+year0.schNo,
+year0.Subject,
+year0.Component,
+year0.ExamTitle,
+year0.F_st0,
+year0.F_st1,
+year0.F_st2,
+year0.F_st3,
+year0.F_st4,
+year0.M_st0,
+year0.M_st1,
+year0.M_st2,
+year0.M_st3,
+year0.M_st4,
+year0.F_st0Percent,
+year0.F_st1Percent,
+year0.F_st2Percent,
+year0.F_st3Percent,
+year0.F_st4Percent,
+year0.M_st0Percent,
+year0.M_st1Percent,
+year0.M_st2Percent,
+year0.M_st3Percent,
+year0.M_st4Percent,
+year1.F_st0 as F_st0Prev1,
+year1.F_st1 as F_st1Prev1,
+year1.F_st2 as F_st2Prev1,
+year1.F_st3 as F_st3Prev1,
+year1.F_st4 as F_st4Prev1,
+year1.M_st0 as M_st0Prev1,
+year1.M_st1 as M_st1Prev1,
+year1.M_st2 as M_st2Prev1,
+year1.M_st3 as M_st3Prev1,
+year1.M_st4 as M_st4Prev1,
+year1.F_st0Percent as F_st0PercentPrev1,
+year1.F_st1Percent as F_st1PercentPrev1,
+year1.F_st2Percent as F_st2PercentPrev1,
+year1.F_st3Percent as F_st3PercentPrev1,
+year1.F_st4Percent as F_st4PercentPrev1,
+year1.M_st0Percent as M_st0PercentPrev1,
+year1.M_st1Percent as M_st1PercentPrev1,
+year1.M_st2Percent as M_st2PercentPrev1,
+year1.M_st3Percent as M_st3PercentPrev1,
+year1.M_st4Percent as M_st4PercentPrev1,
+year2.F_st0 as F_st0Prev2,
+year2.F_st1 as F_st1Prev2,
+year2.F_st2 as F_st2Prev2,
+year2.F_st3 as F_st3Prev2,
+year2.F_st4 as F_st4Prev2,
+year2.M_st0 as M_st0Prev2,
+year2.M_st1 as M_st1Prev2,
+year2.M_st2 as M_st2Prev2,
+year2.M_st3 as M_st3Prev2,
+year2.M_st4 as M_st4Prev2,
+year2.F_st0Percent as F_st0PercentPrev2,
+year2.F_st1Percent as F_st1PercentPrev2,
+year2.F_st2Percent as F_st2PercentPrev2,
+year2.F_st3Percent as F_st3PercentPrev2,
+year2.F_st4Percent as F_st4PercentPrev2,
+year2.M_st0Percent as M_st0PercentPrev2,
+year2.M_st1Percent as M_st1PercentPrev2,
+year2.M_st2Percent as M_st2PercentPrev2,
+year2.M_st3Percent as M_st3PercentPrev2,
+year2.M_st4Percent as M_st4PercentPrev2
+
+from
+(-- Results for Year - 0
+	select e.exCode, e.exYear, S.schName, ex.schNo, stSubject as Subject, stComponent as Component,
+	'Year ' + RIGHT(e.exCode, 1) + ' ' + stSubject as ExamTitle,
+	SUM(CASE WHEN stGender = 'F' THEN st0 ELSE 0 END) as F_st0,
+	SUM(CASE WHEN stGender = 'F' THEN st1 ELSE 0 END) as F_st1,
+	SUM(CASE WHEN stGender = 'F' THEN st2 ELSE 0 END) as F_st2,
+	SUM(CASE WHEN stGender = 'F' THEN st3 ELSE 0 END) as F_st3,
+	SUM(CASE WHEN stGender = 'F' THEN st4 ELSE 0 END) as F_st4,
+
+	SUM(CASE WHEN stGender = 'M' THEN st0 ELSE 0 END) as M_st0,
+	SUM(CASE WHEN stGender = 'M' THEN st1 ELSE 0 END) as M_st1,
+	SUM(CASE WHEN stGender = 'M' THEN st2 ELSE 0 END) as M_st2,
+	SUM(CASE WHEN stGender = 'M' THEN st3 ELSE 0 END) as M_st3,
+	SUM(CASE WHEN stGender = 'M' THEN st4 ELSE 0 END) as M_st4,
+
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st0 = 0 THEN 0 ELSE 100.0 * st0 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st0Percent,
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st1 = 0 THEN 0 ELSE 100.0 * st1 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st1Percent,
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st2 = 0 THEN 0 ELSE 100.0 * st2 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st2Percent,
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st3 = 0 THEN 0 ELSE 100.0 * st3 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st3Percent,
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st4 = 0 THEN 0 ELSE 100.0 * st4 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st4Percent,
+
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st0 = 0 THEN 0 ELSE 100.0 * st0 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st0Percent,
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st1 = 0 THEN 0 ELSE 100.0 * st1 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st1Percent,
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st2 = 0 THEN 0 ELSE 100.0 * st2 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st2Percent,
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st3 = 0 THEN 0 ELSE 100.0 * st3 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st3Percent,
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st4 = 0 THEN 0 ELSE 100.0 * st4 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st4Percent
+
+	from ExamStandardTest ex
+	join Exams e on e.exID = ex.exID
+	join Schools S on S.schNo = ex.schNo
+
+	where e.exCode like 'STAKI%'
+		 and e.exYear > 2007
+		 and e.exYear = $P{year}
+		 and stComponent ='Overall'
+		 and ex.schNo = $P{schNo}
+	group by e.exCode, e.exYear, S.schName, ex.schNo, stSubject, stComponent
+) as year0
+left join
+(-- Results for Year - 1
+	select e.exCode, e.exYear, S.schName, ex.schNo, stSubject as Subject, stComponent as Component,
+	'Year ' + RIGHT(e.exCode, 1) + ' ' + stSubject as ExamTitle,
+	SUM(CASE WHEN stGender = 'F' THEN st0 ELSE 0 END) as F_st0,
+	SUM(CASE WHEN stGender = 'F' THEN st1 ELSE 0 END) as F_st1,
+	SUM(CASE WHEN stGender = 'F' THEN st2 ELSE 0 END) as F_st2,
+	SUM(CASE WHEN stGender = 'F' THEN st3 ELSE 0 END) as F_st3,
+	SUM(CASE WHEN stGender = 'F' THEN st4 ELSE 0 END) as F_st4,
+
+	SUM(CASE WHEN stGender = 'M' THEN st0 ELSE 0 END) as M_st0,
+	SUM(CASE WHEN stGender = 'M' THEN st1 ELSE 0 END) as M_st1,
+	SUM(CASE WHEN stGender = 'M' THEN st2 ELSE 0 END) as M_st2,
+	SUM(CASE WHEN stGender = 'M' THEN st3 ELSE 0 END) as M_st3,
+	SUM(CASE WHEN stGender = 'M' THEN st4 ELSE 0 END) as M_st4,
+
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st0 = 0 THEN 0 ELSE 100.0 * st0 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st0Percent,
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st1 = 0 THEN 0 ELSE 100.0 * st1 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st1Percent,
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st2 = 0 THEN 0 ELSE 100.0 * st2 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st2Percent,
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st3 = 0 THEN 0 ELSE 100.0 * st3 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st3Percent,
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st4 = 0 THEN 0 ELSE 100.0 * st4 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st4Percent,
+
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st0 = 0 THEN 0 ELSE 100.0 * st0 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st0Percent,
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st1 = 0 THEN 0 ELSE 100.0 * st1 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st1Percent,
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st2 = 0 THEN 0 ELSE 100.0 * st2 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st2Percent,
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st3 = 0 THEN 0 ELSE 100.0 * st3 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st3Percent,
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st4 = 0 THEN 0 ELSE 100.0 * st4 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st4Percent
+
+	from ExamStandardTest ex
+	join Exams e on e.exID = ex.exID
+	join Schools S on S.schNo = ex.schNo
+
+	where e.exCode like 'STAKI%'
+		 and e.exYear > 2007
+		 and e.exYear = $P{year} -1
+		 and stComponent ='Overall'
+		 and ex.schNo = $P{schNo}
+	group by e.exCode, e.exYear, S.schName, ex.schNo, stSubject, stComponent
+) as year1
+ on year0.ExamTitle = year1.ExamTitle
+left join
+(-- Results for Year - 2
+	select e.exCode, e.exYear, S.schName, ex.schNo, stSubject as Subject, stComponent as Component,
+	'Year ' + RIGHT(e.exCode, 1) + ' ' + stSubject as ExamTitle,
+	SUM(CASE WHEN stGender = 'F' THEN st0 ELSE 0 END) as F_st0,
+	SUM(CASE WHEN stGender = 'F' THEN st1 ELSE 0 END) as F_st1,
+	SUM(CASE WHEN stGender = 'F' THEN st2 ELSE 0 END) as F_st2,
+	SUM(CASE WHEN stGender = 'F' THEN st3 ELSE 0 END) as F_st3,
+	SUM(CASE WHEN stGender = 'F' THEN st4 ELSE 0 END) as F_st4,
+
+	SUM(CASE WHEN stGender = 'M' THEN st0 ELSE 0 END) as M_st0,
+	SUM(CASE WHEN stGender = 'M' THEN st1 ELSE 0 END) as M_st1,
+	SUM(CASE WHEN stGender = 'M' THEN st2 ELSE 0 END) as M_st2,
+	SUM(CASE WHEN stGender = 'M' THEN st3 ELSE 0 END) as M_st3,
+	SUM(CASE WHEN stGender = 'M' THEN st4 ELSE 0 END) as M_st4,
+
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st0 = 0 THEN 0 ELSE 100.0 * st0 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st0Percent,
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st1 = 0 THEN 0 ELSE 100.0 * st1 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st1Percent,
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st2 = 0 THEN 0 ELSE 100.0 * st2 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st2Percent,
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st3 = 0 THEN 0 ELSE 100.0 * st3 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st3Percent,
+	SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st4 = 0 THEN 0 ELSE 100.0 * st4 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st4Percent,
+
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st0 = 0 THEN 0 ELSE 100.0 * st0 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st0Percent,
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st1 = 0 THEN 0 ELSE 100.0 * st1 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st1Percent,
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st2 = 0 THEN 0 ELSE 100.0 * st2 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st2Percent,
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st3 = 0 THEN 0 ELSE 100.0 * st3 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st3Percent,
+	SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st4 = 0 THEN 0 ELSE 100.0 * st4 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st4Percent
+
+	from ExamStandardTest ex
+	join Exams e on e.exID = ex.exID
+	join Schools S on S.schNo = ex.schNo
+
+	where e.exCode like 'STAKI%'
+		 and e.exYear > 2007
+		 and e.exYear = $P{year} -2
+		 and stComponent ='Overall'
+		 and ex.schNo = $P{schNo}
+	group by e.exCode, e.exYear, S.schName, ex.schNo, stSubject, stComponent
+) year2
+on year0.ExamTitle = year2.ExamTitle
+order by year0.exCode, year0.Subject, year0.Component]]>
+	</queryString>
+	<field name="exCode" class="java.lang.String"/>
+	<field name="exYear" class="java.lang.Integer"/>
+	<field name="schName" class="java.lang.String"/>
+	<field name="schNo" class="java.lang.String"/>
+	<field name="Subject" class="java.lang.String"/>
+	<field name="Component" class="java.lang.String"/>
+	<field name="ExamTitle" class="java.lang.String"/>
+	<field name="F_st0" class="java.lang.Integer"/>
+	<field name="F_st1" class="java.lang.Integer"/>
+	<field name="F_st2" class="java.lang.Integer"/>
+	<field name="F_st3" class="java.lang.Integer"/>
+	<field name="F_st4" class="java.lang.Integer"/>
+	<field name="M_st0" class="java.lang.Integer"/>
+	<field name="M_st1" class="java.lang.Integer"/>
+	<field name="M_st2" class="java.lang.Integer"/>
+	<field name="M_st3" class="java.lang.Integer"/>
+	<field name="M_st4" class="java.lang.Integer"/>
+	<field name="F_st0Percent" class="java.math.BigDecimal"/>
+	<field name="F_st1Percent" class="java.math.BigDecimal"/>
+	<field name="F_st2Percent" class="java.math.BigDecimal"/>
+	<field name="F_st3Percent" class="java.math.BigDecimal"/>
+	<field name="F_st4Percent" class="java.math.BigDecimal"/>
+	<field name="M_st0Percent" class="java.math.BigDecimal"/>
+	<field name="M_st1Percent" class="java.math.BigDecimal"/>
+	<field name="M_st2Percent" class="java.math.BigDecimal"/>
+	<field name="M_st3Percent" class="java.math.BigDecimal"/>
+	<field name="M_st4Percent" class="java.math.BigDecimal"/>
+	<field name="F_st0Prev1" class="java.lang.Integer"/>
+	<field name="F_st1Prev1" class="java.lang.Integer"/>
+	<field name="F_st2Prev1" class="java.lang.Integer"/>
+	<field name="F_st3Prev1" class="java.lang.Integer"/>
+	<field name="F_st4Prev1" class="java.lang.Integer"/>
+	<field name="M_st0Prev1" class="java.lang.Integer"/>
+	<field name="M_st1Prev1" class="java.lang.Integer"/>
+	<field name="M_st2Prev1" class="java.lang.Integer"/>
+	<field name="M_st3Prev1" class="java.lang.Integer"/>
+	<field name="M_st4Prev1" class="java.lang.Integer"/>
+	<field name="F_st0PercentPrev1" class="java.math.BigDecimal"/>
+	<field name="F_st1PercentPrev1" class="java.math.BigDecimal"/>
+	<field name="F_st2PercentPrev1" class="java.math.BigDecimal"/>
+	<field name="F_st3PercentPrev1" class="java.math.BigDecimal"/>
+	<field name="F_st4PercentPrev1" class="java.math.BigDecimal"/>
+	<field name="M_st0PercentPrev1" class="java.math.BigDecimal"/>
+	<field name="M_st1PercentPrev1" class="java.math.BigDecimal"/>
+	<field name="M_st2PercentPrev1" class="java.math.BigDecimal"/>
+	<field name="M_st3PercentPrev1" class="java.math.BigDecimal"/>
+	<field name="M_st4PercentPrev1" class="java.math.BigDecimal"/>
+	<field name="F_st0Prev2" class="java.lang.Integer"/>
+	<field name="F_st1Prev2" class="java.lang.Integer"/>
+	<field name="F_st2Prev2" class="java.lang.Integer"/>
+	<field name="F_st3Prev2" class="java.lang.Integer"/>
+	<field name="F_st4Prev2" class="java.lang.Integer"/>
+	<field name="M_st0Prev2" class="java.lang.Integer"/>
+	<field name="M_st1Prev2" class="java.lang.Integer"/>
+	<field name="M_st2Prev2" class="java.lang.Integer"/>
+	<field name="M_st3Prev2" class="java.lang.Integer"/>
+	<field name="M_st4Prev2" class="java.lang.Integer"/>
+	<field name="F_st0PercentPrev2" class="java.math.BigDecimal"/>
+	<field name="F_st1PercentPrev2" class="java.math.BigDecimal"/>
+	<field name="F_st2PercentPrev2" class="java.math.BigDecimal"/>
+	<field name="F_st3PercentPrev2" class="java.math.BigDecimal"/>
+	<field name="F_st4PercentPrev2" class="java.math.BigDecimal"/>
+	<field name="M_st0PercentPrev2" class="java.math.BigDecimal"/>
+	<field name="M_st1PercentPrev2" class="java.math.BigDecimal"/>
+	<field name="M_st2PercentPrev2" class="java.math.BigDecimal"/>
+	<field name="M_st3PercentPrev2" class="java.math.BigDecimal"/>
+	<field name="M_st4PercentPrev2" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="65" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="91" y="27" width="361" height="30" uuid="e9c649b8-9e3f-4b1e-9635-87a227566b47"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="91" y="0" width="361" height="27" uuid="95b53cb2-a4ff-4916-8a6d-24a7e9017d13"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[" STAKI Acheivement 3 year Summary"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="40" y="0" width="51" height="57" uuid="3e6aecaf-ed23-4895-8f21-dec6ad24e8cd"/>
+				<imageExpression><![CDATA["../../../Images/Kiribati Crest.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="452" y="1" width="51" height="57" uuid="7e589063-6336-44b5-8588-d61a634601e5"/>
+				<imageExpression><![CDATA["../../../Images/Kiribati Crest.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Immediate">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="200" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<rectangle>
+				<reportElement style="Title" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="22" width="555" height="48" forecolor="rgba(0, 0, 0, 0.0)" uuid="743b6b58-0985-48a3-afb2-77850fd1a55b">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineColor="#000000"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="132" width="555" height="20" forecolor="rgba(0, 0, 0, 0.0)" backcolor="rgba(196, 189, 188, 0.19607843)" uuid="683b01b1-668f-45e6-adac-a42f691a9a2f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="92" width="555" height="20" forecolor="rgba(0, 0, 0, 0.0)" backcolor="rgba(196, 189, 188, 0.19607843)" uuid="9b742cc8-8d67-4703-87c2-6f72ed3888ed"/>
+			</rectangle>
+			<line>
+				<reportElement x="172" y="22" width="1" height="148" uuid="19064fb7-f659-4bbc-9c37-85c966e85022">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="364" y="22" width="1" height="148" uuid="26cfd935-5d84-46f7-9ca7-ef2549b31821">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</line>
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="70" width="555" height="100" forecolor="rgba(0, 0, 0, 0.0)" uuid="eb9cb3fc-f400-4fa7-8213-936c3a815716">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineColor="#000000"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="72" width="170" height="20" uuid="7dfdf73f-8f68-4343-88f0-338a73a692b1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[No evidence of acheivement]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="180" y="72" width="25" height="20" uuid="f7153e9b-c0ea-4819-a16b-b4924991418d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{M_st0} != null && $F{M_st0} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st0}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="72" width="30" height="20" uuid="bd6c2778-f6fe-4b0a-b135-aab324abbfd8">
+					<printWhenExpression><![CDATA[$F{M_st0Percent} != null && $F{M_st0Percent}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st0Percent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="72" width="30" height="20" uuid="844f2d3e-0213-4b07-a270-0917615efce6">
+					<printWhenExpression><![CDATA[$F{M_st0PercentPrev1} != null && $F{M_st0PercentPrev1}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st0PercentPrev1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="329" y="72" width="30" height="20" uuid="9288d9aa-5cd5-4af2-a723-3b87758dc64a">
+					<printWhenExpression><![CDATA[$F{M_st0PercentPrev2} != null && $F{M_st0PercentPrev2}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st0PercentPrev2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="72" width="20" height="20" uuid="2c9397e0-aa3b-4f1d-b413-56131f7eb260">
+					<printWhenExpression><![CDATA[$F{F_st0} != null && $F{F_st0} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st0}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="416" y="72" width="30" height="20" uuid="fea19b08-83bb-41f4-8218-48a72e44d27a">
+					<printWhenExpression><![CDATA[$F{F_st0Percent} != null && $F{F_st0Percent}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st0Percent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="520" y="72" width="30" height="20" uuid="519e3fd0-df77-4c24-87f2-1c493b698505">
+					<printWhenExpression><![CDATA[$F{F_st0PercentPrev2} != null && $F{F_st0PercentPrev2}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st0PercentPrev2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="473" y="72" width="30" height="20" uuid="d2722436-0a7e-4703-afe9-63fdd74753e4">
+					<printWhenExpression><![CDATA[$F{F_st0PercentPrev1} != null && $F{F_st0PercentPrev1}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st0PercentPrev1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="92" width="170" height="20" uuid="f5191e0e-7a1e-419f-bf55-4e20219623d8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Critically below the expected level]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="180" y="92" width="25" height="20" uuid="97118d2c-0c22-43c6-8924-01cfbd9297fc">
+					<printWhenExpression><![CDATA[$F{M_st1} != null && $F{M_st1} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="92" width="30" height="20" uuid="504c8d9c-c28d-4ffe-be8a-b24fcd81450c">
+					<printWhenExpression><![CDATA[$F{M_st1Percent} != null && $F{M_st1Percent}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st1Percent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="92" width="30" height="20" uuid="092344db-8ad0-4577-b5ab-5cbe4b61fe6c">
+					<printWhenExpression><![CDATA[$F{M_st1PercentPrev1} != null && $F{M_st1PercentPrev1}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st1PercentPrev1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="329" y="92" width="30" height="20" uuid="101a5abc-1e74-46f8-a151-40f16a5b62b3">
+					<printWhenExpression><![CDATA[$F{M_st1PercentPrev2} != null && $F{M_st1PercentPrev2}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st1PercentPrev2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="92" width="20" height="20" uuid="35079a37-ed6b-4888-b2c6-fec7e3870494">
+					<printWhenExpression><![CDATA[$F{F_st1} != null && $F{F_st1} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="416" y="92" width="30" height="20" uuid="4c50cf4a-246e-478e-977f-ea36eb9f6f0a">
+					<printWhenExpression><![CDATA[$F{F_st1Percent} != null && $F{F_st1Percent}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st1Percent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="473" y="92" width="30" height="20" uuid="cf0397ee-aa84-4b74-abe3-9155ec088ea6">
+					<printWhenExpression><![CDATA[$F{F_st1PercentPrev1} != null && $F{F_st1PercentPrev1}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st1PercentPrev1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="92" width="30" height="20" uuid="b4a3b1a4-7b6d-42c3-8087-0d854245090f">
+					<printWhenExpression><![CDATA[$F{F_st1PercentPrev2} != null && $F{F_st1PercentPrev2}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st1PercentPrev2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="112" width="170" height="20" uuid="ff620a5c-4688-4a85-b1a3-516467a9d2f1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Working towards the expected level]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="180" y="112" width="25" height="20" uuid="5973e86b-6719-47f2-a54f-3fa3aa405736">
+					<printWhenExpression><![CDATA[$F{M_st2} != null && $F{M_st2} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="112" width="30" height="20" uuid="c764b2be-7021-45d2-9e73-30d0fa1b5fbc">
+					<printWhenExpression><![CDATA[$F{M_st2Percent} != null && $F{M_st2Percent}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st2Percent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="112" width="30" height="20" uuid="c646cda3-52d5-4029-8c1c-b784ae92d839">
+					<printWhenExpression><![CDATA[$F{M_st2PercentPrev1} != null && $F{M_st2PercentPrev1}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st2PercentPrev1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="329" y="112" width="30" height="20" uuid="635478d1-9964-4beb-8450-7a28cbd65cb5">
+					<printWhenExpression><![CDATA[$F{M_st2PercentPrev2} != null && $F{M_st2PercentPrev2}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st2PercentPrev2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="112" width="20" height="20" uuid="efd18782-536a-4c85-94a7-d9387b56ace6">
+					<printWhenExpression><![CDATA[$F{F_st2} != null && $F{F_st2} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="416" y="112" width="30" height="20" uuid="4acd5852-1550-40da-9609-f046abbeccbc">
+					<printWhenExpression><![CDATA[$F{F_st2Percent} != null && $F{F_st2Percent}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st2Percent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="473" y="112" width="30" height="20" uuid="72b282fc-aa22-4a2c-9b23-018524b38b4d">
+					<printWhenExpression><![CDATA[$F{F_st2PercentPrev1} != null && $F{F_st2PercentPrev1}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st2PercentPrev1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="112" width="30" height="20" uuid="3cce779e-b0cb-4678-8224-4a97619c6870">
+					<printWhenExpression><![CDATA[$F{F_st2PercentPrev2} != null && $F{F_st2PercentPrev2}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st2PercentPrev2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="132" width="170" height="20" uuid="78094151-3868-4bb3-bd09-591b60c02fc2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Is working at the expected Level]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="180" y="132" width="25" height="20" uuid="fe7f6601-cd89-4a15-8305-6a852bc60d60">
+					<printWhenExpression><![CDATA[$F{M_st3} != null && $F{M_st3} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="132" width="30" height="20" uuid="0d9024b5-5783-4c6b-bc1d-d24a9fbd3842">
+					<printWhenExpression><![CDATA[$F{M_st3Percent} != null && $F{M_st3Percent}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st3Percent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="132" width="30" height="20" uuid="e0e0dc58-ce8c-440e-aebf-4b94450b0776">
+					<printWhenExpression><![CDATA[$F{M_st3PercentPrev1} != null && $F{M_st3PercentPrev1}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st3PercentPrev1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="329" y="132" width="30" height="20" uuid="a924c6a2-a895-45a3-97a9-6e42beb7dca4">
+					<printWhenExpression><![CDATA[$F{M_st3PercentPrev2} != null && $F{M_st3PercentPrev2}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st3PercentPrev2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="132" width="20" height="20" uuid="7d593cbe-f8b9-403b-a916-3e454b1ef2da">
+					<printWhenExpression><![CDATA[$F{F_st3} != null && $F{F_st3} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="416" y="132" width="30" height="20" uuid="605b25df-56b6-4e7d-b1bb-d5e67be365f4">
+					<printWhenExpression><![CDATA[$F{F_st3Percent} != null && $F{F_st3Percent}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st3Percent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="473" y="132" width="30" height="20" uuid="4c41f795-c079-4ba1-97af-165b5d3ad8c0">
+					<printWhenExpression><![CDATA[$F{F_st3PercentPrev1} != null && $F{F_st3PercentPrev1}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st3PercentPrev1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="132" width="30" height="20" uuid="c83f30d9-2cc3-4fb3-8fef-a47ab7fb81e0">
+					<printWhenExpression><![CDATA[$F{F_st3PercentPrev2} != null && $F{F_st3PercentPrev2}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st3PercentPrev2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="152" width="170" height="20" uuid="62289cfd-1398-4566-ac3d-74917e379e8f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Is working above the expected level]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="180" y="152" width="25" height="20" uuid="7e102722-f856-46a0-a8e4-27ada7227a5f">
+					<printWhenExpression><![CDATA[$F{M_st4} != null && $F{M_st4} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="152" width="30" height="20" uuid="07b5dd9f-2a24-403e-9187-81dd6f5c1c66">
+					<printWhenExpression><![CDATA[$F{M_st4Percent} != null && $F{M_st4Percent}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st4Percent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="152" width="30" height="20" uuid="c29d9c18-0ba2-4701-a063-8ad5da103a60">
+					<printWhenExpression><![CDATA[$F{M_st4PercentPrev1} != null && $F{M_st4PercentPrev1}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st4PercentPrev1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="329" y="152" width="30" height="20" uuid="494aa444-3498-43e5-aea1-c478c6354f07">
+					<printWhenExpression><![CDATA[$F{M_st4PercentPrev2} != null && $F{M_st4PercentPrev2}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st4PercentPrev2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="152" width="20" height="20" uuid="5891a1c1-00f1-4798-ae47-4f96c10d46c6">
+					<printWhenExpression><![CDATA[$F{F_st4} != null && $F{F_st4} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="416" y="152" width="30" height="20" uuid="7acb3aa8-1925-41c1-8ddc-a27ce9ea0ab0">
+					<printWhenExpression><![CDATA[$F{F_st4Percent} != null && $F{F_st4Percent}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st4Percent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="473" y="152" width="30" height="20" uuid="276d51a8-4757-431b-9e77-391c0a5de1c9">
+					<printWhenExpression><![CDATA[$F{F_st4PercentPrev1} != null && $F{F_st4PercentPrev1}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st4PercentPrev1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="152" width="30" height="20" uuid="e4eccb9b-fb23-44ca-bb26-3a65db9b7e9c">
+					<printWhenExpression><![CDATA[$F{F_st4PercentPrev2} != null && $F{F_st4PercentPrev2}.compareTo(BigDecimal.ZERO) != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st4PercentPrev2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="173" y="22" width="192" height="20" uuid="c60c5da3-e3f3-48e1-a8db-c54691c5e189"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Male]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="22" width="190" height="20" uuid="bd62a566-0de9-48c5-a4a4-eb9d1b9d57e7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Female]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="175" y="52" width="45" height="20" uuid="b6783a87-b901-466d-8c7c-33e517856fa2"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Students]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="52" width="157" height="20" uuid="fb73bd50-fbe5-4385-a7d0-e18989079e75"/>
+				<text><![CDATA[Acheivement Level]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="0" width="240" height="21" uuid="a11960a0-41c6-4e87-8ee8-33243e96b94b"/>
+				<textFieldExpression><![CDATA[$F{ExamTitle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="225" y="52" width="41" height="20" uuid="ac98bf3a-8ced-4093-9404-b29047f46e03">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{year} + " %"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="275" y="52" width="41" height="20" uuid="94d36808-bd2e-466a-962f-dd85e98e0e6d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{year} - 1) + " %"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="323" y="52" width="41" height="20" uuid="c76d21cc-ddbb-4b64-bfce-aaa1a7a2de83">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{year} - 2) + " %"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="416" y="52" width="41" height="20" uuid="1d32eca0-08f9-4237-81d1-e0be527791f6">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{year} + " %"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="466" y="52" width="41" height="20" uuid="a3354ee7-531a-4ae8-8de0-cd77204e65c4">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{year} - 1) + " %"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="514" y="52" width="41" height="20" uuid="aa34f1f1-a64f-4909-8756-3d8a51c719ca">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{year} - 2) + " %"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="367" y="52" width="45" height="20" uuid="71a469ea-cd52-41c1-adf6-b79f37bfa7c6"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Students]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams_School_Results_by_Year" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
+	<property name="ireport.jasperserver.url" value="http://data.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Schools/School/School_Exams_Results_by_Year"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Schools/School/School_Exams_Results_by_Year_files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<template><![CDATA["kemis/Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="SchoolNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["CHK003"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT [examName]
+      ,[examYear]
+      ,[schNo]
+	  ,[Gender]
+      ,CONCAT([standardCode],': ',[standardDesc]) AS ExamStandard
+	  ,CONCAT([benchmarkCode], ': ', [exbnchDescription]) AS Benchmark
+	  ,[benchmarkID]
+	  ,[benchmarkCode]
+	  ,[exbnchDescription]
+	  ,[Candidates]
+	  ,ISNULL([2] * -1, 0) AS [Tot2]
+	  ,ISNULL([1] * -1, 0) AS [Tot1]
+	  ,ISNULL([3], 0) AS [Tot3]
+	  ,ISNULL([4], 0) AS [Tot4]
+	  ,ROUND(ISNULL(convert(float, [1] * -1)/ Candidates, 0), 2) as [1]
+      ,ROUND(ISNULL(convert(float, [2] * -1)/ Candidates, 0), 2) as [2]
+	  ,ROUND(ISNULL(convert(float, [3] ) / Candidates, 0), 2) as [3]
+	  ,ROUND(ISNULL(convert(float, [4] ) / Candidates, 0), 2) as [4]
+  FROM warehouse.examSchoolResultsX AS ESR
+  INNER JOIN [dbo].[ExamBenchmarks] AS EB ON ESR.benchmarkCode = EB.[exbnchCode] AND ESR.examID = EB.exID
+  WHERE [schNo] = $P{SchoolNo} AND [examYear] = $P{Year}
+  ORDER BY [examName], ExamStandard, benchmarkCode]]>
+	</queryString>
+	<field name="examName" class="java.lang.String"/>
+	<field name="examYear" class="java.lang.Integer"/>
+	<field name="schNo" class="java.lang.String"/>
+	<field name="Gender" class="java.lang.String"/>
+	<field name="ExamStandard" class="java.lang.String"/>
+	<field name="Benchmark" class="java.lang.String"/>
+	<field name="benchmarkID" class="java.lang.Integer"/>
+	<field name="benchmarkCode" class="java.lang.String"/>
+	<field name="exbnchDescription" class="java.lang.String"/>
+	<field name="Candidates" class="java.lang.Integer"/>
+	<field name="Tot2" class="java.lang.Double"/>
+	<field name="Tot1" class="java.lang.Double"/>
+	<field name="Tot3" class="java.lang.Integer"/>
+	<field name="Tot4" class="java.lang.Integer"/>
+	<field name="1" class="java.lang.Double"/>
+	<field name="2" class="java.lang.Double"/>
+	<field name="3" class="java.lang.Double"/>
+	<field name="4" class="java.lang.Double"/>
+	<variable name="PERC1_AVG_EXAM_STANDARD" class="java.lang.Integer" resetType="Group" resetGroup="Exam Standard">
+		<variableExpression><![CDATA[$V{TOT1_EXAM_STANDARD} / $V{CANDIDATES_EXAM_STANDARD} * 100]]></variableExpression>
+	</variable>
+	<variable name="PERC2_AVG_EXAM_STANDARD" class="java.lang.Integer" resetType="Group" resetGroup="Exam Name">
+		<variableExpression><![CDATA[$V{TOT2_EXAM_STANDARD} / $V{CANDIDATES_EXAM_STANDARD} * 100]]></variableExpression>
+	</variable>
+	<variable name="PERC3_AVG_EXAM_STANDARD" class="java.lang.Integer" resetType="Group" resetGroup="Exam Name">
+		<variableExpression><![CDATA[$V{TOT3_EXAM_STANDARD} / $V{CANDIDATES_EXAM_STANDARD} * 100]]></variableExpression>
+	</variable>
+	<variable name="PERC4_AVG_EXAM_STANDARD" class="java.lang.Integer" resetType="Group" resetGroup="Exam Name">
+		<variableExpression><![CDATA[$V{TOT4_EXAM_STANDARD} / $V{CANDIDATES_EXAM_STANDARD} * 100]]></variableExpression>
+	</variable>
+	<variable name="TOT1_EXAM_STANDARD" class="java.lang.Integer" resetType="Group" resetGroup="Exam Name" calculation="Sum">
+		<variableExpression><![CDATA[$F{Tot1}]]></variableExpression>
+	</variable>
+	<variable name="TOT2_EXAM_STANDARD" class="java.lang.Integer" resetType="Group" resetGroup="Exam Name" calculation="Sum">
+		<variableExpression><![CDATA[$F{Tot2}]]></variableExpression>
+	</variable>
+	<variable name="TOT3_EXAM_STANDARD" class="java.lang.Integer" resetType="Group" resetGroup="Exam Name" calculation="Sum">
+		<variableExpression><![CDATA[$F{Tot3}]]></variableExpression>
+	</variable>
+	<variable name="TOT4_EXAM_STANDARD" class="java.lang.Integer" resetType="Group" resetGroup="Exam Name" calculation="Sum">
+		<variableExpression><![CDATA[$F{Tot4}]]></variableExpression>
+	</variable>
+	<variable name="CANDIDATES_EXAM_STANDARD" class="java.lang.Integer" resetType="Group" resetGroup="Exam Name" calculation="Sum">
+		<variableExpression><![CDATA[$F{Candidates}]]></variableExpression>
+	</variable>
+	<group name="Exam Name">
+		<groupExpression><![CDATA[$F{examName}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<frame>
+					<reportElement mode="Opaque" x="-21" y="1" width="575" height="24" forecolor="#5168AE" backcolor="#CDD4E8" uuid="f871ff1c-a634-42fe-a4be-f6f89704d9d1"/>
+					<rectangle>
+						<reportElement mode="Opaque" x="0" y="-1" width="36" height="24" backcolor="#8C0813" uuid="38c58cf7-f8f7-4663-a618-4c7d67066467"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement style="Group header" x="36" y="0" width="494" height="24" uuid="de5751e6-a4ee-4192-ab60-c78c9c05d5b8"/>
+						<textFieldExpression><![CDATA[$F{examName}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band>
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Exam Standard">
+		<groupExpression><![CDATA[$F{ExamStandard}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<frame>
+					<reportElement mode="Opaque" x="-21" y="1" width="575" height="24" forecolor="#5168AE" backcolor="rgba(205, 212, 232, 0.5882353)" uuid="fd6dbcb4-487f-46e0-87e6-d4a20f4d80fc"/>
+					<box rightPadding="20"/>
+					<rectangle>
+						<reportElement mode="Opaque" x="0" y="-1" width="36" height="24" forecolor="#FFFFFF" backcolor="#C08F99" uuid="aec5df30-5257-4093-8fc6-2a25d0525349"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement style="Group header" x="36" y="0" width="483" height="24" uuid="ffc3ddef-375b-4b6c-b8ad-30d9d71ed297"/>
+						<textFieldExpression><![CDATA[$F{ExamStandard}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="255">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<stackedBarChart>
+					<chart evaluationTime="Group" evaluationGroup="Exam Standard" customizerClass="com.rapidservices.reporting.charts.StackBarChartCustomizer">
+						<reportElement x="-20" y="3" width="592" height="252" uuid="8285fa79-48d7-4958-9b21-17ee5d4daed3">
+							<propertyExpression name="lines.to.show"><![CDATA["3"]]></propertyExpression>
+							<propertyExpression name="category.margin"><![CDATA["0.05"]]></propertyExpression>
+							<propertyExpression name="item.margin"><![CDATA["0.05"]]></propertyExpression>
+							<propertyExpression name="label.position.offset"><![CDATA["15"]]></propertyExpression>
+							<propertyExpression name="category.width.ratio"><![CDATA["0.5"]]></propertyExpression>
+							<propertyExpression name="category.font.name"><![CDATA["SansSerif"]]></propertyExpression>
+							<propertyExpression name="category.font.size"><![CDATA["8"]]></propertyExpression>
+						</reportElement>
+						<box rightPadding="20">
+							<pen lineWidth="0.0"/>
+						</box>
+						<chartTitle/>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset resetType="Group" resetGroup="Exam Standard"/>
+						<categorySeries>
+							<seriesExpression><![CDATA["Approaching competence"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{Benchmark} + "^" + $F{Gender}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{2}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA["Well below competent"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{Benchmark} + "^" + $F{Gender}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{1}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA["Minimally competent"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{Benchmark} + "^" + $F{Gender}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{3}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA["Competent"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{Benchmark} + "^" + $F{Gender}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{4}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot orientation="Horizontal">
+							<seriesColor seriesOrder="0" color="#FFD966"/>
+							<seriesColor seriesOrder="1" color="#C00000"/>
+							<seriesColor seriesOrder="2" color="#92D050"/>
+							<seriesColor seriesOrder="3" color="#00B050"/>
+						</plot>
+						<itemLabel>
+							<font size="6"/>
+						</itemLabel>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+								<labelFont>
+									<font size="6"/>
+								</labelFont>
+								<tickLabelFont>
+									<font size="6"/>
+								</tickLabelFont>
+							</axisFormat>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="#,##0.##%; #,##0.##%" axisLineColor="#000000">
+								<labelFont>
+									<font size="6"/>
+								</labelFont>
+								<tickLabelFont>
+									<font size="6"/>
+								</tickLabelFont>
+							</axisFormat>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement key="" style="Column header" x="-20" y="0" width="265" height="22" forecolor="#8C0813" uuid="33889e73-33b1-4849-b201-94246c723972">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Benchmark]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header" x="349" y="0" width="52" height="22" forecolor="#8C0813" uuid="c980210d-8223-4b80-ab57-e4d32497a938">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Well below competent]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header" x="401" y="0" width="52" height="22" forecolor="#8C0813" uuid="fef0a29b-3fcf-47ec-bb0f-dff462b43247">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Approaching competence]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header" x="453" y="0" width="52" height="22" forecolor="#8C0813" uuid="d0cca58d-f64b-4b41-8b9c-0138b6718c6d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Minimally competent]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header" x="505" y="0" width="67" height="22" forecolor="#8C0813" uuid="ca5ecf96-d65c-46dd-abf2-c75ffee2b83d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box rightPadding="20">
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Competent]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header" x="245" y="0" width="52" height="22" forecolor="#8C0813" uuid="73e1c2ab-2db1-4bfa-a412-823851e08b3f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Gender]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header" x="297" y="0" width="52" height="22" forecolor="#8C0813" uuid="a2c56700-6cc3-400e-856a-276c3139649b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Candidates]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Row" mode="Opaque" x="-21" y="0" width="266" height="20" uuid="e52e588f-1cd5-4546-81c7-bcc4c9366e9c"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Benchmark}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="349" y="0" width="52" height="20" uuid="e5de5ef1-0226-4ab5-9e85-1488b33a5561">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Tot1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="401" y="0" width="52" height="20" uuid="da5a284b-49c6-4685-be6f-46646416e35d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Tot2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="453" y="0" width="52" height="20" uuid="0f6a6313-438a-49a8-abb3-c03d08cbd74c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Tot3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="505" y="0" width="62" height="20" uuid="0ce8929e-2b56-4f2a-9259-900801e7e618">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box rightPadding="20">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Tot4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="297" y="0" width="52" height="20" uuid="6b357b28-299c-4809-86bd-b62510ceef16">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Candidates}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="245" y="0" width="52" height="20" uuid="08ddf433-d338-4002-81a9-ff171ab8e4ba">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Gender}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

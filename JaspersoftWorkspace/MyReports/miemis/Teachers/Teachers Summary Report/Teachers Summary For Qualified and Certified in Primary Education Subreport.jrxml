@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Teachers Summary For Qualified and Certified in Primary Education Subreport" pageWidth="572" pageHeight="752" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="776b125b-b564-416b-8240-93caabe49149">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<parameter name="District" class="java.lang.String">
+		<defaultValueExpression><![CDATA[14]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from 
+(select SurveyYear as surveyYear,
+dShort as District,
+Sector,
+AgeGroup as agegroup,
+'PRI-Teachers' as category,
+sum(numTeachers) as total 
+from [warehouse].[TeacherCountDistrict] dtc
+join dbo.Districts d on dtc.districtcode = d.dID 
+where SurveyYear=$P{Year} and  d.dID =$P{District}
+and sector='PRI'
+group by SurveyYear,dShort,Sector,AgeGroup
+Union
+select SurveyYear,dShort,Sector,AgeGroup,'PRI-Qualified Teachers',sum(Qualified) as total 
+from [warehouse].[TeacherCountDistrict] dtc
+join dbo.Districts d on dtc.districtcode = d.dID 
+where SurveyYear=$P{Year} and d.dID =$P{District}
+and sector='PRI'
+group by SurveyYear,dShort,Sector,AgeGroup
+
+Union
+select SurveyYear,dShort,Sector,AgeGroup,'PRI-Certified Teachers',sum(Certified) as total
+from [warehouse].[TeacherCountDistrict] dtc
+join dbo.Districts d on dtc.districtcode = d.dID 
+where SurveyYear=$P{Year} and d.dID =$P{District}
+and sector='PRI'
+group by SurveyYear,dShort,Sector,AgeGroup
+Union
+select SurveyYear,dShort,Sector,AgeGroup,'PRI-Certified & Qualified Teachers',sum(CERTQual) as total
+from [warehouse].[TeacherCountDistrict] dtc
+join dbo.Districts d on dtc.districtcode = d.dID
+where SurveyYear=$P{Year} and d.dID =$P{District}
+and sector='PRI'
+group by SurveyYear,dShort,Sector,AgeGroup) as a
+order by AgeGroup,SurveyYear,District,
+case when category='PRI-Teachers'then 1
+when category='PRI-Qualified Teachers' then 2
+when category='PRI-Certified Teachers' then 3
+when category='PRI-Certified & Qualified Teachers' then 4
+end]]>
+	</queryString>
+	<field name="surveyYear" class="java.lang.Integer"/>
+	<field name="District" class="java.lang.String"/>
+	<field name="Sector" class="java.lang.String"/>
+	<field name="agegroup" class="java.lang.String"/>
+	<field name="category" class="java.lang.String"/>
+	<field name="total" class="java.lang.Integer"/>
+	<group name="District">
+		<groupExpression><![CDATA[$F{District}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="200" splitType="Immediate">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<stackedBarChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="0" y="2" width="570" height="198" uuid="ce75d91e-38b7-46eb-88ad-51d87853b45a">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{category}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{agegroup}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot labelRotation="0.0">
+						<seriesColor seriesOrder="0" color="#5B9BD5"/>
+						<seriesColor seriesOrder="1" color="#ED7D31"/>
+						<seriesColor seriesOrder="2" color="#A5A5A5"/>
+						<seriesColor seriesOrder="3" color="#FFC000"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat labelRotation="0.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans" size="9"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Open Sans" size="9"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans" size="9"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Open Sans" size="9"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</barPlot>
+			</stackedBarChart>
+		</band>
+	</summary>
+</jasperReport>

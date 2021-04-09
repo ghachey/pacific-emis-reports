@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="6 - Teachers - Certified, Qualified" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - KEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/KEMIS_Reports/Statistical_Brief/Changes_in_Enrollments"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="636"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="350"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="345"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="650"/>
+	<template><![CDATA["../..//Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[-- •	Table: teachers- school type (row), pct. qualified, pct. certified all for the last two years
+
+select
+s.schName As School,
+
+SUM ( CASE WHEN svyYear = $P{year} - 0 THEN (ssIncome + ssFundRaising + ssDonationPriv + ssDonationChurch + ssDonationOther + ssGovtGrant) ELSE 0 END ) As TotalIncome1,
+SUM ( CASE WHEN svyYear = $P{year} - 0 THEN (ssExpSupplies + ssExpBooks + ssExpOther) ELSE 0 END ) As TotalExpenses1,
+SUM ( CASE WHEN svyYear = $P{year} - 0 THEN (ssIncome + ssFundRaising + ssDonationPriv + ssDonationChurch + ssDonationOther + ssGovtGrant - (ssExpSupplies + ssExpBooks + ssExpOther)) ELSE 0 END ) AS Balance1,
+SUM ( CASE WHEN svyYear = $P{year} - 1 THEN (ssIncome + ssFundRaising + ssDonationPriv + ssDonationChurch + ssDonationOther + ssGovtGrant) ELSE 0 END ) As TotalIncome2,
+SUM ( CASE WHEN svyYear = $P{year} - 1 THEN (ssExpSupplies + ssExpBooks + ssExpOther) ELSE 0 END ) As TotalExpenses2,
+SUM ( CASE WHEN svyYear = $P{year} - 1 THEN (ssIncome + ssFundRaising + ssDonationPriv + ssDonationChurch + ssDonationOther + ssGovtGrant - (ssExpSupplies + ssExpBooks + ssExpOther)) ELSE 0 END ) AS Balance2,
+SUM ( CASE WHEN svyYear = $P{year} - 2 THEN (ssIncome + ssFundRaising + ssDonationPriv + ssDonationChurch + ssDonationOther + ssGovtGrant) ELSE 0 END ) As TotalIncome3,
+SUM ( CASE WHEN svyYear = $P{year} - 2 THEN (ssExpSupplies + ssExpBooks + ssExpOther) ELSE 0 END ) As TotalExpenses3,
+SUM ( CASE WHEN svyYear = $P{year} - 2 THEN (ssIncome + ssFundRaising + ssDonationPriv + ssDonationChurch + ssDonationOther + ssGovtGrant - (ssExpSupplies + ssExpBooks + ssExpOther)) ELSE 0 END ) AS Balance3,
+SUM ( CASE WHEN svyYear = $P{year} - 3 THEN (ssIncome + ssFundRaising + ssDonationPriv + ssDonationChurch + ssDonationOther + ssGovtGrant) ELSE 0 END ) As TotalIncome4,
+SUM ( CASE WHEN svyYear = $P{year} - 3 THEN (ssExpSupplies + ssExpBooks + ssExpOther) ELSE 0 END ) As TotalExpenses4,
+SUM ( CASE WHEN svyYear = $P{year} - 3 THEN (ssIncome + ssFundRaising + ssDonationPriv + ssDonationChurch + ssDonationOther + ssGovtGrant - (ssExpSupplies + ssExpBooks + ssExpOther)) ELSE 0 END ) AS Balance4
+from SchoolSurvey ss
+INNER JOIN Schools s on ss.schNo = s.schNo
+group by s.schName]]>
+	</queryString>
+	<field name="School" class="java.lang.String"/>
+	<field name="TotalIncome1" class="java.lang.Integer"/>
+	<field name="TotalExpenses1" class="java.lang.Integer"/>
+	<field name="Balance1" class="java.lang.Integer"/>
+	<field name="TotalIncome2" class="java.lang.Integer"/>
+	<field name="TotalExpenses2" class="java.lang.Integer"/>
+	<field name="Balance2" class="java.lang.Integer"/>
+	<field name="TotalIncome3" class="java.lang.Integer"/>
+	<field name="TotalExpenses3" class="java.lang.Integer"/>
+	<field name="Balance3" class="java.lang.Integer"/>
+	<field name="TotalIncome4" class="java.lang.Integer"/>
+	<field name="TotalExpenses4" class="java.lang.Integer"/>
+	<field name="Balance4" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="124" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="90" y="0" width="353" height="62" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
+				<text><![CDATA[School Resources]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="10" forecolor="#08298C" backcolor="#08298C" uuid="d2c1de46-cc23-45d7-baae-f3db758a22f4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-20" y="-10" width="10" height="10" forecolor="#08298C" backcolor="#08298C" uuid="82be1372-47c3-4488-8799-e379cf02a1dc">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="565" y="-10" width="10" height="10" forecolor="#08298C" backcolor="#08298C" uuid="381229bf-790d-4ab8-92ba-f2c4c103310d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-20" y="-9" width="22" height="19" forecolor="#FFFFFF" uuid="eb7e3cd7-5c3b-404f-92ca-e40918a0f081">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="553" y="-9" width="22" height="19" forecolor="#FFFFFF" uuid="48197aee-8bf4-4b7f-8728-a4843a0b870b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Page footer" x="120" y="60" width="320" height="55" uuid="aac0dd0e-695e-4839-8e52-4212d1369f89"/>
+				<textElement textAlignment="Center">
+					<font size="19"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Finance Report " + $P{year} + " compared to previous three years"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="463" y="0" width="92" height="115" uuid="f63e4ed0-d89f-46c4-ada9-43f63ccf5878"/>
+				<imageExpression><![CDATA["../../Images/Kiribati Crest.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="-1" y="0" width="92" height="115" uuid="ca7cba89-5a0c-4b19-b4df-20c56f2da156"/>
+				<imageExpression><![CDATA["../../Images/Kiribati Crest.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="53" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-1" y="52" width="555" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="83" y="2" width="150" height="14" uuid="83945965-5222-4487-ab63-ad12f4868dc6"/>
+				<textFieldExpression><![CDATA["Income"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="16" width="42" height="14" uuid="9c03ecd3-f421-41ba-bf4c-7a1ab1cf3703"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="125" y="16" width="36" height="14" uuid="85d03528-47b3-40cc-b8d8-b06e43c9970a"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="161" y="17" width="36" height="14" uuid="324998a3-bff4-4c43-be8c-5441f88f6b71"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 2]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="197" y="17" width="36" height="14" uuid="324998a3-bff4-4c43-be8c-5441f88f6b71"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 3]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="3" width="144" height="14" uuid="8214b7a3-282a-4cf8-9301-38dfa660b786"/>
+				<textFieldExpression><![CDATA["Expenditure"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="17" width="36" height="14" uuid="3bdc02b1-0ce0-472b-84aa-b7a0dc0a707c"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="288" y="17" width="36" height="14" uuid="229a330c-9bab-4f7d-b4bb-c744cb949689"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="324" y="17" width="36" height="14" uuid="179cb8d0-ccd6-4503-86a7-59d3f3f7ff31"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 2]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="359" y="17" width="34" height="14" uuid="179cb8d0-ccd6-4503-86a7-59d3f3f7ff31"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 3]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="409" y="2" width="144" height="14" uuid="a2dacd4b-5fa9-4e04-8d5a-456fa473c17d"/>
+				<textFieldExpression><![CDATA["Balance"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="408" y="17" width="36" height="14" uuid="648b225b-712f-4bec-8049-9b250f726c31"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="445" y="17" width="36" height="14" uuid="1de96aa4-6630-4028-afc9-3233bff0416e"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="483" y="17" width="36" height="14" uuid="dba89819-98f1-4e92-bc5d-1890c9cb93a9"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 2]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="519" y="17" width="34" height="14" uuid="dba89819-98f1-4e92-bc5d-1890c9cb93a9"/>
+				<textFieldExpression><![CDATA[Integer.parseInt($P{year}) - 3]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-1" y="3" width="70" height="14" uuid="c0c1b266-c832-466a-a980-9c3e55e663cb"/>
+				<textFieldExpression><![CDATA["School"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="-1" y="0" width="90" height="16" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{School}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="90" y="0" width="36" height="16" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TotalIncome1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="250" y="0" width="36" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TotalExpenses1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="411" y="-1" width="32" height="16" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Balance1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="125" y="-1" width="36" height="16" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TotalIncome2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="288" y="0" width="36" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TotalExpenses2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="444" y="-1" width="36" height="16" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Balance2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="162" y="0" width="36" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TotalIncome3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="324" y="0" width="34" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TotalExpenses3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="481" y="0" width="38" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Balance3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="198" y="0" width="34" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TotalIncome4}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="359" y="0" width="36" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TotalExpenses4}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="519" y="0" width="34" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Balance4}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#8298C0" backcolor="#9BC2FF" uuid="183682bc-d976-4756-83e0-6625a3f98ed1"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="533" y="0" width="40" height="20" uuid="0193f9b3-1559-491a-8580-b6988863b6a1"/>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="453" y="0" width="80" height="20" uuid="d00b105e-494b-418b-8ac9-8b1b4824f4f0"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="0616f3fe-0354-456f-8911-ec30ec51a5ae"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="406" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

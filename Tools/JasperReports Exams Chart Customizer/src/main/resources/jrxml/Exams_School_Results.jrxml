@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Student_enrol_by_age_Level_EA" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - FEDEMIS-TEST"/>
+    <property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+    <property name="ireport.jasperserver.user" value="jasperadmin"/>
+    <property name="ireport.jasperserver.reportUnit" value="/reports/FedEMIS_Reports/Student_Reports/Exams_School_Results"/>
+    <template><![CDATA["FedEMIS Reports/Templates/FedEMIS_Style.jrtx"]]></template>
+    <style name="Row" mode="Transparent">
+        <conditionalStyle>
+            <conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+            <style backcolor="#E6EAF3"/>
+        </conditionalStyle>
+    </style>
+    <parameter name="SCHOOL_NO" class="java.lang.String">
+        <defaultValueExpression><![CDATA["CHK003"]]></defaultValueExpression>
+    </parameter>
+    <parameter name="EXAM_NAME" class="java.lang.String">
+        <defaultValueExpression><![CDATA["Year 4 Maths"]]></defaultValueExpression>
+    </parameter>
+    <parameter name="YEAR" class="java.lang.Integer">
+        <defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+    </parameter>
+    <queryString language="SQL">
+        <![CDATA[SELECT [examName]
+      ,[examYear]
+      ,[schNo]
+	  ,[Gender]
+      ,CONCAT([standardCode],': ',[standardDesc]) AS ExamStandard
+      ,[benchmarkID]
+	  ,[benchmarkCode]
+	  ,[exbnchDescription]
+	  ,[Candidates]
+	  ,ISNULL([2], 0) AS [Tot2]
+	  ,ISNULL([1], 0) AS [Tot1]
+	  ,ISNULL([3], 0) AS [Tot3]
+	  ,ISNULL([4], 0) AS [Tot4]
+      ,ROUND(ISNULL(convert(float, [2] * -1)/ Candidates, 0), 2) as [2]
+	  ,ROUND(ISNULL(convert(float, [1] * -1)/ Candidates, 0), 2) as [1]
+	  ,ROUND(ISNULL(convert(float, [3] ) / Candidates, 0), 2) as [3]
+	  ,ROUND(ISNULL(convert(float, [4] ) / Candidates, 0), 2) as [4]
+  FROM warehouse.examSchoolResultsX AS ESR
+  INNER JOIN [dbo].[ExamBenchmarks] AS EB ON ESR.benchmarkCode = EB.[exbnchCode] AND ESR.examID = EB.exID
+  WHERE [examName] = 'Year 4 Maths' AND [schNo] = 'CHK003' AND [examYear] = '2015'
+  ORDER BY ExamStandard, benchmarkCode]]>
+    </queryString>
+    <field name="examName" class="java.lang.String"/>
+    <field name="schNo" class="java.lang.String"/>
+    <field name="Gender" class="java.lang.String"/>
+    <field name="ExamStandard" class="java.lang.String"/>
+    <field name="benchmarkID" class="java.lang.Integer"/>
+    <field name="benchmarkCode" class="java.lang.String"/>
+    <field name="exbnchDescription" class="java.lang.String"/>
+    <field name="Candidates" class="java.lang.Integer"/>
+    <field name="Tot2" class="java.lang.Integer"/>
+    <field name="Tot1" class="java.lang.Integer"/>
+    <field name="Tot3" class="java.lang.Integer"/>
+    <field name="Tot4" class="java.lang.Integer"/>
+    <field name="2" class="java.lang.Double"/>
+    <field name="1" class="java.lang.Double"/>
+    <field name="3" class="java.lang.Double"/>
+    <field name="4" class="java.lang.Double"/>
+    <group name="Exam Standard">
+        <groupExpression><![CDATA[$F{ExamStandard}]]></groupExpression>
+        <groupHeader>
+            <band height="25">
+                <frame>
+                    <reportElement mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#5168AE" backcolor="#CDD4E8" uuid="fd6dbcb4-487f-46e0-87e6-d4a20f4d80fc"/>
+                    <rectangle>
+                        <reportElement mode="Opaque" x="21" y="0" width="36" height="24" backcolor="#08298C" uuid="aec5df30-5257-4093-8fc6-2a25d0525349"/>
+                        <graphicElement>
+                            <pen lineWidth="0.0"/>
+                        </graphicElement>
+                    </rectangle>
+                    <textField>
+                        <reportElement style="Group header" x="68" y="0" width="755" height="24" uuid="ffc3ddef-375b-4b6c-b8ad-30d9d71ed297"/>
+                        <textFieldExpression><![CDATA[$F{ExamStandard}]]></textFieldExpression>
+                    </textField>
+                </frame>
+            </band>
+        </groupHeader>
+    </group>
+
+    <title>
+        <band height="136" splitType="Stretch">
+            <image>
+                <reportElement x="0" y="0" width="126" height="126" uuid="1c003177-754c-448f-8ce1-16868856f545"/>
+                <imageExpression><![CDATA["../images/fsm-seal.png"]]></imageExpression>
+            </image>
+            <staticText>
+                <reportElement style="Title" x="126" y="0" width="548" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
+                <textElement>
+                    <font size="45"/>
+                </textElement>
+                <text><![CDATA[Exams School Results]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="SubTitle" x="126" y="62" width="548" height="32" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9"/>
+                <text><![CDATA[Proportion of students at each level of achievement]]></text>
+            </staticText>
+            <image>
+                <reportElement x="674" y="0" width="126" height="126" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959"/>
+                <imageExpression><![CDATA["../images/fsm-ndoe.png"]]></imageExpression>
+            </image>
+            <rectangle>
+                <reportElement mode="Opaque" x="-21" y="-20" width="843" height="10" forecolor="#08298C" backcolor="#08298C" uuid="a879b5ed-22f8-4e7b-9093-811aaea43211"/>
+            </rectangle>
+            <rectangle>
+                <reportElement x="-21" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="0a58d963-ec76-492f-9d28-8419cff95766"/>
+            </rectangle>
+            <rectangle>
+                <reportElement x="802" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="f0a00416-98e9-4650-b25b-a7e2a9f68561"/>
+            </rectangle>
+            <ellipse>
+                <reportElement x="-21" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="503401c2-412f-4738-a96a-cf6a43061701"/>
+            </ellipse>
+            <ellipse>
+                <reportElement x="785" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="70a1c065-3f91-4751-8e67-c995a73a7656"/>
+            </ellipse>
+            <textField>
+                <reportElement style="Title text" x="126" y="94" width="548" height="20" uuid="552bbbc7-baa1-40c9-ac39-017f6334661f"/>
+                <textFieldExpression><![CDATA["Report for the School " + $P{SCHOOL_NO} + ", Year " + $P{YEAR} + " and Exam " + $P{EXAM_NAME}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <pageHeader>
+        <band splitType="Stretch"/>
+    </pageHeader>
+    <columnHeader>
+        <band height="23" splitType="Stretch">
+            <staticText>
+                <reportElement key="" style="Column header" x="1" y="0" width="79" height="16" uuid="c134ccb8-83aa-45c5-9184-c33d5fc939ea"/>
+                <textElement textAlignment="Left">
+                    <font size="8"/>
+                </textElement>
+                <text><![CDATA[Benchmark Code]]></text>
+            </staticText>
+            <staticText>
+                <reportElement key="" style="Column header" x="80" y="0" width="220" height="16" uuid="33889e73-33b1-4849-b201-94246c723972"/>
+                <textElement textAlignment="Left">
+                    <font size="8"/>
+                </textElement>
+                <text><![CDATA[Benchmark Description]]></text>
+            </staticText>
+            <staticText>
+                <reportElement key="" style="Column header" x="390" y="2" width="100" height="16" uuid="c980210d-8223-4b80-ab57-e4d32497a938"/>
+                <textElement textAlignment="Left">
+                    <font size="8"/>
+                </textElement>
+                <text><![CDATA[Well below competent]]></text>
+            </staticText>
+            <staticText>
+                <reportElement key="" style="Column header" x="490" y="2" width="100" height="16" uuid="fef0a29b-3fcf-47ec-bb0f-dff462b43247"/>
+                <textElement textAlignment="Left">
+                    <font size="8"/>
+                </textElement>
+                <text><![CDATA[Approaching competence]]></text>
+            </staticText>
+            <staticText>
+                <reportElement key="" style="Column header" x="590" y="2" width="100" height="16" uuid="d0cca58d-f64b-4b41-8b9c-0138b6718c6d"/>
+                <textElement textAlignment="Left">
+                    <font size="8"/>
+                </textElement>
+                <text><![CDATA[Minimally competent]]></text>
+            </staticText>
+            <staticText>
+                <reportElement key="" style="Column header" x="690" y="2" width="100" height="16" uuid="ca5ecf96-d65c-46dd-abf2-c75ffee2b83d"/>
+                <textElement textAlignment="Left">
+                    <font size="8"/>
+                </textElement>
+                <text><![CDATA[Competent]]></text>
+            </staticText>
+            <staticText>
+                <reportElement key="" style="Column header" x="300" y="2" width="40" height="16" uuid="73e1c2ab-2db1-4bfa-a412-823851e08b3f"/>
+                <textElement textAlignment="Left">
+                    <font size="8"/>
+                </textElement>
+                <text><![CDATA[Gender]]></text>
+            </staticText>
+            <staticText>
+                <reportElement key="" style="Column header" x="342" y="2" width="48" height="16" uuid="a2c56700-6cc3-400e-856a-276c3139649b"/>
+                <textElement textAlignment="Left">
+                    <font size="8"/>
+                </textElement>
+                <text><![CDATA[Candidates]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="15" splitType="Stretch">
+            <textField isStretchWithOverflow="true">
+                <reportElement style="Detail" x="80" y="0" width="220" height="15" uuid="e52e588f-1cd5-4546-81c7-bcc4c9366e9c"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{exbnchDescription}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement style="Detail" x="390" y="0" width="100" height="15" uuid="e5de5ef1-0226-4ab5-9e85-1488b33a5561"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{Tot1}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement style="Detail" x="490" y="0" width="100" height="15" uuid="da5a284b-49c6-4685-be6f-46646416e35d"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{Tot2}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement style="Detail" x="590" y="0" width="100" height="15" uuid="0f6a6313-438a-49a8-abb3-c03d08cbd74c"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{Tot3}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement style="Detail" x="1" y="0" width="79" height="15" uuid="8f99478f-b1e0-4131-b43c-de2e306aca31"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{benchmarkCode}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement style="Detail" x="690" y="0" width="100" height="15" uuid="0ce8929e-2b56-4f2a-9259-900801e7e618"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{Tot4}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement style="Detail" x="342" y="0" width="48" height="15" uuid="6b357b28-299c-4809-86bd-b62510ceef16"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{Candidates}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement style="Detail" x="300" y="0" width="40" height="15" uuid="08ddf433-d338-4002-81a9-ff171ab8e4ba"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{Gender}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="6" splitType="Stretch"/>
+    </columnFooter>
+    <pageFooter>
+        <band height="25" splitType="Stretch">
+            <frame>
+                <reportElement mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#D0B48E" backcolor="#CDD4E8" uuid="5d8169bd-4a75-48c8-8a68-6d3ad5ba9402"/>
+                <textField evaluationTime="Report">
+                    <reportElement style="Page footer" x="783" y="1" width="40" height="20" uuid="e5e27efa-b599-499b-9ca3-848cb511cb7b"/>
+                    <textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement style="Page footer" x="703" y="1" width="80" height="20" uuid="18cfe1ca-f7d6-48b0-9827-28578b42a5e0"/>
+                    <textElement textAlignment="Right"/>
+                    <textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+                </textField>
+                <textField pattern="EEEEE dd MMMMM yyyy">
+                    <reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="fbce24bb-3cb1-44a3-8eec-8c067ddbe5b5"/>
+                    <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+                </textField>
+            </frame>
+        </band>
+    </pageFooter>
+    <summary>
+        <band height="550" splitType="Stretch">
+            <stackedBarChart>
+                <chart customizerClass="com.rapidservices.reporting.charts.StackBarChartCustomizer" evaluationTime="Report">
+                    <reportElement x="1" y="10" width="799" height="540" uuid="cd1e8951-a65a-4981-a494-44fc210257b9">
+                        <propertyExpression name="lines.to.show"><![CDATA["3"]]></propertyExpression>
+                        <propertyExpression name="category.margin"><![CDATA["0.05"]]></propertyExpression>
+                        <propertyExpression name="item.margin"><![CDATA["0.05"]]></propertyExpression>
+                        <propertyExpression name="label.position.offset"><![CDATA["50"]]></propertyExpression>
+                        <propertyExpression name="category.width.ratio"><![CDATA["0.4"]]></propertyExpression>
+                        <propertyExpression name="category.font.name"><![CDATA["SansSerif"]]></propertyExpression>
+                        <propertyExpression name="category.font.size"><![CDATA["10"]]></propertyExpression>
+                    </reportElement>
+                    <chartTitle/>
+                    <chartSubtitle/>
+                    <chartLegend/>
+                </chart>
+                <categoryDataset>
+                    <categorySeries>
+                        <seriesExpression><![CDATA["Approaching competence"]]></seriesExpression>
+                        <categoryExpression><![CDATA[$F{exbnchDescription} + "^" + $F{Gender}]]></categoryExpression>
+                        <valueExpression><![CDATA[$F{2}]]></valueExpression>
+                    </categorySeries>
+                    <categorySeries>
+                        <seriesExpression><![CDATA["Well below competent"]]></seriesExpression>
+                        <categoryExpression><![CDATA[$F{exbnchDescription} + "^" + $F{Gender}]]></categoryExpression>
+                        <valueExpression><![CDATA[$F{1}]]></valueExpression>
+                    </categorySeries>
+                    <categorySeries>
+                        <seriesExpression><![CDATA["Minimally competent"]]></seriesExpression>
+                        <categoryExpression><![CDATA[$F{exbnchDescription} + "^" + $F{Gender}]]></categoryExpression>
+                        <valueExpression><![CDATA[$F{3}]]></valueExpression>
+                    </categorySeries>
+                    <categorySeries>
+                        <seriesExpression><![CDATA["Competent"]]></seriesExpression>
+                        <categoryExpression><![CDATA[$F{exbnchDescription} + "^" + $F{Gender}]]></categoryExpression>
+                        <valueExpression><![CDATA[$F{4}]]></valueExpression>
+                    </categorySeries>
+                </categoryDataset>
+                <barPlot>
+                    <plot orientation="Horizontal">
+                        <seriesColor seriesOrder="0" color="#FFD966"/>
+                        <seriesColor seriesOrder="1" color="#C00000"/>
+                        <seriesColor seriesOrder="2" color="#92D050"/>
+                        <seriesColor seriesOrder="3" color="#00B050"/>
+                    </plot>
+                    <itemLabel>
+                        <font size="8"/>
+                    </itemLabel>
+                    <categoryAxisFormat>
+                        <axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+                            <labelFont>
+                                <font size="8"/>
+                            </labelFont>
+                            <tickLabelFont>
+                                <font size="8"/>
+                            </tickLabelFont>
+                        </axisFormat>
+                    </categoryAxisFormat>
+                    <valueAxisFormat>
+                        <axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="#,##0.##%; #,##0.##%" axisLineColor="#000000">
+                            <labelFont>
+                                <font size="8"/>
+                            </labelFont>
+                            <tickLabelFont>
+                                <font size="8"/>
+                            </tickLabelFont>
+                        </axisFormat>
+                    </valueAxisFormat>
+                </barPlot>
+            </stackedBarChart>
+        </band>
+    </summary>
+</jasperReport>

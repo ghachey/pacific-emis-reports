@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Student_Enrol_by_Authority_Sector_Grade_Gender" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.2.81:6040/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Students/Student_Enrol_by_Authority_Sector_Grade_Gender"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Students/Student_Enrol_by_Authority_Sector_Grade_Gender_files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="229"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="761"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT   a.authName as authName,
+			   l.codeDescription as codeDescription,
+                SUM(CASE WHEN GenderCode = 'F' and ee.ClassLevel IN ('GPREK','GK') THEN COALESCE(ee.Enrol,0) ELSE 0 END) as ECE_Female,
+				SUM(CASE WHEN GenderCode = 'M' and ee.ClassLevel IN ('GPREK','GK') THEN COALESCE(ee.Enrol,0) ELSE 0 END) as ECE_Male,
+				SUM(CASE WHEN ee.ClassLevel IN ('GPREK','GK') THEN COALESCE(ee.Enrol,0) ELSE 0 END) as ECE_Total,
+				SUM(CASE WHEN GenderCode = 'F' and ee.ClassLevel IN ('G1','G2','G3','G4','G5','G6') THEN COALESCE(ee.Enrol,0) ELSE 0 END) as Primary_Female,
+				SUM(CASE WHEN GenderCode = 'M' and ee.ClassLevel IN ('G1','G2','G3','G4','G5','G6') THEN COALESCE(ee.Enrol,0) ELSE 0 END) as Primary_Male,
+				SUM(CASE WHEN ee.ClassLevel IN ('G1','G2','G3','G4','G5','G6') THEN COALESCE(ee.Enrol,0) ELSE 0 END) as Primary_Total,
+				SUM(CASE WHEN GenderCode = 'F' and ee.ClassLevel IN ('G7','G8','G9','G10','G11','G12') THEN COALESCE(ee.Enrol,0) ELSE 0 END) as Secondary_Female,
+				SUM(CASE WHEN GenderCode = 'M' and ee.ClassLevel IN ('G7','G8','G9','G10','G11','G12') THEN COALESCE(ee.Enrol,0) ELSE 0 END) as Secondary_Male,
+				SUM(CASE WHEN ee.ClassLevel IN ('G7','G8','G9','G10','G11','G12') THEN COALESCE(ee.Enrol,0) ELSE 0 END) as Secondary_Total,
+				SUM(CASE WHEN GenderCode = 'F' and ee.ClassLevel IN ('GPREK','GK','G1','G2','G3','G4','G5','G6','G7','G8','G9','G10','G11','G12') THEN COALESCE(ee.Enrol,0) ELSE 0 END) as Grand_Total_Female,
+				SUM(CASE WHEN GenderCode = 'M' and ee.ClassLevel IN ('GPREK','GK','G1','G2','G3','G4','G5','G6','G7','G8','G9','G10','G11','G12') THEN COALESCE(ee.Enrol,0) ELSE 0 END) as Grand_Total_Male,
+				SUM(CASE WHEN ee.ClassLevel IN ('GPREK','GK','G1','G2','G3','G4','G5','G6','G7','G8','G9','G10','G11','G12') THEN COALESCE(ee.Enrol,0) ELSE 0 END) as Grand_Total
+FROM warehouse.enrol ee
+     INNER JOIN dbo.lkpLevels l ON l.codeCode = ee.ClassLevel
+     INNER JOIN dbo.Schools s ON s.schNo = ee.schNo
+	 INNER JOIN dbo.Authorities a ON a.authCode = s.schAuth
+WHERE ee.surveyYear = $P{Year}
+GROUP BY l.codeDescription,a.authName,l.lvlYear
+ORDER BY a.authName,l.lvlYear]]>
+	</queryString>
+	<field name="authName" class="java.lang.String"/>
+	<field name="codeDescription" class="java.lang.String"/>
+	<field name="ECE_Female" class="java.lang.Integer"/>
+	<field name="ECE_Male" class="java.lang.Integer"/>
+	<field name="ECE_Total" class="java.lang.Integer"/>
+	<field name="Primary_Female" class="java.lang.Integer"/>
+	<field name="Primary_Male" class="java.lang.Integer"/>
+	<field name="Primary_Total" class="java.lang.Integer"/>
+	<field name="Secondary_Female" class="java.lang.Integer"/>
+	<field name="Secondary_Male" class="java.lang.Integer"/>
+	<field name="Secondary_Total" class="java.lang.Integer"/>
+	<field name="Grand_Total_Female" class="java.lang.Integer"/>
+	<field name="Grand_Total_Male" class="java.lang.Integer"/>
+	<field name="Grand_Total" class="java.lang.Integer"/>
+	<variable name="Group_Total_ECE_F" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{ECE_Female}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_ECE_M" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{ECE_Male}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_ECE_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{ECE_Total}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_Primary_F" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Primary_Female}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_Primary_M" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Primary_Male}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_PrimaryTotal" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Primary_Total}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_Secondary_F" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Secondary_Female}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_Secondary_M" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Secondary_Male}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_Secondary_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Secondary_Total}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_Grand_Total_F" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Grand_Total_Female}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_Grand_Total_M" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Grand_Total_Male}]]></variableExpression>
+	</variable>
+	<variable name="Group_Total_Grand_Total_Total" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Grand_Total}]]></variableExpression>
+	</variable>
+	<variable name="Summary_ECE_F" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ECE_Female}]]></variableExpression>
+	</variable>
+	<variable name="Summary_ECE_M" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ECE_Male}]]></variableExpression>
+	</variable>
+	<variable name="Summary_ECE_Total" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ECE_Total}]]></variableExpression>
+	</variable>
+	<variable name="Summary_Primary_F" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Primary_Female}]]></variableExpression>
+	</variable>
+	<variable name="Summary_Primary_M" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Primary_Male}]]></variableExpression>
+	</variable>
+	<variable name="Summary_Primary_Total" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Primary_Total}]]></variableExpression>
+	</variable>
+	<variable name="Summary_Secondary_F" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Secondary_Female}]]></variableExpression>
+	</variable>
+	<variable name="Summary_Secondary_M" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Secondary_Male}]]></variableExpression>
+	</variable>
+	<variable name="Summary_Secondary_Total" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Secondary_Total}]]></variableExpression>
+	</variable>
+	<variable name="Summary_Grand_Total_F" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Grand_Total_Female}]]></variableExpression>
+	</variable>
+	<variable name="Summary_Grand_Total_M" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Grand_Total_Male}]]></variableExpression>
+	</variable>
+	<variable name="Summary_Grand_Total_Total" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Grand_Total}]]></variableExpression>
+	</variable>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{authName}]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<frame>
+					<reportElement mode="Opaque" x="-21" y="7" width="793" height="24" forecolor="#5168AE" backcolor="#9BC2FF" uuid="ff649bda-bbd1-4c2d-bd67-21f69ad64bbf"/>
+					<rectangle>
+						<reportElement mode="Opaque" x="21" y="0" width="36" height="24" backcolor="#08298C" uuid="a7ae31ce-9474-4e4b-9627-eb9152ff7b80"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement style="Group header" x="68" y="0" width="703" height="24" uuid="b5a25815-f4ed-4382-9712-d113dc519d4e"/>
+						<textFieldExpression><![CDATA[$F{authName}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="17">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="16" width="750" height="1" uuid="b2aeb088-6331-4d9f-b389-67a81478854d">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<frame>
+					<reportElement mode="Opaque" x="0" y="0" width="753" height="15" uuid="57a629eb-a587-47cf-883b-dbf4f3925b59"/>
+					<textField pattern="#,##0.###;(#,##0.###-)">
+						<reportElement style="Group footer" x="177" y="1" width="44" height="15" uuid="f2c546a8-5238-429b-bee8-8b4acff49dd9">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_ECE_F}!=0?$V{Group_Total_ECE_F}:""]]></textFieldExpression>
+					</textField>
+					<textField pattern="#,##0.###;(#,##0.###-)">
+						<reportElement style="Group footer" x="222" y="1" width="44" height="15" uuid="9e1d2748-d94b-44f9-ac27-e7822f2fe6c0"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_ECE_M}!=0?$V{Group_Total_ECE_M}:""]]></textFieldExpression>
+					</textField>
+					<textField pattern="#,##0.###;(#,##0.###-)">
+						<reportElement style="Group footer" x="267" y="1" width="50" height="15" uuid="5a056a5f-ad00-4ef9-b5cb-0ff028a1983b"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_ECE_Total}!=0?$V{Group_Total_ECE_Total}:""]]></textFieldExpression>
+					</textField>
+					<textField pattern="#,##0.###;(#,##0.###-)">
+						<reportElement style="Group footer" x="317" y="1" width="45" height="15" uuid="882f7b1a-c268-4ee0-906d-4e42767ac07c"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_Primary_F}!=0?$V{Group_Total_Primary_F}:""]]></textFieldExpression>
+					</textField>
+					<textField pattern="#,##0.###;(#,##0.###-)">
+						<reportElement style="Group footer" x="362" y="1" width="45" height="15" uuid="ae7c0a74-e1b4-423e-8a14-d7f2c7932164"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_Primary_M}!=0?$V{Group_Total_Primary_M}:""]]></textFieldExpression>
+					</textField>
+					<textField pattern="#,##0.###;(#,##0.###-)">
+						<reportElement style="Group footer" x="407" y="1" width="50" height="15" uuid="614f1134-e2f6-42eb-b635-9e12ae77acb5"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_PrimaryTotal}!=0?$V{Group_Total_PrimaryTotal}:""]]></textFieldExpression>
+					</textField>
+					<textField pattern="#,###.###;(#,###.###-)">
+						<reportElement style="Group footer" x="457" y="1" width="45" height="15" uuid="dc29d25c-eead-4757-af82-dd1b93343773"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_Secondary_F}!=0?$V{Group_Total_Secondary_F}:""]]></textFieldExpression>
+					</textField>
+					<textField pattern="#,###.###;(#,###.###-)">
+						<reportElement style="Group footer" x="502" y="1" width="45" height="15" uuid="fec36b75-ab28-4972-9a05-9531d3683f6f"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_Secondary_M}!=0?$V{Group_Total_Secondary_M}:""]]></textFieldExpression>
+					</textField>
+					<textField pattern="#,###.###;(#,###.###-)">
+						<reportElement style="Group footer" x="547" y="1" width="50" height="15" uuid="127e290c-d842-49cf-99c9-1375127da6e8"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_Secondary_Total}!=0?$V{Group_Total_Secondary_Total}:""]]></textFieldExpression>
+					</textField>
+					<textField pattern="#,##0.###;(#,##0.###-)">
+						<reportElement style="Group footer" x="597" y="1" width="49" height="15" uuid="396463cd-c037-47e9-8613-8e8c1be96d59"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_Grand_Total_F}!=0?$V{Group_Total_Grand_Total_F}:""]]></textFieldExpression>
+					</textField>
+					<textField pattern="#,##0.###;(#,##0.###-)">
+						<reportElement style="Group footer" x="646" y="1" width="50" height="15" uuid="99bd634e-0e09-44fb-8b18-ae01b08d5906"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_Grand_Total_M}!=0?$V{Group_Total_Grand_Total_M}:""]]></textFieldExpression>
+					</textField>
+					<textField pattern="#,##0.###;(#,##0.###-)">
+						<reportElement style="Group footer" x="696" y="1" width="56" height="15" uuid="43a2c012-efe8-45cc-9dd6-703d72f4805c"/>
+						<textElement>
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{Group_Total_Grand_Total_Total}!=0?$V{Group_Total_Grand_Total_Total}:""]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="Group footer" x="1" y="1" width="176" height="15" uuid="f4385d1c-be74-431f-95c3-4551123b848a">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						</reportElement>
+						<textElement textAlignment="Left">
+							<font fontName="Open Sans" size="9"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Total for:"+" "+$F{authName}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="142" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="126" height="126" uuid="1c003177-754c-448f-8ce1-16868856f545">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["repo:/images/rmi_seal.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="126" y="0" width="500" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
+				<text><![CDATA[Student Enrolments]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="126" y="62" width="500" height="32" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9"/>
+				<text><![CDATA[by Authority, Sector, Grade and Gender Report]]></text>
+			</staticText>
+			<image>
+				<reportElement x="626" y="0" width="126" height="126" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["repo:/images/rmi_pss.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Opaque" x="-21" y="-20" width="793" height="10" forecolor="#08298C" backcolor="#08298C" uuid="a879b5ed-22f8-4e7b-9093-811aaea43211"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-21" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="0a58d963-ec76-492f-9d28-8419cff95766">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="753" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="f0a00416-98e9-4650-b25b-a7e2a9f68561">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-21" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="503401c2-412f-4738-a96a-cf6a43061701">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="733" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="70a1c065-3f91-4751-8e67-c995a73a7656">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<textField>
+				<reportElement style="Title text" x="335" y="121" width="82" height="20" uuid="2baf9561-fbe8-40a8-ac88-2b5f2dd0c3a6"/>
+				<textFieldExpression><![CDATA[$P{Year}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Title text" x="126" y="94" width="498" height="26" uuid="eecba6ea-7f8b-4086-8d28-27e4661b970b"/>
+				<text><![CDATA[Report showing student enrolments by school authority (large colored group), education sector (horizontal axis), grade level (vertical axis) and gender (horizontal axis) for year]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="750" height="1" uuid="e9d2002a-c8ee-4649-a258-640dad29110c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="0" y="19" width="177" height="15" uuid="780fbe21-2810-442c-9cd3-d08f279e2501"/>
+				<text><![CDATA[Grade Level]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" mode="Opaque" x="177" y="19" width="45" height="15" uuid="e5c7b877-e79b-425c-820f-3322f3c9e635"/>
+				<text><![CDATA[Female]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="222" y="19" width="45" height="15" uuid="39749432-2466-4950-91b4-9c731676903f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Male]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="267" y="19" width="50" height="15" uuid="142ef276-8b7f-407e-bff4-1664c378a432">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="317" y="19" width="45" height="15" uuid="63056c50-85f6-4ab8-9f49-9de86ffab932">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Female]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="362" y="19" width="45" height="15" uuid="bc68d423-049a-4718-86f6-04d0f5b3e5c4">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Male]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="407" y="19" width="50" height="15" uuid="1f452c57-dbb7-446b-a271-f3c057f7b23c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="457" y="19" width="45" height="15" uuid="b6864f0c-33af-4348-bdca-d7f1eb09563b"/>
+				<text><![CDATA[Female]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="502" y="19" width="45" height="15" uuid="c4514336-a5c3-4cd1-a86f-a4b362d21854">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Male]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="547" y="19" width="50" height="15" uuid="65fcfd44-a743-4d8a-b098-f7887552185e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="597" y="19" width="49" height="15" uuid="ebab834e-3c46-4909-b52e-31df6b395859">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Female]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="646" y="19" width="50" height="15" uuid="69184527-8d0e-415a-b851-a7b7f078f11f"/>
+				<text><![CDATA[Male]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="696" y="19" width="56" height="15" uuid="923801e6-83e2-4cf4-ae80-0d51e8c51dfd">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="177" y="0" width="140" height="16" uuid="936a46e8-8369-4424-b88f-db1a64f4678f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Early Childhood Education]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="597" y="0" width="155" height="16" uuid="e1495563-d135-4fe9-b4be-7b94f6e7d143">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="457" y="0" width="140" height="16" uuid="9fe273a0-ec1a-45b8-ae99-ca287e1b8795">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Secondary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="317" y="0" width="140" height="16" uuid="182e3a7c-1a8c-482e-a849-a83696491373">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Primary]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="750" height="1" uuid="375c5fa6-a188-4f4f-8cfb-4eadbef0aa46">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="753" height="15" uuid="fa7cec56-4ec1-48e6-a26e-7266a995d174"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Row" mode="Opaque" x="1" y="0" width="176" height="15" uuid="1873642c-0916-45ac-a4af-1ec23acf4f83">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{codeDescription}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)">
+					<reportElement style="Row" mode="Opaque" x="177" y="0" width="45" height="15" uuid="f29232cd-33a6-45ef-8b5c-98e05a75d67b">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ECE_Female}!=0?$F{ECE_Female}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)">
+					<reportElement style="Row" mode="Opaque" x="222" y="0" width="45" height="15" uuid="18f6e488-dbde-4e80-a449-6545b37ccf65"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ECE_Male}!=0?$F{ECE_Male}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)">
+					<reportElement style="Row" mode="Opaque" x="267" y="0" width="50" height="15" uuid="6d678f85-d772-4c98-b942-f3c2a9df7a0f">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ECE_Total}!=0?$F{ECE_Total}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)">
+					<reportElement style="Row" mode="Opaque" x="317" y="0" width="45" height="15" uuid="6c6451fb-ebf0-4289-b57f-448350f3b49d">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Primary_Female}!=0?$F{Primary_Female}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)">
+					<reportElement style="Row" mode="Opaque" x="362" y="0" width="45" height="15" uuid="837311be-09a2-484f-98d9-1cef417e3fc0">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Primary_Male}!=0?$F{Primary_Male}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)">
+					<reportElement style="Row" mode="Opaque" x="407" y="0" width="50" height="15" uuid="caa3abeb-12b7-4c23-9836-4ebd0abbcc4e">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Primary_Total}!=0?$F{Primary_Total}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)">
+					<reportElement style="Row" mode="Opaque" x="457" y="0" width="45" height="15" uuid="4e5c6256-f899-459d-902d-fe3c06078443">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Secondary_Female}!=0?$F{Secondary_Female}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)">
+					<reportElement style="Row" mode="Opaque" x="502" y="0" width="45" height="15" uuid="3ad04808-61fc-49dc-a515-209330399787">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Secondary_Male}!=0?$F{Secondary_Male}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)">
+					<reportElement style="Row" mode="Opaque" x="547" y="0" width="50" height="15" uuid="a4c3bcbf-6693-44f0-8a4a-493694e5ae5c">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Secondary_Total}!=0?$F{Secondary_Total}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)">
+					<reportElement style="Row" mode="Opaque" x="597" y="0" width="49" height="15" uuid="37631091-8455-4a08-8f36-743bb6e549c9">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Grand_Total_Female}!=0?$F{Grand_Total_Female}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)">
+					<reportElement style="Row" mode="Opaque" x="646" y="0" width="50" height="15" uuid="a34c08e0-5205-4ad1-ac52-7951d9d692b3">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Grand_Total_Male}!=0?$F{Grand_Total_Male}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)">
+					<reportElement style="Row" mode="Opaque" x="696" y="0" width="56" height="15" uuid="661c06c2-6927-4590-abad-091eae5afb39">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Grand_Total}!=0?$F{Grand_Total}:""]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="774" height="24" forecolor="#D0B48E" backcolor="#9BC2FF" uuid="5d8169bd-4a75-48c8-8a68-6d3ad5ba9402"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="728" y="1" width="40" height="20" uuid="e5e27efa-b599-499b-9ca3-848cb511cb7b"/>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="648" y="1" width="80" height="20" uuid="18cfe1ca-f7d6-48b0-9827-28578b42a5e0"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="fbce24bb-3cb1-44a3-8eec-8c067ddbe5b5"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement style="Sumary" x="457" y="3" width="45" height="15" uuid="c85f8e13-2273-48c1-a07d-f40b785ea998">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Summary_Secondary_F}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement style="Sumary" x="222" y="3" width="44" height="15" uuid="6656fd81-7f0e-41db-8556-f259b5b04a8d"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Summary_ECE_M}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement style="Sumary" x="407" y="3" width="50" height="15" uuid="8d688703-828e-4913-a809-e5d28d7d0450"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Summary_Primary_Total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement style="Sumary" x="696" y="3" width="56" height="15" uuid="6b29db40-160a-4fa6-988a-6273c3d3717f"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Summary_Grand_Total_Total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement style="Sumary" x="646" y="3" width="50" height="15" uuid="0f7d4ca7-c247-4949-8be5-33aab6f275d0"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Summary_Grand_Total_M}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement style="Sumary" x="362" y="3" width="45" height="15" uuid="ea9007cc-9cdb-4a3b-866b-ff7a081ff0c3"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Summary_Primary_M}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement style="Sumary" x="177" y="3" width="44" height="15" uuid="76a8b45d-ed72-4cc0-b873-aa32864d7411"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Summary_ECE_F}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement style="Sumary" x="317" y="3" width="45" height="15" uuid="fa5890aa-2e4d-4891-a69f-1413efc7b001"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Summary_Primary_F}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement style="Sumary" x="267" y="3" width="50" height="15" uuid="a2ce97c2-8837-4e72-a552-09a46a0e0837"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Summary_ECE_Total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement style="Sumary" x="502" y="3" width="45" height="15" uuid="04dc4c9e-e654-432b-b451-9312da5d0cc9"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Summary_Secondary_M}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement style="Sumary" x="547" y="3" width="50" height="15" uuid="d5a8aa1c-0310-4476-a229-438a3bdaff0b"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Summary_Secondary_Total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement style="Sumary" x="597" y="3" width="49" height="15" uuid="99ef558b-3f52-435b-b6cf-b55a06418503"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Summary_Grand_Total_F}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Sumary" x="0" y="3" width="177" height="15" uuid="6ad1fd79-a094-4a05-a6c2-a3e477315d1b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="17" width="750" height="2" uuid="e8b32031-33b2-4eff-9e5f-05134e803292">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

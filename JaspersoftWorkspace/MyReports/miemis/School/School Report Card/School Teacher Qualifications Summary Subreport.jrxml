@@ -1,0 +1,1063 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="School_Teacher_Qualifications_Summary_Subreport" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/MIEMIS_Reports/Student_Reports/Student_Enrol_by_Age_Level_EA"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<style name="Row_Crosstab" style="Crosstab Data" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#ECECEC" hTextAlign="Right"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SchoolNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["MAJ101"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[DECLARE @District             VARCHAR(20),
+	    @TotalTeachersAtSchool FLOAT,
+	    @TotalTeachersAtDistrict FLOAT,
+		@TotalTeachersAtNational FLOAT;
+
+SELECT @District = D.did
+FROM   dbo.schools AS S
+       INNER JOIN dbo.islands AS I
+               ON S.icode = I.icode
+       INNER JOIN dbo.districts AS D
+               ON I.igroup = D.did
+WHERE  S.schno = $P{SchoolNo}
+
+SELECT @TotalTeachersAtSchool = isNULL(Sum(Teachers),0) from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	WHERE  TLA.schno = $P{SchoolNo} and TLA.svyYear=$P{Year}
+	group by Tla.tId
+) t1
+
+SELECT @TotalTeachersAtDistrict = isNULL(Sum(Teachers),0) from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District and TLA.svyYear=$P{Year} Group by Tla.tId 
+) t1
+
+SELECT @TotalTeachersAtNational = isNULL(Sum(Teachers),0) from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	where TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+
+
+-- school level (Number)
+select * from (
+SELECT isNULL(Sum(Teachers),0)                                  AS Value,
+       'Number'                                        AS ValueMeta,
+       'Total'                                         AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Female'                                        AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Gender = 'F' and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Male'                                          AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Gender = 'M' and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Qualified'                                     AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Qualified = 1 and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Certified'                                     AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Certified = 1 and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Qualified Female'                              AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Qualified = 1 and TLA.Gender = 'F' and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Certified Female'                              AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Certified = 1 and TLA.Gender = 'F' and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Qualified Male'                                AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Qualified = 1 and TLA.Gender = 'M' and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Certified Male'                                AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Certified = 1 and TLA.Gender = 'M' and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+-- District level (Number)
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Total'                                         AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Female'                                        AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.gender = 'F' and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Male'                                          AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.gender = 'M' and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Qualified'                                     AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.Qualified = 1 and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Certified'                                     AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.Certified = 1 and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Qualified Female'                              AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.Qualified = 1 AND TLA.gender = 'F' and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1   
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Certified Female'                              AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.Certified = 1 AND TLA.gender = 'F' and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Qualified Male'                                AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.Qualified = 1 AND TLA.gender = 'M' and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Certified Male'                                AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.Certified = 1 AND TLA.gender = 'M' and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+-- national level (Number)
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Total'                                         AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA where TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Female'                                        AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	Where TLA.gender = 'F' and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Male'                                          AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	Where TLA.gender = 'M' and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Qualified'                                     AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	WHERE  TLA.qualified = 1 and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Certified'                                     AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	WHERE  TLA.certified = 1 and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Qualified Female'                              AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	WHERE  TLA.qualified = 1 and TLA.gender = 'F' and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Certified Female'                              AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA 
+	WHERE  TLA.certified = 1 and TLA.gender = 'F' and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Qualified Male'                                AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	WHERE  TLA.qualified = 1 and TLA.gender = 'M' and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT isNULL(Sum(Teachers),0)                                   AS Value,
+       'Number'                                        AS ValueMeta,
+       'Certified Male'                                AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	WHERE  TLA.certified = 1 and TLA.gender = 'M' and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+-- school level (Percent)
+SELECT 
+CASE WHEN @TotalTeachersAtSchool=0 THEN 0 ELSE 
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtSchool, 2)   END   AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Total'                                         AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtSchool=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtSchool, 2)  END                                 AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Female'                                        AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Gender = 'F' and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtSchool=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtSchool, 2)   END                               AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Male'                                          AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Gender = 'M' and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtSchool=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtSchool, 2)     END                              AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Qualified'                                     AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Qualified = 1 and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtSchool=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtSchool, 2) END  AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Certified'                                     AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Certified = 1 and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtSchool=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtSchool, 2)     END                              AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Qualified Female'                              AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Qualified = 1 and TLA.Gender = 'F' and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtSchool=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtSchool, 2)     END                              AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Certified Female'                              AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Certified = 1 and TLA.Gender = 'F' and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtSchool=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtSchool, 2)   END                                AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Qualified Male'                                AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Qualified = 1 and TLA.Gender = 'M' and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtSchool=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtSchool, 2)     END                              AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Certified Male'                                AS TeacherMeta,
+       'School'                                        AS RegionLevel
+		from (
+			SELECT  Tla.tId,count(distinct svyYear) Teachers
+			FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+			WHERE  TLA.schno = $P{SchoolNo} and TLA.Certified = 1 and TLA.Gender = 'M' and TLA.svyYear=$P{Year}
+			group by Tla.tId
+		) t1
+UNION
+-- District level (Percent)
+SELECT 
+CASE WHEN @TotalTeachersAtDistrict=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtDistrict, 2)   END                                AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Total'                                         AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtDistrict=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtDistrict, 2)    END                               AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Female'                                        AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.gender = 'F' and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtDistrict=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtDistrict, 2)      END                             AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Male'                                          AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.gender = 'M' and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtDistrict=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtDistrict, 2)   END                                AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Qualified'                                     AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.Qualified = 1 and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtDistrict=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtDistrict, 2)  END                                 AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Certified'                                     AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.Certified = 1 and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtDistrict=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtDistrict, 2)   END                                AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Qualified Female'                              AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.Qualified = 1 AND TLA.gender = 'F' and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1   
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtDistrict=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtDistrict, 2)    END                               AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Certified Female'                              AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.Certified = 1 AND TLA.gender = 'F' and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtDistrict=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtDistrict, 2)     END                              AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Qualified Male'                                AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.Qualified = 1 AND TLA.gender = 'M' and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+
+SELECT 
+CASE WHEN @TotalTeachersAtDistrict=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtDistrict, 2)  END                                 AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Certified Male'                                AS TeacherMeta,
+       'District'                                      AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+       INNER JOIN dbo.Schools AS S 
+	           ON TLA.schNo = S.schNo
+	   INNER JOIN dbo.Islands AS I 
+	           ON S.iCode = I.iCode
+	   INNER JOIN dbo.Districts AS D 
+	           ON I.iGroup = D.dID
+WHERE  D.dID = @District AND TLA.Certified = 1 AND TLA.gender = 'M' and TLA.svyYear=$P{Year} Group by Tla.tId
+) t1
+UNION
+-- national level (Percent)
+SELECT 
+CASE WHEN @TotalTeachersAtNational=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtNational, 2)   END                                AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Total'                                         AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA where  TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtNational=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtNational, 2)  END                                 AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Female'                                        AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	Where TLA.gender = 'F' and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtNational=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtNational, 2) END                                  AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Male'                                          AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	Where TLA.gender = 'M' and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtNational=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtNational, 2)    END                               AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Qualified'                                     AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	WHERE  TLA.qualified = 1 and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtNational=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtNational, 2)  END                                 AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Certified'                                     AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	WHERE  TLA.certified = 1 and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtNational=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtNational, 2) END                                  AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Qualified Female'                              AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	WHERE  TLA.qualified = 1 and TLA.gender = 'F' and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtNational=0 THEN 0 ELSE
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtNational, 2) END                                   AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Certified Female'                              AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	WHERE  TLA.certified = 1 and TLA.gender = 'F' and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT 
+CASE WHEN @TotalTeachersAtNational=0 THEN 0 ELSE 
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtNational, 2)  END                                 AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Qualified Male'                                AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	WHERE  TLA.qualified = 1 and TLA.gender = 'M' and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+UNION
+SELECT 
+	CASE WHEN @TotalTeachersAtNational=0 THEN 0 ELSE 
+Round(isNULL(Sum(Teachers),0) / @TotalTeachersAtNational, 2) END                                  AS Value,
+       'Percent'                                        AS ValueMeta,
+       'Certified Male'                                AS TeacherMeta,
+       'National'                                        AS RegionLevel
+from (
+	SELECT  Tla.tId,count(distinct svyYear) Teachers
+	FROM  [warehouse].[TempSchoolTeacherDetails] TLA
+	WHERE  TLA.certified = 1 and TLA.gender = 'M' and TLA.svyYear=$P{Year}
+	 Group by Tla.tId
+) t1
+) as a where TeacherMeta!='Total']]>
+	</queryString>
+	<field name="Value" class="java.lang.Double"/>
+	<field name="ValueMeta" class="java.lang.String"/>
+	<field name="TeacherMeta" class="java.lang.String"/>
+	<field name="RegionLevel" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$P{SchoolNo}]]></groupExpression>
+		<groupHeader>
+			<band>
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band>
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="285" splitType="Immediate">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<crosstab>
+				<reportElement positionType="Float" x="9" y="8" width="577" height="60" uuid="83037d94-fb20-4618-85cf-3b83f8d0169e">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box rightPadding="20"/>
+				<crosstabHeaderCell>
+					<cellContents/>
+				</crosstabHeaderCell>
+				<rowGroup name="TeacherMeta" width="100" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{TeacherMeta}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<box>
+								<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+							</box>
+							<textField>
+								<reportElement key="" mode="Opaque" x="0" y="0" width="100" height="20" backcolor="#F2F2F2" uuid="7819a70d-fb7c-4230-a75b-a349070f29df">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{TeacherMeta}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<staticText>
+								<reportElement key="" style="Crosstab Heading" x="0" y="0" width="100" height="0" forecolor="#FFFFFF" uuid="61f8d187-7aba-4d28-9bfa-272f465c065f"/>
+								<text><![CDATA[Total TeacherMeta]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="RegionLevel" height="20" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{RegionLevel}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement key="" style="Crosstab Heading" x="0" y="0" width="60" height="20" uuid="62f3644a-0ef5-4660-88e5-250339d1c293"/>
+								<textElement>
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{RegionLevel}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<staticText>
+								<reportElement key="" style="Crosstab Heading" x="0" y="0" width="0" height="40" forecolor="#FFFFFF" uuid="e7618bef-f558-4d42-a24a-e2ebdd7016e7"/>
+								<text><![CDATA[Total RegionLevel]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="ValueMeta" height="20" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{ValueMeta}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<box>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							</box>
+							<textField>
+								<reportElement key="" style="Crosstab Heading" x="0" y="0" width="60" height="20" uuid="6e0231bf-59b2-4591-93df-7b5cc0c4620a"/>
+								<textElement>
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{ValueMeta}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<staticText>
+								<reportElement key="" style="Crosstab Heading" x="0" y="0" width="0" height="20" uuid="94f1b462-c568-4d77-adfd-6f0cfc31d149"/>
+								<text><![CDATA[Total ValueMeta]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="Value_MEASURE" class="java.lang.Double">
+					<measureExpression><![CDATA[$F{Value}]]></measureExpression>
+				</measure>
+				<crosstabCell width="60" height="20">
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<box>
+							<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+						</box>
+						<textField pattern="">
+							<reportElement style="Row_Crosstab" mode="Opaque" x="0" y="0" width="60" height="20" uuid="3cb8c41c-e2b9-49c0-8306-20bac3ec4ff6"/>
+							<textElement>
+								<font fontName="Open Sans" size="9"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Value_MEASURE}]]></textFieldExpression>
+							<patternExpression><![CDATA[$V{ValueMeta}.matches("Percent") ? "#,##0.##%" : "#,##0.###"]]></patternExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" columnTotalGroup="RegionLevel">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="0" height="20" forecolor="#FFFFFF" uuid="bfa3606c-4098-4bfc-ab24-defd34b488de"/>
+							<textFieldExpression><![CDATA[$V{Value_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" columnTotalGroup="ValueMeta">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="0" height="20" uuid="fea90663-e9bd-4def-8efc-07abc9a9f979"/>
+							<textFieldExpression><![CDATA[$V{Value_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="0" rowTotalGroup="TeacherMeta">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="60" height="0" forecolor="#FFFFFF" uuid="f3797412-b50f-450c-9e4a-726c917cee95"/>
+							<textFieldExpression><![CDATA[$V{Value_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="TeacherMeta" columnTotalGroup="RegionLevel">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="0" height="0" forecolor="#FFFFFF" uuid="62b1c8d3-b186-4d73-92d6-4ca66d3014ab"/>
+							<textFieldExpression><![CDATA[$V{Value_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="TeacherMeta" columnTotalGroup="ValueMeta">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<textField>
+							<reportElement style="Crosstab Data" x="0" y="0" width="0" height="0" forecolor="#FFFFFF" uuid="730871da-7903-4846-aceb-10bdf6ccf842"/>
+							<textFieldExpression><![CDATA[$V{Value_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+			<barChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="9" y="80" width="577" height="205" uuid="595d04d1-fb5c-4433-a1c1-14a7f2d32255">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box rightPadding="20"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<incrementWhenExpression><![CDATA[$F{ValueMeta}.equals("Percent")]]></incrementWhenExpression>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{RegionLevel}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{TeacherMeta}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Value}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<tickLabelFont>
+								<font fontName="SansSerif"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="#0.00%" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

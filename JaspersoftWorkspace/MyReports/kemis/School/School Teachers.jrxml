@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="School_Teachers" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KEMIS"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:6040/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/kemis/School/School_Teachers"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/kemis/School/School_Teachers_files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["kemis/Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="SchoolNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["KPS056"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT S.schNo
+      ,S.schName
+      ,S.schAddr1
+      ,S.schPh1
+      ,S.schEmail
+	  ,S.schLandOwner
+	  ,ST.stDescription
+      ,I.iName
+      ,D.dName
+	  ,A.authName
+  FROM dbo.Schools AS S
+  LEFT OUTER JOIN dbo.Islands AS I ON S.iCode = I.iCode
+  LEFT OUTER JOIN dbo.Authorities AS A ON S.schAuth = A.authCode
+  LEFT OUTER JOIN dbo.SchoolTypes AS ST ON S.schType = ST.stCode
+  LEFT OUTER JOIN dbo.Districts AS D ON I.iGroup = D.dID
+  WHERE S.schNo = $P{SchoolNo}
+  ORDER BY S.schNo]]>
+	</queryString>
+	<field name="schNo" class="java.lang.String"/>
+	<field name="schName" class="java.lang.String"/>
+	<field name="schAddr1" class="java.lang.String"/>
+	<field name="schPh1" class="java.lang.String"/>
+	<field name="schEmail" class="java.lang.String"/>
+	<field name="schLandOwner" class="java.lang.String"/>
+	<field name="stDescription" class="java.lang.String"/>
+	<field name="iName" class="java.lang.String"/>
+	<field name="dName" class="java.lang.String"/>
+	<field name="authName" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{schName}]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<frame>
+					<reportElement mode="Opaque" x="-21" y="7" width="793" height="24" forecolor="#5168AE" backcolor="#CDD4E8" uuid="ff649bda-bbd1-4c2d-bd67-21f69ad64bbf"/>
+					<rectangle>
+						<reportElement mode="Opaque" x="21" y="0" width="36" height="24" backcolor="#8C0813" uuid="a7ae31ce-9474-4e4b-9627-eb9152ff7b80"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement style="Group header" x="68" y="0" width="705" height="24" uuid="b5a25815-f4ed-4382-9712-d113dc519d4e"/>
+						<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band>
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="142" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="126" height="126" uuid="1c003177-754c-448f-8ce1-16868856f545">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["kemis/images/kiribati_seal.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="126" y="0" width="504" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
+				<textElement>
+					<font fontName="Open Sans"/>
+				</textElement>
+				<text><![CDATA[School Teachers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="126" y="62" width="504" height="32" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9"/>
+				<textElement>
+					<font fontName="Open Sans"/>
+				</textElement>
+				<text><![CDATA[including whether teachers are qualified/certified to teach]]></text>
+			</staticText>
+			<image>
+				<reportElement x="630" y="0" width="122" height="126" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["kemis/images/kiribati_moe.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement style="Rectangle" mode="Opaque" x="-21" y="-20" width="793" height="10" forecolor="#08298C" backcolor="#8C0813" uuid="a879b5ed-22f8-4e7b-9093-811aaea43211"/>
+			</rectangle>
+			<rectangle>
+				<reportElement style="Rectangle" x="-21" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#8C0813" uuid="0a58d963-ec76-492f-9d28-8419cff95766">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement style="Rectangle" x="753" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#8C0813" uuid="f0a00416-98e9-4650-b25b-a7e2a9f68561">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-21" y="-9" width="31" height="31" forecolor="#FFFFFF" uuid="503401c2-412f-4738-a96a-cf6a43061701"/>
+			</ellipse>
+			<ellipse>
+				<reportElement x="733" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="70a1c065-3f91-4751-8e67-c995a73a7656">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<staticText>
+				<reportElement style="Title text" x="126" y="94" width="502" height="26" uuid="eecba6ea-7f8b-4086-8d28-27e4661b970b"/>
+				<textElement>
+					<font fontName="Open Sans"/>
+				</textElement>
+				<text><![CDATA[Report showing schools with their currently appointed teachers. Any data showing here incorrectly should be relayed back to the Data Management Office who will then contact the appropriate department (e.g. HR)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="140" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement style="Column header" x="0" y="50" width="752" height="16" uuid="d3964acb-21e5-4b67-939f-fbd6ac21971e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Type of Schools Details]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="232" y="69" width="100" height="15" uuid="1f452c57-dbb7-446b-a271-f3c057f7b23c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Land Ownership]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="1" y="69" width="226" height="15" uuid="39749432-2466-4950-91b4-9c731676903f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Authority]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="522" y="0" width="230" height="16" uuid="d2b377b3-7e55-404c-8a11-213f76b92204">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Contact Details]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="521" y="20" width="107" height="15" uuid="63056c50-85f6-4ab8-9f49-9de86ffab932">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Phone
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="641" y="19" width="110" height="15" uuid="bc68d423-049a-4718-86f6-04d0f5b3e5c4">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="340" y="69" width="411" height="15" uuid="b6864f0c-33af-4348-bdca-d7f1eb09563b">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[School Type]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="521" y="35" width="107" height="15" uuid="3cee6f40-33ee-462f-813a-73bc6d91f600">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{schPh1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="641" y="34" width="110" height="15" uuid="f4105d3b-4a0c-447f-847a-ec7c934f1bf9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{schEmail}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="0" y="84" width="226" height="15" uuid="754ea6c9-9ec7-41f7-bdde-af18af74a12c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{authName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="232" y="84" width="100" height="15" uuid="373cc92d-5f21-4a20-bf66-7db75f0eabc6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{schLandOwner}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="340" y="84" width="412" height="15" uuid="5fda7ce7-3d0d-48e9-b176-61d950e38cac">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stDescription}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="1" y="34" width="79" height="15" uuid="d8a61c59-0f5f-4700-8a2e-2abfd7460125">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{schNo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="" style="Column header 2" x="1" y="19" width="79" height="15" uuid="57e74be2-22b7-4fb3-815c-8129612641a8">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[School ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="110" width="753" height="16" uuid="200a3c00-e550-498a-afbb-7a39e47f66c0">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<text><![CDATA[Teachers]]></text>
+			</staticText>
+			<subreport isUsingCache="true" runToBottom="true">
+				<reportElement x="1" y="127" width="752" height="13" uuid="936f6d4d-05e5-443e-80f8-c0b2320f818c"/>
+				<subreportParameter name="SchoolNo">
+					<subreportParameterExpression><![CDATA[$F{schNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["School Teachers Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement style="Column header" mode="Transparent" x="89" y="0" width="421" height="16" uuid="d3812bb4-f8a4-4c57-8052-9ebe055054ed">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Location Details]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" mode="Transparent" x="89" y="19" width="143" height="15" uuid="780fbe21-2810-442c-9cd3-d08f279e2501">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Island]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" mode="Transparent" x="238" y="19" width="142" height="15" uuid="e5c7b877-e79b-425c-820f-3322f3c9e635">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Atolls and Islands]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header 2" mode="Transparent" x="387" y="19" width="123" height="15" uuid="142ef276-8b7f-407e-bff4-1664c378a432">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Address]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" mode="Transparent" x="89" y="34" width="143" height="15" uuid="b2c794ad-efae-431c-a256-132766d4ea9c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{iName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" mode="Transparent" x="238" y="34" width="142" height="15" uuid="e8bbf3df-c467-4aae-a950-aed2878d5ebf">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" mode="Transparent" x="387" y="34" width="123" height="15" uuid="838f3b36-be29-482f-94fe-1ce0b65da48c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{schAddr1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="1" width="792" height="24" forecolor="#D0B48E" backcolor="#CDD4E8" uuid="5d8169bd-4a75-48c8-8a68-6d3ad5ba9402">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="732" y="1" width="40" height="20" uuid="e5e27efa-b599-499b-9ca3-848cb511cb7b"/>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="652" y="1" width="80" height="20" uuid="18cfe1ca-f7d6-48b0-9827-28578b42a5e0"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="fbce24bb-3cb1-44a3-8eec-8c067ddbe5b5"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

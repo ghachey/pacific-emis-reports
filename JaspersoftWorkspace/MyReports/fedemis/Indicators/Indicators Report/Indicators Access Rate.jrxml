@@ -1,0 +1,899 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Indicators Access Rate" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="be070e6f-88a5-4660-ba28-745d5ef154a2">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.jasperserver.url" value="http://data.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Indicators/Education_Indicators_Report_Book_By_Nation_files/Education_Indicators_Access_Rate_By_Nation.jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Indicators/Education_Indicators_Report_Book_By_Nation"/>
+	<style name="EdLevelCode" pattern="">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stylecode}.equals( "0" )]]></conditionExpression>
+			<style pattern="" fontName="Open Sans" fontSize="9" isBold="true">
+				<box>
+					<pen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stylecode}.equals( "1" )]]></conditionExpression>
+			<style pattern="" fontName="Open Sans" fontSize="9" isBold="true">
+				<box leftPadding="10"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stylecode}.equals( "3" )]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F2F2F2" pattern="" fontName="Open Sans" fontSize="9" isBold="true"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{stylecode}.equals( "2" )]]></conditionExpression>
+			<style>
+				<box leftPadding="15"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#F2F2F2">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Figure 13: AR By Class Level with Gender Chart " uuid="0d94fbb5-7001-4637-a0e5-c13fff6f3062">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[Select ClassLevel,SurveyYear,Category,Percentage from 
+(select ClassLevel,SurveyYear,'AR Female' as Category,round((intakeF/cast(popF as float))*100,2) as Percentage 
+	from warehouse.ClassLevelER
+where SurveyYear=  $P{Year} 
+
+union
+select ClassLevel,SurveyYear,'AR Male' as Category,round((intakeM/cast(popM as float))*100,2) as Percentage 
+from warehouse.ClassLevelER
+where SurveyYear= $P{Year} 
+ 
+) as t inner join DimensionLevel DL on DL.levelCode=t.ClassLevel
+order by SurveyYear,[Year Of Education]]]>
+		</queryString>
+		<field name="ClassLevel" class="java.lang.String"/>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="Category" class="java.lang.String"/>
+		<field name="Percentage" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Figure 14: AR By Primary Class Level,Year And EducationTrend Chart" uuid="0f550339-0031-4ac7-9863-2cec44e16955">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select * from 
+(select SurveyYear,concat('AR','-',classLevel) as classlevel,
+round((sum(intake)/cast(sum(pop) as float))*100,2) as Percentage,
+[Year Of Education] 
+	from warehouse.ClassLevelER CL inner join   DimensionLevel DL on Dl.levelCode=CL.ClassLevel
+where SurveyYear <=$P{Year}       and  SurveyYear >= $P{Year} -5 
+and classLevel in  ('GK','G1','G2','G3','G4','G5','G6','G7','G8')
+
+group by SurveyYear,classLevel,[Year Of Education]) as t
+order by [Year Of Education]]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="classlevel" class="java.lang.String"/>
+		<field name="Percentage" class="java.lang.Double"/>
+		<field name="Year Of Education" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="Table 6: AR by Class Levels,Year,Education and Gender" uuid="6788be70-0fb3-4510-bab7-e363bd76bdc8">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[Select SurveyYear,EduLevel,stylecode,AR,[AR male],[AR Female]  from
+(select SurveyYear,
+Cast(SurveyYear as Varchar) as EduLevel ,
+'0' as stylecode,
+       round(SUM(intake)/Cast(SUM(pop) as Float)*100,2) as 'AR',
+       round(SUM(intakeM)/Cast(SUM(popM) as Float)*100,2) as 'AR male',
+       round(SUM(intakeF)/Cast(SUM(popF) as Float)*100,2) as 'AR Female'
+from warehouse.ClassLevelER
+where SurveyYear <=$P{Year} 
+and SurveyYear>=($P{Year} -5)  
+group by SurveyYear
+
+Union  
+select SurveyYear,ClassLevel ,'2' as stylecode,
+       round(SUM(intake)/Cast(SUM(pop) as Float)*100,2) as 'AR',
+       round(SUM(intakeM)/Cast(SUM(popM) as Float)*100,2) as 'AR male',
+       round(SUM(intakeF)/Cast(SUM(popF) as Float)*100,2) as 'AR Female'
+
+from warehouse.ClassLevelER
+where SurveyYear <=$P{Year}  
+and SurveyYear>=($P{Year} -5)
+group by SurveyYear,ClassLevel
+
+Union
+select '2050' as SurveyYear,'Grand Total' as edlevelcode,'3' as stylecode,
+       round(SUM(intake)/Cast(SUM(pop) as Float)*100,2) as 'AR',
+       round(SUM(intakeM)/Cast(SUM(popM) as Float)*100,2) as 'AR male',
+       round(SUM(intakeF)/Cast(SUM(popF) as Float)*100,2) as 'AR Female'
+
+from warehouse.ClassLevelER
+where SurveyYear <=$P{Year}  
+and SurveyYear>=$P{Year} -5
+) as t left outer join DimensionLevel DL on t.EduLevel=DL.LevelCode
+order by SurveyYear,[Year Of Education]]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="EduLevel" class="java.lang.String"/>
+		<field name="stylecode" class="java.lang.String"/>
+		<field name="AR" class="java.lang.Double"/>
+		<field name="AR male" class="java.lang.Double"/>
+		<field name="AR Female" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Figure 16: AR By Primary Class Level,Year,Education and State for Year" uuid="2e33ce9e-5da3-46fe-9def-9cb9b469182a">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select *,concat(DistrictCode,'-',ClassLevel) as FinalClassLevel
+ from (select SurveyYear,ClassLevel,
+DistrictCode,
+round((intake/cast(pop as float))*100,2) as percentage,
+Concat(SurveyYear,'-AR') as Category,
+[Year Of Education]
+from warehouse.ClasslevelERDistrict CLE 
+inner join DimensionLevel DL on CLE.ClassLevel=DL.LevelCode   
+
+where SurveyYear=$P{Year}
+and  ClassLevel in ('GK','G1','G2','G3','G4','G5','G6','G7','G8')) a
+	order by case when DistrictCode like 'CHK' then 0 
+	else case when DistrictCode like 'KSA' then 1 
+	else case when DistrictCode like 'PNI' then 2 
+	else 3 end end end,[Year Of Education]]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="ClassLevel" class="java.lang.String"/>
+		<field name="DistrictCode" class="java.lang.String"/>
+		<field name="percentage" class="java.lang.Double"/>
+		<field name="Category" class="java.lang.String"/>
+		<field name="Year Of Education" class="java.lang.Integer"/>
+		<field name="FinalClassLevel" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="Table 7: AR by State, by Class Levels and Gender" uuid="81d622e0-7d2a-4307-9290-071a3e35cee3">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select districtcode,
+SurveyYear,
+ClassLevel,
+stylecode,
+AR,
+[AR male],
+[AR Female] 
+from (select districtcode,
+ '' as SurveyYear,districtcode as ClassLevel,
+ '0' as stylecode,
+        round(SUM(intake)/Cast(SUM(pop) as Float)*100,2) as AR, 
+        round(SUM(intakeM)/Cast(SUM(popM) as Float)*100,2) as 'AR male',
+        round(SUM(intakeF)/Cast(SUM(popF) as Float)*100,2) as 'AR Female'
+       
+from warehouse.ClasslevelERDistrict
+where SurveyYear <=$P{Year}  
+and SurveyYear>=($P{Year}-5)
+-- and  ClassLevel in ('G1','G8')
+and districtcode is not null
+group by districtcode
+union 
+select districtcode,SurveyYear,CAST(SurveyYear as varchar) as ClassLevel,'1' as stylecode,
+        round(SUM(intake)/Cast(SUM(pop) as Float)*100,2) as AR, 
+        round(SUM(intakeM)/Cast(SUM(popM) as Float)*100,2) as 'AR male',
+        round(SUM(intakeF)/Cast(SUM(popF) as Float)*100,2) as 'AR Female'
+       
+from warehouse.ClasslevelERDistrict
+where SurveyYear <=$P{Year} 
+and SurveyYear>=($P{Year}-5)
+and districtcode is not null
+-- and ClassLevel in ('G1','G8')
+group by SurveyYear,districtcode
+
+union
+
+select DistrictCode,SurveyYear,ClassLevel,'2' as stylecode,
+ round(SUM(intake)/Cast(SUM(pop) as Float)*100,2) as AR, 
+        round(SUM(intakeM)/Cast(SUM(popM) as Float)*100,2) as 'AR male',
+        round(SUM(intakeF)/Cast(SUM(popF) as Float)*100,2) as 'AR Female'
+       
+from warehouse.ClasslevelERDistrict 
+
+where SurveyYear <=$P{Year} 
+ and SurveyYear>=($P{Year}-5) 
+-- and ClassLevel in ('G1','G8')
+and districtcode is not null
+group by SurveyYear,DistrictCode,ClassLevel
+union 
+
+select 'z' as districtcode,'' as SurveyYear,'Grand Total' as ClassLevel,'3' as stylecode,
+round(SUM(intake)/Cast(SUM(pop) as Float)*100,2) as AR, 
+        round(SUM(intakeM)/Cast(SUM(popM) as Float)*100,2) as 'AR male',
+        round(SUM(intakeF)/Cast(SUM(popF) as Float)*100,2) as 'AR Female'
+       
+
+from warehouse.ClasslevelERDistrict 
+where SurveyYear <=$P{Year}
+and SurveyYear>=($P{Year}-5)
+-- and ClassLevel in ('G1','G8')
+and districtcode is not null
+) as a left outer join DimensionLevel DL on DL.LevelCode=a.ClassLevel
+order by districtcode,SurveyYear,[Year Of Education]]]>
+		</queryString>
+		<field name="districtcode" class="java.lang.String"/>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="ClassLevel" class="java.lang.String"/>
+		<field name="stylecode" class="java.lang.String"/>
+		<field name="AR" class="java.lang.Double"/>
+		<field name="AR male" class="java.lang.Double"/>
+		<field name="AR Female" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Figure 15: AR By Secondary Class Level,Year And EducationTrend Chart" uuid="eb212b28-7c65-4ca0-a259-99a947763935">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select * from 
+(select SurveyYear,
+concat('AR','-',classLevel) as classlevel,
+[Year Of Education],
+round((sum(intake)/cast(sum(pop) as float))*100,2) as Percentage 
+from warehouse.ClassLevelER CLR inner join DimensionLevel DL on DL.LevelCode=CLR.ClassLevel
+where SurveyYear <=$P{Year}      
+and  SurveyYear >=$P{Year}-5 
+and classLevel in  ('G9','G10','G11','G12')
+
+group by SurveyYear,classLevel,[Year Of Education]) as t
+order by [Year Of Education]]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="classlevel" class="java.lang.String"/>
+		<field name="Year Of Education" class="java.lang.Integer"/>
+		<field name="Percentage" class="java.lang.Double"/>
+	</subDataset>
+	<subDataset name="Figure 17: AR By Secondary Class Level,Year,Education and State for Year" uuid="8192875b-bae5-4cac-a525-4f6604aa0bd6">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL Server-185"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select *,concat(DistrictCode,'-',ClassLevel) as FinalClassLevel 
+from (select SurveyYear,ClassLevel,[Year Of Education],
+DistrictCode,round((intake/cast(pop as float))*100,2) as percentage,
+Concat(SurveyYear,'-AR') as Category
+from warehouse.ClasslevelERDistrict CER inner join dimensionLevel DL on DL.LevelCode=CER.ClassLevel 
+
+where SurveyYear=$P{Year}
+and  ClassLevel in ('G9','G10','G11','G12')) a
+	order by case when DistrictCode like 'CHK' then 0 
+	else case when DistrictCode like 'KSA' then 1 
+	else case when DistrictCode like 'PNI' then 2 
+	else 3 end end end,[Year Of Education]]]>
+		</queryString>
+		<field name="SurveyYear" class="java.lang.Integer"/>
+		<field name="ClassLevel" class="java.lang.String"/>
+		<field name="Year Of Education" class="java.lang.Integer"/>
+		<field name="DistrictCode" class="java.lang.String"/>
+		<field name="percentage" class="java.lang.Double"/>
+		<field name="Category" class="java.lang.String"/>
+		<field name="FinalClassLevel" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select 'One' as one]]>
+	</queryString>
+	<field name="one" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="1379" splitType="Immediate">
+			<barChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="0" width="567" height="200" uuid="12939434-2d3c-42b0-ae6c-f8ec51e74bbd">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<chartTitle position="Bottom">
+						<font fontName="Open Sans" size="10" isBold="true"/>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 13: AR By Class Level with Gender Chart " uuid="2614f271-cb58-4bf5-9651-4c213923d990">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Category}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{ClassLevel}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#8C9BDB"/>
+						<seriesColor seriesOrder="1" color="#E88B20"/>
+						<seriesColor seriesOrder="2" color="#B0A9A9"/>
+						<seriesColor seriesOrder="3" color="#FFCD29"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA[$P{Year}]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans" isBold="false"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Open Sans"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00.00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="58" y="200" width="438" height="19" uuid="dc79138e-d9ca-4467-ba53-93d13e65af2d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["AR By Class Level with Gender Chart "]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["AR By Class Level with Gender Chart "+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<lineChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="240" width="567" height="200" uuid="81b32ec8-96c6-4440-b62b-631c32b59b6d"/>
+					<chartTitle position="Bottom">
+						<font fontName="Open Sans" size="10" isBold="true"/>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 14: AR By Primary Class Level,Year And EducationTrend Chart" uuid="a660df1c-02e7-495b-8d77-ee4498c7a20f">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{classlevel}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{SurveyYear}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="360.0">
+						<seriesColor seriesOrder="0" color="#25B0BA"/>
+						<seriesColor seriesOrder="1" color="#E67030"/>
+					</plot>
+					<categoryAxisFormat labelRotation="360.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" verticalTickLabels="false" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="1020" width="381" height="20" uuid="43616f40-2bf4-4964-88c1-5d73b9ce8542"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["AR ByPrimary Class Level,Year,Education and State "+ $P{Year}]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["AR By Primary Class Level,Year,Education and State"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="1308" width="381" height="20" uuid="ae9f9431-5446-4efa-8b25-94c323f11419"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["AR by State, by Class Level, year & Gender"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["AR by State, by Class Level, year & Gender"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<barChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="820" width="567" height="200" uuid="b153ab63-df19-41f9-9f08-c9f321bf561f">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 16: AR By Primary Class Level,Year,Education and State for Year" uuid="7fade3f2-19cd-48ed-9deb-51eca22704d2">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Category}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{FinalClassLevel}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#539FE6"/>
+						<seriesColor seriesOrder="1" color="#F58A51"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA[$P{Year}]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans" size="8" isBold="false"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Open Sans" size="7"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00.00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<componentElement>
+				<reportElement positionType="Float" x="-30" y="749" width="567" height="40" uuid="d323be53-1fd2-4b4c-b411-c4a26182b535">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table 6: AR by Class Levels,Year,Education and Gender" uuid="2a66612e-d0d2-47b8-bd7f-e4e3d87bec55">
+						<datasetParameter name="Year">
+							<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="104" uuid="0b7b49f8-56b9-4211-bdb2-8bffc15f0b25">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<staticText>
+								<reportElement style="EdLevelCode" x="0" y="0" width="104" height="20" uuid="463b9fe0-29c8-4b9e-89e0-34e2a5151785">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<box>
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement style="EdLevelCode" mode="Opaque" x="0" y="0" width="104" height="15" uuid="e0b481e6-fe71-4a31-8a62-806a6768f974"/>
+								<box>
+									<pen lineColor="#FFFFFF"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textFieldExpression><![CDATA[$F{EduLevel}==null?"N/A":$F{EduLevel}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="130" uuid="91a856be-6654-4aca-8a4d-b1ad9df757cc">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="130" height="20" uuid="5a6cc6c0-a2b6-42b1-8353-c0fae85d0720">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[AR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" mode="Opaque" x="0" y="0" width="130" height="15" uuid="98b635e4-9a9f-4169-8fe5-11090a28f8da"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{AR}==null?"N/A":$F{AR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="179" uuid="3b9883bc-150d-40eb-bace-5a3688bffa46">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="179" height="20" uuid="d1f379b7-ac4b-40d7-82f2-b0f34a3400ef">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[AR Male]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" mode="Opaque" x="0" y="0" width="179" height="15" uuid="435c1fe3-e80a-4c55-ab24-d1dea79347a1"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{AR male}==null?"N/A":$F{AR male}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="154" uuid="37ffeb39-1efd-4cb6-a1d2-5fd4675e2022">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="154" height="20" uuid="cd0fbfba-514e-4fa0-9638-612b706f4dec"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[AR Female]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="15">
+							<textField pattern="00.00&apos;%&apos;">
+								<reportElement style="EdLevelCode" mode="Opaque" x="0" y="0" width="154" height="15" uuid="b0d71315-8eef-443c-a2d0-903c790ae263"/>
+								<box rightPadding="2">
+									<pen lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{AR Female}==null?"N/A":$F{AR Female}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement positionType="Float" x="-20" y="1328" width="567" height="30" uuid="ce344279-e465-46d1-94c1-63f523ed9956">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table 7: AR by State, by Class Levels and Gender" uuid="ff0aa020-fa72-41e4-ae3a-7f951a50eb60">
+						<datasetParameter name="Year">
+							<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="124" uuid="ab6aadb5-30be-4283-b52b-61efd374878a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<jr:columnHeader style="Table_CH" height="15" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="124" height="15" uuid="dbcf1d89-2248-4ed0-896c-15e94c24cb5b"/>
+								<box>
+									<pen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<box>
+								<pen lineWidth="0.0"/>
+							</box>
+							<textField>
+								<reportElement style="EdLevelCode" mode="Opaque" x="0" y="0" width="124" height="15" uuid="60e562c2-fd9e-46a8-ac69-0601711a5db3"/>
+								<box>
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Bottom">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ClassLevel}==null?"N/A":$F{ClassLevel}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="103" uuid="84a2bd1d-f837-468d-aaa4-e851d8405f28">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table_CH" height="15" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="103" height="15" uuid="5360b942-2033-46eb-b452-de7c473ad588"/>
+								<box rightPadding="2">
+									<pen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[AR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="15">
+							<textField pattern="00.00&apos;%&apos;" isBlankWhenNull="true">
+								<reportElement style="EdLevelCode" mode="Opaque" x="0" y="0" width="103" height="15" uuid="83e16fe0-6f62-47c4-9365-feebf046e2ee"/>
+								<box rightPadding="2">
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom" markup="styled">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{AR}==null?"N/A":$F{AR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="170" uuid="ca89b422-22d7-4bcb-9567-67a1a1950295">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table_CH" height="15" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="170" height="15" uuid="4c98f88c-a8cc-4e32-a50a-6408644a1914"/>
+								<box rightPadding="2">
+									<pen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[AR Male]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="15">
+							<textField pattern="00.00&apos;%&apos;" isBlankWhenNull="true">
+								<reportElement style="EdLevelCode" mode="Opaque" x="0" y="0" width="170" height="15" uuid="f50f636d-4ff5-4b99-b8b5-1509a5c52db5"/>
+								<box rightPadding="2">
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom" markup="styled">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{AR male}==null?"N/A":$F{AR male}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="170" uuid="0d440ab8-3758-4a4c-af24-14bb2630390a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table_CH" height="15" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="170" height="15" uuid="3003157f-b344-4497-afdc-6fa1c00ab078"/>
+								<box rightPadding="2">
+									<pen lineWidth="1.0" lineStyle="Solid" lineColor="#F2F2F2"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[AR Female]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="15">
+							<textField pattern="00.00&apos;%&apos;" isBlankWhenNull="true">
+								<reportElement style="EdLevelCode" mode="Opaque" x="0" y="0" width="170" height="15" uuid="9998fbad-3e79-490b-b9ac-1da7feddd243"/>
+								<box rightPadding="2">
+									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Bottom" markup="styled">
+									<font fontName="Open Sans" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{AR Female}==null?"N/A":$F{AR Female}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="729" width="381" height="20" uuid="a830c1fa-6d0b-40a5-a7aa-4743bcb9aba3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["AR by Class Levels,Year & Gender"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["AR by Class Levels,Year & Gender"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<lineChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="481" width="567" height="200" uuid="b404e7f0-942a-4df9-86a5-28ece1cbf624">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<chartTitle position="Bottom">
+						<font fontName="Open Sans" size="10" isBold="true"/>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 15: AR By Secondary Class Level,Year And EducationTrend Chart" uuid="cd4c6b29-f1f9-4449-9638-bac9a3e9defe">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{classlevel}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{SurveyYear}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="360.0">
+						<seriesColor seriesOrder="0" color="#25B0BA"/>
+						<seriesColor seriesOrder="1" color="#E67030"/>
+					</plot>
+					<categoryAxisFormat labelRotation="360.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" verticalTickLabels="false" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="90" y="441" width="381" height="20" uuid="56f38534-fab7-403c-b057-6fc04aae2885"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["AR By Primary Class Level,Year And EducationTrend Chart"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["AR By Primary Class Level,Year And EducationTrend Chart"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="87" y="680" width="381" height="20" uuid="a1dc8ac5-6bf0-496e-8b42-5943b7495ffa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["AR By Secondary Class Level,Year And EducationTrend Chart"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["AR By Secondary Class Level,Year And EducationTrend Chart"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+			<barChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-19" y="1063" width="567" height="200" uuid="658dd1ec-de17-47d2-baeb-d2e5dffd7eae">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 17: AR By Secondary Class Level,Year,Education and State for Year" uuid="1950957f-9fdf-4d3b-a665-49ee8e9a43c3">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Category}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{FinalClassLevel}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{percentage}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#539FE6"/>
+						<seriesColor seriesOrder="1" color="#F58A51"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA[$P{Year}]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans" size="8" isBold="false"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Open Sans" size="7"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="00.00'%'" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<textField bookmarkLevel="2">
+				<reportElement positionType="Float" x="88" y="1263" width="381" height="20" uuid="aa42d3de-44eb-48d9-a349-f47b4f3714b0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["AR By Secondary Class Level,Year,Education and State "+ $P{Year}]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["AR By Secondary Class Level,Year,Education and State"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

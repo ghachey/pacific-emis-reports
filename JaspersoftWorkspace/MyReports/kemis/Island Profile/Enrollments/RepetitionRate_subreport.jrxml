@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SchoolEnrollments" pageWidth="842" pageHeight="595" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="949054bc-ec8a-4867-8aff-e78d50f21489">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="230"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="762"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - KEMIS-TEST"/>
+	<template><![CDATA["../../Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2016]]></defaultValueExpression>
+	</parameter>
+	<parameter name="iCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["07"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[--•	Table: repetition,  - name (list), repetition rate
+
+SELECT i.iName, s.schNo, s.schName, t.stDescription, sc.surveyYear,
+       CASE sc.YearOfEd WHEN 1 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y1,
+	   CASE sc.YearOfEd WHEN 2 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y2,
+	   CASE sc.YearOfEd WHEN 3 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y3,
+	   CASE sc.YearOfEd WHEN 4 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y4,
+	   CASE sc.YearOfEd WHEN 5 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y5,
+	   CASE sc.YearOfEd WHEN 6 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y6,
+	   CASE sc.YearOfEd WHEN 7 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y7,
+	   CASE sc.YearOfEd WHEN 8 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y8,
+	   CASE sc.YearOfEd WHEN 9 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y9,
+	   CASE sc.YearOfEd WHEN 10 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y10,
+	   CASE sc.YearOfEd WHEN 11 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y11,
+	   CASE sc.YearOfEd WHEN 12 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y12,
+	   CASE sc.YearOfEd WHEN 13 THEN ROUND((CAST(sc.RepNY AS NUMERIC)/NULLIF(sc.Enrol, 0)) * 100.0, 1) ELSE NULL END AS Y13
+FROM Schools s
+     LEFT OUTER JOIN Islands i ON s.iCode = i.iCode
+     LEFT OUTER JOIN warehouse.SchoolCohort sc ON s.schNo = sc.schNo
+	 LEFT OUTER JOIN SchoolTypes t ON s.schType = t.stCode
+WHERE i.iCode = $P{iCode}
+      AND sc.surveyYear = ($P{year} - 1)
+	  AND sc.YearOfEd BETWEEN 1 AND 10
+ORDER BY s.schType]]>
+	</queryString>
+	<field name="iName" class="java.lang.String"/>
+	<field name="schNo" class="java.lang.String"/>
+	<field name="schName" class="java.lang.String"/>
+	<field name="stDescription" class="java.lang.String"/>
+	<field name="surveyYear" class="java.lang.Integer"/>
+	<field name="Y1" class="java.math.BigDecimal"/>
+	<field name="Y2" class="java.math.BigDecimal"/>
+	<field name="Y3" class="java.math.BigDecimal"/>
+	<field name="Y4" class="java.math.BigDecimal"/>
+	<field name="Y5" class="java.math.BigDecimal"/>
+	<field name="Y6" class="java.math.BigDecimal"/>
+	<field name="Y7" class="java.math.BigDecimal"/>
+	<field name="Y8" class="java.math.BigDecimal"/>
+	<field name="Y9" class="java.math.BigDecimal"/>
+	<field name="Y10" class="java.math.BigDecimal"/>
+	<field name="Y11" class="java.math.BigDecimal"/>
+	<field name="Y12" class="java.math.BigDecimal"/>
+	<field name="Y13" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" x="0" y="0" width="800" height="30" uuid="1a652692-054a-40f3-ade5-68d8da36626d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[School Repetition Rate]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="19" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="3" y="28" width="800" height="3" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="140" height="28" uuid="84245899-014e-41cc-81fa-0ecb9ec67fc3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[School]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="150" y="0" width="134" height="28" uuid="84245899-014e-41cc-81fa-0ecb9ec67fc3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Type *]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="290" y="15" width="30" height="14" uuid="84245899-014e-41cc-81fa-0ecb9ec67fc3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="330" y="15" width="30" height="14" uuid="d181e41d-5b67-477f-be77-4c01139efcdb">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="370" y="15" width="30" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="410" y="15" width="30" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="450" y="15" width="30" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="490" y="15" width="30" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="530" y="15" width="30" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr7]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="570" y="15" width="30" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr8]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="610" y="15" width="30" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="650" y="15" width="30" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr10]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="690" y="15" width="30" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr11]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="730" y="15" width="30" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr12]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="770" y="15" width="30" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Yr13]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="290" y="0" width="510" height="14" uuid="3e8d3669-09f0-4f28-91f2-92e3d5e83b37">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[School Years (%)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="800" height="14" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField>
+					<reportElement x="0" y="0" width="140" height="20" uuid="0415ed25-e797-4ead-a9f6-890ff8e56376"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="150" y="0" width="134" height="20" uuid="c96cf0d7-1b8a-43d6-94e2-8fe99b680889"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{stDescription}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="290" y="0" width="30" height="20" backcolor="rgba(255, 255, 255, 0.39215687)" uuid="0352ebcc-dc04-4749-936f-c3da3d1d12fc"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y1}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement mode="Opaque" x="330" y="0" width="30" height="20" uuid="b7de235e-a254-40fc-8021-5a6befdd3191"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y2}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="370" y="0" width="30" height="20" uuid="9fffb8d7-3c86-4574-8db6-63763e8247ab"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y3}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="410" y="0" width="30" height="20" uuid="3c5341d8-47e4-4f99-91a6-a340faa70d68"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y4}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="450" y="0" width="30" height="20" uuid="8d57c545-7958-496c-a83c-fe809538ee56"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y5}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="490" y="0" width="30" height="20" uuid="551b7e2b-5a77-47ee-97b7-19863bad7919"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y6}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="530" y="0" width="30" height="20" uuid="551b7e2b-5a77-47ee-97b7-19863bad7919"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y7}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="570" y="0" width="30" height="20" uuid="551b7e2b-5a77-47ee-97b7-19863bad7919"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y8}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="610" y="0" width="30" height="20" uuid="551b7e2b-5a77-47ee-97b7-19863bad7919"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y9}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="650" y="0" width="30" height="20" uuid="551b7e2b-5a77-47ee-97b7-19863bad7919"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y10}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="690" y="0" width="30" height="20" uuid="551b7e2b-5a77-47ee-97b7-19863bad7919"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y11}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="730" y="0" width="30" height="20" uuid="551b7e2b-5a77-47ee-97b7-19863bad7919"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y12}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="770" y="0" width="30" height="20" uuid="551b7e2b-5a77-47ee-97b7-19863bad7919"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Y13}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="12" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="800" height="10" uuid="0b4e8c3f-8224-4659-a463-d360774d15d5"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[* Depending on the type of school, certain years would be blank as the school does not offer classes for that year.
+]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

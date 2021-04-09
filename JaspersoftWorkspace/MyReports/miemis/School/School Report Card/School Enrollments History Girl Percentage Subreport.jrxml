@@ -1,0 +1,704 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="School_Enrollments_History_Girl_Percentage_Subreport" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" whenResourceMissingType="Key" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="ireport.jasperserver.url" value="http://data.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/School/School_Report_Card_2_Book"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/School/School_Report_Card_2_Book_files/School_Enrollments_History_Girl_Percentage_Subreport.jrxml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="222"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="768"/>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{ROW_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC" pattern=""/>
+		</conditionalStyle>
+	</style>
+	<style name="Row_Crosstab"/>
+	<subDataset name="Student Enrollments Girl Percentage Current" uuid="f839933c-8568-4c30-962c-c2b67c351391">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="167"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="826"/>
+		<parameter name="YEAR" class="java.lang.Integer"/>
+		<parameter name="SCHOOL_ID" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT
+	EE.surveyYear LifeYear,
+	EE.ClassLevel enLevel,
+	DL.[Year of Education],
+	ROUND(CAST(SUM(Case When GenderCode = 'F' then EE.[Enrol] else 0 end) AS FLOAT) / SUM(EE.Enrol), 2) AS PercentOfGirls,
+	SUM(Case When GenderCode = 'F' then EE.[Enrol] else 0 end) AS enF,
+	SUM(Case When GenderCode = 'M' then EE.[Enrol] else 0 end) AS enM,
+	SUM(EE.enrol) AS enSum,
+	'School' AS RegionLevel
+FROM warehouse.enrol AS EE
+inner join  DimensionLevel DL on DL.levelCode=EE.ClassLevel
+WHERE EE.surveyYear = $P{YEAR} AND EE.schNo = $P{SCHOOL_ID}
+GROUP BY 
+	EE.surveyYear,
+	EE.ClassLevel,DL.[Year of Education]
+UNION
+-- percent girls at district level
+SELECT
+	EE.surveyYear,
+	EE.ClassLevel,
+	DL.[Year of Education],
+	ROUND(CAST(SUM(Case When GenderCode = 'F' then EE.[Enrol] else 0 end) AS FLOAT) / SUM(EE.Enrol), 2) AS PercentOfGirls,
+	SUM(Case When GenderCode = 'F' then EE.[Enrol] else 0 end) AS enF,
+	SUM(Case When GenderCode = 'M' then EE.[Enrol] else 0 end) AS enM,
+	SUM(EE.enrol) AS enSum,
+	'District' AS RegionLevel
+FROM warehouse.enrol AS EE
+inner join  DimensionLevel DL on DL.levelCode=EE.ClassLevel
+INNER JOIN dbo.Schools AS S ON EE.schNo = S.schNo
+INNER JOIN dbo.Islands AS I ON S.iCode = I.iCode
+INNER JOIN dbo.Districts AS D ON I.iGroup = D.dID
+WHERE EE.surveyYear = $P{YEAR}
+
+AND D.dID = (-- the school's district
+SELECT
+	D.dID
+FROM dbo.Schools AS S
+INNER JOIN dbo.Islands AS I ON S.iCode = I.iCode
+INNER JOIN dbo.Districts AS D ON I.iGroup = D.dID
+WHERE S.schNo = $P{SCHOOL_ID})
+
+AND ClassLevel IN ( -- the school's levels
+SELECT DISTINCT ClassLevel FROM warehouse.enrol AS EE 
+WHERE EE.surveyYear = $P{YEAR} AND EE.schNo = $P{SCHOOL_ID}
+)
+GROUP BY 
+	EE.surveyYear,
+	EE.ClassLevel,
+	DL.[Year of Education]
+UNION
+-- percent girls at national level
+SELECT
+	EE.surveyYear LifeYear,
+	EE.ClassLevel enLevel,
+	DL.[Year of Education],
+	ROUND(CAST(SUM(Case When GenderCode = 'F' then EE.[Enrol] else 0 end) AS FLOAT) / SUM(EE.Enrol), 2) AS PercentOfGirls,
+	SUM(Case When GenderCode = 'F' then EE.[Enrol] else 0 end) AS enF,
+	SUM(Case When GenderCode = 'M' then EE.[Enrol] else 0 end) AS enM,
+	SUM(EE.enrol) AS enSum,
+	'National' AS RegionLevel
+FROM warehouse.enrol AS EE
+inner join  DimensionLevel DL on DL.levelCode=EE.ClassLevel
+WHERE EE.surveyYear = $P{YEAR}
+
+AND ClassLevel IN ( -- the school's levels
+SELECT DISTINCT ClassLevel FROM warehouse.enrol AS EE 
+WHERE EE.surveyYear = $P{YEAR} AND EE.schNo = $P{SCHOOL_ID}
+)
+GROUP BY
+	EE.surveyYear,
+	EE.ClassLevel,DL.[Year of Education]
+ORDER BY DL.[Year of Education],EE.surveyYear, EE.ClassLevel, RegionLevel]]>
+		</queryString>
+		<field name="LifeYear" class="java.lang.Integer"/>
+		<field name="enLevel" class="java.lang.String"/>
+		<field name="Year of Education" class="java.lang.Short"/>
+		<field name="PercentOfGirls" class="java.lang.Double"/>
+		<field name="enF" class="java.lang.Integer"/>
+		<field name="enM" class="java.lang.Integer"/>
+		<field name="enSum" class="java.lang.Integer"/>
+		<field name="RegionLevel" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="Girl Percentage Enrollment History" uuid="572c9710-dd24-4161-bafb-89349b0e3aa1">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<parameter name="YEAR" class="java.lang.Integer"/>
+		<parameter name="SCHOOL_ID" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[Select 
+RegionLevel,
+LifeYear,
+ROUND(Avg(PercentOfGirls),4) PercentOfGirls
+
+from (
+select RegionLevel,LifeYear,enLevel,
+	 PercentOfGirls,
+	 enF,
+	 enM,
+	 enSum
+from (select 'School' as RegionLevel,
+surveyYear as LifeYear ,
+ClassLevel as enLevel
+from warehouse.enrol AS EE
+WHERE EE.surveyYear <=$P{YEAR} AND EE.surveyYear >= $P{YEAR}- 4
+and ClassLevel in (Select distinct(ClassLevel) from warehouse.enrol where schNo=$P{SCHOOL_ID} and surveyYear <= $P{YEAR} AND surveyYear >= $P{YEAR} - 4 ) 
+group by EE.surveyYear,ClassLevel 
+union
+select 'State' as RegionLevel,
+surveyYear as LifeYear ,
+ClassLevel as enLevel
+from warehouse.enrol AS EE
+WHERE EE.surveyYear <=$P{YEAR} AND EE.surveyYear >= $P{YEAR}- 4
+and ClassLevel in (Select distinct(ClassLevel) from warehouse.enrol where schNo=$P{SCHOOL_ID} and surveyYear <= $P{YEAR} AND surveyYear >= $P{YEAR} - 4 ) 
+group by EE.surveyYear,ClassLevel 
+union
+select 'National' as RegionLevel,
+surveyYear as LifeYear ,
+ClassLevel as enLevel
+from warehouse.enrol AS EE
+WHERE EE.surveyYear <=$P{YEAR} AND EE.surveyYear >= $P{YEAR}- 4
+and ClassLevel in (Select distinct(ClassLevel) from warehouse.enrol where schNo=$P{SCHOOL_ID} and surveyYear <= $P{YEAR} AND surveyYear >= $P{YEAR} - 4 ) 
+group by EE.surveyYear,ClassLevel) as Total
+left outer join (
+		SELECT
+		EE.surveyYear LifeYear1,
+		EE.ClassLevel enLevel1,
+		ROUND(CAST(SUM(Case When GenderCode = 'F' then EE.[Enrol] else 0 end) AS FLOAT) / SUM(EE.Enrol), 2) AS PercentOfGirls,
+		SUM(Case When GenderCode = 'F' then EE.[Enrol] else 0 end) AS enF,
+		SUM(Case When GenderCode = 'M' then EE.[Enrol] else 0 end) AS enM,
+		SUM(EE.enrol) AS enSum,
+		'School' AS RegionLevel1
+	FROM warehouse.enrol AS EE
+	WHERE EE.surveyYear <= $P{YEAR} AND EE.surveyYear >= $P{YEAR} - 4 AND EE.schNo = $P{SCHOOL_ID}
+	GROUP BY 
+		EE.schNo,
+		EE.surveyYear,
+		EE.ClassLevel
+	UNION
+	-- percent girls at district level
+	SELECT
+		EE.surveyYear,
+		EE.ClassLevel,
+		ROUND(CAST(SUM(Case When GenderCode = 'F' then EE.[Enrol] else 0 end) AS FLOAT) / SUM(EE.Enrol), 2) AS PercentOfGirls,
+		SUM(Case When GenderCode = 'F' then EE.[Enrol] else 0 end) AS enF,
+		SUM(Case When GenderCode = 'M' then EE.[Enrol] else 0 end) AS enM,
+		SUM(EE.enrol) AS enSum,
+		'State' AS RegionLevel1
+	FROM warehouse.enrol AS EE
+	INNER JOIN dbo.Schools AS S ON EE.schNo = S.schNo
+	INNER JOIN dbo.Islands AS I ON S.iCode = I.iCode
+	INNER JOIN dbo.Districts AS D ON I.iGroup = D.dID
+	WHERE EE.surveyYear <= $P{YEAR} AND EE.surveyYear >= $P{YEAR} - 4
+
+	AND D.dID = (-- the school's district
+	SELECT
+		D.dID
+	FROM dbo.Schools AS S
+	INNER JOIN dbo.Islands AS I ON S.iCode = I.iCode
+	INNER JOIN dbo.Districts AS D ON I.iGroup = D.dID
+	WHERE S.schNo = $P{SCHOOL_ID})
+
+	AND ClassLevel IN ( -- the school's levels
+	SELECT DISTINCT ClassLevel FROM warehouse.enrol AS EE 
+	WHERE EE.surveyYear <= $P{YEAR} AND EE.surveyYear >= $P{YEAR} - 4 AND EE.schNo = $P{SCHOOL_ID}
+	)
+	GROUP BY 
+		EE.surveyYear,
+		EE.ClassLevel
+	UNION
+	-- percent girls at national level
+	SELECT
+		EE.surveyYear LifeYear,
+		EE.ClassLevel enLevel,
+		ROUND(CAST(SUM(Case When GenderCode = 'F' then EE.[Enrol] else 0 end) AS FLOAT) / SUM(EE.Enrol), 2) AS PercentOfGirls,
+		SUM(Case When GenderCode = 'F' then EE.[Enrol] else 0 end) AS enF,
+		SUM(Case When GenderCode = 'M' then EE.[Enrol] else 0 end) AS enM,
+		SUM(EE.enrol) AS enSum,
+		'National' AS RegionLevel
+	FROM warehouse.enrol AS EE
+	WHERE EE.surveyYear <= $P{YEAR} AND EE.surveyYear >= $P{YEAR} - 4
+
+	AND ClassLevel IN ( -- the school's levels
+	SELECT DISTINCT ClassLevel FROM warehouse.enrol AS EE 
+	WHERE EE.surveyYear <= $P{YEAR} AND EE.surveyYear >= $P{YEAR} - 4 AND EE.schNo = $P{SCHOOL_ID}
+	)
+	GROUP BY
+		EE.surveyYear,
+		EE.ClassLevel
+	)as School on School.LifeYear1=Total.LifeYear and School.RegionLevel1 = Total.RegionLevel
+	and School.enLevel1 = Total.enLevel
+
+) t1 
+Group by RegionLevel, LifeYear
+order by LifeYear,RegionLevel]]>
+		</queryString>
+		<field name="RegionLevel" class="java.lang.String"/>
+		<field name="LifeYear" class="java.lang.Integer"/>
+		<field name="PercentOfGirls" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SchoolNo" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["MAJ101"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select RegionLevel,LifeYear,enLevel,[Year Of Education],
+LifeYear1,
+enLevel1,
+PercentOfGirls,
+enF,
+enM,
+enSum,
+RegionLevel1 
+from (	
+	Select t1.*,DL.[Year of Education] from (
+	Select 'School' as RegionLevel,
+	surveyYear as LifeYear ,
+	ClassLevel as enLevel
+	from warehouse.enrol AS EE
+	WHERE EE.surveyYear <= $P{Year} AND EE.surveyYear >= $P{Year}- 4
+	and ClassLevel in (Select distinct(ClassLevel) from warehouse.enrol   where schNo=$P{SchoolNo} and surveyYear <= $P{Year} AND surveyYear >= $P{Year} - 4 ) 
+	group by EE.surveyYear,ClassLevel 
+	union
+	select 'State' as RegionLevel,
+	surveyYear as surveyYear,
+	ClassLevel as enLevel
+	 from warehouse.enrol AS EE
+	WHERE EE.surveyYear <= $P{Year} AND EE.surveyYear >= $P{Year} - 4 
+	and ClassLevel in (Select distinct(ClassLevel) from warehouse.enrol   where schNo=$P{SchoolNo} and surveyYear <= $P{Year} AND surveyYear >= $P{Year} - 4 )
+	group by EE.surveyYear,ClassLevel
+	union
+	select 'National' as RegionLevel,
+	surveyYear as surveyYear,
+	ClassLevel as enLevel
+	 from warehouse.enrol AS EE
+	WHERE EE.surveyYear <= $P{Year} AND EE.surveyYear >= $P{Year} - 4 
+	and ClassLevel in(Select distinct(ClassLevel) from warehouse.enrol   where schNo=$P{SchoolNo} and surveyYear <= $P{Year} AND surveyYear >= $P{Year} - 4 )
+	group by EE.surveyYear,ClassLevel
+	) t1  inner join  DimensionLevel DL on DL.levelCode=t1.enLevel
+) total
+
+left outer join (
+	-- percent girls at school level
+	SELECT
+		EE.surveyYear as LifeYear1,
+		EE.ClassLevel as enLevel1,
+		ROUND(CAST(SUM(Case When EE.GenderCode = 'F' then EE.Enrol else 0 end) AS FLOAT)*100 / SUM(EE.Enrol), 2) AS PercentOfGirls,
+		SUM(Case When EE.GenderCode = 'F' then EE.Enrol else 0 end) AS enF,
+		SUM(Case When EE.GenderCode = 'M' then EE.Enrol else 0 end) AS enM,
+		SUM(EE.Enrol) AS enSum,
+		'School' AS RegionLevel1
+	FROM warehouse.enrol AS EE
+	WHERE EE.surveyYear <= $P{Year} AND EE.surveyYear >= $P{Year} - 4 AND EE.schNo = $P{SchoolNo}
+	GROUP BY 
+		EE.schNo,
+		EE.surveyYear,
+		EE.ClassLevel
+	UNION
+	-- percent girls at state level
+	SELECT
+		EE.surveyYear as surveyYear1,
+		EE.ClassLevel as enLevel1,
+		ROUND(CAST(SUM(Case When EE.GenderCode = 'F' then EE.Enrol else 0 end) AS FLOAT) *100/ SUM(EE.Enrol), 2) AS PercentOfGirls,
+		SUM(Case When EE.GenderCode = 'F' then EE.Enrol else 0 end) AS enF,
+		SUM(Case When EE.GenderCode = 'M' then EE.Enrol else 0 end) AS enM,
+		SUM(EE.Enrol) AS enSum,
+		'State' AS RegionLevel
+	FROM warehouse.enrol AS EE
+	INNER JOIN dbo.Schools AS S ON EE.schNo = S.schNo
+	INNER JOIN dbo.Islands AS I ON S.iCode = I.iCode
+	INNER JOIN dbo.Districts AS D ON I.iGroup = D.dID
+	WHERE EE.surveyYear <=$P{Year} AND EE.surveyYear >=$P{Year} - 4 
+
+	AND D.dID = (-- the school's district
+		SELECT D.dID FROM dbo.Schools AS S
+		INNER JOIN dbo.Islands AS I ON S.iCode = I.iCode
+		INNER JOIN dbo.Districts AS D ON I.iGroup = D.dID
+		WHERE S.schNo =$P{SchoolNo})
+
+	AND ClassLevel IN ( -- the school's levels
+		SELECT DISTINCT ClassLevel
+		FROM warehouse.enrol AS EE
+		WHERE EE.surveyYear <=$P{Year} AND EE.surveyYear >= $P{Year} - 4 AND EE.schNo = $P{SchoolNo}
+	)
+	GROUP BY 
+		EE.surveyYear,	EE.ClassLevel
+	UNION
+	-- percent girls at nation level
+	SELECT
+		EE.surveyYear as surveyYear1,
+		EE.ClassLevel as enLevel1,
+		ROUND(CAST(SUM(Case When EE.GenderCode = 'F' then EE.Enrol else 0 end) AS FLOAT)*100 / SUM(EE.Enrol), 2) AS PercentOfGirls,
+		SUM(Case When EE.GenderCode = 'F' then EE.Enrol else 0 end) AS enF,
+		SUM(Case When EE.GenderCode = 'M' then EE.Enrol else 0 end) AS enM,
+		SUM(EE.Enrol) AS enSum,
+		'National' AS RegionLevel
+	FROM warehouse.enrol AS EE
+	WHERE EE.surveyYear <=$P{Year} AND EE.surveyYear >= $P{Year} - 4
+	AND ClassLevel IN ( -- the school's levels
+		SELECT DISTINCT ClassLevel
+		FROM warehouse.enrol AS EE
+		WHERE EE.surveyYear <= $P{Year} AND EE.surveyYear >= $P{Year} - 4 AND EE.schNo = $P{SchoolNo}
+	)
+	GROUP BY 
+		EE.surveyYear, EE.ClassLevel
+) as School on School.LifeYear1=Total.LifeYear and School.RegionLevel1 = Total.RegionLevel
+	and School.enLevel1 = Total.enLevel
+	order by LifeYear,[Year Of Education]]]>
+	</queryString>
+	<field name="RegionLevel" class="java.lang.String"/>
+	<field name="LifeYear" class="java.lang.Integer"/>
+	<field name="enLevel" class="java.lang.String"/>
+	<field name="Year Of Education" class="java.lang.Short"/>
+	<field name="LifeYear1" class="java.lang.Integer"/>
+	<field name="enLevel1" class="java.lang.String"/>
+	<field name="PercentOfGirls" class="java.lang.Double"/>
+	<field name="enF" class="java.lang.Integer"/>
+	<field name="enM" class="java.lang.Integer"/>
+	<field name="enSum" class="java.lang.Integer"/>
+	<field name="RegionLevel1" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$P{SchoolNo}]]></groupExpression>
+		<groupHeader>
+			<band>
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band>
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="501" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<barChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="0" y="8" width="575" height="190" uuid="5fca9705-7010-4f41-b9eb-a572a4141aa7">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="1" rightPadding="20"/>
+					<chartTitle>
+						<titleExpression><![CDATA["Girl Percentage Compare to Other Schools" + " (" +  ($P{Year}) + ")"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Student Enrollments Girl Percentage Current" uuid="edccd864-836f-4d2a-9cff-b0506ec711ae">
+							<datasetParameter name="YEAR">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="SCHOOL_ID">
+								<datasetParameterExpression><![CDATA[$P{SchoolNo}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{RegionLevel}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{enLevel}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{PercentOfGirls}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="#0.00%" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<lineChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="0" y="210" width="575" height="190" uuid="3729eed2-6cba-4e73-9d38-44c1072a1da7">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box leftPadding="1" rightPadding="20"/>
+					<chartTitle>
+						<titleExpression><![CDATA["Girl Percentage Enrollment History Trend" + " (" +  ($P{Year}-4) + " - " + $P{Year} + ")"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Girl Percentage Enrollment History" uuid="70bb2b7a-12de-4098-ad6e-bfb8acd66b97">
+							<datasetParameter name="YEAR">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="SCHOOL_ID">
+								<datasetParameterExpression><![CDATA[$P{SchoolNo}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{RegionLevel}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{LifeYear}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{PercentOfGirls}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="#0.00%" axisLineColor="#000000">
+							<tickLabelFont>
+								<font fontName="DejaVu Sans"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<crosstab>
+				<reportElement positionType="Float" x="0" y="420" width="595" height="60" uuid="379d3d79-92a5-4769-b652-8f4ad22eeb31">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab 1_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab 1_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab 1_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab 1_CD"/>
+				</reportElement>
+				<crosstabHeaderCell>
+					<cellContents>
+						<box>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Heading" x="0" y="0" width="120" height="15" uuid="928e270b-621e-4a11-a3a3-a0f53d0df495"/>
+							<textElement>
+								<font fontName="Open Sans" size="9"/>
+							</textElement>
+							<textFieldExpression><![CDATA[""]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="LifeYear" width="60" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{LifeYear}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Row_Crosstab">
+							<textField>
+								<reportElement style="Crosstab Data" x="0" y="0" width="60" height="30" uuid="030932d1-6e42-40d1-a119-bc3350ba4170"/>
+								<box topPadding="1">
+									<bottomPen lineWidth="0.0" lineColor="#FFFFFF"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Top">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{LifeYear}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<box>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							</box>
+							<staticText>
+								<reportElement style="Crosstab Heading" x="0" y="0" width="120" height="15" backcolor="#F2F2F2" uuid="13938440-71b3-4022-8e89-c755fae215dc"/>
+								<textElement>
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA["Grand Total"]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="enLevel" width="60" totalPosition="Start">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{enLevel}]]></bucketExpression>
+						<orderByExpression><![CDATA[$V{Year Of Education}]]></orderByExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<box>
+								<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+							</box>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="60" height="15" uuid="192c9a84-e108-4057-844e-521c38c75206"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{enLevel}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<box>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							</box>
+							<staticText>
+								<reportElement style="Crosstab Data" x="0" y="0" width="60" height="15" uuid="ee065f40-704f-4973-b686-ff89626c27fb"/>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="RegionLevel" height="15" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{RegionLevel}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<box>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Heading" x="0" y="0" width="60" height="15" uuid="bf791f09-72b8-4834-aab5-b176cdcc0ffe"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{RegionLevel}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<box>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							</box>
+							<staticText>
+								<reportElement style="Crosstab Heading" x="0" y="0" width="60" height="15" uuid="b658ef8f-7fe7-42f3-8834-1d184a986f70"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total RegionLevel]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="PercentOfGirls_MEASURE" class="java.lang.Double" calculation="Average">
+					<measureExpression><![CDATA[$F{PercentOfGirls}]]></measureExpression>
+				</measure>
+				<measure name="Year Of Education" class="java.lang.Short">
+					<measureExpression><![CDATA[$F{Year Of Education}]]></measureExpression>
+				</measure>
+				<crosstabCell width="60" height="15">
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<box>
+							<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+						</box>
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement style="Row" mode="Opaque" x="0" y="0" width="60" height="15" uuid="17e28fd6-57a4-4505-836d-5a7d60d6663b"/>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font fontName="Open Sans" size="9"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{PercentOfGirls_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="15" columnTotalGroup="RegionLevel">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<box>
+							<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+						</box>
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement style="Row" mode="Opaque" x="0" y="0" width="60" height="15" uuid="d9f35b04-8929-45ce-b20e-f93d05cb9612"/>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font fontName="Open Sans" size="9"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{PercentOfGirls_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="15" rowTotalGroup="LifeYear">
+					<cellContents mode="Opaque" style="Crosstab_CH">
+						<box>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						</box>
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement style="Crosstab Heading" mode="Opaque" x="0" y="0" width="60" height="15" backcolor="#F2F2F2" uuid="f72312f9-a086-42dd-8680-9df9a681f21e"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font fontName="Open Sans" size="9" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{PercentOfGirls_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="15" rowTotalGroup="LifeYear" columnTotalGroup="RegionLevel">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<box>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						</box>
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement style="Crosstab Heading" mode="Opaque" x="0" y="0" width="60" height="15" uuid="10abe108-2d84-4453-9d7a-5af44e9f9e12"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font fontName="Open Sans" size="9" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{PercentOfGirls_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="15" rowTotalGroup="enLevel">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<box>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						</box>
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement style="Crosstab Data" x="0" y="0" width="60" height="15" uuid="c3a9ef12-1a4c-451d-b61b-ba038cce2f0c"/>
+							<box topPadding="1"/>
+							<textElement verticalAlignment="Top">
+								<font fontName="Open Sans" size="9" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{PercentOfGirls_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="15" rowTotalGroup="enLevel" columnTotalGroup="RegionLevel">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<box>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						</box>
+						<textField pattern="00.00&apos;%&apos;">
+							<reportElement style="Crosstab Data" x="0" y="0" width="60" height="15" uuid="ac1b6619-953d-4432-9959-6743da5c3ea4"/>
+							<box topPadding="1"/>
+							<textElement verticalAlignment="Top">
+								<font fontName="Open Sans" size="9" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{PercentOfGirls_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

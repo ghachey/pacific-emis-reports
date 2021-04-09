@@ -1,0 +1,1139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="School Accreditation Strength Report by Atoll and Island" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b710dd3e-8b0b-4d2c-93bf-8cad27bc49b5">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="ireport.jasperserver.url" value="http://data.pss.edu.mh:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/School_Accreditations/School_Accreditation_Strength_Report_by_Atoll_and_Island_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/School_Accreditations/School_Accreditation_Strength_Report_by_Atoll_and_Island"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["miemis/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent" fontName="Open Sans Semibold" fontSize="10">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#F2F2F2" fontName="Open Sans Semibold" fontSize="10"/>
+		</conditionalStyle>
+	</style>
+	<style name="CrossTab_Row" fontName="Open Sans" fontSize="10">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#F2F2F2" fontName="Open Sans"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="dName" uuid="3ffbf296-9c74-4aa2-ba89-fd0c09da53c9">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<parameter name="District" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA["14"]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select dname from Districts where did=$P{District}]]>
+		</queryString>
+		<field name="dname" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="SECriteriaDetails" uuid="aa25f207-1676-4702-b67a-6075715b4d59">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<parameter name="District" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA["14"]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select 
+	s.schNo, 
+	s.schName, 
+	isnull(fnl1.totalCriteria1,0) as 'No of Criteria for Score 3', 
+	isnull(fnl2.totalCriteria2,0) as 'No of Criteria for Score 4' from Schools s
+	
+left join
+(	select t2.schNo, count(schNo) as totalCriteria1 from (
+								select 
+										ssa.inspID,ssa.schNo,Standard, Criteria
+										,cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)  as 'Level 1'
+										from pInspectionRead.SchoolStandardAssessment ssa
+												join 
+												(
+													Select inspid
+													,MAX(startDate) inspStart 
+													from warehouse.Accreditations group by inspID
+												)insp on ssa.inspID=insp.inspID
+												join Schools sch on ssa.schNo=sch.schNo
+												join Islands i on sch.iCode=i.iCode
+												join Districts d on i.iGroup=d.dID
+					
+										where category='School Evaluation'
+										and ssa.InspectionYear=$P{Year} and d.dID=$P{District}
+										group by ssa.inspID,ssa.schNo,Standard, Criteria
+										having 
+										cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)=3
+		)t2 group by t2.schNo		
+)fnl1 on s.schNo=fnl1.schNo
+left join
+(	select t2.schNo, count(schNo) as totalCriteria2 from (
+								select 
+										ssa.inspID,ssa.schNo,Standard, Criteria
+										,cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)  as 'Level 1'
+										from pInspectionRead.SchoolStandardAssessment ssa
+												join 
+												(
+													Select inspid
+													,MAX(startDate) inspStart 
+													from warehouse.Accreditations group by inspID
+												)insp on ssa.inspID=insp.inspID
+												join Schools sch on ssa.schNo=sch.schNo
+												join Islands i on sch.iCode=i.iCode
+												join Districts d on i.iGroup=d.dID
+					
+										where category='School Evaluation'
+										and ssa.InspectionYear=$P{Year} and d.dID=$P{District}
+										group by ssa.inspID,ssa.schNo,Standard, Criteria
+										having 
+										cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)=4
+		)t2 group by t2.schNo		
+)fnl2 on s.schNo=fnl2.schNo 
+         where  fnl1.totalCriteria1>0 or fnl2.totalCriteria2>0]]>
+		</queryString>
+		<field name="schNo" class="java.lang.String"/>
+		<field name="schName" class="java.lang.String"/>
+		<field name="No of Criteria for Score 3" class="java.lang.Integer"/>
+		<field name="No of Criteria for Score 4" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="CO1CriteriaDetails" uuid="44844044-07b1-40a3-a9d5-9291a6fd81b2">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<parameter name="District" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA["14"]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select 
+	s.schNo, 
+	s.schName, 
+	isnull(fnl1.totalCriteria1,0) as 'No of Criteria for Score 3', 
+	isnull(fnl2.totalCriteria2,0) as 'No of Criteria for Score 4' from Schools s
+	
+left join
+(	select t2.schNo, count(schNo) as totalCriteria1 from (
+								select 
+										ssa.inspID,ssa.schNo,Standard, Criteria
+										,cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)  as 'Level 1'
+										from pInspectionRead.SchoolStandardAssessment ssa
+												join 
+												(
+													Select inspid
+													,MAX(startDate) inspStart 
+													from warehouse.Accreditations group by inspID
+												)insp on ssa.inspID=insp.inspID
+												join Schools sch on ssa.schNo=sch.schNo
+												join Islands i on sch.iCode=i.iCode
+												join Districts d on i.iGroup=d.dID
+					
+										where category='Classroom Observation 1'
+										and ssa.InspectionYear=$P{Year} and d.dID=$P{District}
+										group by ssa.inspID,ssa.schNo,Standard, Criteria
+										having 
+										cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)=3
+		)t2 group by t2.schNo		
+)fnl1 on s.schNo=fnl1.schNo
+left join
+(	select t2.schNo, count(schNo) as totalCriteria2 from (
+								select 
+										ssa.inspID,ssa.schNo,Standard, Criteria
+										,cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)  as 'Level 1'
+										from pInspectionRead.SchoolStandardAssessment ssa
+												join 
+												(
+													Select inspid
+													,MAX(startDate) inspStart 
+													from warehouse.Accreditations group by inspID
+												)insp on ssa.inspID=insp.inspID
+												join Schools sch on ssa.schNo=sch.schNo
+												join Islands i on sch.iCode=i.iCode
+												join Districts d on i.iGroup=d.dID
+					
+										where category='Classroom Observation 1'
+										and ssa.InspectionYear=$P{Year} and d.dID=$P{District}
+										group by ssa.inspID,ssa.schNo,Standard, Criteria
+										having 
+										cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)=4
+		)t2 group by t2.schNo		
+)fnl2 on s.schNo=fnl2.schNo 
+         where  fnl1.totalCriteria1>0 or fnl2.totalCriteria2>0]]>
+		</queryString>
+		<field name="schNo" class="java.lang.String"/>
+		<field name="schName" class="java.lang.String"/>
+		<field name="No of Criteria for Score 3" class="java.lang.Integer"/>
+		<field name="No of Criteria for Score 4" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="CO2CriteriaDetails" uuid="896eaa97-e71f-4128-82e0-4b0d6b4900c8">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<parameter name="District" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA["14"]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select 
+	s.schNo, 
+	s.schName, 
+	isnull(fnl1.totalCriteria1,0) as 'No of Criteria for Score 3', 
+	isnull(fnl2.totalCriteria2,0) as 'No of Criteria for Score 4' from Schools s
+	
+left join
+(	select t2.schNo, count(Criteria) as totalCriteria1 from (
+								select 
+										ssa.inspID,ssa.schNo,Standard, Criteria
+										,cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)  as 'Level 1'
+										from pInspectionRead.SchoolStandardAssessment ssa
+												join 
+												(
+													Select inspid
+													,MAX(startDate) inspStart 
+													from warehouse.Accreditations group by inspID
+												)insp on ssa.inspID=insp.inspID
+												join Schools sch on ssa.schNo=sch.schNo
+												join Islands i on sch.iCode=i.iCode
+												join Districts d on i.iGroup=d.dID
+					
+										where category='Classroom Observation 2'
+										and ssa.InspectionYear=$P{Year} and d.dID=$P{District}
+										group by ssa.inspID,ssa.schNo,Standard, Criteria
+										having 
+										cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)=3
+		)t2 group by t2.schNo		
+)fnl1 on s.schNo=fnl1.schNo
+left join
+(	select t2.schNo, count(Criteria) as totalCriteria2 from (
+								select 
+										ssa.inspID,ssa.schNo,Standard, Criteria
+										,cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)  as 'Level 1'
+										from pInspectionRead.SchoolStandardAssessment ssa
+												join 
+												(
+													Select inspid
+													,MAX(startDate) inspStart 
+													from warehouse.Accreditations group by inspID
+												)insp on ssa.inspID=insp.inspID
+												join Schools sch on ssa.schNo=sch.schNo
+												join Islands i on sch.iCode=i.iCode
+												join Districts d on i.iGroup=d.dID
+					
+										where category='Classroom Observation 2'
+										and ssa.InspectionYear=$P{Year} and d.dID=$P{District}
+										group by ssa.inspID,ssa.schNo,Standard, Criteria
+										having 
+										cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)=4
+		)t2 group by t2.schNo		
+)fnl2 on s.schNo=fnl2.schNo 
+         where  fnl1.totalCriteria1>0 or fnl2.totalCriteria2>0]]>
+		</queryString>
+		<field name="schNo" class="java.lang.String"/>
+		<field name="schName" class="java.lang.String"/>
+		<field name="No of Criteria for Score 3" class="java.lang.Integer"/>
+		<field name="No of Criteria for Score 4" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+	</parameter>
+	<parameter name="District" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["14"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select 
+	distinct main.Standard,main.StandardName,
+	concat(main.Criteria,' : ',main.CriteriaName) as Criteria,isnull(fnl2.totalSchools,0) as 'Level 4',isnull(fnl1.totalSchools,0) as 'Level 3' 
+	from pInspectionRead.SchoolStandardAssessment main
+	
+left join
+(	select t2.Standard,t2.CriteriaName,count(distinct t2.schNo) as totalSchools from (
+								select 
+										ssa.inspID,ssa.schNo,Standard, CriteriaName
+										,cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)  as 'Level 3'
+										from pInspectionRead.SchoolStandardAssessment ssa
+												join 
+												(
+													Select inspid
+													,MAX(startDate) inspStart 
+													from warehouse.Accreditations group by inspID
+												)insp on ssa.inspID=insp.inspID
+												join Schools sch on ssa.schNo=sch.schNo
+												join Islands i on sch.iCode=i.iCode
+												join Districts d on i.iGroup=d.dID
+												and d.did=$P{District}
+					
+										where category='School Evaluation'
+										and ssa.InspectionYear=$P{Year}
+										group by ssa.inspID,ssa.schNo,Standard, CriteriaName
+										having 
+										cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)=3
+		)t2 group by t2.Standard,t2.CriteriaName
+)fnl1 on main.Standard=fnl1.Standard and main.CriteriaName= fnl1.CriteriaName
+
+left join
+(	select t2.Standard,t2.CriteriaName,count(distinct t2.schNo) as totalSchools from (
+								select 
+										ssa.inspID,ssa.schNo,Standard, CriteriaName
+										,cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)  as 'Level 4'
+										from pInspectionRead.SchoolStandardAssessment ssa
+												join 
+												(
+													Select inspid
+													,MAX(startDate) inspStart 
+													from warehouse.Accreditations group by inspID
+												)insp on ssa.inspID=insp.inspID
+												join Schools sch on ssa.schNo=sch.schNo
+												join Islands i on sch.iCode=i.iCode
+												join Districts d on i.iGroup=d.dID
+																	
+										where category='School Evaluation'
+										and ssa.InspectionYear=$P{Year}
+										and d.did=$P{District}
+										group by ssa.inspID,ssa.schNo,Standard, CriteriaName
+										having 
+										cast(sum((case 
+										when RIGHT(Score,1)>5 then CEILING(Score) 
+										when RIGHT(Score,1)<=5 then FLOOR(Score) else Score end)) as int)=4
+		)t2 group by t2.Standard,t2.CriteriaName
+)fnl2 on main.Standard=fnl2.Standard and main.CriteriaName= fnl2.CriteriaName
+where  main.Category='School Evaluation' and fnl1.totalSchools>0 or fnl2.totalSchools>0 order by 4 desc,5 desc]]>
+	</queryString>
+	<field name="Standard" class="java.lang.String"/>
+	<field name="StandardName" class="java.lang.String"/>
+	<field name="Criteria" class="java.lang.String"/>
+	<field name="Level 4" class="java.lang.Integer"/>
+	<field name="Level 3" class="java.lang.Integer"/>
+	<variable name="TotalLevel4" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Level 4}]]></variableExpression>
+	</variable>
+	<variable name="TotalLevel3" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Level 3}]]></variableExpression>
+	</variable>
+	<group name="Group1">
+		<groupFooter>
+			<band height="20">
+				<textField>
+					<reportElement style="Row" mode="Opaque" x="0" y="1" width="570" height="19" uuid="d209d617-00b2-4dbb-a17f-98872c7eb6f7"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Row" mode="Opaque" x="570" y="1" width="90" height="19" uuid="034fa2ac-4e90-430f-b5cc-2bb6413fb3ac"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TotalLevel4}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Row" mode="Opaque" x="660" y="1" width="90" height="19" uuid="3b7ed723-fbe6-4cb2-869c-6259fe598f55"/>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TotalLevel3}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="92">
+				<break>
+					<reportElement x="0" y="4" width="99" height="1" uuid="054f4297-4215-4366-9481-52c9927f94a0"/>
+				</break>
+				<componentElement>
+					<reportElement x="0" y="72" width="752" height="20" uuid="46a24e0e-5d3d-4c9d-85b0-4b669fc52fdb"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="SECriteriaDetails" uuid="67445bcb-4b81-4a54-b97d-d96c7840c41c">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="District">
+								<datasetParameterExpression><![CDATA[$P{District}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="20" width="752">
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="100" height="20" uuid="92a5c2a7-349d-4c11-93c9-6ea6709366b2"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{schNo}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="100" y="0" width="429" height="20" uuid="315ce1ee-51e6-4436-808b-e1f26b72c5c4"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="529" y="0" width="111" height="20" uuid="794af3ea-95ba-4e56-883b-662333a6c0d1">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{No of Criteria for Score 4}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="640" y="0" width="111" height="20" uuid="31ebe8b5-d5e1-4fd3-992b-ff7ce5358d8a">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{No of Criteria for Score 3}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+				<frame>
+					<reportElement style="Frame 1" mode="Transparent" x="0" y="13" width="750" height="18" uuid="a9110c7d-eff7-4621-a38e-ba8ce9d7020e"/>
+					<box leftPadding="0"/>
+					<textField bookmarkLevel="2">
+						<reportElement style="Detail Header 2" mode="Opaque" x="0" y="0" width="500" height="18" uuid="19bdfe98-3d7a-4c97-817f-e1b6d986eae3">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="20" rightPadding="20"/>
+						<textElement>
+							<font size="11"/>
+						</textElement>
+						<textFieldExpression><![CDATA["School Accreditation Strength by Criteria Count for Schools "]]></textFieldExpression>
+					</textField>
+				</frame>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="43" width="100" height="29" backcolor="#F2F2F2" uuid="4c19b906-b7a4-47d5-b705-605a3e8c0cca">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<text><![CDATA[School No.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="100" y="43" width="430" height="29" backcolor="#F2F2F2" uuid="bb1ac0ed-e099-4aab-910f-64e30f866027">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<text><![CDATA[School Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="530" y="43" width="111" height="29" backcolor="#F2F2F2" uuid="b8a90493-2670-493f-9487-d717d022543c">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<text><![CDATA[Total Criteria with Score 4]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="641" y="43" width="111" height="29" backcolor="#F2F2F2" uuid="f593f97a-8633-4979-af8f-bd3455c81207">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<text><![CDATA[Total Criteria with Score 3]]></text>
+				</staticText>
+			</band>
+			<band height="30">
+				<subreport>
+					<reportElement x="-1" y="10" width="751" height="20" uuid="a64f84a2-bc0c-440f-b9f5-c1d2f3b51dd0"/>
+					<subreportParameter name="District">
+						<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="Year">
+						<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["School Accreditation Strength Report by Atoll and Island Subreport.jrxml"]]></subreportExpression>
+				</subreport>
+				<break>
+					<reportElement x="0" y="8" width="97" height="1" uuid="15a446a2-da00-4ac7-9bc5-57607b730f9e"/>
+				</break>
+			</band>
+			<band height="57">
+				<subreport>
+					<reportElement x="0" y="37" width="751" height="20" uuid="13e7fa5e-3954-445a-8b44-7001750677cb"/>
+					<subreportParameter name="Year">
+						<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="District">
+						<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["School Accreditation Strength Report for Classroom Observation 1 by Atoll and Island Subreport.jrxml"]]></subreportExpression>
+				</subreport>
+				<break>
+					<reportElement x="0" y="5" width="98" height="1" uuid="d52aedab-a7f6-4232-9f10-b6f456170fac"/>
+				</break>
+				<frame>
+					<reportElement style="Frame 1" mode="Transparent" x="0" y="12" width="750" height="18" uuid="f44356cb-7516-41fc-a2a4-caac02e14d03"/>
+					<box leftPadding="0"/>
+					<textField bookmarkLevel="2">
+						<reportElement style="Detail Header 2" mode="Opaque" x="0" y="0" width="500" height="18" uuid="489986d6-6a9a-4842-886f-90ee1d469d0b">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="20" rightPadding="20"/>
+						<textElement>
+							<font size="11"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Classroom Observation 1"]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+			<band height="88">
+				<componentElement>
+					<reportElement x="0" y="68" width="752" height="20" uuid="39fb01b2-2a11-4516-af22-7b9c9bc6656c"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="CO1CriteriaDetails" uuid="447d31e3-4c3f-4c00-bbae-dd13f4fa9b72">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="District">
+								<datasetParameterExpression><![CDATA[$P{District}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="20" width="752">
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="100" height="20" uuid="0c99a2b3-e8f8-4aa1-9bc5-c2d0a5f29c11"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{schNo}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="100" y="0" width="430" height="20" uuid="8590bdbd-6a16-40d8-b69a-16376adec478"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="530" y="0" width="111" height="20" uuid="80781e7b-5b1c-4803-adfd-bf5a56552926">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{No of Criteria for Score 4}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="641" y="0" width="111" height="20" uuid="85abdb50-ef86-411a-aff6-bbad4673af84">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{No of Criteria for Score 3}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+				<frame>
+					<reportElement style="Frame 1" mode="Transparent" x="0" y="14" width="750" height="18" uuid="ea33bef4-f3fe-43bd-acf1-327b88f41fa1"/>
+					<box leftPadding="0"/>
+					<textField bookmarkLevel="2">
+						<reportElement style="Detail Header 2" mode="Opaque" x="0" y="0" width="500" height="18" uuid="c76107fc-5ba0-4401-81d7-5dfd43a86683">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="20" rightPadding="20"/>
+						<textElement>
+							<font size="11"/>
+						</textElement>
+						<textFieldExpression><![CDATA["School Accreditation Strength by Criteria Count for Schools "]]></textFieldExpression>
+					</textField>
+				</frame>
+				<staticText>
+					<reportElement mode="Opaque" x="100" y="39" width="430" height="29" backcolor="#F2F2F2" uuid="5f23b574-6c07-4f37-b790-ea5b284becd6">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<text><![CDATA[School Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="530" y="39" width="111" height="29" backcolor="#F2F2F2" uuid="a3584ea1-a67f-4d76-a152-d5d303129d14">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<text><![CDATA[Total Criteria with Score 4]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="641" y="39" width="111" height="29" backcolor="#F2F2F2" uuid="e0b55d6c-bc6a-4770-bc51-491b58b5f4d9">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<text><![CDATA[Total Criteria with Score 3]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="39" width="100" height="29" backcolor="#F2F2F2" uuid="f12d62d0-3f06-4d3b-af6c-d39171523782">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<text><![CDATA[School No.]]></text>
+				</staticText>
+			</band>
+			<band height="31">
+				<subreport>
+					<reportElement x="-1" y="11" width="751" height="20" uuid="e5bf46a4-a805-47ef-bab5-bf24c22c134a"/>
+					<subreportParameter name="District">
+						<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="Year">
+						<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["School Accreditation Strength Report by Atoll and Island CO1 Subreport.jrxml"]]></subreportExpression>
+				</subreport>
+			</band>
+			<band height="57">
+				<subreport>
+					<reportElement x="0" y="37" width="751" height="20" uuid="4493d16c-5e9e-4320-a516-3f3f14e60e5f"/>
+					<subreportParameter name="Year">
+						<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="District">
+						<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["School Accreditation Strength Report for Classroom Observation 2 by Atoll and Island Subreport.jrxml"]]></subreportExpression>
+				</subreport>
+				<break>
+					<reportElement x="0" y="5" width="97" height="1" uuid="63269b3d-1891-4be7-ba8d-277eaf01a2d1"/>
+				</break>
+				<frame>
+					<reportElement style="Frame 1" mode="Transparent" x="0" y="15" width="750" height="18" uuid="a31c1c52-4d91-4191-ab05-253f7fb1b724"/>
+					<box leftPadding="0"/>
+					<textField bookmarkLevel="2">
+						<reportElement style="Detail Header 2" mode="Opaque" x="0" y="0" width="500" height="18" uuid="b9f66c7d-fac5-4568-8bfb-b6f3016c1a5b">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="20" rightPadding="20"/>
+						<textElement>
+							<font size="11"/>
+						</textElement>
+						<textFieldExpression><![CDATA["Classroom Observation 2"]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+			<band height="88">
+				<componentElement>
+					<reportElement x="0" y="68" width="752" height="20" uuid="88168a51-bcc9-4cb5-b555-a03c625796a3"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="CO2CriteriaDetails" uuid="58bd4cb4-f578-46fa-b130-44ceff65f818">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="District">
+								<datasetParameterExpression><![CDATA[$P{District}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="20" width="752">
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="0" y="0" width="100" height="20" uuid="296431f9-9fd9-47e9-b904-5619e48a397c"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{schNo}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="100" y="0" width="430" height="20" uuid="aadf9df5-beac-487d-9699-40d50d787ccd"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="530" y="0" width="111" height="20" uuid="e260735c-27c3-49e4-9834-6d2142bde5fc">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{No of Criteria for Score 4}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement style="Row" mode="Opaque" x="641" y="0" width="111" height="20" uuid="510aa60e-9c83-4972-a564-51db25244f5d">
+									<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{No of Criteria for Score 3}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+				<frame>
+					<reportElement style="Frame 1" mode="Transparent" x="0" y="14" width="750" height="18" uuid="4c8b06db-c683-43a9-a7e3-decb21bc93e9"/>
+					<box leftPadding="0"/>
+					<textField bookmarkLevel="2">
+						<reportElement style="Detail Header 2" mode="Opaque" x="0" y="0" width="500" height="18" uuid="38beb3ce-3b07-4879-aff1-f6202575b1bf">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="20" rightPadding="20"/>
+						<textElement>
+							<font size="11"/>
+						</textElement>
+						<textFieldExpression><![CDATA["School Accreditation Strength by Criteria Count for Schools "]]></textFieldExpression>
+					</textField>
+				</frame>
+				<staticText>
+					<reportElement mode="Opaque" x="100" y="39" width="430" height="29" backcolor="#F2F2F2" uuid="c7ceab3c-a935-4a18-8152-9ba90f98e0a0">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<text><![CDATA[School Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="530" y="39" width="111" height="29" backcolor="#F2F2F2" uuid="d7c1f9a2-b481-4e66-8669-450a0b9fb7e7">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<text><![CDATA[Total Criteria with Score 4]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="641" y="39" width="111" height="29" backcolor="#F2F2F2" uuid="8f288b78-c00a-4a0d-b0a1-ef1bb49017e0">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<text><![CDATA[Total Criteria with Score 3]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="39" width="100" height="29" backcolor="#F2F2F2" uuid="2d43a5b6-d8e1-446d-8fc9-63f7b501a864">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box leftPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="10"/>
+					</textElement>
+					<text><![CDATA[School No.]]></text>
+				</staticText>
+			</band>
+			<band height="34">
+				<subreport>
+					<reportElement x="-1" y="14" width="751" height="20" uuid="0a5fb53d-d617-4369-bc2b-3562f77805e1"/>
+					<subreportParameter name="District">
+						<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="Year">
+						<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["School Accreditation Strength Report by Atoll and Island CO2 Subreport.jrxml"]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="201" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="136" y="0" width="484" height="62" uuid="cfd5b94e-80f1-45c4-ac91-5c265702fda6"/>
+				<textElement>
+					<font size="31"/>
+				</textElement>
+				<text><![CDATA[School Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="136" y="62" width="484" height="32" uuid="f9e6a4e4-82a4-4e6c-8aa1-666ac8fde1e7"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[School Accreditation Strength]]></text>
+			</staticText>
+			<image>
+				<reportElement x="620" y="0" width="126" height="126" uuid="d83c8d17-6488-4bde-8189-0c521c39ec8d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["miemis/Images/rmi-pss.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Opaque" x="-21" y="-20" width="793" height="10" forecolor="#08298C" backcolor="#08298C" uuid="8cc1aba4-727d-4c7e-9545-1d4bacd04c72"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-21" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="87e9d9bf-12d0-4f88-801b-e49ffab6b183">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="752" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="2449f378-2e91-4d3d-8b05-1c595daf6122">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-21" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="d5c22708-7995-4890-b44b-b2ee547be700">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="734" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="aff4b916-5f72-4a16-928c-6100a6079853">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<image>
+				<reportElement x="10" y="0" width="126" height="126" uuid="6bf2882a-d423-4b41-9313-57b9797e691c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["miemis/Images/rmi-seal.png"]]></imageExpression>
+			</image>
+			<componentElement>
+				<reportElement x="136" y="94" width="484" height="32" uuid="610a61a0-2148-4ce5-9b25-7dcb653387e6"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="dName" uuid="f0465eb9-9e39-489f-a9c5-2b7a85e3158d">
+						<datasetParameter name="District">
+							<datasetParameterExpression><![CDATA[$P{District}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="Year">
+							<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="32" width="484">
+						<textField>
+							<reportElement x="0" y="0" width="484" height="32" uuid="e7b4525d-caf4-46b4-8aef-4e34211ae408"/>
+							<textElement textAlignment="Center">
+								<font fontName="Open Sans" size="10"/>
+							</textElement>
+							<textFieldExpression><![CDATA["This report shows the detailed view of school accreditation Strength for Year :"+$P{Year}+ " and Atoll and Island :"+$F{dname}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="172" width="150" height="29" backcolor="#F2F2F2" uuid="561e7fd1-8e8e-4b59-b485-d9b51ab29686">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<text><![CDATA[Standard]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="150" y="172" width="420" height="29" backcolor="#F2F2F2" uuid="27534cbe-85b1-404e-943b-7b7414807d3a">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<text><![CDATA[Criteria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="570" y="172" width="90" height="29" backcolor="#F2F2F2" uuid="097c000b-497f-4a73-af29-193c0ced55d6">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<text><![CDATA[No of Schools with Score 4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="660" y="172" width="90" height="29" backcolor="#F2F2F2" uuid="84a7ce74-956e-471b-a1f0-ad3651a29fce">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<text><![CDATA[No of Schools with Score 3]]></text>
+			</staticText>
+			<frame>
+				<reportElement style="Frame 1" mode="Transparent" x="0" y="149" width="750" height="18" uuid="899a3850-9220-4606-b22e-65f536da6222"/>
+				<box leftPadding="0"/>
+				<textField bookmarkLevel="2">
+					<reportElement style="Detail Header 2" mode="Opaque" x="0" y="0" width="500" height="18" uuid="f1eebc95-00ad-457a-902c-70f11625b174">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20" rightPadding="20"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA["School Evaluation "]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<textField>
+				<reportElement style="Row" mode="Opaque" x="0" y="1" width="150" height="42" uuid="9aa63009-81df-4043-a400-c8e1ded5b582">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Standard}+" : "+$F{StandardName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Row" mode="Opaque" x="150" y="1" width="420" height="42" uuid="af59979e-eca9-485b-bd17-cd4c514650ef">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Criteria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" mode="Opaque" x="570" y="1" width="90" height="42" uuid="48b439a1-7031-4de4-8e51-65f755c0cbba"/>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Level 4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" mode="Opaque" x="660" y="1" width="90" height="42" uuid="8f7a66ab-391d-47f4-a426-266fccaa8979"/>
+				<box leftPadding="2" rightPadding="2">
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Level 3}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

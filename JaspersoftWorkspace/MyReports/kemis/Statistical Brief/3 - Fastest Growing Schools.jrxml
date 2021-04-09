@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Fastest Growing Schools" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - KEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/KEMIS_Reports/Statistical_Brief/Changes_in_Enrollments"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="636"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="350"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="345"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="650"/>
+	<template><![CDATA["../Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[2014]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select top 1 * from schools]]>
+	</queryString>
+	<field name="schNo" class="java.lang.String"/>
+	<field name="schName" class="java.lang.String"/>
+	<field name="schVillage" class="java.lang.String"/>
+	<field name="iCode" class="java.lang.String"/>
+	<field name="schType" class="java.lang.String"/>
+	<field name="schAddr1" class="java.lang.String"/>
+	<field name="schAddr2" class="java.lang.String"/>
+	<field name="schAddr3" class="java.lang.String"/>
+	<field name="schAddr4" class="java.lang.String"/>
+	<field name="schPh1" class="java.lang.String"/>
+	<field name="schPh2" class="java.lang.String"/>
+	<field name="schFax" class="java.lang.String"/>
+	<field name="schEmail" class="java.lang.String"/>
+	<field name="schWWW" class="java.lang.String"/>
+	<field name="schElectN" class="java.lang.String"/>
+	<field name="schElectL" class="java.lang.String"/>
+	<field name="schAuth" class="java.lang.String"/>
+	<field name="schLang" class="java.lang.String"/>
+	<field name="schLandOwner" class="java.lang.String"/>
+	<field name="schLandUse" class="java.lang.String"/>
+	<field name="schLandUseExpiry" class="java.sql.Timestamp"/>
+	<field name="schEst" class="java.lang.Integer"/>
+	<field name="schEstBy" class="java.lang.String"/>
+	<field name="schClosed" class="java.lang.Integer"/>
+	<field name="schCloseReason" class="java.lang.String"/>
+	<field name="schRegStatus" class="java.lang.String"/>
+	<field name="schReg" class="java.lang.String"/>
+	<field name="schRegYear" class="java.lang.Integer"/>
+	<field name="schRegDate" class="java.sql.Timestamp"/>
+	<field name="schRegStatusDate" class="java.sql.Timestamp"/>
+	<field name="schXtrnID" class="java.lang.Integer"/>
+	<field name="schClass" class="java.lang.String"/>
+	<field name="schXNo" class="java.lang.String"/>
+	<field name="schpayptCode" class="java.lang.String"/>
+	<field name="schClosedLimit" class="java.lang.Integer"/>
+	<field name="schOrgUnitNumber" class="java.lang.Integer"/>
+	<field name="schGLSalaries" class="java.lang.String"/>
+	<field name="schParent" class="java.lang.String"/>
+	<field name="schEstablishmentPoint" class="java.lang.String"/>
+	<field name="schIsExtension" class="java.lang.Integer"/>
+	<field name="pRowversion" class="java.lang.Object"/>
+	<field name="pCreateDateTime" class="java.sql.Timestamp"/>
+	<field name="pCreateUser" class="java.lang.String"/>
+	<field name="pEditDateTime" class="java.sql.Timestamp"/>
+	<field name="pEditUser" class="java.lang.String"/>
+	<field name="pEditContext" class="java.lang.String"/>
+	<field name="schDormant" class="java.lang.Boolean"/>
+	<field name="schElev" class="java.math.BigDecimal"/>
+	<field name="schLat" class="java.math.BigDecimal"/>
+	<field name="schLong" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="129" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="90" y="0" width="353" height="62" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
+				<text><![CDATA[Stats Brief]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="10" forecolor="#08298C" backcolor="#08298C" uuid="d2c1de46-cc23-45d7-baae-f3db758a22f4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-20" y="-10" width="10" height="10" forecolor="#08298C" backcolor="#08298C" uuid="82be1372-47c3-4488-8799-e379cf02a1dc">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="565" y="-10" width="10" height="10" forecolor="#08298C" backcolor="#08298C" uuid="381229bf-790d-4ab8-92ba-f2c4c103310d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-20" y="-9" width="22" height="19" forecolor="#FFFFFF" uuid="eb7e3cd7-5c3b-404f-92ca-e40918a0f081">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="553" y="-9" width="22" height="19" forecolor="#FFFFFF" uuid="48197aee-8bf4-4b7f-8728-a4843a0b870b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Page footer" x="100" y="60" width="350" height="55" uuid="aac0dd0e-695e-4839-8e52-4212d1369f89"/>
+				<textElement textAlignment="Center">
+					<font size="19"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fastest Growing Schools: " + $P{year} + " enrollments compared to previous year"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="463" y="0" width="92" height="115" uuid="f63e4ed0-d89f-46c4-ada9-43f63ccf5878"/>
+				<imageExpression><![CDATA["../Images/Kiribati Crest.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="-1" y="0" width="92" height="115" uuid="ca7cba89-5a0c-4b19-b4df-20c56f2da156"/>
+				<imageExpression><![CDATA["../Images/Kiribati Crest.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="518" splitType="Stretch">
+			<subreport>
+				<reportElement x="1" y="29" width="528" height="126" uuid="0975acb4-3567-4913-9999-5fbaa5b99a24">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="year">
+					<subreportParameterExpression><![CDATA[$P{year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="schoolType">
+					<subreportParameterExpression><![CDATA["KPS%"]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["3 - Fastest Growing Schools - subreport.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="2" y="201" width="528" height="126" uuid="d1347d02-993d-4cd7-b896-25ea96161fd4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="year">
+					<subreportParameterExpression><![CDATA[$P{year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="schoolType">
+					<subreportParameterExpression><![CDATA["KJS%"]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["3 - Fastest Growing Schools - subreport.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="2" y="387" width="528" height="126" uuid="b35d9e3e-1db3-4a1c-9140-e4194e84c6e9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="year">
+					<subreportParameterExpression><![CDATA[$P{year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="schoolType">
+					<subreportParameterExpression><![CDATA["KSSS%"]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["3 - Fastest Growing Schools - subreport.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="80" y="2" width="400" height="26" uuid="4ee5c84b-0e98-4aaa-893a-56c0c896c982">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Primary Schools]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="174" width="400" height="26" uuid="336e89b4-a043-4974-b43a-f501fcceeb06">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Junior Secondary Schools]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="361" width="400" height="26" uuid="72913ceb-89e2-4bd8-979a-9bb4f9e68575">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Senior Secondary Schools]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#8298C0" backcolor="#9BC2FF" uuid="183682bc-d976-4756-83e0-6625a3f98ed1"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="533" y="0" width="40" height="20" uuid="0193f9b3-1559-491a-8580-b6988863b6a1"/>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="453" y="0" width="80" height="20" uuid="d00b105e-494b-418b-8ac9-8b1b4824f4f0"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="0616f3fe-0354-456f-8911-ec30ec51a5ae"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="STAKI At or Above By Exam" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="25e7a11e-e86f-4635-973d-f918302a3b66">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="571"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="419"/>
+	<template><![CDATA["../../Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="AlternateRowColor" forecolor="#000000" backcolor="rgba(255, 255, 255, 0.0)">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{REPORT_COUNT}.intValue() % 2) == 0]]></conditionExpression>
+			<style forecolor="#000000" backcolor="#D9D7D7"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[-- Results for 1 School 
+select * from (
+select e.exCode, e.exYear, S.schName, ex.schNo, stSubject as Subject, stComponent as Component,
+
+'Year ' + RIGHT(e.exCode, 1) + ' ' + stSubject as ExamTitle,
+
+SUM(CASE WHEN stGender = 'F' THEN st0 ELSE 0 END) as F_st0, 
+SUM(CASE WHEN stGender = 'F' THEN st1 ELSE 0 END) as F_st1, 
+SUM(CASE WHEN stGender = 'F' THEN st2 ELSE 0 END) as F_st2, 
+SUM(CASE WHEN stGender = 'F' THEN st3 ELSE 0 END) as F_st3, 
+SUM(CASE WHEN stGender = 'F' THEN st4 ELSE 0 END) as F_st4, 
+
+SUM(CASE WHEN stGender = 'M' THEN st0 ELSE 0 END) as M_st0, 
+SUM(CASE WHEN stGender = 'M' THEN st1 ELSE 0 END) as M_st1, 
+SUM(CASE WHEN stGender = 'M' THEN st2 ELSE 0 END) as M_st2, 
+SUM(CASE WHEN stGender = 'M' THEN st3 ELSE 0 END) as M_st3, 
+SUM(CASE WHEN stGender = 'M' THEN st4 ELSE 0 END) as M_st4, 
+
+SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st0 = 0 THEN 0 ELSE 100.0 * st0 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st0Percent,
+SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st1 = 0 THEN 0 ELSE 100.0 * st1 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st1Percent,
+SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st2 = 0 THEN 0 ELSE 100.0 * st2 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st2Percent,
+SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st3 = 0 THEN 0 ELSE 100.0 * st3 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st3Percent,
+SUM(CASE WHEN stGender = 'F' THEN CAST(CASE WHEN st4 = 0 THEN 0 ELSE 100.0 * st4 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as F_st4Percent,
+
+SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st0 = 0 THEN 0 ELSE 100.0 * st0 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st0Percent,
+SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st1 = 0 THEN 0 ELSE 100.0 * st1 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st1Percent,
+SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st2 = 0 THEN 0 ELSE 100.0 * st2 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st2Percent,
+SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st3 = 0 THEN 0 ELSE 100.0 * st3 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st3Percent,
+SUM(CASE WHEN stGender = 'M' THEN CAST(CASE WHEN st4 = 0 THEN 0 ELSE 100.0 * st4 / (st0 + st1 + st2 + st3 + st4) END as numeric(16,1)) ELSE CAST(0.0 as numeric(16,1)) END) as M_st4Percent
+
+from ExamStandardTest ex
+join Exams e on e.exID = ex.exID
+
+join Schools S on S.schNo = ex.schNo
+
+where e.exCode like 'STAKI%'
+     and e.exYear > 2007
+     and e.exYear = $P{year}
+
+     and stComponent ='Overall'
+	
+
+group by e.exCode, e.exYear, S.schName, ex.schNo, stSubject, stComponent
+) results
+order by schName, ExamTitle]]>
+	</queryString>
+	<field name="exCode" class="java.lang.String"/>
+	<field name="exYear" class="java.lang.Integer"/>
+	<field name="schName" class="java.lang.String"/>
+	<field name="schNo" class="java.lang.String"/>
+	<field name="Subject" class="java.lang.String"/>
+	<field name="Component" class="java.lang.String"/>
+	<field name="ExamTitle" class="java.lang.String"/>
+	<field name="F_st0" class="java.lang.Integer"/>
+	<field name="F_st1" class="java.lang.Integer"/>
+	<field name="F_st2" class="java.lang.Integer"/>
+	<field name="F_st3" class="java.lang.Integer"/>
+	<field name="F_st4" class="java.lang.Integer"/>
+	<field name="M_st0" class="java.lang.Integer"/>
+	<field name="M_st1" class="java.lang.Integer"/>
+	<field name="M_st2" class="java.lang.Integer"/>
+	<field name="M_st3" class="java.lang.Integer"/>
+	<field name="M_st4" class="java.lang.Integer"/>
+	<field name="F_st0Percent" class="java.math.BigDecimal"/>
+	<field name="F_st1Percent" class="java.math.BigDecimal"/>
+	<field name="F_st2Percent" class="java.math.BigDecimal"/>
+	<field name="F_st3Percent" class="java.math.BigDecimal"/>
+	<field name="F_st4Percent" class="java.math.BigDecimal"/>
+	<field name="M_st0Percent" class="java.math.BigDecimal"/>
+	<field name="M_st1Percent" class="java.math.BigDecimal"/>
+	<field name="M_st2Percent" class="java.math.BigDecimal"/>
+	<field name="M_st3Percent" class="java.math.BigDecimal"/>
+	<field name="M_st4Percent" class="java.math.BigDecimal"/>
+	<group name="School" isReprintHeaderOnEachPage="true" keepTogether="true">
+		<groupExpression><![CDATA[$F{schName}]]></groupExpression>
+		<groupHeader>
+			<band height="75">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<textField>
+					<reportElement x="21" y="0" width="518" height="20" uuid="972d095c-1572-4990-a903-fe996c62a709">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="21" y="25" width="523" height="50" isPrintInFirstWholeBand="true" forecolor="rgba(0, 0, 0, 0.0)" uuid="4a739f82-b247-432d-a1f2-202a72c7b192">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<graphicElement>
+						<pen lineColor="#000000"/>
+					</graphicElement>
+				</rectangle>
+				<line>
+					<reportElement x="400" y="25" width="1" height="50" isPrintInFirstWholeBand="true" uuid="963faf64-235e-4eee-84ee-7ef8cd8897fd">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="260" y="25" width="1" height="50" isPrintInFirstWholeBand="true" uuid="3dfb4ce2-e69d-4b62-802e-cd7d2775ca1f">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<staticText>
+					<reportElement x="261" y="25" width="116" height="20" isPrintInFirstWholeBand="true" uuid="70703358-016c-4dbe-a917-00d385ee16b4"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Male]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="401" y="25" width="138" height="20" isPrintInFirstWholeBand="true" uuid="ec31ba19-d229-4549-947e-95647862592e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Female]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="271" y="55" width="65" height="20" isPrintInFirstWholeBand="true" uuid="569b8ec5-ca30-40c7-a562-9b81964d6554"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Students %]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="21" y="55" width="240" height="20" isPrintInFirstWholeBand="true" uuid="0c0dd45c-9a24-40e0-baa5-4f806d91d7c2"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[At or Above Expected Level]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="408" y="55" width="72" height="20" isPrintInFirstWholeBand="true" uuid="59e9805a-c08e-481a-b079-3616906fb3e7"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Students %]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="5">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="65" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="91" y="0" width="361" height="27" uuid="95b53cb2-a4ff-4916-8a6d-24a7e9017d13"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{year} + " STAKI - At or Above Expected Level"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="20" y="0" width="51" height="57" uuid="3e6aecaf-ed23-4895-8f21-dec6ad24e8cd"/>
+				<imageExpression><![CDATA["../..//Images/Kiribati Crest.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="500" y="0" width="51" height="57" uuid="7e589063-6336-44b5-8588-d61a634601e5"/>
+				<imageExpression><![CDATA["../..//Images/Kiribati Crest.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Immediate">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<rectangle>
+				<reportElement style="AlternateRowColor" x="21" y="0" width="523" height="20" uuid="28558464-be9a-4021-8606-0aec1853cc1f"/>
+			</rectangle>
+			<line>
+				<reportElement x="260" y="0" width="1" height="20" uuid="19064fb7-f659-4bbc-9c37-85c966e85022">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="400" y="0" width="1" height="20" uuid="26cfd935-5d84-46f7-9ca7-ef2549b31821">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement x="271" y="0" width="40" height="20" uuid="07b5dd9f-2a24-403e-9187-81dd6f5c1c66">
+					<printWhenExpression><![CDATA[$F{M_st0} + $F{M_st1} + $F{M_st2} + $F{M_st3} + $F{M_st4} > 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{M_st3Percent}.add($F{M_st4Percent})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="408" y="0" width="40" height="20" uuid="7acb3aa8-1925-41c1-8ddc-a27ce9ea0ab0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[$F{F_st0} + $F{F_st1} + $F{F_st2} + $F{F_st3} + $F{F_st4} > 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F_st3Percent}.add($F{F_st4Percent})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="66" y="0" width="150" height="20" uuid="51a20793-b19a-4cf0-a6b8-44891e24173e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ExamTitle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="324" y="-1" width="76" height="20" uuid="adc3e2b3-4d4c-4973-9e39-72649fe191f8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["( " + ($F{M_st3} + $F{M_st4}) + " / " + ($F{M_st0} + $F{M_st1} + $F{M_st2} + $F{M_st3} + $F{M_st4}) + " )"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="466" y="0" width="78" height="20" uuid="96b514a7-8dd8-4c7c-9d8f-241388b0e4b2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["( " + ($F{F_st3} + $F{F_st4}) + " / " + ($F{F_st0} + $F{F_st1} + $F{F_st2} + $F{F_st3} + $F{F_st4}) + " )"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Current Enrollments" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6fd547fb-7cbc-469f-a5f3-9ecd8883dec6">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="237"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="755"/>
+	<template><![CDATA["../..//Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2016]]></defaultValueExpression>
+	</parameter>
+	<parameter name="schoolNo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["KSSS018"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[--•	Table: current enrolments- year/grade by gender, no. of repeaters year/grade by gender, no. with DOB recorded (incl. total)
+SELECT surveyYear, schNo, ClassLevel, 
+	   SUM(CASE WHEN GenderCode = 'M' THEN ISNULL(Enrol,0) ELSE 0 END) AS Male_TotalEnrollment,
+	   SUM(CASE WHEN GenderCode = 'F' THEN ISNULL(Enrol,0) ELSE 0 END) AS Female_TotalEnrollment,
+	   SUM(ISNULL(Enrol,0)) AS TotalEnrollment,
+	   SUM(CASE WHEN GenderCode = 'M' THEN ISNULL(Rep,0) ELSE 0 END) AS Male_TotalRepeaters,
+	   SUM(CASE WHEN GenderCode = 'F' THEN ISNULL(Rep,0) ELSE 0 END) AS Female_TotalRepeaters,
+	   SUM(ISNULL(Rep,0)) AS TotalRepeaters
+FROM warehouse.enrol
+WHERE surveyYear = $P{year} AND schNo = $P{schoolNo}
+GROUP BY surveyYear, schNo, ClassLevel
+ORDER BY surveyYear, schNo, ClassLevel;]]>
+	</queryString>
+	<field name="surveyYear" class="java.lang.Integer"/>
+	<field name="schNo" class="java.lang.String"/>
+	<field name="ClassLevel" class="java.lang.String"/>
+	<field name="Male_TotalEnrollment" class="java.lang.Integer"/>
+	<field name="Female_TotalEnrollment" class="java.lang.Integer"/>
+	<field name="TotalEnrollment" class="java.lang.Integer"/>
+	<field name="Male_TotalRepeaters" class="java.lang.Integer"/>
+	<field name="Female_TotalRepeaters" class="java.lang.Integer"/>
+	<field name="TotalRepeaters" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" x="0" y="0" width="554" height="30" uuid="1a652692-054a-40f3-ade5-68d8da36626d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Current Enrollment]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-1" y="30" width="555" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="30" height="16" uuid="1f0dcac7-13c9-4191-b63f-8487b4a8b1ea"/>
+				<text><![CDATA[Level]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="80" y="0" width="150" height="30" uuid="e0734474-cfca-4dc2-bd96-ed30d369a496"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Enrollments
+M       F       T]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="236" y="0" width="150" height="30" uuid="5cefe5b9-5491-445c-b701-d954cabc636b"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Repeaters 
+M       F       T]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="-1" y="-1" width="20" height="15" uuid="bfefe933-16f9-470c-a919-9b23dfc00ac7"/>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+						<paragraph lineSpacing="1_1_2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ClassLevel}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="80" y="0" width="20" height="15" uuid="560a5cce-026b-4c35-86df-75fd19b57ee3"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Male_TotalEnrollment}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="110" y="0" width="20" height="15" uuid="a9bc7f13-ec57-4f97-923d-7d40d9af6aee"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Female_TotalEnrollment}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="140" y="0" width="20" height="15" uuid="a9bc7f13-ec57-4f97-923d-7d40d9af6aee"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TotalEnrollment}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="236" y="0" width="20" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Male_TotalRepeaters}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="270" y="0" width="20" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{Female_TotalRepeaters}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="301" y="-1" width="20" height="15" uuid="d57b493f-0f0c-43e4-9fd1-235e85942983"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{TotalRepeaters}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+</jasperReport>

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SchoolEnrollments" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="949054bc-ec8a-4867-8aff-e78d50f21489">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="230"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="762"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - KEMIS-TEST"/>
+	<template><![CDATA["../../Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2016]]></defaultValueExpression>
+	</parameter>
+	<parameter name="iCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["07"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[--•	Table: school enrolments- name (list), current enrolments, pct change in student numbers over the last three years compared to last year’s island (PS) or national change (other) 
+		
+SELECT i.iName, s.schName, s.schType, 
+       g.TotalEnroll,
+       ROUND((CAST(g.TotalEnroll2 AS NUMERIC) - g.TotalEnroll1) / NULLIF(g.TotalEnroll1,0) * 100.0, 1) AS SchPercentChangeYear1,
+	   CASE 
+			WHEN s.schType LIKE 'P%' THEN IslPercentChangeYear1
+			ELSE NatnPercentChangeYear1
+	   END AS GrpPercentChangeYear1,
+	   ROUND((CAST(g.TotalEnroll3 AS NUMERIC) - g.TotalEnroll2) / NULLIF(g.TotalEnroll2,0) * 100.0, 1) AS SchPercentChangeYear2,
+	   CASE 
+			WHEN s.schType LIKE 'P%' THEN IslPercentChangeYear2
+			ELSE NatnPercentChangeYear2
+	   END AS GrpPercentChangeYear2,
+	   ROUND((CAST(g.TotalEnroll AS NUMERIC) - g.TotalEnroll3) / NULLIF(g.TotalEnroll3,0) * 100.0, 1) AS SchPercentChangeYear3,
+	   CASE 
+			WHEN s.schType LIKE 'P%' THEN IslPercentChangeYear3
+			ELSE NatnPercentChangeYear3
+	   END AS GrpPercentChangeYear3
+FROM Schools s
+     LEFT OUTER JOIN Islands i ON s.iCode = i.iCode
+	 LEFT OUTER JOIN (
+						SELECT schNo,
+							   SUM(CASE WHEN surveyYear = $P{year} - 3 THEN ISNULL(Enrol,0) ELSE 0 END) AS TotalEnroll1,
+							   SUM(CASE WHEN surveyYear = $P{year} - 2 THEN ISNULL(Enrol,0) ELSE 0 END) AS TotalEnroll2,
+							   SUM(CASE WHEN surveyYear = $P{year} - 1 THEN ISNULL(Enrol,0) ELSE 0 END) AS TotalEnroll3,
+							   SUM(CASE WHEN surveyYear = $P{year} THEN ISNULL(Enrol,0) ELSE 0 END) AS TotalEnroll
+						FROM warehouse.enrol
+						GROUP BY schNo
+					 ) g ON s.schNo = g.schNo
+	 LEFT OUTER JOIN (
+						SELECT f.schType,
+							   ROUND((CAST(f.NatnYear2 AS NUMERIC) - f.NatnYear1) / NULLIF(f.NatnYear1,0) * 100.0, 1) AS NatnPercentChangeYear1,
+							   ROUND((CAST(f.NatnYear3 AS NUMERIC) - f.NatnYear2) / NULLIF(f.NatnYear2,0) * 100.0, 1) AS NatnPercentChangeYear2,
+							   ROUND((CAST(f.NatnYear4 AS NUMERIC) - f.NatnYear3) / NULLIF(f.NatnYear3,0) * 100.0, 1) AS NatnPercentChangeYear3,
+							   ROUND((CAST(f.IslYear2 AS NUMERIC) - f.IslYear1) / NULLIF(f.IslYear1,0) * 100.0, 1) AS IslPercentChangeYear1,
+							   ROUND((CAST(f.IslYear3 AS NUMERIC) - f.IslYear2) / NULLIF(f.IslYear2,0) * 100.0, 1) AS IslPercentChangeYear2,
+							   ROUND((CAST(f.IslYear4 AS NUMERIC) - f.IslYear3) / NULLIF(f.IslYear3,0) * 100.0, 1) AS IslPercentChangeYear3
+						FROM
+								(
+									SELECT d.schType,
+										   SUM(CASE WHEN d.surveyYear = ($P{year} - 3) AND d.[Grouping] = 'National' THEN d.TotalEnrollment END) AS NatnYear1,
+										   SUM(CASE WHEN d.surveyYear = ($P{year} - 2) AND d.[Grouping] = 'National' THEN d.TotalEnrollment END) AS NatnYear2,
+										   SUM(CASE WHEN d.surveyYear = ($P{year} - 1) AND d.[Grouping] = 'National' THEN d.TotalEnrollment END) AS NatnYear3,
+										   SUM(CASE WHEN d.surveyYear = ($P{year}) AND d.[Grouping] = 'National' THEN d.TotalEnrollment END) AS NatnYear4,
+										   SUM(CASE WHEN d.surveyYear = ($P{year} - 3) AND d.[Grouping] = $P{iCode} THEN d.TotalEnrollment END) AS IslYear1,
+										   SUM(CASE WHEN d.surveyYear = ($P{year} - 2) AND d.[Grouping] = $P{iCode} THEN d.TotalEnrollment END) AS IslYear2,
+										   SUM(CASE WHEN d.surveyYear = ($P{year} - 1) AND d.[Grouping] = $P{iCode} THEN d.TotalEnrollment END) AS IslYear3,
+										   SUM(CASE WHEN d.surveyYear = ($P{year}) AND d.[Grouping] = $P{iCode} THEN d.TotalEnrollment END) AS IslYear4
+									FROM (
+											SELECT we.surveyYear,
+												   s.schType,
+												   CASE
+														WHEN s.schType LIKE 'P%' THEN s.iCode
+														ELSE 'National'
+												   END AS [Grouping],
+												SUM(we.Enrol) AS TotalEnrollment
+											FROM warehouse.enrol we
+												 LEFT JOIN Schools s ON we.schNo = s.schNo
+											WHERE (we.surveyYear BETWEEN $P{year} - 4 AND $P{year})
+											GROUP BY we.surveyYear, s.schType, CASE WHEN s.schType LIKE 'P%' THEN s.iCode ELSE 'National' END
+										 ) d
+									WHERE d.[Grouping] IN ($P{iCode},'National')
+									GROUP BY d.schType
+								) f
+	                 ) d ON s.schType = d.schType
+WHERE s.iCode = $P{iCode}
+      AND s.schType IN ('PS','JS','SS')
+ORDER BY s.schType]]>
+	</queryString>
+	<field name="schName" class="java.lang.String"/>
+	<field name="schType" class="java.lang.String"/>
+	<field name="TotalEnroll" class="java.lang.Integer"/>
+	<field name="SchPercentChangeYear1" class="java.math.BigDecimal"/>
+	<field name="GrpPercentChangeYear1" class="java.math.BigDecimal"/>
+	<field name="SchPercentChangeYear2" class="java.math.BigDecimal"/>
+	<field name="GrpPercentChangeYear2" class="java.math.BigDecimal"/>
+	<field name="SchPercentChangeYear3" class="java.math.BigDecimal"/>
+	<field name="GrpPercentChangeYear3" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" x="0" y="0" width="554" height="30" uuid="1a652692-054a-40f3-ade5-68d8da36626d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[School Enrollments - Current Enrollments & 3 Year Growth Rate]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="19" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="3" y="30" width="551" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="-1" y="-19" width="160" height="48" uuid="1f0dcac7-13c9-4191-b63f-8487b4a8b1ea"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[School]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="-19" width="100" height="32" uuid="0063fc7d-b1fe-491b-b89d-7882bad8aaad">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="-19" width="100" height="32" uuid="30b52211-b50b-4bed-8e88-3de912600881">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{year} - 2]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="-19" width="100" height="32" uuid="642518fb-679e-4a6b-a80b-3664e0092f17">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{year} - 1]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="-19" width="94" height="32" uuid="be8854a2-135a-4ba1-8819-0089eb09885e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="160" y="15" width="100" height="14" uuid="e0734474-cfca-4dc2-bd96-ed30d369a496">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Enrollment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="260" y="15" width="100" height="14" uuid="84245899-014e-41cc-81fa-0ecb9ec67fc3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[  Sch*             Grp**]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="360" y="15" width="100" height="14" uuid="d181e41d-5b67-477f-be77-4c01139efcdb">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[  Sch*            Grp**]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="460" y="15" width="94" height="14" uuid="385baa95-6e7e-40b7-a029-eddd79c6d743">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[  Sch*          Grp**]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="14" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField>
+					<reportElement x="0" y="0" width="158" height="20" uuid="0415ed25-e797-4ead-a9f6-890ff8e56376"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="160" y="0" width="100" height="20" uuid="c96cf0d7-1b8a-43d6-94e2-8fe99b680889"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TotalEnroll}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="260" y="0" width="40" height="20" uuid="0352ebcc-dc04-4749-936f-c3da3d1d12fc"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SchPercentChangeYear1}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="320" y="0" width="40" height="20" uuid="b7de235e-a254-40fc-8021-5a6befdd3191"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{GrpPercentChangeYear1}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="360" y="0" width="40" height="20" uuid="9fffb8d7-3c86-4574-8db6-63763e8247ab"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SchPercentChangeYear2}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="420" y="0" width="40" height="20" uuid="3c5341d8-47e4-4f99-91a6-a340faa70d68"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{GrpPercentChangeYear2}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="460" y="0" width="40" height="20" uuid="8d57c545-7958-496c-a83c-fe809538ee56"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SchPercentChangeYear1}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="510" y="0" width="44" height="20" uuid="551b7e2b-5a77-47ee-97b7-19863bad7919"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{GrpPercentChangeYear1}.stripTrailingZeros()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="554" height="40" uuid="0b4e8c3f-8224-4659-a463-d360774d15d5"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[* Sch - School growth rate
+** Grp - Group growth rate. For schools that are at Primary level, the Group would be the the island the school is located. Schools that are not at Primary level, the Group is national. what is being compared in this report is the growth rate for a school against either the growth rate for the island (Primary schools) or the national growth rate (non-Primary schools).
+]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

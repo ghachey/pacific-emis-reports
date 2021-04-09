@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Education Indicators Report By District" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8b63a1f3-92f9-4ee9-b169-047cd8a3836d">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:6040/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Indicators/Education_Indicators_Report_By_State_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Indicators/Education_Indicators_Report_By_State"/>
+	<template><![CDATA["repo:/Templates/KEMIS_Style.jrtx"]]></template>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<parameter name="District" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["DC"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select DID from dbo.districts where did=$P{District}]]>
+	</queryString>
+	<field name="DID" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="612" height="20" uuid="085038d3-4238-4a33-9e62-f6aaa12afc8f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="78138296-fa07-4dc9-bd84-6a894de69db9">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["1.1 Gross Enrollment Ratio and Net Enrollment Rate"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Gross Enrollment Ratio and Net Enrollment Rate"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="20" width="572" height="10" uuid="d82752cc-7c69-4a85-934c-27bc6aafde5f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Education Indicators Gross Enrollment Ratio and Net Enrollment Rate By State.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="40">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="612" height="20" uuid="810e96b6-e172-43ef-8985-046f113c1e54">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="b289d2f0-9a81-4bc7-b902-df8b82fa57c5"/>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["1.2 Gross Intake Ratio and Net Intake Rate"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Gross Intake Ratio and Net Intake Rate"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="20" width="572" height="10" uuid="a224709f-bc4a-4330-b82e-499239ea59dc"/>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Education Indicators Gross Intake Ratio and Net Intake Rate By State.jrxml"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="30" width="572" height="10" uuid="627b6feb-98c5-4b1b-883d-5ff4812bdc54">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Education Indicators Gross Intake Ratio and Net Intake Rate By State SubSection.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="30">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="612" height="20" uuid="7f13f388-a8f7-4505-8237-755dcd0f190d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="1a17e628-0d8d-4ecf-9504-ce50454746bd"/>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["1.3 Access Rate"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Access Rate"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="20" width="572" height="10" uuid="8df30755-9112-4899-b435-8122c3576897"/>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Education Indicators Access Rate By State.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="30">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="612" height="20" uuid="f2b069b3-303b-45c7-b7ca-a713134627e9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="a152b164-236a-4a38-b9be-fcac873eb16a"/>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["1.4 Age Specific Enrollment Rate"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA[" Age Specific Enrollment Rate"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="20" width="572" height="10" uuid="c7b3d7f9-0a92-460e-8270-8f2a64727d22"/>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Education Indicators Age Specific Enrollment Rate By State.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="30">
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="612" height="20" uuid="59840425-d642-44f5-bc7c-83f29058c6bb">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="391" height="20" uuid="1e398fd6-1b96-417a-972c-0ddb1a5ac3ac"/>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["1.5 Transition, Repetition, Survival, Promotion, Dropout Rates"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Transition, Repetition, Survival, Promotion, Dropout Rates"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport>
+				<reportElement x="0" y="20" width="572" height="10" uuid="e0ae4763-10f0-45b8-b99c-7dbaaa84f377"/>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$P{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Education Indicators Transition Repetition Survival Promotion Dropout Rates By State.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="17" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Page footer" x="0" y="1" width="197" height="15" forecolor="#000000" uuid="eab79fa2-9916-49c5-b4fe-b9471b44ddb7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Page footer" x="466" y="2" width="80" height="15" forecolor="#000000" uuid="9d48967f-b982-4acc-9675-fe21edcbf922"/>
+				<textElement textAlignment="Right">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Page footer" x="546" y="2" width="40" height="15" forecolor="#000000" uuid="dcfb575f-267b-470f-b015-a3b003ff46ad"/>
+				<textElement>
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="103" y="2" width="360" height="14" uuid="be0cdc20-cfcf-43d3-aefd-d2ff3c6dd694"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Education Indicators"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

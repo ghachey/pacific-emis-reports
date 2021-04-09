@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Schools with type of Toilet Facilites" pageWidth="752" pageHeight="572" orientation="Landscape" columnWidth="752" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e47bb515-bd3c-4f14-b0b0-ecdf1d3033db">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+	<subDataset name="Dataset1" uuid="3bef02fa-9d7f-4740-b599-81e75fe4d58f">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select toiType,Count(distinct SchNo) totalSch from measureToilets mt
+join Toilets t on mt.SurveyDimensionID=t.ssID and SurveyYear =  $P{Year} 
+group by toiType]]>
+		</queryString>
+		<field name="toiType" class="java.lang.String"/>
+		<field name="totalSch" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select toiType,Count(distinct SchNo) totalSch from measureToilets mt
+join Toilets t on mt.SurveyDimensionID=t.ssID and SurveyYear =  $P{Year}  
+group by toiType]]>
+	</queryString>
+	<field name="toiType" class="java.lang.String"/>
+	<field name="totalSch" class="java.lang.Integer"/>
+	<summary>
+		<band height="295" splitType="Stretch">
+			<pieChart>
+				<chart evaluationTime="Report" renderType="svg" theme="aegean">
+					<reportElement x="0" y="0" width="490" height="288" uuid="3c41ee1d-3416-4fbe-ba22-0ae6789bbc00">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<chartTitle>
+						<font fontName="Open Sans" size="12"/>
+						<titleExpression><![CDATA["Number of Schools with Toilet Types for Year "+ $P{Year}]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{toiType}]]></keyExpression>
+					<valueExpression><![CDATA[$F{totalSch}]]></valueExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<componentElement>
+				<reportElement x="500" y="20" width="250" height="20" uuid="0a7accaa-7441-4f9e-b50f-bc60e8f9f1b0"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="Dataset1" uuid="5ccdf558-b149-4182-ac3b-9310e5ce031d">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="20" width="250">
+						<textField>
+							<reportElement key="" mode="Opaque" x="150" y="0" width="100" height="20" uuid="ea8c799f-0037-4572-8f1f-f9830547e9a0">
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							</reportElement>
+							<box rightPadding="2"/>
+							<textElement textAlignment="Right">
+								<font fontName="Open Sans Semibold" size="10"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{totalSch}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement key="" mode="Opaque" x="0" y="0" width="150" height="20" uuid="0b16a14f-601e-41c9-ab22-f95d79b613c2">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							</reportElement>
+							<box rightPadding="2"/>
+							<textElement>
+								<font fontName="Open Sans Semibold" size="10"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{toiType}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<staticText>
+				<reportElement mode="Opaque" x="500" y="0" width="120" height="20" backcolor="#F2F2F2" uuid="77d7b892-db6a-4c64-949b-25967f6cb1cb"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Toilet Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="620" y="0" width="130" height="20" backcolor="#F2F2F2" uuid="98646c50-3045-4be4-be20-5b133802355d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Number of Schools]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,1834 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Summary of School Evaluation and Classroom Observation Scores" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cb21c16a-5d69-46c1-8856-f9ca1789aced">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["miemis/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="levelColor">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{totalStandardSum}.intValue()==0 ? "":
+($F{L4}>=$F{L3}  &&  $F{L4}>=$F{L2}  &&  $F{L1}<4 ? "Level 4":
+($F{L3}>$F{L4}  &&  $F{L3}>=$F{L2}  &&  $F{L1}<4 ? "Level 3":
+($F{L2}>$F{L3}  &&  $F{L2}>$F{L4}  &&  $F{L1}<4 ? "Level 2": "Level 1"))))=="Level 1"]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#D4120F"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{totalStandardSum}.intValue()==0 ? "":
+($F{L4}>=$F{L3}  &&  $F{L4}>=$F{L2}  &&  $F{L1}<4 ? "Level 4":
+($F{L3}>$F{L4}  &&  $F{L3}>=$F{L2}  &&  $F{L1}<4 ? "Level 3":
+($F{L2}>$F{L3}  &&  $F{L2}>$F{L4}  &&  $F{L1}<4 ? "Level 2": "Level 1"))))=="Level 2"]]></conditionExpression>
+			<style mode="Opaque" forecolor="#000000" backcolor="#F5DD87"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{totalStandardSum}.intValue()==0 ? "":
+($F{L4}>=$F{L3}  &&  $F{L4}>=$F{L2}  &&  $F{L1}<4 ? "Level 4":
+($F{L3}>$F{L4}  &&  $F{L3}>=$F{L2}  &&  $F{L1}<4 ? "Level 3":
+($F{L2}>$F{L3}  &&  $F{L2}>$F{L4}  &&  $F{L1}<4 ? "Level 2": "Level 1"))))=="Level 3"]]></conditionExpression>
+			<style mode="Opaque" forecolor="#000000" backcolor="#8ED15E"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{totalStandardSum}.intValue()==0 ? "":
+($F{L4}>=$F{L3}  &&  $F{L4}>=$F{L2}  &&  $F{L1}<4 ? "Level 4":
+($F{L3}>$F{L4}  &&  $F{L3}>=$F{L2}  &&  $F{L1}<4 ? "Level 3":
+($F{L2}>$F{L3}  &&  $F{L2}>$F{L4}  &&  $F{L1}<4 ? "Level 2": "Level 1"))))=="Level 4"]]></conditionExpression>
+			<style mode="Opaque" forecolor="#000000" backcolor="#5DA658"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Dataset1" uuid="60470bc0-ed0f-4e4c-abce-82286d9427b3">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS"/>
+		<queryString language="SQL">
+			<![CDATA[select case when Category='Classroom Observation 1' then 'co1'
+			when Category='Classroom Observation 2' then 'co2'
+			else Criteria end as Criteria,Score from warehouse.accreditations where schNo='CHK047' and SurveyYear='2018']]>
+		</queryString>
+		<field name="Criteria" class="java.lang.String"/>
+		<field name="Score" class="java.lang.Integer"/>
+		<variable name="total3" class="java.lang.Integer" calculation="Count">
+			<initialValueExpression><![CDATA[$F{Score}]]></initialValueExpression>
+		</variable>
+	</subDataset>
+	<parameter name="schNo" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["CHK047"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="surveyYear" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2018"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select t1.schNo,t5.schName,t1.SurveyYear,StartDate,concat(isnull(ssPrinFirstName,''),' ',isnull(ssPrinSurname,'')) as SchoolPrincipal,t1.[SE.1.1], t1.[SE.1.2], t1.[SE.1.3], t1.[SE.1.4], t1.[SE.2.1], t1.[SE.2.2], t1.[SE.2.3], t1.[SE.2.4], t1.[SE.3.1],t1.[SE.3.2], t1.[SE.3.3], t1.[SE.3.4], t1.[SE.4.1], t1.[SE.4.2],t1.[SE.4.3], t1.[SE.4.4], t1.[SE.5.1], t1.[SE.5.2], t1.[SE.5.3],t1.[SE.5.4], t1.[SE.6.1], t1.[SE.6.2], t1.[SE.6.3], t1.[SE.6.4],t1.[co1], t1.[co2],t2.L1,t2.L2,t2.L3,t2.L4 from (
+	select * from 
+	(
+		select schNo,SurveyYear,case when Category='Classroom Observation 1' then 'co1'
+				when Category='Classroom Observation 2' then 'co2'
+				else Criteria end as Criteria,Score from warehouse.accreditations where schNo=$P{schNo} and SurveyYear=$P{surveyYear}
+	) src
+
+	pivot
+	(
+	  max(Score)
+	  for Criteria in ([SE.1.1], [SE.1.2], [SE.1.3], [SE.1.4], [SE.2.1], [SE.2.2], [SE.2.3], [SE.2.4], [SE.3.1],[SE.3.2], [SE.3.3], [SE.3.4], [SE.4.1], [SE.4.2],[SE.4.3], [SE.4.4], [SE.5.1], [SE.5.2], [SE.5.3],[SE.5.4], [SE.6.1], [SE.6.2], [SE.6.3], [SE.6.4],[CO1], [CO2]  )
+	) piv
+) t1
+   left join 
+(Select 
+ SchNo,
+ SurveyYear,
+ SUM(Case when score = 1 then 1 else 0 end) as 'L1',
+ SUM(Case when score = 2 then 1 else 0 end) as 'L2',
+ SUM(Case when score = 3 then 1 else 0 end) as 'L3',
+ SUM(Case when score = 4 then 1 else 0 end) as 'L4'
+ 
+  from warehouse.accreditations
+ where schNo=$P{schNo} and SurveyYear=$P{surveyYear}
+ group by  SchNo, SurveyYear
+ )t2 on t1.schNo=t2.schNo and t1.SurveyYear=t2.SurveyYear
+
+ left join
+
+ (select SchNo,
+ SurveyYear,StartDate from  warehouse.BestInspection 
+ where schNo=$P{schNo} and SurveyYear=$P{surveyYear} ) t3 on t1.schNo=t3.schNo and t1.SurveyYear=t3.SurveyYear
+
+ left join 
+ (	select
+	schNo,svyYear,ssPrinFirstName,ssPrinSurname from SchoolSurvey where schNo=$P{schNo} and svyYear=$P{surveyYear}
+ )t4 on t1.schNo=t4.schNo and t1.SurveyYear=t4.svyYear
+
+ left join 
+
+ (select schNo,schName from Schools where schNo=$P{schNo})t5 on t1.schNo=t5.schNo]]>
+	</queryString>
+	<field name="schNo" class="java.lang.String"/>
+	<field name="schName" class="java.lang.String"/>
+	<field name="SurveyYear" class="java.lang.Integer"/>
+	<field name="StartDate" class="java.sql.Timestamp"/>
+	<field name="SchoolPrincipal" class="java.lang.String"/>
+	<field name="SE.1.1" class="java.lang.Integer"/>
+	<field name="SE.1.2" class="java.lang.Integer"/>
+	<field name="SE.1.3" class="java.lang.Integer"/>
+	<field name="SE.1.4" class="java.lang.Integer"/>
+	<field name="SE.2.1" class="java.lang.Integer"/>
+	<field name="SE.2.2" class="java.lang.Integer"/>
+	<field name="SE.2.3" class="java.lang.Integer"/>
+	<field name="SE.2.4" class="java.lang.Integer"/>
+	<field name="SE.3.1" class="java.lang.Integer"/>
+	<field name="SE.3.2" class="java.lang.Integer"/>
+	<field name="SE.3.3" class="java.lang.Integer"/>
+	<field name="SE.3.4" class="java.lang.Integer"/>
+	<field name="SE.4.1" class="java.lang.Integer"/>
+	<field name="SE.4.2" class="java.lang.Integer"/>
+	<field name="SE.4.3" class="java.lang.Integer"/>
+	<field name="SE.4.4" class="java.lang.Integer"/>
+	<field name="SE.5.1" class="java.lang.Integer"/>
+	<field name="SE.5.2" class="java.lang.Integer"/>
+	<field name="SE.5.3" class="java.lang.Integer"/>
+	<field name="SE.5.4" class="java.lang.Integer"/>
+	<field name="SE.6.1" class="java.lang.Integer"/>
+	<field name="SE.6.2" class="java.lang.Integer"/>
+	<field name="SE.6.3" class="java.lang.Integer"/>
+	<field name="SE.6.4" class="java.lang.Integer"/>
+	<field name="co1" class="java.lang.Integer"/>
+	<field name="co2" class="java.lang.Integer"/>
+	<field name="L1" class="java.lang.Integer"/>
+	<field name="L2" class="java.lang.Integer"/>
+	<field name="L3" class="java.lang.Integer"/>
+	<field name="L4" class="java.lang.Integer"/>
+	<variable name="totalStandardSum" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{SE.1.1}+$F{SE.1.2}+$F{SE.1.3}+$F{SE.1.4}+$F{SE.2.1}+$F{SE.2.2}+$F{SE.2.3}+$F{SE.2.4}+$F{SE.3.1}+$F{SE.3.2}+$F{SE.3.3}+
+$F{SE.3.4}+$F{SE.4.1}+$F{SE.4.2}+$F{SE.4.3}+$F{SE.4.4}+$F{SE.5.1}+$F{SE.5.2}+$F{SE.5.3}+$F{SE.5.4}+$F{SE.6.1}+$F{SE.6.2}+
+$F{SE.6.3}+$F{SE.6.4}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="459" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="221" width="320" height="15" backcolor="#C8C8C8" uuid="3fd50df2-14b2-441f-ad96-b6d1a1776f58">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["School Accreditation Level Legend"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="251" width="40" height="15" forecolor="#FFFFFF" backcolor="#E3130B" uuid="81dfdd2c-6ba7-4c8f-955d-fa118e2029aa">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Level 1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="40" y="251" width="140" height="15" forecolor="#FFFFFF" backcolor="#D4120F" uuid="9ec3e49c-7883-41a2-b043-e5f7e7f930ed">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Not meeting the standards]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="180" y="251" width="140" height="15" forecolor="#FFFFFF" backcolor="#D4120F" uuid="2650876b-29a7-4e62-ac25-66f8e4370d79">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Special measure]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="266" width="40" height="26" backcolor="#F5DD87" uuid="c4469281-5fb9-4acb-b300-62244cae7b12">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Level 2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="40" y="266" width="140" height="26" backcolor="#F5DD87" uuid="3c2681ba-b9d6-4fd0-b25b-52c320164b3f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Meeting minimum standards]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="180" y="266" width="140" height="26" backcolor="#F5DD87" uuid="39a837dd-a9f8-46fe-b0c4-ae916f8f6adb">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[National Certificate of Accreditation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="292" width="40" height="26" backcolor="#8ED15E" uuid="b59f13b9-d172-4d0b-9428-0a76559d8b0d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Level 3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="40" y="292" width="140" height="26" backcolor="#8ED15E" uuid="4f2bf005-d43d-4535-a939-4494111d9a79">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Meeting the benchmark]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="180" y="292" width="140" height="26" backcolor="#8ED15E" uuid="ae12662b-ee3a-478e-a065-e9533e7d6d1e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[National Special Certificate of Achievement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="318" width="40" height="26" backcolor="#5DA658" uuid="f92e7652-4a45-46ec-ad5f-4af977c6bbb8">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Level 4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="40" y="318" width="140" height="26" backcolor="#5DA658" uuid="aaa2f21f-291a-4912-8034-c8bdf0a2a327">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Exceeding the benchmark]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="180" y="318" width="140" height="26" backcolor="#5DA658" uuid="e20352eb-82c6-410e-97ac-741c5051fce7">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[National Special Certificate of Achievement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="236" width="40" height="15" backcolor="#E3E3E3" uuid="28290539-4e5f-4606-8a1e-b9cb9b9da0dc">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Level]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="40" y="236" width="140" height="15" backcolor="#E3E3E3" uuid="48bc930f-beae-4f6c-abfb-6a8ebead553d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Meaning]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="180" y="236" width="140" height="15" backcolor="#E3E3E3" uuid="a2119ec5-cc3f-42e8-8aa2-47269d1a6147">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Open Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Awards]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="174" width="185" height="20" uuid="f35046c4-db94-47f0-a5f7-6c342578eba2">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["School Code : "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="194" width="185" height="20" uuid="4a76c39e-3692-4571-9351-07594ee13301">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date of Accreditation Visit  : "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="174" width="165" height="20" uuid="2d4c333d-3818-4a54-a78b-fc346e3eced2"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["School Name : "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="194" width="165" height="20" uuid="de95a3bd-3f21-4e8c-a5fb-d3976f31f9e0"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Name of School Principal : "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="132" width="748" height="39" uuid="c53734a2-af4b-4c4f-adb4-d81b51367ed0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Open Sans"/>
+				</textElement>
+				<text><![CDATA[Note : this is a preview of the FORM B only. The results are not final and official until verified and signed by the SDOE Director and the NDOE Secretary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="30" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="27700453-6aab-49f5-906f-0ed138b6461a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="50" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="56111bcf-d506-47b2-80f6-cc9a71300a26"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="70" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="62bdb1c2-8676-4200-aab3-93ad632885a0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="90" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="d8eaf4ce-8324-47a7-ab24-55d260e36ece"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="510" y="422" width="35" height="37" backcolor="#E3E3E3" uuid="776882c7-be77-4bb7-93de-3d8a50719f3f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CO1 Level]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="545" y="422" width="35" height="37" backcolor="#E3E3E3" uuid="5d226926-80dd-4fdf-a342-87a834d8f914"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CO2 Level]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="30" y="422" width="80" height="17" backcolor="#E3E3E3" uuid="3b9b477c-bb68-4dfe-9980-d518867061b3"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Standard 1"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="110" y="422" width="80" height="17" backcolor="#E3E3E3" uuid="3b5cacff-dd9c-4004-86e5-fbee02ee0a6d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Standard 2"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="190" y="422" width="80" height="17" backcolor="#E3E3E3" uuid="e45275c2-b35b-4cac-b4b0-2c09c8bb1ae3"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Standard 3"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="270" y="422" width="80" height="17" backcolor="#E3E3E3" uuid="d0086381-e3e7-4d25-b709-aeeb4ccf6e00"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Standard 4"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="350" y="422" width="80" height="17" backcolor="#E3E3E3" uuid="45a1cdc0-10c1-4c7e-8ed2-bda5a94427f4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Standard 5"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="430" y="422" width="80" height="17" backcolor="#E3E3E3" uuid="e799c7cf-9a17-4f81-9316-51be18d91012"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Standard 6"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="110" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="1c641fd4-3bfa-4942-a788-888914022c5e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="130" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="a530a59b-84b6-4cb3-80e9-97c6cb228867"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="150" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="420e0384-6958-48a4-ba0b-9a73e3253612">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="170" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="e50a70f7-86bd-45ab-af30-eadc47aee507"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="190" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="9ef26c7f-476d-4bf1-849b-5a3f66903ac4">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="210" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="965f9643-e96d-4379-ae11-866d6254d475"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="230" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="bbdadbbe-87d8-445a-a0c6-b71565a78035"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="250" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="0064929c-5260-4f2c-ac60-ede51d5ad345"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="270" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="4183de03-d81f-4350-a6a4-3ed2a59a5e69">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="290" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="39fa6f57-b18d-4af6-8f28-5e5595976413"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="310" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="0356748e-e7ec-4f42-bab2-8cb3edd8b9b1"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="330" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="c42ea999-79c6-46c1-b481-0e5703f8a4fb"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="350" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="498174b9-7fe0-418c-a8fb-74143419cd6a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="370" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="8442e62a-5dcd-4f3a-bcfe-67be0dffc380"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="390" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="76d85474-49dd-41da-a165-89818185e93e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="410" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="289ca170-dfe2-4c2f-a71e-aa9df7aeb40f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="430" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="c33fe14f-ffe7-4a29-b46e-ff08facd105e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="450" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="c31b5f47-a065-4eaa-95b6-0f28bb13f738"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="470" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="f34605b9-c010-43f1-a761-1e0f2e9d3747"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="490" y="439" width="20" height="20" backcolor="#E3E3E3" uuid="5632b737-9258-46ee-a525-104c8a9e8c1c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C4]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="394" width="30" height="45" uuid="9bf97042-de9c-4649-96f5-29ce46361c72"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="30" y="394" width="480" height="28" backcolor="#E3E3E3" uuid="f03300f0-cc3a-4b30-a649-d4c5206dc5f3"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[School Evaluation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="510" y="394" width="69" height="28" backcolor="#E3E3E3" uuid="79be68d3-b479-4040-8fba-762e9d276c68">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Classroom Observation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="375" width="749" height="19" backcolor="#C8C8C8" uuid="c1b6e643-f2b3-45fb-970a-48ce8899a421"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Summary of School Evaluation/Classroom Observation Scores]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="439" width="30" height="20" uuid="bb2d4003-371a-4bda-b6e4-20005416009e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="639" y="422" width="20" height="37" backcolor="#E3E3E3" uuid="c4b44995-311c-4a73-ac8d-59e795282e1b"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="619" y="422" width="20" height="37" backcolor="#E3E3E3" uuid="ee6e07fd-5501-4ee4-8e21-bcada59ef858"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="599" y="422" width="20" height="37" backcolor="#E3E3E3" uuid="d10ed236-2bb7-4ef7-97b9-13bda16feebe"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="579" y="422" width="20" height="37" backcolor="#E3E3E3" uuid="37bad14a-8cc2-4481-995b-557a5236a630">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="579" y="394" width="80" height="28" backcolor="#E3E3E3" uuid="75e89927-a24b-48d6-a6c5-01b6ba4d25c7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Level Tally"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="659" y="394" width="40" height="28" backcolor="#E3E3E3" uuid="f91a9f0b-ff28-4c23-a9a0-bfc1e5ff809e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Tally Score"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="659" y="422" width="40" height="37" uuid="706e85d2-6976-4793-828a-bbdcc29bc35c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="699" y="394" width="50" height="28" backcolor="#E3E3E3" uuid="7c64b4c1-a217-44a0-a98c-60fa7f0c03cd"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Level"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="699" y="422" width="50" height="37" uuid="a73a4039-6d24-4fb7-bdae-2a25555b04e3"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="126" height="126" uuid="7bd16303-e210-44c0-92aa-fa671930bdc3">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["miemis/Images/rmi-seal.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="126" y="0" width="499" height="62" uuid="dae748ed-1caf-4910-96a5-23df1ad5e384">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="27"/>
+				</textElement>
+				<text><![CDATA[SCHOOL ACCREDITATION STATUS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="126" y="62" width="499" height="28" uuid="36bfba20-9de2-4be7-be02-c5f0c57e6223">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[SCHOOL ACCREDITATION STATUS REPORT – FORM B]]></text>
+			</staticText>
+			<image>
+				<reportElement x="625" y="0" width="126" height="126" uuid="dcd6cd6a-d412-43ef-a06d-c8cb45427428">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["miemis/Images/rmi-pss.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Opaque" x="-21" y="-20" width="793" height="10" forecolor="#08298C" backcolor="#08298C" uuid="273e361e-fde3-463d-a4d5-67130e315102">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-21" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="234a1e05-9c6d-4615-b8cc-67b784381eeb">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="752" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="fc632c1a-376b-4ef5-bd08-d4798249e128">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-21" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="517c36d4-cfc9-45ce-aeff-90d883c63f1a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="735" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="6ea6e5c1-6858-45fe-8f06-34fb2d12b4aa">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</ellipse>
+			<textField>
+				<reportElement x="185" y="174" width="104" height="20" uuid="90b7b4db-f153-4907-b5bb-4295f2e4f6ed">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="2">
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Open Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{schNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="174" width="287" height="20" uuid="2d81909e-2993-4e48-8799-b3550a9b70c8"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Open Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="194" width="287" height="20" uuid="aee88fe6-e6e9-4707-8f09-b6dbf7ed5ae7"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Open Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SchoolPrincipal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="194" width="104" height="20" uuid="565a86ec-2519-4879-a461-c14ac94878e7"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Open Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{StartDate})]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="30" y="0" width="20" height="20" uuid="71a3c0d3-9878-4e40-aeb4-c86a33d6b406"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.1.1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="0" width="20" height="20" uuid="b3464b86-9cd1-4c96-b524-08ff2a463c52"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.1.2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="20" height="20" uuid="3ac7decf-1a4c-477e-90b6-7b60e209a59d"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.1.3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="0" width="20" height="20" uuid="ac43c87e-3241-4c77-8483-f6db61c1bc28"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.1.4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="0" width="20" height="20" uuid="fa53f7c8-a2bb-40d7-9657-33573eb96a79"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.2.1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="0" width="20" height="20" uuid="2d04ddbd-e90e-4f3f-8dba-50f7aa4d8275"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.2.2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="20" height="20" uuid="c45c1b2b-4b2d-427b-bf4b-9fbd00882506"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.2.3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="0" width="20" height="20" uuid="2364edf9-062a-49b0-ab0d-54a8c5af7bc8"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.2.4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="190" y="0" width="20" height="20" uuid="566e1136-08b8-4bf9-b0b9-bd5d146567a4"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.3.1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="0" width="20" height="20" uuid="3697ab54-4593-4a31-aa9c-2b8502767d77"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.3.2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="0" width="20" height="20" uuid="6e11b3f0-2bec-4c38-8af2-7c1cc7210b92"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.3.3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="0" width="20" height="20" uuid="3b55915f-ee38-4e41-8fe6-8fa1cc979123"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.3.4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="0" width="20" height="20" uuid="3f4e9fdf-2e66-4642-a600-1279008f51b8"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.4.1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="0" width="20" height="20" uuid="90ca8356-e771-40cb-93fc-bc2dca3605c0"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.4.2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="0" width="20" height="20" uuid="e513bcf4-cc3a-40a8-ad4c-77ba8ceae003"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.4.3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="20" height="20" uuid="014d1073-39b3-4bd1-bdf0-a36a53493fcb"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.4.4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="0" width="20" height="20" uuid="dab6b05f-7f2f-4c32-82b0-415bd34ae1a9"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.5.1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="20" height="20" uuid="2898f386-bdd0-4df2-a0e0-84e411ad9063"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.5.2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="0" width="20" height="20" uuid="0d12675b-27ad-4fe6-9a54-6ce26b483e9d"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.5.3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="0" width="20" height="20" uuid="ab1f1b65-4834-40cf-9880-3f9c757c6317"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.5.4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="0" width="20" height="20" uuid="d047e8e1-dbeb-43dc-a61c-6fa149f4e2da"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.6.1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="0" width="20" height="20" uuid="186f5f83-2e5a-4aff-80f6-79518b3f49fe"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.6.2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="0" width="20" height="20" uuid="59f7a2b8-eff5-446a-a65c-61b548aede5c"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.6.3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="490" y="0" width="20" height="20" uuid="ff1aea3b-4d96-488f-b01c-cad0d0af5b42"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SE.6.4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="510" y="0" width="35" height="20" uuid="274126a5-fd03-4a66-835b-f513dde5571d"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{co1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="545" y="0" width="34" height="20" uuid="0ecdb0ee-f08d-4b39-87df-6917c057d9de"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{co2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="30" height="20" uuid="abe5d987-a101-4c43-a221-62e2657bc679"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="659" y="0" width="40" height="20" uuid="38e3532c-e264-43a8-a4c8-65f2aa97e7be">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalStandardSum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="levelColor" x="699" y="0" width="50" height="20" uuid="a94c62ef-c262-4152-8625-41600f2ac7fa"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalStandardSum}.intValue()==0 ? "":
+($F{L4}>=$F{L3}  &&  $F{L4}>=$F{L2}  &&  $F{L1}<4 ? "Level 4":
+($F{L3}>$F{L4}  &&  $F{L3}>=$F{L2}  &&  $F{L1}<4 ? "Level 3":
+($F{L2}>$F{L3}  &&  $F{L2}>$F{L4}  &&  $F{L1}<4 ? "Level 2": "Level 1")))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="579" y="0" width="20" height="20" uuid="f39e257e-e6d4-4abb-bee1-2f8b0a23dff8"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{L1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="599" y="0" width="20" height="20" uuid="7dd939ca-547f-4c5b-b7a8-97bc42781c01"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{L2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="619" y="0" width="20" height="20" uuid="79120509-345d-4226-9f1c-6577d76bd6ca"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{L3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="639" y="0" width="20" height="20" uuid="54610856-2687-4d80-9789-07dbf309b8da"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{L4}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="62">
+			<subreport>
+				<reportElement x="0" y="32" width="750" height="30" uuid="ffaa5ed5-96b8-4cb2-b757-3c4f93ed8d04"/>
+				<subreportParameter name="schNo">
+					<subreportParameterExpression><![CDATA[$P{schNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="surveyYear">
+					<subreportParameterExpression><![CDATA[$P{surveyYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Summary of School Evaluation Scores.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="49">
+			<subreport>
+				<reportElement x="0" y="18" width="750" height="30" uuid="4d57b46a-c6d2-43a0-ba05-28cf455fb036">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="schNo">
+					<subreportParameterExpression><![CDATA[$P{schNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="surveyYear">
+					<subreportParameterExpression><![CDATA[$P{surveyYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Summary of Classroom Observation 1 Scores.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="83">
+			<subreport>
+				<reportElement x="0" y="54" width="749" height="29" uuid="9ae65833-9d48-498e-9e21-cfc21aa48a10">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="schNo">
+					<subreportParameterExpression><![CDATA[$P{schNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="surveyYear">
+					<subreportParameterExpression><![CDATA[$P{surveyYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Summary of Classroom Observation 2 Scores.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="64">
+			<subreport>
+				<reportElement x="0" y="34" width="748" height="30" uuid="d74d0c62-4ea4-43c6-8358-55f8931e4d2a">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="schNo">
+					<subreportParameterExpression><![CDATA[$P{schNo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="surveyYear">
+					<subreportParameterExpression><![CDATA[$P{surveyYear}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Recommendations School Evaluation Standards.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="793" height="24" forecolor="#D0B48E" backcolor="#CDD4E8" uuid="1845f7a5-03dd-4d06-baaf-98f806b5e03a"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="726" y="1" width="40" height="20" uuid="8cd49973-0fa8-4006-b0fb-be3ec6c38b6f">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="646" y="1" width="80" height="20" uuid="58f9d5b4-a26c-4f76-85d4-dc6087e4622a">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="3acc0160-5a77-488e-8148-756a4e4ed449"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+</jasperReport>

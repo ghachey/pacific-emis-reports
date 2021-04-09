@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Schools with Main Source of Drinking Water By State Subreport" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="25963718-45f6-4722-99ff-412169e811fd">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-OLD"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<template><![CDATA["fedemis/Templates/FedEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC" fontName="Open Sans Semibold" fontSize="10"/>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Row_Crosstab" style="Crosstab Data" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#ECECEC" hTextAlign="Right"/>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab 1_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 2_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 2_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 2_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 2_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Dataset1" uuid="3bac6df0-1705-454b-946b-934a3234c049">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-OLD"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+		</parameter>
+		<parameter name="District" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA["14"]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[DECLARE @mainTable int;
+set @mainTable=(select count(*) as secondaryTable from warehouse.TempWashCoreSurveyData
+where InspectionYear=$P{Year});
+
+IF @mainTable>0
+
+BEGIN
+--------------------------------------Query 1----------------------------------------------------
+	Select 
+	SubQuestion as WaterSupplyType
+	, CurrentlyAvailable
+	, Count(Distinct tmp.schNo) 'Total Schools'
+	from warehouse.TempWashCoreSurveyData tmp
+ join (
+				Select schNo, 
+				MAX(inspStart) inspStart 
+				from  warehouse.TempWashCoreSurveyData
+			where InspectionYear = $P{Year} Group by schNo
+) t1 
+	on tmp.schNo = t1.schNo and tmp.inspStart = t1.inspStart
+			join Schools sch on t1.schNo=sch.schNo
+			join Islands i on sch.iCode=i.iCode
+			join Districts d on i.iGroup=d.dID
+	where InspectionYear=$P{Year} and d.dID=$P{District} and SubGroupName = 'Water' and SubQuestion is not null 
+	Group by SubQuestion, CurrentlyAvailable
+	
+------------------------------------End of Query 1-----------------------------------------------
+END
+ELSE
+BEGIN
+--------------------------------------Query 2----------------------------------------------------
+select WaterSupplyType,CurrentlyAvailable,count( distinct schNo) as 'Total Schools' from (
+
+Select tws.schNo, WaterSupplyType, 
+Case when resAvail = -1 then 'Yes' else 'No' end CurrentlyAvailable 
+from warehouse.TempWaterSupply tws
+	join Schools sch on tws.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where [Year OF Data] =$P{Year} and d.dID=$P{District}
+	)t1 group by t1.WaterSupplyType,t1.CurrentlyAvailable
+------------------------------------End of Query 2-----------------------------------------------
+END]]>
+		</queryString>
+		<field name="WaterSupplyType" class="java.lang.String"/>
+		<field name="CurrentlyAvailable" class="java.lang.String"/>
+		<field name="Total Schools" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+	</parameter>
+	<parameter name="District" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["14"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[DECLARE @mainTable int;
+set @mainTable=(select count(*) as secondaryTable from warehouse.TempWashCoreSurveyData
+where InspectionYear=$P{Year});
+
+IF @mainTable>0
+
+BEGIN
+--------------------------------------Query 1----------------------------------------------------
+	Select 
+	SubQuestion as WaterSupplyType
+	, CurrentlyAvailable
+	, Count(Distinct tmp.schNo) 'Total Schools'
+	from warehouse.TempWashCoreSurveyData tmp
+ join (
+				Select schNo, 
+				MAX(inspStart) inspStart 
+				from  warehouse.TempWashCoreSurveyData
+			where InspectionYear = $P{Year} Group by schNo
+) t1 
+	on tmp.schNo = t1.schNo and tmp.inspStart = t1.inspStart
+			join Schools sch on t1.schNo=sch.schNo
+			join Islands i on sch.iCode=i.iCode
+			join Districts d on i.iGroup=d.dID
+	where InspectionYear=$P{Year} and d.dID=$P{District} and SubGroupName = 'Water' and SubQuestion is not null 
+	Group by SubQuestion, CurrentlyAvailable
+	
+------------------------------------End of Query 1-----------------------------------------------
+END
+ELSE
+BEGIN
+--------------------------------------Query 2----------------------------------------------------
+select WaterSupplyType,CurrentlyAvailable,count( distinct schNo) as 'Total Schools' from (
+
+Select tws.schNo, WaterSupplyType, 
+Case when resAvail = -1 then 'Yes' else 'No' end CurrentlyAvailable 
+from warehouse.TempWaterSupply tws
+	join Schools sch on tws.schNo=sch.schNo
+	join Islands i on sch.iCode=i.iCode
+	join Districts d on i.iGroup=d.dID 
+	where [Year OF Data] =$P{Year} and d.dID=$P{District}
+	)t1 group by t1.WaterSupplyType,t1.CurrentlyAvailable
+------------------------------------End of Query 2-----------------------------------------------
+END]]>
+	</queryString>
+	<field name="WaterSupplyType" class="java.lang.String"/>
+	<field name="CurrentlyAvailable" class="java.lang.String"/>
+	<field name="Total Schools" class="java.lang.Integer"/>
+	<group name="Group1">
+		<groupHeader>
+			<band height="319">
+				<stackedBarChart>
+					<chart evaluationTime="Report" theme="aegean">
+						<reportElement x="-1" y="14" width="590" height="217" uuid="7df527e0-9273-49e0-a286-48b79994e742"/>
+						<chartTitle position="Left">
+							<font fontName="Open Sans" size="10" isBold="false"/>
+							<titleExpression><![CDATA["No. of Schools"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{CurrentlyAvailable}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{WaterSupplyType}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{Total Schools}]]></valueExpression>
+							<labelExpression><![CDATA[$F{CurrentlyAvailable}]]></labelExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+				<crosstab>
+					<reportElement x="0" y="240" width="589" height="66" uuid="91203404-7a79-45ec-b0dc-54a5b27acc09">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+						<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab 2_CH"/>
+						<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab 2_CG"/>
+						<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab 2_CT"/>
+						<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab 2_CD"/>
+					</reportElement>
+					<crosstabDataset>
+						<dataset>
+							<datasetRun subDataset="Dataset1" uuid="89462370-3fa6-4e61-a922-d4ac4c3bbb07">
+								<datasetParameter name="Year">
+									<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+								</datasetParameter>
+								<datasetParameter name="District">
+									<datasetParameterExpression><![CDATA[$P{District}]]></datasetParameterExpression>
+								</datasetParameter>
+							</datasetRun>
+						</dataset>
+					</crosstabDataset>
+					<crosstabHeaderCell>
+						<cellContents>
+							<box>
+								<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+							</box>
+							<frame>
+								<reportElement mode="Opaque" x="0" y="0" width="170" height="40" backcolor="#F2F2F2" uuid="05771b5c-af07-436a-928d-9b25bc36cd3c"/>
+								<staticText>
+									<reportElement x="50" y="0" width="90" height="20" uuid="7418d046-f3f6-42ab-849e-0c1efd3a4197"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Availablility]]></text>
+								</staticText>
+								<staticText>
+									<reportElement x="0" y="20" width="120" height="20" uuid="30ee17d1-afae-4c44-9a9b-3d14ef25f124"/>
+									<textElement verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Water Supply Type]]></text>
+								</staticText>
+								<line>
+									<reportElement x="0" y="0" width="170" height="40" forecolor="#D1D1D1" uuid="45ec8a58-c815-4f5e-b54e-3a6a90507721"/>
+								</line>
+							</frame>
+						</cellContents>
+					</crosstabHeaderCell>
+					<rowGroup name="WaterSupplyType" width="170" totalPosition="End">
+						<bucket class="java.lang.String">
+							<bucketExpression><![CDATA[$F{WaterSupplyType}]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+							<cellContents mode="Transparent" style="Crosstab 2_CH">
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement style="Row_Crosstab" x="0" y="0" width="170" height="20" uuid="f9e656ed-dc3c-43e5-8b17-efbf60b0086e"/>
+									<textElement textAlignment="Left" verticalAlignment="Middle">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{WaterSupplyType}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+							<cellContents mode="Transparent" style="Crosstab 2_CT">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<staticText>
+									<reportElement x="0" y="0" width="170" height="0" forecolor="#FFFFFF" uuid="efe80566-0d7a-47e9-8f42-64e79e51395c"/>
+									<text><![CDATA[Total WaterSupplyType]]></text>
+								</staticText>
+							</cellContents>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					<columnGroup name="CurrentlyAvailable" height="40" totalPosition="End">
+						<bucket order="Descending" class="java.lang.String">
+							<bucketExpression><![CDATA[$F{CurrentlyAvailable}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents mode="Transparent" style="Crosstab 2_CH">
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="50" height="40" backcolor="#F2F2F2" uuid="9237b678-d15a-462c-a7c3-2a005ad0d0de"/>
+									<textElement textAlignment="Center" verticalAlignment="Top">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{CurrentlyAvailable}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents mode="Transparent" style="Crosstab 2_CT">
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="60" height="40" forecolor="#000000" backcolor="#F2F2F2" uuid="a855d865-03c3-494e-9202-b4bfd822a059"/>
+									<textElement textAlignment="Center" verticalAlignment="Top">
+										<font fontName="Open Sans Semibold" size="10"/>
+									</textElement>
+									<text><![CDATA[Total Schools]]></text>
+								</staticText>
+							</cellContents>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<measure name="Total Schools_MEASURE" class="java.lang.Integer" calculation="Sum">
+						<measureExpression><![CDATA[$F{Total Schools}]]></measureExpression>
+					</measure>
+					<crosstabCell width="50" height="20">
+						<cellContents mode="Transparent" style="Crosstab 2_CD">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Row_Crosstab" x="0" y="0" width="50" height="20" uuid="d3bad0b7-e3ad-4758-ae3a-e32127b3a22c"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Total Schools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="20" columnTotalGroup="CurrentlyAvailable">
+						<cellContents mode="Transparent" style="Crosstab 2_CT">
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Row_Crosstab" x="0" y="0" width="60" height="20" forecolor="#000000" uuid="361e5a5e-75db-48f8-a15a-1bf273672b70"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Open Sans Semibold" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Total Schools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="50" height="0" rowTotalGroup="WaterSupplyType">
+						<cellContents mode="Opaque" style="Crosstab 2_CT">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="0" forecolor="#FFFFFF" uuid="7f49dfa0-980d-4157-b31e-ff1a988d5c8d"/>
+								<textFieldExpression><![CDATA[$V{Total Schools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+					<crosstabCell width="60" height="0" rowTotalGroup="WaterSupplyType" columnTotalGroup="CurrentlyAvailable">
+						<cellContents mode="Opaque" style="Crosstab 2_CT">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="0" forecolor="#FFFFFF" uuid="8a71fdb8-d08c-4c16-b7af-1db85ced9a04"/>
+								<textFieldExpression><![CDATA[$V{Total Schools_MEASURE}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+				</crosstab>
+			</band>
+		</groupHeader>
+	</group>
+</jasperReport>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Teachers Summary For Qualified and Certified in Secondary Education By Nation" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="776b125b-b564-416b-8240-93caabe49149">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DOE database"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.2.185:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Teachers/Teachers_Summary_Report_By_Nation"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Teachers/Teachers_Summary_Report_By_Nation_files/Teachers_Summary_For_Qualified_and_Certified_in_Secondary_Education_By_Nation.jrxml"/>
+	<subDataset name="Figure 3: Qualified / Certified Teachers in Secondary" uuid="e695f86d-4f90-469e-9bd4-c97be14e1e8c">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select * from 
+(select SurveyYear as surveyYear,
+DistrictCode as District,
+Sector,
+AgeGroup as agegroup,
+'SEC-Teachers' as category,
+sum(numTeachers) as total 
+from [warehouse].[TeacherCountDistrict] 
+where SurveyYear=$P{Year}
+and sector='SEC'
+group by SurveyYear,DistrictCode,Sector,AgeGroup
+Union
+select SurveyYear,DistrictCode,Sector,AgeGroup,'SEC-Qualified Teachers',sum(Qualified) as total 
+from [warehouse].[TeacherCountDistrict] 
+where SurveyYear=$P{Year}
+and sector='SEC'
+group by SurveyYear,DistrictCode,Sector,AgeGroup
+
+Union
+select SurveyYear,DistrictCode,Sector,AgeGroup,'SEC-Certified Teachers',sum(Certified) as total
+from [warehouse].[TeacherCountDistrict] 
+where SurveyYear=$P{Year}
+and sector='SEC'
+group by SurveyYear,DistrictCode,Sector,AgeGroup
+Union
+select SurveyYear,DistrictCode,Sector,AgeGroup,'SEC-Certified & Qualified Teachers',sum(CERTQual) as total
+from [warehouse].[TeacherCountDistrict] 
+where SurveyYear=$P{Year}
+and sector='SEC'
+group by SurveyYear,DistrictCode,Sector,AgeGroup) as a
+order by SurveyYear,District,AgeGroup,
+case when category='SEC-Teachers'then 1
+when category='SEC-Qualified Teachers' then 2
+when category='SEC-Certified Teachers' then 3
+when category='SEC-Certified & Qualified Teachers' then 4
+end]]>
+		</queryString>
+		<field name="surveyYear" class="java.lang.Integer"/>
+		<field name="District" class="java.lang.String"/>
+		<field name="Sector" class="java.lang.String"/>
+		<field name="agegroup" class="java.lang.String"/>
+		<field name="category" class="java.lang.String"/>
+		<field name="total" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select 'one' as one]]>
+	</queryString>
+	<field name="one" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="457" splitType="Stretch">
+			<textField>
+				<reportElement x="72" y="437" width="410" height="20" uuid="8ca377f1-e56d-43fe-b319-3610c9efd067">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Qualified / Certified Teachers in Secondary"]]></textFieldExpression>
+			</textField>
+			<stackedBarChart>
+				<chart evaluationTime="Report" theme="aegean">
+					<reportElement positionType="Float" x="-20" y="2" width="570" height="435" uuid="d811ef91-3c52-47e2-8003-47155a82e100">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Right"/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Figure 3: Qualified / Certified Teachers in Secondary" uuid="9ccc0218-c245-42a8-91e7-3e7b3ba34ce0">
+							<datasetParameter name="Year">
+								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{category}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{District}+"("+$F{agegroup}+")"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total}]]></valueExpression>
+						<labelExpression><![CDATA[$F{category}]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot orientation="Horizontal" labelRotation="0.0">
+						<seriesColor seriesOrder="0" color="#5B9BD5"/>
+						<seriesColor seriesOrder="1" color="#ED7D31"/>
+						<seriesColor seriesOrder="2" color="#A5A5A5"/>
+						<seriesColor seriesOrder="3" color="#FFC000"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat labelRotation="0.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans" size="9"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Open Sans" size="9"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+							<labelFont>
+								<font fontName="Open Sans" size="9"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Open Sans" size="9"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</barPlot>
+			</stackedBarChart>
+		</band>
+	</summary>
+</jasperReport>

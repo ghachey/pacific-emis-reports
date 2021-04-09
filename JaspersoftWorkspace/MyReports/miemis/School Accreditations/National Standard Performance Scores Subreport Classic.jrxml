@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="National Standard Performance Scores Subreport Classic" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="792" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="edc8da84-ebbc-4b9e-8d24-466d87fa8429">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="true"/>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select ResultValue as 'Standard score',  ResultDescription as 'Standard',
+[SE.1.1_Count] as L1, [SE.1.2_Count] as L2, [SE.1.3_Count] as L3, [SE.1.4_Count] as L4, [SE.1_Count] as LT,
+[SE.2.1_Count] as T1, [SE.2.2_Count] as T2, [SE.2.3_Count] as T3, [SE.2.4_Count] as T4, [SE.2_Count] as TT,
+[SE.3.1_Count] as D1, [SE.3.2_Count] as D2, [SE.3.3_Count] as D3, [SE.3.4_Count] as D4, [SE.3_Count] as DT,
+[SE.4.1_Count] as N1, [SE.4.2_Count] as N2, [SE.4.3_Count] as N3, [SE.4.4_Count] as N4, [SE.4_Count] as NT,
+[SE.5.1_Count] as F1, [SE.5.2_Count] as F2, [SE.5.3_Count] as F3, [SE.5.4_Count] as F4, [SE.5_Count] as FT,
+[SE.6.1_Count] as S1, [SE.6.2_Count] as S2, [SE.6.3_Count] as S3, [SE.6.4_Count] as S4, [SE.6_Count] as ST,
+[CO.1_Count] as CO1, [CO.2_Count] as CO2 from [warehouse].[AccreditationPerformanceNation] where SurveyYear= $P{Year}]]>
+	</queryString>
+	<field name="Standard score" class="java.lang.Integer"/>
+	<field name="Standard" class="java.lang.String"/>
+	<field name="L1" class="java.lang.Integer"/>
+	<field name="L2" class="java.lang.Integer"/>
+	<field name="L3" class="java.lang.Integer"/>
+	<field name="L4" class="java.lang.Integer"/>
+	<field name="LT" class="java.lang.Integer"/>
+	<field name="T1" class="java.lang.Integer"/>
+	<field name="T2" class="java.lang.Integer"/>
+	<field name="T3" class="java.lang.Integer"/>
+	<field name="T4" class="java.lang.Integer"/>
+	<field name="TT" class="java.lang.Integer"/>
+	<field name="D1" class="java.lang.Integer"/>
+	<field name="D2" class="java.lang.Integer"/>
+	<field name="D3" class="java.lang.Integer"/>
+	<field name="D4" class="java.lang.Integer"/>
+	<field name="DT" class="java.lang.Integer"/>
+	<field name="N1" class="java.lang.Integer"/>
+	<field name="N2" class="java.lang.Integer"/>
+	<field name="N3" class="java.lang.Integer"/>
+	<field name="N4" class="java.lang.Integer"/>
+	<field name="NT" class="java.lang.Integer"/>
+	<field name="F1" class="java.lang.Integer"/>
+	<field name="F2" class="java.lang.Integer"/>
+	<field name="F3" class="java.lang.Integer"/>
+	<field name="F4" class="java.lang.Integer"/>
+	<field name="FT" class="java.lang.Integer"/>
+	<field name="S1" class="java.lang.Integer"/>
+	<field name="S2" class="java.lang.Integer"/>
+	<field name="S3" class="java.lang.Integer"/>
+	<field name="S4" class="java.lang.Integer"/>
+	<field name="ST" class="java.lang.Integer"/>
+	<field name="CO1" class="java.lang.Integer"/>
+	<field name="CO2" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="425" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report" renderType="svg" theme="aegean">
+					<reportElement positionType="Float" x="1" y="138" width="365" height="135" uuid="1ed8632f-3a12-410e-b849-457d2fa343fc">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<chartTitle>
+						<titleExpression><![CDATA["Facility National"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C1"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{F1}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C2"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{F2}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C3"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{F3}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C4"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{F4}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart evaluationTime="Report" renderType="svg" theme="aegean">
+					<reportElement positionType="Float" x="387" y="138" width="364" height="135" uuid="1cc787e1-2d64-44d8-b949-139315ed6188">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<chartTitle>
+						<titleExpression><![CDATA["SIP National"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C1"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{S1}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C2"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{S2}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C3"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{S3}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C4"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{S4}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart evaluationTime="Report" renderType="svg" theme="aegean">
+					<reportElement positionType="Float" x="194" y="278" width="365" height="135" uuid="80d9a765-1398-4261-8269-811625a4c189">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<chartTitle>
+						<titleExpression><![CDATA["Classroom observation"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["CO1"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{CO1}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["CO2"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{CO2}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart evaluationTime="Report" renderType="svg" theme="aegean">
+					<reportElement positionType="Float" x="0" y="0" width="365" height="135" uuid="a00683b6-0249-43af-9923-b0257eeee83b">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<chartTitle>
+						<titleExpression><![CDATA["Data Management National"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C1"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{D1}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C2"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{D2}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C3"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{D3}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C4"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{D4}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart evaluationTime="Report" renderType="svg" theme="aegean">
+					<reportElement positionType="Float" x="386" y="0" width="364" height="135" uuid="50814570-0975-4d7c-b8f4-be9fc9609822">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<chartTitle>
+						<titleExpression><![CDATA["NCSB National"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C1"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{N1}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C2"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{N2}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C3"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{N3}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+						<categoryExpression><![CDATA["C4"]]></categoryExpression>
+						<valueExpression><![CDATA[$F{N4}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

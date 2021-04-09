@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="National Standard Performance Scores Subreport" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="792" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="edc8da84-ebbc-4b9e-8d24-466d87fa8429">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2019]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select ResultValue as 'Standard score',  ResultDescription as 'Standard',
+[SE.1.1_Count] as L1, [SE.1.2_Count] as L2, [SE.1.3_Count] as L3, [SE.1.4_Count] as L4, [SE.1_Count] as LT,
+[SE.2.1_Count] as T1, [SE.2.2_Count] as T2, [SE.2.3_Count] as T3, [SE.2.4_Count] as T4, [SE.2_Count] as TT,
+[SE.3.1_Count] as D1, [SE.3.2_Count] as D2, [SE.3.3_Count] as D3, [SE.3.4_Count] as D4, [SE.3_Count] as DT,
+[SE.4.1_Count] as N1, [SE.4.2_Count] as N2, [SE.4.3_Count] as N3, [SE.4.4_Count] as N4, [SE.4_Count] as NT,
+[SE.5.1_Count] as F1, [SE.5.2_Count] as F2, [SE.5.3_Count] as F3, [SE.5.4_Count] as F4, [SE.5_Count] as FT,
+[SE.6.1_Count] as S1, [SE.6.2_Count] as S2, [SE.6.3_Count] as S3, [SE.6.4_Count] as S4, [SE.6_Count] as ST,
+[CO.1_Count] as CO1, [CO.2_Count] as CO2 from [warehouse].[AccreditationPerformanceNation] where SurveyYear= $P{Year}]]>
+	</queryString>
+	<field name="Standard score" class="java.lang.Integer"/>
+	<field name="Standard" class="java.lang.String"/>
+	<field name="L1" class="java.lang.Integer"/>
+	<field name="L2" class="java.lang.Integer"/>
+	<field name="L3" class="java.lang.Integer"/>
+	<field name="L4" class="java.lang.Integer"/>
+	<field name="LT" class="java.lang.Integer"/>
+	<field name="T1" class="java.lang.Integer"/>
+	<field name="T2" class="java.lang.Integer"/>
+	<field name="T3" class="java.lang.Integer"/>
+	<field name="T4" class="java.lang.Integer"/>
+	<field name="TT" class="java.lang.Integer"/>
+	<field name="D1" class="java.lang.Integer"/>
+	<field name="D2" class="java.lang.Integer"/>
+	<field name="D3" class="java.lang.Integer"/>
+	<field name="D4" class="java.lang.Integer"/>
+	<field name="DT" class="java.lang.Integer"/>
+	<field name="N1" class="java.lang.Integer"/>
+	<field name="N2" class="java.lang.Integer"/>
+	<field name="N3" class="java.lang.Integer"/>
+	<field name="N4" class="java.lang.Integer"/>
+	<field name="NT" class="java.lang.Integer"/>
+	<field name="F1" class="java.lang.Integer"/>
+	<field name="F2" class="java.lang.Integer"/>
+	<field name="F3" class="java.lang.Integer"/>
+	<field name="F4" class="java.lang.Integer"/>
+	<field name="FT" class="java.lang.Integer"/>
+	<field name="S1" class="java.lang.Integer"/>
+	<field name="S2" class="java.lang.Integer"/>
+	<field name="S3" class="java.lang.Integer"/>
+	<field name="S4" class="java.lang.Integer"/>
+	<field name="ST" class="java.lang.Integer"/>
+	<field name="CO1" class="java.lang.Integer"/>
+	<field name="CO2" class="java.lang.Integer"/>
+	<group name="Leadership">
+		<groupHeader>
+			<band height="237">
+				<stackedBarChart>
+					<chart evaluationTime="Report" customizerClass="com.customchart.StackedBar.PlotBarchartEnclosing" renderType="svg" theme="default">
+						<reportElement positionType="Float" x="0" y="26" width="752" height="200" uuid="bbdbaf03-faa8-4cfb-993c-d08f3a429583">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<box>
+							<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						</box>
+						<chartTitle>
+							<font fontName="Open Sans" size="16" isBold="true"/>
+							<titleExpression><![CDATA["Leadership National"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["The principal has very high expectations for students and teachers."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{L1}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["The principal has a clear philosophy of education and is an expert in curriculum and instruction."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{L2}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["The principal is involved in a program of continuous professional development and appraisal by supervisors, board members or peers."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{L3}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["The principal conducts a regular program of teacher performance appraisals."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{L4}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot orientation="Horizontal">
+							<seriesColor seriesOrder="0" color="#FF1E00"/>
+							<seriesColor seriesOrder="1" color="#F0DC20"/>
+							<seriesColor seriesOrder="2" color="#96C761"/>
+							<seriesColor seriesOrder="3" color="#2DA620"/>
+						</plot>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Teacher Performance">
+		<groupHeader>
+			<band height="220">
+				<stackedBarChart>
+					<chart evaluationTime="Report" customizerClass="com.customchart.StackedBar.PlotBarchartEnclosing" renderType="svg" theme="default">
+						<reportElement positionType="Float" x="0" y="5" width="752" height="200" uuid="490c4e73-cf6b-4a2a-aa77-017477607b88">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						</reportElement>
+						<box>
+							<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						</box>
+						<chartTitle>
+							<font fontName="Open Sans" size="16" isBold="true"/>
+							<titleExpression><![CDATA["Teacher Performance National"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["At least 75% of observed teachers prepare standardized long, medium or short-term lesson plans that provide adequate guidance "+"\n"+"for teaching and learning activities."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{T1}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["All teachers create high quality classroom learning environments."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{T2}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["All teachers manage their time effectively to maximize students’ learning opportunities."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{T3}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["All teachers actively participate with enthusiasm in a school-based appraisal program."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{T4}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot orientation="Horizontal">
+							<seriesColor seriesOrder="0" color="#FF1E00"/>
+							<seriesColor seriesOrder="1" color="#F0DC20"/>
+							<seriesColor seriesOrder="2" color="#96C761"/>
+							<seriesColor seriesOrder="3" color="#2DA620"/>
+						</plot>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="DataManagement">
+		<groupHeader>
+			<band height="231">
+				<stackedBarChart>
+					<chart evaluationTime="Report" customizerClass="com.customchart.StackedBar.PlotBarchartEnclosing" renderType="svg" theme="default">
+						<reportElement positionType="Float" x="0" y="2" width="752" height="208" uuid="49486198-aace-4f7b-9226-c8c2c8a457dd">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						</reportElement>
+						<box>
+							<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						</box>
+						<chartTitle>
+							<font fontName="Open Sans" size="16" isBold="true"/>
+							<titleExpression><![CDATA["Data Management National"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["Comprehensive and accurate school data is collected on a regular schedule."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{D1}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["All school data is centrally located and carefully filed."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{D2}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["All student performance data, including classroom assessment, teacher observations, student portfolios and test"+"\n"+" data, is analyzed by all teachers during regular assessment meetings to identify individual students’ strengths and"+"\n"+" weaknesses, including students with IEPs."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{D3}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["An extensive collection of school data is used to guide all management decision making."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{D4}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot orientation="Horizontal">
+							<seriesColor seriesOrder="0" color="#FF1E00"/>
+							<seriesColor seriesOrder="1" color="#F0DC20"/>
+							<seriesColor seriesOrder="2" color="#96C761"/>
+							<seriesColor seriesOrder="3" color="#2DA620"/>
+						</plot>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="NSCB">
+		<groupHeader>
+			<band height="222">
+				<stackedBarChart>
+					<chart evaluationTime="Report" customizerClass="com.customchart.StackedBar.PlotBarchartEnclosing" renderType="svg" theme="default">
+						<reportElement positionType="Float" x="0" y="4" width="752" height="200" uuid="2abad3f1-fc98-40c7-a59f-0820b9699090">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						</reportElement>
+						<box>
+							<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						</box>
+						<chartTitle>
+							<font fontName="Open Sans" size="16" isBold="true"/>
+							<titleExpression><![CDATA["NCSB National"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["Written school policy states that English Language Arts, Vernacular Language Arts, Mathematics and Science are taught "+"\n"+"throughout the school in accordance with the National Curriculum."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{N1}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["Student performance data shows that the vast majority of students reach Competent or Minimum Competent levels on the NMCT"+"\n"+" and pass other State-mandated exams."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{N2}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["All students in all grades have their own copies of modern textbooks for Vernacular Language Arts, English Language Arts, "+"\n"+" Mathematics, Science and Social Studies."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{N3}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["A full timetable of extra-curricular academic, sports, cultural, civic and community activities are conducted after school for both"+"\n"+"  boys and girls."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{N4}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot orientation="Horizontal">
+							<seriesColor seriesOrder="0" color="#FF1E00"/>
+							<seriesColor seriesOrder="1" color="#F0DC20"/>
+							<seriesColor seriesOrder="2" color="#96C761"/>
+							<seriesColor seriesOrder="3" color="#2DA620"/>
+						</plot>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Facility">
+		<groupHeader>
+			<band height="223">
+				<stackedBarChart>
+					<chart evaluationTime="Report" customizerClass="com.customchart.StackedBar.PlotBarchartEnclosing" renderType="svg" theme="default">
+						<reportElement positionType="Float" x="0" y="2" width="752" height="200" uuid="ee15832b-9c3c-4a6f-a44b-1e688b247b01">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<box>
+							<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						</box>
+						<chartTitle>
+							<font fontName="Open Sans" size="16" isBold="true"/>
+							<titleExpression><![CDATA["Facility National"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["The school has a written maintenance and facilities development plan."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{F1}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["The campus is maintained to a very high standard of cleanliness, free of litter, graffiti and vandalism, and are explicitly drug-free zones."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{F2}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["Classrooms meet recommended area requirements, with adequate lighting and ventilation."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{F3}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["Food storage, preparation and dining areas are modern and clean, with a current EPA certificate clearly posted; the school has an "+"\n"+"emergency evacuation plan with evidence of a drill."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{F4}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot orientation="Horizontal">
+							<seriesColor seriesOrder="0" color="#FF1E00"/>
+							<seriesColor seriesOrder="1" color="#F0DC20"/>
+							<seriesColor seriesOrder="2" color="#96C761"/>
+							<seriesColor seriesOrder="3" color="#2DA620"/>
+						</plot>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="SIP">
+		<groupHeader>
+			<band height="224">
+				<stackedBarChart>
+					<chart evaluationTime="Report" customizerClass="com.customchart.StackedBar.PlotBarchartEnclosing" renderType="svg" theme="default">
+						<reportElement positionType="Float" x="0" y="3" width="752" height="200" uuid="3e9dc60d-7a2b-4306-9bbe-cd127b16ceaf">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						</reportElement>
+						<box>
+							<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						</box>
+						<chartTitle>
+							<font fontName="Open Sans" size="16" isBold="true"/>
+							<titleExpression><![CDATA["SIP National"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["The School Improvement Plan has been developed and evaluated in accordance with the National Guidelines."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{S1}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["The school principal plays a leadership role in the development and implementation of the SIP."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{S2}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["The SIP contains comprehensive data analysis of student performance, attendance, resources and school management, over a period "+"\n"+" of at least three years, noting school strengths and weaknesses."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{S3}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["The SIP contains SMART Student Achievement Goals and Objectives and Activity Planning Matrices for all activities, with inputs, " + "\n" + "timelines, outputs and outcomes."]]></categoryExpression>
+							<valueExpression><![CDATA[$F{S4}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot orientation="Horizontal">
+							<seriesColor seriesOrder="0" color="#FF1E00"/>
+							<seriesColor seriesOrder="1" color="#F0DC20"/>
+							<seriesColor seriesOrder="2" color="#96C761"/>
+							<seriesColor seriesOrder="3" color="#2DA620"/>
+						</plot>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Classroom">
+		<groupHeader>
+			<band height="205">
+				<stackedBarChart>
+					<chart evaluationTime="Report" customizerClass="com.customchart.StackedBar.PlotBarchartEnclosing" renderType="svg" theme="default">
+						<reportElement positionType="Float" x="0" y="5" width="752" height="200" uuid="5902ea4f-cc91-480c-a080-7aff1e353eac">
+							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						</reportElement>
+						<box>
+							<pen lineWidth="1.0" lineColor="#C8C8C8"/>
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+						</box>
+						<chartTitle>
+							<font fontName="Open Sans" size="16" isBold="true"/>
+							<titleExpression><![CDATA["Classroom observation"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["Classroom Observation 1"]]></categoryExpression>
+							<valueExpression><![CDATA[$F{CO1}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{Standard}]]></seriesExpression>
+							<categoryExpression><![CDATA["Classroom Observation 2"]]></categoryExpression>
+							<valueExpression><![CDATA[$F{CO2}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot orientation="Horizontal">
+							<seriesColor seriesOrder="0" color="#FF1E00"/>
+							<seriesColor seriesOrder="1" color="#F0DC20"/>
+							<seriesColor seriesOrder="2" color="#96C761"/>
+							<seriesColor seriesOrder="3" color="#2DA620"/>
+						</plot>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+</jasperReport>

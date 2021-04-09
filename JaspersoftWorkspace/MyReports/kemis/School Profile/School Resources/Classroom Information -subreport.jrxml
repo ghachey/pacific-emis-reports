@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Fastest Growing Schools - subreport" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MS SQL Server - Waspinator2 - KEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/KEMIS_Reports/Statistical_Brief/Fastest Growing Schools - subreport"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="636"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="350"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="345"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="650"/>
+	<template><![CDATA["../..//Templates/KEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6EAF3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SchoolCode" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[----  Table: fastest growing schools- school type (column), list the three fast for each school type and pct. increase
+		
+select svyYear, 
+schNo, 
+r.rmNo as RoomNo,
+rt.codedescription as RoomType,
+ISNULL(cc.codeDescription, 'Unknown') as Condition,
+ISNULL(mt.codeDescription, 'Unknown') as Materials,
+CASE WHEN rmSecureDoor = 0 THEN 'No' ELSE 'Yes' END as SecureDoor,
+CASE WHEN rmSecureWindows = 0 THEN 'No' ELSE 'Yes' END as SecureWindows
+from SchoolSurvey ss
+join Rooms r on ss.ssID = r.ssID
+left join lkpConditionCodes cc on rmCondition = cc.codeCode
+left join lkpMaterialTypes mt on rmMaterials = mt.codeCode
+left join TRRoomTypes rt on r.rmType = rt.codeCode
+where rmQualityCode ='Class'
+and svyYear =  $P{year}
+and schNo =  $P{SchoolCode}]]>
+	</queryString>
+	<field name="RoomNo" class="java.lang.String"/>
+	<field name="RoomType" class="java.lang.String"/>
+	<field name="Condition" class="java.lang.String"/>
+	<field name="Materials" class="java.lang.String"/>
+	<field name="SecureDoor" class="java.lang.String"/>
+	<field name="SecureWindows" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="30" width="548" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="2" y="8" width="50" height="14" uuid="1f0dcac7-13c9-4191-b63f-8487b4a8b1ea"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Room No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="70" y="7" width="74" height="16" uuid="5cefe5b9-5491-445c-b701-d954cabc636b"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Room Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="448" y="7" width="100" height="16" uuid="4870c041-c02b-466e-a738-78ffb5822076"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Secure Windows]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="248" y="6" width="88" height="16" uuid="41d36a7b-e4d4-4e50-a7aa-8d8611a839ac"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Materials]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="360" y="7" width="80" height="16" uuid="9ef4db85-545a-4cc9-bd00-60e5eecd57b4"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Secure Door]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="2" y="-20" width="198" height="21" uuid="71e266e9-8268-4ef6-a0f2-a14f6419b8b4"/>
+				<textElement textAlignment="Left">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Classroom Information]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="160" y="6" width="80" height="16" uuid="0caef8fa-b404-4742-a6de-0e5640f33b77"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Condition]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="560" height="33" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField>
+					<reportElement x="2" y="4" width="58" height="16" uuid="55e50781-0467-4c02-a6cf-9ec1b715b98d"/>
+					<textFieldExpression><![CDATA[$F{RoomNo}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="70" y="4" width="74" height="18" uuid="55e50781-0467-4c02-a6cf-9ec1b715b98d"/>
+					<textFieldExpression><![CDATA[$F{RoomType}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="160" y="6" width="80" height="16" uuid="55e50781-0467-4c02-a6cf-9ec1b715b98d"/>
+					<textFieldExpression><![CDATA[$F{Condition}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="250" y="7" width="88" height="16" uuid="55e50781-0467-4c02-a6cf-9ec1b715b98d"/>
+					<textFieldExpression><![CDATA[$F{Materials}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="360" y="8" width="80" height="16" uuid="55e50781-0467-4c02-a6cf-9ec1b715b98d"/>
+					<textFieldExpression><![CDATA[$F{SecureDoor}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="448" y="8" width="100" height="16" uuid="55e50781-0467-4c02-a6cf-9ec1b715b98d"/>
+					<textFieldExpression><![CDATA[$F{SecureWindows}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

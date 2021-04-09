@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio -->
+<jasperTemplate xmlns="http://jasperreports.sourceforge.net/jasperreports/template" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/template http://jasperreports.sourceforge.net/xsd/jaspertemplate.xsd">
+	<style name="Title" hTextAlign="Center" vTextAlign="Middle" fontName="Source Sans Pro" fontSize="36" isBold="true"/>
+	<style name="SubTitle" forecolor="#002E78" hTextAlign="Center" fontName="Source Sans Pro" fontSize="16"/>
+	<style name="Detail" hTextAlign="Right" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="7"/>
+	<style name="Column header" forecolor="#002E78" hTextAlign="Center" fontName="Source Sans Pro" fontSize="11" isBold="true"/>
+	<style name="Column header 2" forecolor="#666666" hTextAlign="Center" fontName="Source Sans Pro" fontSize="11" isBold="true"/>
+	<style name="Page footer" forecolor="#002E78" hTextAlign="Left" vTextAlign="Middle" rotation="None" fontName="Source Sans Pro" fontSize="10" isBold="false"/>
+	<style name="Group header" forecolor="#002E78" vTextAlign="Middle" fontName="Source Sans P" fontSize="12" isBold="true"/>
+	<style name="Base" isDefault="true" fontName="DejaVu Sans" fontSize="12"/>
+	<style name="Group footer" hTextAlign="Right" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="7" isBold="true"/>
+	<style name="Title text" hTextAlign="Center" vTextAlign="Middle" fontName="Source Sans Pr" fontSize="10"/>
+	<style name="Sumary" style="Group footer" fontSize="10"/>
+	<style name="Detail Header 1" forecolor="#002E78" hTextAlign="Left" vTextAlign="Middle" fontName="Source Sans Pro" fontSize="14" isBold="true"/>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#9BC2FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#5168AE">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#08298C" hTextAlign="Left">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab Heading" hTextAlign="Center" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="10"/>
+	<style name="Crosstab Data" hTextAlign="Right" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="10">
+		<paragraph rightIndent="2" spacingAfter="0"/>
+	</style>
+</jasperTemplate>

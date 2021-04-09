@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Teachers Summary For Qualified and Certified in Primary Education" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="776b125b-b564-416b-8240-93caabe49149">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["miemis/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Figure 2: Qualified / Certified Teachers in Primary" uuid="e695f86d-4f90-469e-9bd4-c97be14e1e8c">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
+		<parameter name="Year" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+		</parameter>
+		<queryString language="SQL">
+			<![CDATA[select * from 
+(select SurveyYear as surveyYear,
+dShort as District,
+Sector,
+AgeGroup as agegroup,
+'PRI-Teachers' as category,
+sum(numTeachers) as total 
+from [warehouse].[TeacherCountDistrict] dtc
+join dbo.Districts d on dtc.districtcode = d.dID 
+where SurveyYear=$P{Year}
+and sector='PRI'
+group by SurveyYear,dShort,Sector,AgeGroup
+Union
+select SurveyYear,dShort,Sector,AgeGroup,'PRI-Qualified Teachers',sum(Qualified) as total 
+from [warehouse].[TeacherCountDistrict] dtc
+join dbo.Districts d on dtc.districtcode = d.dID 
+where SurveyYear=$P{Year}
+and sector='PRI'
+group by SurveyYear,dShort,Sector,AgeGroup
+
+Union
+select SurveyYear,dShort,Sector,AgeGroup,'PRI-Certified Teachers',sum(Certified) as total
+from [warehouse].[TeacherCountDistrict] dtc
+join dbo.Districts d on dtc.districtcode = d.dID 
+where SurveyYear=$P{Year}
+and sector='PRI'
+group by SurveyYear,dShort,Sector,AgeGroup
+Union
+select SurveyYear,dShort,Sector,AgeGroup,'PRI-Certified & Qualified Teachers',sum(CERTQual) as total
+from [warehouse].[TeacherCountDistrict] dtc
+join dbo.Districts d on dtc.districtcode = d.dID
+where SurveyYear=$P{Year}
+and sector='PRI'
+group by SurveyYear,dShort,Sector,AgeGroup) as a
+order by AgeGroup,SurveyYear,District,
+case when category='PRI-Teachers'then 1
+when category='PRI-Qualified Teachers' then 2
+when category='PRI-Certified Teachers' then 3
+when category='PRI-Certified & Qualified Teachers' then 4
+end]]>
+		</queryString>
+		<field name="surveyYear" class="java.lang.Integer"/>
+		<field name="District" class="java.lang.String"/>
+		<field name="Sector" class="java.lang.String"/>
+		<field name="agegroup" class="java.lang.String"/>
+		<field name="category" class="java.lang.String"/>
+		<field name="total" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select distinct did as District,dshort, d.dName
+from [warehouse].[TeacherCountDistrict] dtc
+join dbo.Districts d on dtc.districtcode = d.dID 
+where SurveyYear=2019 and sector='PRI']]>
+	</queryString>
+	<field name="District" class="java.lang.String"/>
+	<field name="dshort" class="java.lang.String"/>
+	<field name="dName" class="java.lang.String"/>
+	<group name="District">
+		<groupExpression><![CDATA[$F{dName}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<frame>
+					<reportElement mode="Opaque" x="-20" y="1" width="612" height="24" forecolor="#5168AE" backcolor="#9BC2FF" uuid="2c654dfc-5f54-4eea-b5e9-86cc5b1c3fcb">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<rectangle>
+						<reportElement mode="Opaque" x="20" y="0" width="36" height="24" backcolor="#08298C" uuid="b2a4ec7e-1d2b-4930-862a-8f39c133e588">
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement style="Group header" x="56" y="0" width="536" height="24" forecolor="#FFFFFF" uuid="e33d5ff3-90f7-4002-90b5-5851f64df2f2">
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<textElement>
+							<font fontName="Open Sans" size="12" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[" "+$F{dshort}+" : "+$F{dName}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="49">
+			<subreport>
+				<reportElement x="0" y="0" width="580" height="30" uuid="07dcaf3b-35b7-4c75-9600-ef12241ef714"/>
+				<subreportParameter name="District">
+					<subreportParameterExpression><![CDATA[$F{District}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="Year">
+					<subreportParameterExpression><![CDATA[$P{Year}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Teachers Summary For Qualified and Certified in Primary Education Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField>
+				<reportElement x="0" y="0" width="570" height="20" uuid="1c2cb916-acce-4362-a3de-f8ff8b0ec25f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Qualified / Certified Teachers in Primary"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
