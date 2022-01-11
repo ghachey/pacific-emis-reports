@@ -14,27 +14,27 @@
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<style name="levelColor">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[($F{Final score}<=50 ? "Level 1":
-$F{Final score}>50 && $F{Final score}<=75 ? "Level 2":
-$F{Final score}>75 && $F{Final score}<=90 ? "Level 3": "Level 4")=="Level 1"]]></conditionExpression>
+			<conditionExpression><![CDATA[(new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=50 ? "Level 1":
+new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()>=51 && new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=75 ? "Level 2":
+new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=90 ? "Level 3": "Level 4")=="Level 1"]]></conditionExpression>
 			<style mode="Opaque" forecolor="#FFFFFF" backcolor="#D4120F"/>
 		</conditionalStyle>
 		<conditionalStyle>
-			<conditionExpression><![CDATA[($F{Final score}<=50 ? "Level 1":
-$F{Final score}>50 && $F{Final score}<=75 ? "Level 2":
-$F{Final score}>75 && $F{Final score}<=90 ? "Level 3": "Level 4")=="Level 2"]]></conditionExpression>
+			<conditionExpression><![CDATA[(new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=50 ? "Level 1":
+new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()>=51 && new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=75 ? "Level 2":
+new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=90 ? "Level 3": "Level 4")=="Level 2"]]></conditionExpression>
 			<style mode="Opaque" forecolor="#000000" backcolor="#F5DD87"/>
 		</conditionalStyle>
 		<conditionalStyle>
-			<conditionExpression><![CDATA[($F{Final score}<=50 ? "Level 1":
-$F{Final score}>50 && $F{Final score}<=75 ? "Level 2":
-$F{Final score}>75 && $F{Final score}<=90 ? "Level 3": "Level 4")=="Level 3"]]></conditionExpression>
+			<conditionExpression><![CDATA[(new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=50 ? "Level 1":
+new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()>=51 && new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=75 ? "Level 2":
+new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=90 ? "Level 3": "Level 4")=="Level 3"]]></conditionExpression>
 			<style mode="Opaque" forecolor="#000000" backcolor="#8ED15E"/>
 		</conditionalStyle>
 		<conditionalStyle>
-			<conditionExpression><![CDATA[($F{Final score}<=50 ? "Level 1":
-$F{Final score}>50 && $F{Final score}<=75 ? "Level 2":
-$F{Final score}>75 && $F{Final score}<=90 ? "Level 3": "Level 4")=="Level 4"]]></conditionExpression>
+			<conditionExpression><![CDATA[(new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=50 ? "Level 1":
+new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()>=51 && new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=75 ? "Level 2":
+new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=90 ? "Level 3": "Level 4")=="Level 4"]]></conditionExpression>
 			<style mode="Opaque" forecolor="#000000" backcolor="#5DA658"/>
 		</conditionalStyle>
 	</style>
@@ -417,9 +417,9 @@ select schNo,InspectionYear,sum(Score) AS 'OS',
 							<textElement textAlignment="Center" verticalAlignment="Middle">
 								<font isBold="true"/>
 							</textElement>
-							<textFieldExpression><![CDATA[$F{Final score}<=50 ? "Level 1":
-$F{Final score}>50 && $F{Final score}<=75 ? "Level 2":
-$F{Final score}>75 && $F{Final score}<=90 ? "Level 3": "Level 4"]]></textFieldExpression>
+							<textFieldExpression><![CDATA[new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=50 ? "Level 1":
+new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()>=51 && new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=75 ? "Level 2":
+new BigDecimal($F{Final score}).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()<=90 ? "Level 3": "Level 4"]]></textFieldExpression>
 						</textField>
 					</jr:listContents>
 				</jr:list>

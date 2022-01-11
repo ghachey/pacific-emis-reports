@@ -4,8 +4,8 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="ireport.jasperserver.url" value="http://reports.doe.fm:8080/jasperserver/"/>
-	<property name="ireport.jasperserver.user" value="jasperadmin|"/>
+	<property name="ireport.jasperserver.url" value="http://fedemis.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
 	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/School/School_Accreditation_Form_B_Report_files/main_jrxml"/>
 	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/School/School_Accreditation_Form_B_Report"/>
 	<template><![CDATA["repo:/Templates/FedEMIS_Style.jrtx"]]></template>
@@ -526,7 +526,7 @@ select
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Open Sans" size="9"/>
 				</textElement>
-				<text><![CDATA[Above 90]]></text>
+				<text><![CDATA[91-100]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="428" y="285" width="53" height="25" backcolor="#E3E3E3" uuid="6ffaa332-71ac-4cee-b4cb-d943141b4046">
