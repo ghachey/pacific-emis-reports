@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams School Results by Year ExamName" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
-	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
 	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Exams/Exams_National_Results_for_Last_Three_Years_by_ExamName"/>
 	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Exams/Exams_National_Results_for_Last_Three_Years_by_ExamName_files/main_jrxml"/>
@@ -35,7 +35,7 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="Exam" class="java.lang.String">
-		<defaultValueExpression><![CDATA["M04"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["M03"]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT [examName]
@@ -68,39 +68,51 @@
   ORDER BY ExamStandard, examYear DESC]]>
 	</queryString>
 	<field name="examName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="examName"/>
 		<property name="com.jaspersoft.studio.field.label" value="examName"/>
 	</field>
 	<field name="examYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="examYear"/>
 		<property name="com.jaspersoft.studio.field.label" value="examYear"/>
 	</field>
 	<field name="ExamStandard" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ExamStandard"/>
 		<property name="com.jaspersoft.studio.field.label" value="ExamStandard"/>
 	</field>
 	<field name="Candidates" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Candidates"/>
 		<property name="com.jaspersoft.studio.field.label" value="Candidates"/>
 	</field>
 	<field name="Tot2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Tot2"/>
 		<property name="com.jaspersoft.studio.field.label" value="Tot2"/>
 	</field>
 	<field name="Tot1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Tot1"/>
 		<property name="com.jaspersoft.studio.field.label" value="Tot1"/>
 	</field>
 	<field name="Tot3" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Tot3"/>
 		<property name="com.jaspersoft.studio.field.label" value="Tot3"/>
 	</field>
 	<field name="Tot4" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Tot4"/>
 		<property name="com.jaspersoft.studio.field.label" value="Tot4"/>
 	</field>
 	<field name="2" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="2"/>
 		<property name="com.jaspersoft.studio.field.label" value="2"/>
 	</field>
 	<field name="1" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="1"/>
 		<property name="com.jaspersoft.studio.field.label" value="1"/>
 	</field>
 	<field name="3" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="3"/>
 		<property name="com.jaspersoft.studio.field.label" value="3"/>
 	</field>
 	<field name="4" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="4"/>
 		<property name="com.jaspersoft.studio.field.label" value="4"/>
 	</field>
 	<background>
@@ -181,6 +193,7 @@
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
+					<dataset resetType="Report"/>
 					<categorySeries>
 						<seriesExpression><![CDATA["Approaching competence"]]></seriesExpression>
 						<categoryExpression><![CDATA[$F{ExamStandard} + "^" + $F{examYear}]]></categoryExpression>
@@ -344,7 +357,7 @@
 	<detail>
 		<band height="15" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="false">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="2" y="0" width="450" height="15" uuid="e52e588f-1cd5-4546-81c7-bcc4c9366e9c">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -357,7 +370,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ExamStandard}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="552" y="0" width="50" height="15" uuid="e5de5ef1-0226-4ab5-9e85-1488b33a5561">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -370,7 +383,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Tot1}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="602" y="0" width="50" height="15" uuid="da5a284b-49c6-4685-be6f-46646416e35d">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -383,7 +396,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Tot2}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="652" y="0" width="50" height="15" uuid="0f6a6313-438a-49a8-abb3-c03d08cbd74c">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -396,7 +409,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Tot3}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="702" y="0" width="50" height="15" uuid="0ce8929e-2b56-4f2a-9259-900801e7e618">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -409,7 +422,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Tot4}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="502" y="0" width="50" height="15" uuid="6b357b28-299c-4809-86bd-b62510ceef16">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -422,7 +435,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Candidates}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="452" y="0" width="50" height="15" uuid="00d9e0c7-3f00-4d2b-98c5-360af242b4b6">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>

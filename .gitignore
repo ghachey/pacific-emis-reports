@@ -29,6 +29,8 @@ JaspersoftWorkspace/*
 !JaspersoftWorkspace/MyReports/
 JaspersoftWorkspace/MyReports/JasperReportsServer-*/
 JaspersoftWorkspace/MyReports/*JasperReportsServer-*/
+JaspersoftWorkspace/MyReports/JasperReports_Server*/
+JaspersoftWorkspace/MyReports/*JasperReports_Server*/
 JaspersoftWorkspace/MyReports/.classpath
 JaspersoftWorkspace/MyReports/.project
 JaspersoftWorkspace/MyReports/.settings
