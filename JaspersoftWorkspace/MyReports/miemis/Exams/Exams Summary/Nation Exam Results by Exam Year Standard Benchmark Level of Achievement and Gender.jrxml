@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Nation Exam Results by Exam, Year, Standard, Benchmark, Level of Achievement and Gender" pageWidth="572" pageHeight="792" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="06a4db22-71f6-4501-9c6d-f2ffe43053df">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -40,8 +40,8 @@
 			<![CDATA[Select 
 CONCAT(examCode,': ',examName) ExamTitle
 ,examYear
-,CONCAT([standardCode],': ',[standardDesc]) AS ExamStandard
-,benchmarkCode
+,CONCAT([exstdCode],': ',[exstdDescription]) AS ExamStandard
+,exbnchCode
 ,Sum(Candidates) TotalCandidates
 ,Sum(Case when gender = 'F' then [1] else 0 end) as 'WellBelow_F'
 ,Sum(Case when gender = 'F' then [2] else 0 end) as 'Approaching_F'
@@ -53,10 +53,12 @@ CONCAT(examCode,': ',examName) ExamTitle
 ,Sum(Case when gender = 'M' then [4] else 0 end) as 'Competent_M'
 
 
- from warehouse.ExamSchoolResultsX
+ from warehouse.ExamSchoolResultsX AS ESR
+	  INNER JOIN ExamBenchmarks EB on ESR.examID = EB.exID
+	  INNER JOIN [dbo].[ExamStandards] AS ES ON ESR.examID = ES.exID AND EB.exstdID = ES.exstdID
 Where examYear = $P{Year}
 group by examCode,examName,examYear
-,[standardCode],[standardDesc],benchmarkCode]]>
+,[exstdCode],[exstdDescription],exbnchCode]]>
 		</queryString>
 		<field name="ExamTitle" class="java.lang.String"/>
 		<field name="examYear" class="java.lang.Integer"/>

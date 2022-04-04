@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams School Results by Year ExamName" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
-	<property name="ireport.jasperserver.url" value="http://data.pss.edu.mh:8080/jasperserver/"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
 	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/School/School_Exams_Results_by_Year_ExamName"/>
 	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/School/School_Exams_Results_by_Year_ExamName_files/main_jrxml"/>
@@ -16,7 +16,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<template><![CDATA["miemis/Templates/MIEMIS_Style.jrtx"]]></template>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
 	<style name="Row" mode="Transparent">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
@@ -37,19 +37,23 @@
 	<parameter name="SchoolNo" class="java.lang.String">
 		<defaultValueExpression><![CDATA["AIL100"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="ExamName" class="java.lang.String">
+	<parameter name="ExamName" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Grade 8 High School Entrance"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ExamCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["M06"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="Year" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[2017]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT [examName]
+		<![CDATA[SELECT [examCode]
+      ,[examName]
       ,[examYear]
       ,[schNo]
 	  ,isnull(cast([Gender] as nvarchar(5)),'N/A') as [Gender]
-      ,CONCAT([standardCode],': ',[standardDesc]) AS ExamStandard
-	  ,CONCAT([benchmarkCode], ': ', [exbnchDescription]) AS Benchmark
+      ,CONCAT([exstdCode],': ',[exstdDescription]) AS ExamStandard
+	  ,CONCAT([exbnchCode], ': ', [exbnchDescription]) AS Benchmark
 	  ,[Candidates]
 	  ,ISNULL([2], 0) AS [Tot2]
 	  ,ISNULL([1], 0) AS [Tot1]
@@ -60,25 +64,59 @@
 	  ,ROUND(ISNULL(convert(float, [3] ) / Candidates, 0), 2) as [3]
 	  ,ROUND(ISNULL(convert(float, [4] ) / Candidates, 0), 2) as [4]
   FROM warehouse.examSchoolResultsX AS ESR
-  INNER JOIN [dbo].[ExamBenchmarks] AS EB ON ESR.benchmarkCode = EB.[exbnchCode] AND ESR.examID = EB.exID
-  WHERE [examName] = $P{ExamName} AND [schNo] = $P{SchoolNo} AND [examYear] = $P{Year}
-  ORDER BY ExamStandard, benchmarkCode]]>
+  INNER JOIN [dbo].[ExamBenchmarks] AS EB ON ESR.examID = EB.exID
+  INNER JOIN [dbo].[ExamStandards] AS ES ON ESR.examID = ES.exID AND EB.exstdID = ES.exstdID
+  WHERE [examCode] = $P{ExamCode} AND [schNo] = $P{SchoolNo} AND [examYear] = $P{Year}
+  ORDER BY ExamStandard, exbnchCode]]>
 	</queryString>
-	<field name="examName" class="java.lang.String"/>
-	<field name="examYear" class="java.lang.Integer"/>
-	<field name="schNo" class="java.lang.String"/>
-	<field name="Gender" class="java.lang.String"/>
-	<field name="ExamStandard" class="java.lang.String"/>
-	<field name="Benchmark" class="java.lang.String"/>
-	<field name="Candidates" class="java.lang.Integer"/>
-	<field name="Tot2" class="java.lang.Integer"/>
-	<field name="Tot1" class="java.lang.Integer"/>
-	<field name="Tot3" class="java.lang.Integer"/>
-	<field name="Tot4" class="java.lang.Integer"/>
-	<field name="2" class="java.lang.Double"/>
-	<field name="1" class="java.lang.Double"/>
-	<field name="3" class="java.lang.Double"/>
-	<field name="4" class="java.lang.Double"/>
+	<field name="examCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="examCode"/>
+	</field>
+	<field name="examName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="examName"/>
+	</field>
+	<field name="examYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="examYear"/>
+	</field>
+	<field name="schNo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="schNo"/>
+	</field>
+	<field name="Gender" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Gender"/>
+	</field>
+	<field name="ExamStandard" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ExamStandard"/>
+	</field>
+	<field name="Benchmark" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Benchmark"/>
+	</field>
+	<field name="Candidates" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Candidates"/>
+	</field>
+	<field name="Tot2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot2"/>
+	</field>
+	<field name="Tot1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot1"/>
+	</field>
+	<field name="Tot3" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot3"/>
+	</field>
+	<field name="Tot4" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot4"/>
+	</field>
+	<field name="2" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="2"/>
+	</field>
+	<field name="1" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="1"/>
+	</field>
+	<field name="3" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="3"/>
+	</field>
+	<field name="4" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="4"/>
+	</field>
 	<group name="Exam Standard">
 		<groupExpression><![CDATA[$F{ExamStandard}]]></groupExpression>
 		<groupHeader>
@@ -189,7 +227,7 @@
 						<textElement verticalAlignment="Middle">
 							<font fontName="SansSerif" size="12" isBold="false"/>
 						</textElement>
-						<textFieldExpression><![CDATA["Approaching competence" ]]></textFieldExpression>
+						<textFieldExpression><![CDATA["Approaching competence"]]></textFieldExpression>
 					</textField>
 					<textField>
 						<reportElement x="336" y="1" width="130" height="18" uuid="1b6ce167-15f2-4c5d-bdff-356e2093a3d9"/>
@@ -234,7 +272,7 @@
 						<textElement verticalAlignment="Middle">
 							<font fontName="SansSerif" size="12" isBold="false"/>
 						</textElement>
-						<textFieldExpression><![CDATA["Competent" ]]></textFieldExpression>
+						<textFieldExpression><![CDATA["Competent"]]></textFieldExpression>
 					</textField>
 					<textField>
 						<reportElement mode="Opaque" x="468" y="7" width="8" height="8" backcolor="#2DA620" uuid="e001baa6-d99d-478e-bbc0-a2f5e60d65ff">
@@ -260,7 +298,7 @@
 				<reportElement x="0" y="0" width="126" height="126" uuid="1c003177-754c-448f-8ce1-16868856f545">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
-				<imageExpression><![CDATA["miemis/images/rmi-seal.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/images/rmi_seal.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement style="Title" x="126" y="0" width="499" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
@@ -278,7 +316,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<imageExpression><![CDATA["miemis/images/rmi-pss.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/images/rmi_pss.png"]]></imageExpression>
 			</image>
 			<rectangle>
 				<reportElement mode="Opaque" x="-21" y="-20" width="793" height="10" forecolor="#08298C" backcolor="#08298C" uuid="a879b5ed-22f8-4e7b-9093-811aaea43211"/>

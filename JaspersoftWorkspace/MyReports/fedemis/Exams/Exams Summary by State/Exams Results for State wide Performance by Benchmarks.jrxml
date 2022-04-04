@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams Results for State wide Performance by Benchmarks" pageWidth="572" pageHeight="792" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
@@ -43,34 +43,61 @@
 from (
 	SELECT [examName]
 		  ,Gender
-		  ,CONCAT([standardCode],': ',[standardDesc]) AS ExamStandard
-		  ,CONCAT([benchmarkCode], ': ', [exbnchDescription]) AS Benchmark
+		  ,CONCAT([exstdCode],': ',[exstdDescription]) AS ExamStandard
+		  ,CONCAT([exbnchCode], ': ', [exbnchDescription]) AS Benchmark
 		  ,SUM([Candidates]) AS Candidates
 		  ,SUM(ISNULL([2], 0)) AS [Tot2]
 		  ,SUM(ISNULL([1], 0)) AS [Tot1]
 		  ,SUM(ISNULL([3], 0)) AS [Tot3]
 		  ,SUM(ISNULL([4], 0)) AS [Tot4]
 	  FROM warehouse.examSchoolResultsX AS ESR
-	  join ExamBenchmarks EB on ESR.BenchmarkID = EB.exbnchID
+	  INNER JOIN ExamBenchmarks EB on ESR.examID = EB.exID
+	  INNER JOIN [dbo].[ExamStandards] AS ES ON ESR.examID = ES.exID AND EB.exstdID = ES.exstdID
 	  WHERE [examYear] = $P{Year}
-	  and [StateID] = $P{District}
-	  GROUP BY [examName], [standardCode], [standardDesc], [exbnchDescription], [benchmarkCode],Gender
+	  and [DistrictCode] = $P{District}
+	  GROUP BY [examName], [exstdCode], [exstdDescription], [exbnchDescription], [exbnchCode],Gender
   ) t1
   Order by examName, ExamStandard, Benchmark]]>
 	</queryString>
-	<field name="examName" class="java.lang.String"/>
-	<field name="ExamStandard" class="java.lang.String"/>
-	<field name="Benchmark" class="java.lang.String"/>
-	<field name="Gender" class="java.lang.String"/>
-	<field name="Candidates" class="java.lang.Integer"/>
-	<field name="Tot1" class="java.lang.Integer"/>
-	<field name="Tot2" class="java.lang.Integer"/>
-	<field name="Tot3" class="java.lang.Integer"/>
-	<field name="Tot4" class="java.lang.Integer"/>
-	<field name="1" class="java.lang.Double"/>
-	<field name="2" class="java.lang.Double"/>
-	<field name="3" class="java.lang.Double"/>
-	<field name="4" class="java.lang.Double"/>
+	<field name="examName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="examName"/>
+	</field>
+	<field name="ExamStandard" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ExamStandard"/>
+	</field>
+	<field name="Benchmark" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Benchmark"/>
+	</field>
+	<field name="Gender" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Gender"/>
+	</field>
+	<field name="Candidates" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Candidates"/>
+	</field>
+	<field name="Tot1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot1"/>
+	</field>
+	<field name="Tot2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot2"/>
+	</field>
+	<field name="Tot3" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot3"/>
+	</field>
+	<field name="Tot4" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot4"/>
+	</field>
+	<field name="1" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="1"/>
+	</field>
+	<field name="2" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="2"/>
+	</field>
+	<field name="3" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="3"/>
+	</field>
+	<field name="4" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="4"/>
+	</field>
 	<variable name="PERC1_AVG_EXAM_STANDARD" class="java.lang.Integer" resetType="Group" resetGroup="Exam Standard">
 		<variableExpression><![CDATA[$V{TOT1_EXAM_STANDARD} / $V{CANDIDATES_EXAM_STANDARD} * 100]]></variableExpression>
 	</variable>

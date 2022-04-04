@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams_School_Results_by_Year" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
 	<property name="ireport.jasperserver.url" value="http://data.doe.fm:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
 	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Schools/School/School_Exams_Results_by_Year"/>
@@ -26,10 +26,10 @@
       ,[examYear]
       ,[schNo]
 	  ,[Gender]
-      ,CONCAT([standardCode],': ',[standardDesc]) AS ExamStandard
-	  ,CONCAT([benchmarkCode], ': ', [exbnchDescription]) AS Benchmark
-	  ,[benchmarkID]
-	  ,[benchmarkCode]
+      ,CONCAT([exstdCode],': ',[exstdDescription]) AS ExamStandard
+	  ,CONCAT([exbnchCode], ': ', [exbnchDescription]) AS Benchmark
+	  ,[exbnchID]
+	  ,[exbnchCode]
 	  ,[exbnchDescription]
 	  ,[Candidates]
 	  ,ISNULL([2] * -1, 0) AS [Tot2]
@@ -41,28 +41,65 @@
 	  ,ROUND(ISNULL(convert(float, [3] ) / Candidates, 0), 2) as [3]
 	  ,ROUND(ISNULL(convert(float, [4] ) / Candidates, 0), 2) as [4]
   FROM warehouse.examSchoolResultsX AS ESR
-  INNER JOIN [dbo].[ExamBenchmarks] AS EB ON ESR.benchmarkCode = EB.[exbnchCode] AND ESR.examID = EB.exID
+	  INNER JOIN ExamBenchmarks EB on ESR.examID = EB.exID
+	  INNER JOIN [dbo].[ExamStandards] AS ES ON ESR.examID = ES.exID AND EB.exstdID = ES.exstdID
   WHERE [schNo] = $P{SchoolNo} AND [examYear] = $P{Year}
-  ORDER BY [examName], ExamStandard, benchmarkCode]]>
+  ORDER BY [examName], ExamStandard, exbnchCode]]>
 	</queryString>
-	<field name="examName" class="java.lang.String"/>
-	<field name="examYear" class="java.lang.Integer"/>
-	<field name="schNo" class="java.lang.String"/>
-	<field name="Gender" class="java.lang.String"/>
-	<field name="ExamStandard" class="java.lang.String"/>
-	<field name="Benchmark" class="java.lang.String"/>
-	<field name="benchmarkID" class="java.lang.Integer"/>
-	<field name="benchmarkCode" class="java.lang.String"/>
-	<field name="exbnchDescription" class="java.lang.String"/>
-	<field name="Candidates" class="java.lang.Integer"/>
-	<field name="Tot2" class="java.lang.Double"/>
-	<field name="Tot1" class="java.lang.Double"/>
-	<field name="Tot3" class="java.lang.Integer"/>
-	<field name="Tot4" class="java.lang.Integer"/>
-	<field name="1" class="java.lang.Double"/>
-	<field name="2" class="java.lang.Double"/>
-	<field name="3" class="java.lang.Double"/>
-	<field name="4" class="java.lang.Double"/>
+	<field name="examName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="examName"/>
+	</field>
+	<field name="examYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="examYear"/>
+	</field>
+	<field name="schNo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="schNo"/>
+	</field>
+	<field name="Gender" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Gender"/>
+	</field>
+	<field name="ExamStandard" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ExamStandard"/>
+	</field>
+	<field name="Benchmark" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Benchmark"/>
+	</field>
+	<field name="exbnchID" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="exbnchID"/>
+	</field>
+	<field name="exbnchCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="exbnchCode"/>
+	</field>
+	<field name="exbnchDescription" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="exbnchDescription"/>
+	</field>
+	<field name="Candidates" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Candidates"/>
+	</field>
+	<field name="Tot2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot2"/>
+	</field>
+	<field name="Tot1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot1"/>
+	</field>
+	<field name="Tot3" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot3"/>
+	</field>
+	<field name="Tot4" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot4"/>
+	</field>
+	<field name="1" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="1"/>
+	</field>
+	<field name="2" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="2"/>
+	</field>
+	<field name="3" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="3"/>
+	</field>
+	<field name="4" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="4"/>
+	</field>
 	<variable name="PERC1_AVG_EXAM_STANDARD" class="java.lang.Integer" resetType="Group" resetGroup="Exam Standard">
 		<variableExpression><![CDATA[$V{TOT1_EXAM_STANDARD} / $V{CANDIDATES_EXAM_STANDARD} * 100]]></variableExpression>
 	</variable>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exam_Adequate_Yearly_Progress_in_Percentages_by_Standard_Gender_Portrait" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ced95029-b569-4027-895c-af2843a4e088">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
@@ -32,21 +32,27 @@
 	<parameter name="Exam" class="java.lang.String">
 		<defaultValueExpression><![CDATA["M10"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2021]]></defaultValueExpression>
+	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT [examName]
       ,[State]
       ,[schName]
       ,CONCAT([standardCode], ': ', [standardDesc]) AS ExamStandard
-	  --,[standardCode]
-	  --,[standardDesc]
-	  ,SUM(CASE WHEN examYear = 2015 AND Gender = 'F' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [2015F]
-      ,SUM(CASE WHEN examYear = 2016 AND Gender = 'F' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [2016F]
-	  ,SUM(CASE WHEN examYear = 2017 AND Gender = 'F' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [2017F]     
-	  ,SUM(CASE WHEN examYear = 2015 AND Gender = 'M' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [2015M]
-      ,SUM(CASE WHEN examYear = 2016 AND Gender = 'M' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [2016M]
-	  ,SUM(CASE WHEN examYear = 2017 AND Gender = 'M' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [2017M]     
-FROM [warehouse].[ExamSchoolStandardsX]
-INNER JOIN Schools ON [warehouse].[ExamSchoolStandardsX].schNo = Schools.schNo
+	  ,[standardCode]
+	  ,[standardDesc]
+	  ,SUM(CASE WHEN examYear = $P{Year} - 2 AND Gender = 'F' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year1F]
+      ,SUM(CASE WHEN examYear = $P{Year} -1 AND Gender = 'F' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year2F]
+	  ,SUM(CASE WHEN examYear = $P{Year} AND Gender = 'F' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year3F]     
+	  ,SUM(CASE WHEN examYear = $P{Year} -2 AND Gender = 'M' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year1M]
+      ,SUM(CASE WHEN examYear = $P{Year} -1 AND Gender = 'M' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year2M]
+	  ,SUM(CASE WHEN examYear =  $P{Year} AND Gender = 'M' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year3M]     
+	  ,SUM(CASE WHEN examYear = $P{Year} -2 AND Gender IS NULL THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year1NA]
+      ,SUM(CASE WHEN examYear = $P{Year} -1 AND Gender IS NULL THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year2NA]
+	  ,SUM(CASE WHEN examYear = $P{Year} AND Gender IS NULL THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year3NA]     
+FROM [warehouse].[ExamSchoolStandardsX] AS ESS
+INNER JOIN Schools AS S ON ESS.schNo = S.schNo
 WHERE examCode = $P{Exam}
 GROUP BY [examName]
       ,[State]
@@ -55,16 +61,51 @@ GROUP BY [examName]
 	  ,[standardDesc]
 ORDER BY ExamStandard, State, schName]]>
 	</queryString>
-	<field name="examName" class="java.lang.String"/>
-	<field name="State" class="java.lang.String"/>
-	<field name="schName" class="java.lang.String"/>
-	<field name="ExamStandard" class="java.lang.String"/>
-	<field name="2015F" class="java.lang.Double"/>
-	<field name="2016F" class="java.lang.Double"/>
-	<field name="2017F" class="java.lang.Double"/>
-	<field name="2015M" class="java.lang.Double"/>
-	<field name="2016M" class="java.lang.Double"/>
-	<field name="2017M" class="java.lang.Double"/>
+	<field name="examName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="examName"/>
+	</field>
+	<field name="State" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="State"/>
+	</field>
+	<field name="schName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="schName"/>
+	</field>
+	<field name="ExamStandard" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ExamStandard"/>
+	</field>
+	<field name="standardCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="standardCode"/>
+	</field>
+	<field name="standardDesc" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="standardDesc"/>
+	</field>
+	<field name="Year1F" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="Year1F"/>
+	</field>
+	<field name="Year2F" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="Year2F"/>
+	</field>
+	<field name="Year3F" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="Year3F"/>
+	</field>
+	<field name="Year1M" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="Year1M"/>
+	</field>
+	<field name="Year2M" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="Year2M"/>
+	</field>
+	<field name="Year3M" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="Year3M"/>
+	</field>
+	<field name="Year1NA" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="Year1M"/>
+	</field>
+	<field name="Year2NA" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="Year2M"/>
+	</field>
+	<field name="Year3NA" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="Year3M"/>
+	</field>
 	<group name="ExamStandard">
 		<groupExpression><![CDATA[$F{ExamStandard}]]></groupExpression>
 		<groupHeader>
@@ -189,8 +230,10 @@ ORDER BY ExamStandard, State, schName]]>
 	<columnHeader>
 		<band height="34" splitType="Stretch">
 			<textField>
-				<reportElement style="Column header 2" x="2" y="2" width="291" height="16" uuid="f9bc7b4d-ca9d-44f2-ac05-3f379bb119fe">
+				<reportElement style="Column header 2" x="0" y="2" width="285" height="16" uuid="f9bc7b4d-ca9d-44f2-ac05-3f379bb119fe">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#D8D8D8"/>
@@ -199,104 +242,148 @@ ORDER BY ExamStandard, State, schName]]>
 				<textFieldExpression><![CDATA["School"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Column header 2" x="293" y="2" width="86" height="16" uuid="acdd0d43-26ff-4abc-a25c-89280e80b540">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				<reportElement style="Column header 2" x="285" y="2" width="96" height="16" uuid="acdd0d43-26ff-4abc-a25c-89280e80b540">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#D8D8D8"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA["2015"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Year}-2]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Column header 2" x="478" y="2" width="95" height="16" uuid="afa9d58f-784f-4e15-88ba-3324cc285f7b">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				<reportElement style="Column header 2" x="477" y="2" width="96" height="16" uuid="afa9d58f-784f-4e15-88ba-3324cc285f7b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#D8D8D8"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA["2017"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Year}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Column header 2" x="379" y="2" width="99" height="16" uuid="ee598513-fa05-434d-8686-a8ea23651782">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				<reportElement style="Column header 2" x="381" y="2" width="96" height="16" uuid="ee598513-fa05-434d-8686-a8ea23651782">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#D8D8D8"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA["2016"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Year} -1]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Column header" x="338" y="18" width="41" height="16" uuid="e73476d5-f157-4346-a846-fa492ffb2179">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				<reportElement style="Column header" x="317" y="18" width="32" height="16" uuid="e73476d5-f157-4346-a846-fa492ffb2179">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#ECECEC"/>
 				</box>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Male"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["M"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Column header" x="293" y="18" width="44" height="16" uuid="541e349f-d2d6-4b5b-a292-11486f3590c1">
+				<reportElement style="Column header" x="285" y="18" width="32" height="16" uuid="541e349f-d2d6-4b5b-a292-11486f3590c1">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#ECECEC"/>
 				</box>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Female"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["F"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Column header" x="379" y="18" width="54" height="16" uuid="f414c6ab-55a3-49c9-89fe-618a876c976e">
+				<reportElement style="Column header" x="381" y="18" width="32" height="16" uuid="f414c6ab-55a3-49c9-89fe-618a876c976e">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#ECECEC"/>
 				</box>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Female"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["F"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Column header" x="433" y="18" width="45" height="16" uuid="af14f09c-1623-4f55-b443-6829967d9dad">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				<reportElement style="Column header" x="413" y="18" width="32" height="16" uuid="af14f09c-1623-4f55-b443-6829967d9dad">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#ECECEC"/>
 				</box>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Male"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["M"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Column header" x="528" y="18" width="45" height="16" uuid="cefe1c94-3034-4bb5-a358-1325a652d549">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				<reportElement style="Column header" x="509" y="18" width="32" height="16" uuid="cefe1c94-3034-4bb5-a358-1325a652d549">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#ECECEC"/>
 				</box>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Male"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["M"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Column header" x="478" y="18" width="50" height="16" uuid="b3ff473a-9547-4857-b6be-3ba177b4fcba">
+				<reportElement style="Column header" x="477" y="18" width="32" height="16" uuid="b3ff473a-9547-4857-b6be-3ba177b4fcba">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#ECECEC"/>
 				</box>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Female"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["F"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column header" x="349" y="18" width="32" height="16" uuid="b671f8e0-ad78-45aa-9421-be2a20e8aa69">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#ECECEC"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["N/A"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column header" x="445" y="18" width="32" height="16" uuid="f904a2f0-3c6f-441e-8061-2a762897e7b0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#ECECEC"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["N/A"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column header" x="541" y="18" width="32" height="16" uuid="a5073d9f-cb66-436f-9733-4124e0976ccd">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#ECECEC"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["N/A"]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="16" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="292" height="16" uuid="4b2f47d0-6a3a-4120-b9cf-0744bf0307af">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="285" height="16" uuid="4b2f47d0-6a3a-4120-b9cf-0744bf0307af">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
@@ -307,28 +394,9 @@ ORDER BY ExamStandard, State, schName]]>
 				<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="378" y="0" width="54" height="16" uuid="c5ff6d74-c7b9-45b1-b05b-86914b046ed6"/>
-				<box>
-					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Open Sans Semibold" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{2016F}== null ? "N/A" : $F{2016F}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="477" y="0" width="50" height="16" uuid="86c385bf-0aea-4d5a-9615-35f3f973b81d"/>
-				<box>
-					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Open Sans Semibold" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{2017F}== null ? "N/A" : $F{2017F}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="337" y="0" width="41" height="16" uuid="e8102e95-94cd-4982-ac53-7432b93d19dd">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="381" y="0" width="32" height="16" uuid="c5ff6d74-c7b9-45b1-b05b-86914b046ed6">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
@@ -336,31 +404,12 @@ ORDER BY ExamStandard, State, schName]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{2015M}== null ? "N/A" : $F{2015M}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Year2F}== null ? "N/A" : $F{Year2F}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="432" y="0" width="45" height="16" uuid="b12bc4a3-c7e6-47ec-baa5-2b0b4ccd0a67"/>
-				<box>
-					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Open Sans Semibold" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{2016M}== null ? "N/A" : $F{2016M}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="527" y="0" width="45" height="16" uuid="c819a1e6-accb-40ae-94e1-be9072d0bea4"/>
-				<box>
-					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Open Sans Semibold" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{2017M}== null ? "N/A" : $F{2017M}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="292" y="0" width="45" height="16" uuid="46b75703-9d11-4599-9db2-326269849121">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="477" y="0" width="32" height="16" uuid="86c385bf-0aea-4d5a-9615-35f3f973b81d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
@@ -368,7 +417,98 @@ ORDER BY ExamStandard, State, schName]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{2015F}== null ? "N/A" : $F{2015F}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Year3F}== null ? "N/A" : $F{Year3F}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="317" y="0" width="32" height="16" uuid="e8102e95-94cd-4982-ac53-7432b93d19dd">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Year1M}== null ? "N/A" : $F{Year1M}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="413" y="0" width="32" height="16" uuid="b12bc4a3-c7e6-47ec-baa5-2b0b4ccd0a67">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Year2M}== null ? "N/A" : $F{Year2M}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="508" y="0" width="32" height="16" uuid="c819a1e6-accb-40ae-94e1-be9072d0bea4">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Year3M}== null ? "N/A" : $F{Year3M}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="285" y="0" width="32" height="16" uuid="46b75703-9d11-4599-9db2-326269849121">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Year1F}== null ? "N/A" : $F{Year1F}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="349" y="0" width="32" height="16" uuid="3a6ec6df-16c1-4d84-a4d3-13f4c7493199">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Year1NA}== null ? "N/A" : $F{Year1NA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="445" y="0" width="32" height="16" uuid="07848657-becb-4866-a68e-3ded50251c72">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Year2NA}== null ? "N/A" : $F{Year2NA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="540" y="0" width="32" height="16" uuid="a81c856e-d6fe-4307-ad29-25f2530ac4c5">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Year3NA}== null ? "N/A" : $F{Year3NA}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
