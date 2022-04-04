@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exam_Adequate_Yearly_Progress_in_Percentages_by_Standard_Gender_Portrait" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ced95029-b569-4027-895c-af2843a4e088">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
 	<property name="ireport.jasperserver.url" value="http://fedemis.doe.fm:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
 	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Exams/Exams_Adequate_Yearly_Progress_in_Percentages_by_Standard_Portrait"/>
@@ -25,23 +25,26 @@
 	</style>
 	<style name="Detail Red Below 25%" style="Detail" backcolor="#FFFFFF" fontName="DejaVu Sans">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[$F{2015} < 0.25]]></conditionExpression>
+			<conditionExpression><![CDATA[$F{Year1} < 0.25]]></conditionExpression>
 			<style backcolor="#FF0400" fontName="Algerian"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="Exam" class="java.lang.String">
 		<defaultValueExpression><![CDATA["M10"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2021]]></defaultValueExpression>
+	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT [examName]
       ,[State]
       ,[schName]
       ,CONCAT([standardCode], ': ', [standardDesc]) AS ExamStandard
-	  --,[standardCode]
-	  --,[standardDesc]
-	  ,SUM(CASE WHEN examYear = 2015 THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [2015]
-      ,SUM(CASE WHEN examYear = 2016 THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [2016]
-	  ,SUM(CASE WHEN examYear = 2017 THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [2017]   
+	  ,[standardCode]
+	  ,[standardDesc]
+	  ,SUM(CASE WHEN examYear = $P{Year}-2 THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year1]
+      ,SUM(CASE WHEN examYear = $P{Year}-1 THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year2]
+	  ,SUM(CASE WHEN examYear = $P{Year} THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year3]   
 FROM [warehouse].[ExamSchoolStandardsX]
 INNER JOIN Schools ON [warehouse].[ExamSchoolStandardsX].schNo = Schools.schNo
 WHERE examCode = $P{Exam}
@@ -56,9 +59,9 @@ ORDER BY ExamStandard, State, schName]]>
 	<field name="State" class="java.lang.String"/>
 	<field name="schName" class="java.lang.String"/>
 	<field name="ExamStandard" class="java.lang.String"/>
-	<field name="2015" class="java.lang.Double"/>
-	<field name="2016" class="java.lang.Double"/>
-	<field name="2017" class="java.lang.Double"/>
+	<field name="Year1" class="java.lang.Double"/>
+	<field name="Year2" class="java.lang.Double"/>
+	<field name="Year3" class="java.lang.Double"/>
 	<group name="ExamStandard">
 		<groupExpression><![CDATA[$F{ExamStandard}]]></groupExpression>
 		<groupHeader>
@@ -200,7 +203,7 @@ ORDER BY ExamStandard, State, schName]]>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#D8D8D8"/>
 				</box>
 				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA["2015"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Year}-2]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Column header 2" x="477" y="2" width="95" height="16" uuid="afa9d58f-784f-4e15-88ba-3324cc285f7b">
@@ -210,7 +213,7 @@ ORDER BY ExamStandard, State, schName]]>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#D8D8D8"/>
 				</box>
 				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA["2017"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Year}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Column header 2" x="382" y="2" width="95" height="16" uuid="ee598513-fa05-434d-8686-a8ea23651782">
@@ -220,7 +223,7 @@ ORDER BY ExamStandard, State, schName]]>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#D8D8D8"/>
 				</box>
 				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA["2016"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{Year}-1]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
@@ -246,7 +249,7 @@ ORDER BY ExamStandard, State, schName]]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{2016}== null ? "N/A" : $F{2016}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Year2}== null ? "N/A" : $F{Year2}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="477" y="0" width="95" height="16" uuid="86c385bf-0aea-4d5a-9615-35f3f973b81d"/>
@@ -256,7 +259,7 @@ ORDER BY ExamStandard, State, schName]]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{2017}== null ? "N/A" : $F{2017}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Year3}== null ? "N/A" : $F{Year3}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="292" y="0" width="90" height="16" uuid="46b75703-9d11-4599-9db2-326269849121">
@@ -268,7 +271,7 @@ ORDER BY ExamStandard, State, schName]]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{2015}== null ? "N/A" : $F{2015}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Year1}== null ? "N/A" : $F{Year1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

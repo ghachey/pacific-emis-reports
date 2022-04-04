@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams School Results by Year ExamName" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
-	<property name="ireport.jasperserver.url" value="http://data.pss.edu.mh:8080/jasperserver/"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
 	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/School/School_Exams_Results_comparing_Atoll_and_Island_and_Nation_by_ExamName"/>
 	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/School/School_Exams_Results_comparing_Atoll_and_Island_and_Nation_by_ExamName_files/main_jrxml"/>
@@ -16,7 +16,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<template><![CDATA["miemis/Templates/MIEMIS_Style.jrtx"]]></template>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
 	<style name="Row" mode="Transparent">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
@@ -51,17 +51,39 @@ ORDER BY ExamStandard, CASE
 						ELSE 2
 						END]]>
 	</queryString>
-	<field name="Cohort" class="java.lang.String"/>
-	<field name="ExamStandard" class="java.lang.String"/>
-	<field name="Candidates" class="java.lang.Integer"/>
-	<field name="Tot2" class="java.lang.Integer"/>
-	<field name="Tot1" class="java.lang.Integer"/>
-	<field name="Tot3" class="java.lang.Integer"/>
-	<field name="Tot4" class="java.lang.Integer"/>
-	<field name="2P" class="java.lang.Double"/>
-	<field name="1P" class="java.lang.Double"/>
-	<field name="3P" class="java.lang.Double"/>
-	<field name="4P" class="java.lang.Double"/>
+	<field name="Cohort" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Cohort"/>
+	</field>
+	<field name="ExamStandard" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ExamStandard"/>
+	</field>
+	<field name="Candidates" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Candidates"/>
+	</field>
+	<field name="Tot2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot2"/>
+	</field>
+	<field name="Tot1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot1"/>
+	</field>
+	<field name="Tot3" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot3"/>
+	</field>
+	<field name="Tot4" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Tot4"/>
+	</field>
+	<field name="2P" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="2P"/>
+	</field>
+	<field name="1P" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="1P"/>
+	</field>
+	<field name="3P" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="3P"/>
+	</field>
+	<field name="4P" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="4P"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -71,7 +93,7 @@ ORDER BY ExamStandard, CASE
 				<reportElement x="0" y="0" width="126" height="126" uuid="1c003177-754c-448f-8ce1-16868856f545">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
-				<imageExpression><![CDATA["miemis/images/rmi-seal.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/images/rmi_seal.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement style="Title" x="126" y="0" width="499" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
@@ -92,7 +114,7 @@ ORDER BY ExamStandard, CASE
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<imageExpression><![CDATA["miemis/images/rmi-pss.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/images/rmi_pss.png"]]></imageExpression>
 			</image>
 			<rectangle>
 				<reportElement mode="Opaque" x="-21" y="-20" width="793" height="10" forecolor="#08298C" backcolor="#08298C" uuid="a879b5ed-22f8-4e7b-9093-811aaea43211"/>
@@ -251,7 +273,7 @@ ORDER BY ExamStandard, CASE
 					<textElement verticalAlignment="Middle">
 						<font fontName="SansSerif" size="12" isBold="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Approaching competence" ]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Approaching competence"]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="336" y="1" width="130" height="18" uuid="e4127326-b62b-4d83-99ef-ace42397e504"/>
@@ -296,7 +318,7 @@ ORDER BY ExamStandard, CASE
 					<textElement verticalAlignment="Middle">
 						<font fontName="SansSerif" size="12" isBold="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Competent" ]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Competent"]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement mode="Opaque" x="468" y="7" width="8" height="8" backcolor="#2DA620" uuid="6d0977f4-b53f-4900-8647-ebfebde20e67">
