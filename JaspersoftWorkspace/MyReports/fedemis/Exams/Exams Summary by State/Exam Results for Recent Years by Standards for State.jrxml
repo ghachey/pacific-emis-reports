@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exam Results for Recent Years by Standards for State" pageWidth="572" pageHeight="792" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
@@ -110,19 +110,16 @@ from (
 		<groupHeader>
 			<band height="24">
 				<frame>
-					<reportElement mode="Opaque" x="0" y="0" width="572" height="24" forecolor="#5168AE" backcolor="#0658A5" uuid="f871ff1c-a634-42fe-a4be-f6f89704d9d1">
+					<reportElement style="Detail Header Dark" x="0" y="0" width="572" height="24" uuid="f871ff1c-a634-42fe-a4be-f6f89704d9d1">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<rectangle>
-						<reportElement mode="Opaque" x="0" y="0" width="36" height="24" backcolor="#073C78" uuid="38c58cf7-f8f7-4663-a618-4c7d67066467"/>
-						<graphicElement>
-							<pen lineWidth="0.0"/>
-						</graphicElement>
+						<reportElement style="Detail Header Darker" x="0" y="0" width="36" height="24" uuid="38c58cf7-f8f7-4663-a618-4c7d67066467"/>
 					</rectangle>
 					<textField>
-						<reportElement x="36" y="0" width="494" height="24" forecolor="#FFFFFF" uuid="de5751e6-a4ee-4192-ab60-c78c9c05d5b8"/>
+						<reportElement mode="Transparent" x="40" y="0" width="490" height="24" forecolor="#FFFFFF" uuid="de5751e6-a4ee-4192-ab60-c78c9c05d5b8"/>
 						<textElement verticalAlignment="Middle"/>
 						<textFieldExpression><![CDATA[$F{examName}]]></textFieldExpression>
 					</textField>
@@ -228,9 +225,9 @@ from (
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="22" splitType="Stretch">
+		<band height="27" splitType="Stretch">
 			<staticText>
-				<reportElement key="" style="Column header" x="0" y="0" width="258" height="22" uuid="33889e73-33b1-4849-b201-94246c723972">
+				<reportElement key="" style="Column header" x="0" y="0" width="257" height="22" uuid="33889e73-33b1-4849-b201-94246c723972">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -281,19 +278,6 @@ from (
 				<text><![CDATA[Minimally competent]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="" style="Column header" x="527" y="0" width="45" height="22" uuid="ca5ecf96-d65c-46dd-abf2-c75ffee2b83d">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<box rightPadding="20">
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
-				</box>
-				<textElement textAlignment="Right">
-					<font fontName="Open Sans" size="5" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Competent]]></text>
-			</staticText>
-			<staticText>
 				<reportElement key="" style="Column header" x="302" y="0" width="45" height="22" uuid="73e1c2ab-2db1-4bfa-a412-823851e08b3f">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -331,13 +315,26 @@ from (
 				</textElement>
 				<text><![CDATA[Year]]></text>
 			</staticText>
+			<staticText>
+				<reportElement key="" style="Column header" x="527" y="0" width="45" height="22" uuid="0d52c0db-20a6-4b69-9b14-16604dab986e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Open Sans" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Competent]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField isStretchWithOverflow="true">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="258" height="20" uuid="e52e588f-1cd5-4546-81c7-bcc4c9366e9c">
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="257" height="20" uuid="e52e588f-1cd5-4546-81c7-bcc4c9366e9c">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<box>
@@ -393,6 +390,7 @@ from (
 				<reportElement style="Row" stretchType="RelativeToBandHeight" mode="Opaque" x="527" y="0" width="45" height="20" uuid="0ce8929e-2b56-4f2a-9259-900801e7e618">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box rightPadding="20">
 					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
