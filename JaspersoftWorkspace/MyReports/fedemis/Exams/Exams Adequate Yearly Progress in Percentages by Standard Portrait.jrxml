@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exam_Adequate_Yearly_Progress_in_Percentages_by_Standard_Gender_Portrait" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ced95029-b569-4027-895c-af2843a4e088">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
@@ -23,10 +23,22 @@
 			<style mode="Transparent" backcolor="#ECECEC" fontName="Open Sans Semibold" fontSize="9"/>
 		</conditionalStyle>
 	</style>
-	<style name="Detail Red Below 25%" style="Detail" backcolor="#FFFFFF" fontName="DejaVu Sans">
+	<style name="Year1 Red Below 25%" backcolor="#FFFFFF" fontName="DejaVu Sans">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$F{Year1} < 0.25]]></conditionExpression>
-			<style backcolor="#FF0400" fontName="Algerian"/>
+			<style mode="Transparent" forecolor="#FFFFFF" backcolor="#FF0400" fontName="Algerian"/>
+		</conditionalStyle>
+	</style>
+	<style name="Year2 Red Below 25%" backcolor="#FFFFFF" fontName="DejaVu Sans">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{Year2} < 0.25]]></conditionExpression>
+			<style mode="Transparent" forecolor="#FFFFFF" backcolor="#FF0400" fontName="Algerian"/>
+		</conditionalStyle>
+	</style>
+	<style name="Year3 Red Below 25%" backcolor="#FFFFFF" fontName="DejaVu Sans">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{Year3} < 0.25]]></conditionExpression>
+			<style mode="Transparent" forecolor="#FFFFFF" backcolor="#FF0400" fontName="Algerian"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="Exam" class="java.lang.String">
@@ -229,7 +241,7 @@ ORDER BY ExamStandard, State, schName]]>
 	</columnHeader>
 	<detail>
 		<band height="16" splitType="Stretch">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="292" height="16" uuid="4b2f47d0-6a3a-4120-b9cf-0744bf0307af">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -241,8 +253,8 @@ ORDER BY ExamStandard, State, schName]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="382" y="0" width="95" height="16" uuid="c5ff6d74-c7b9-45b1-b05b-86914b046ed6"/>
+			<textField textAdjust="StretchHeight" pattern="#,##0.##%">
+				<reportElement style="Year2 Red Below 25%" stretchType="RelativeToTallestObject" mode="Opaque" x="382" y="0" width="95" height="16" uuid="c5ff6d74-c7b9-45b1-b05b-86914b046ed6"/>
 				<box leftPadding="2">
 					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
 				</box>
@@ -251,8 +263,8 @@ ORDER BY ExamStandard, State, schName]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Year2}== null ? "N/A" : $F{Year2}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="477" y="0" width="95" height="16" uuid="86c385bf-0aea-4d5a-9615-35f3f973b81d"/>
+			<textField textAdjust="StretchHeight" pattern="#,##0.##%">
+				<reportElement style="Year3 Red Below 25%" stretchType="RelativeToTallestObject" mode="Opaque" x="477" y="0" width="95" height="16" uuid="86c385bf-0aea-4d5a-9615-35f3f973b81d"/>
 				<box leftPadding="2">
 					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#D8D8D8"/>
 				</box>
@@ -261,8 +273,8 @@ ORDER BY ExamStandard, State, schName]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Year3}== null ? "N/A" : $F{Year3}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.##%">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="292" y="0" width="90" height="16" uuid="46b75703-9d11-4599-9db2-326269849121">
+			<textField textAdjust="StretchHeight" pattern="#,##0.##%">
+				<reportElement style="Year1 Red Below 25%" stretchType="RelativeToTallestObject" mode="Opaque" x="292" y="0" width="90" height="16" uuid="46b75703-9d11-4599-9db2-326269849121">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<box leftPadding="2">
