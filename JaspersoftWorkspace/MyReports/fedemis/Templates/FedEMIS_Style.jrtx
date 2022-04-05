@@ -56,4 +56,16 @@
 			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#0C34AB"/>
 		</box>
 	</style>
+	<style name="Detail Header Dark" mode="Opaque" forecolor="#FFFFFF" backcolor="#044584" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+		<pen lineWidth="0.0"/>
+	</style>
+	<style name="Detail Header Light" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E70CF" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+		<pen lineWidth="0.0"/>
+	</style>
+	<style name="Detail Header Darker" mode="Opaque" forecolor="#FFFFFF" backcolor="#033566" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+		<pen lineWidth="0.0"/>
+	</style>
+	<style name="Detail Header Lighter" mode="Opaque" forecolor="#FFFFFF" backcolor="#3683CD" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+		<pen lineWidth="0.0"/>
+	</style>
 </jasperTemplate>

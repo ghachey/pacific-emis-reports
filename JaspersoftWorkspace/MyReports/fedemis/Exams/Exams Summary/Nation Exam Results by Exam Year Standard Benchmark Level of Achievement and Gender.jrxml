@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Nation Exam Results by Exam, Year, Standard, Benchmark, Level of Achievement and Gender" pageWidth="572" pageHeight="792" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="06a4db22-71f6-4501-9c6d-f2ffe43053df">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -63,7 +63,7 @@ group by examCode,examName,examYear
 		<field name="ExamTitle" class="java.lang.String"/>
 		<field name="examYear" class="java.lang.Integer"/>
 		<field name="ExamStandard" class="java.lang.String"/>
-		<field name="benchmarkCode" class="java.lang.String"/>
+		<field name="exbnchCode" class="java.lang.String"/>
 		<field name="TotalCandidates" class="java.lang.Integer"/>
 		<field name="WellBelow_F" class="java.lang.Integer"/>
 		<field name="Approaching_F" class="java.lang.Integer"/>
@@ -174,7 +174,7 @@ group by examCode,examName,examYear
 				</textElement>
 				<text><![CDATA[]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="160" y="0" width="90" height="12" backcolor="#F2F2F2" uuid="873e3d6b-73d1-4ffc-86a3-52c7843041ce">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -188,7 +188,7 @@ group by examCode,examName,examYear
 				</textElement>
 				<textFieldExpression><![CDATA["Well below competent"]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="250" y="0" width="90" height="12" backcolor="#F2F2F2" uuid="61236abb-d9d1-4cf3-8e24-07398101b400">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -200,7 +200,7 @@ group by examCode,examName,examYear
 				</textElement>
 				<textFieldExpression><![CDATA["Approaching competence"]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="340" y="0" width="90" height="12" backcolor="#F2F2F2" uuid="dd067e86-5c96-4696-8282-8ef2825a3f2a">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -214,7 +214,7 @@ group by examCode,examName,examYear
 				</textElement>
 				<textFieldExpression><![CDATA["Minimally competent"]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="430" y="0" width="90" height="12" backcolor="#F2F2F2" uuid="5335490a-9144-4ea2-9088-46ef8720054f">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -226,7 +226,7 @@ group by examCode,examName,examYear
 				</textElement>
 				<textFieldExpression><![CDATA["Competent"]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="520" y="0" width="52" height="24" backcolor="#F2F2F2" uuid="a2fa286f-ae6f-4259-8fc1-71c9bd7f200e">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -385,7 +385,7 @@ group by examCode,examName,examYear
 								<box>
 									<bottomPen lineWidth="2.0" lineColor="#F2F2F2"/>
 								</box>
-								<textField isStretchWithOverflow="true">
+								<textField textAdjust="StretchHeight">
 									<reportElement x="0" y="0" width="160" height="15" uuid="2435a8ed-5def-4a21-9295-fff1aafa96bc"/>
 									<box>
 										<bottomPen lineWidth="0.0" lineColor="#000000"/>
@@ -413,7 +413,7 @@ group by examCode,examName,examYear
 						<jr:groupHeader groupName="Group3">
 							<jr:cell style="Table_CH" height="15" rowSpan="1">
 								<property name="com.jaspersoft.studio.unit.height" value="px"/>
-								<textField isStretchWithOverflow="true">
+								<textField textAdjust="StretchHeight">
 									<reportElement x="0" y="0" width="160" height="15" uuid="5f8d0738-90f7-4612-bdb7-8a1458f25612"/>
 									<box leftPadding="15"/>
 									<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -433,7 +433,7 @@ group by examCode,examName,examYear
 								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font fontName="Open Sans" size="9"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{benchmarkCode}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{exbnchCode}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -441,7 +441,7 @@ group by examCode,examName,examYear
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
-							<textField isStretchWithOverflow="true" evaluationTime="Report">
+							<textField textAdjust="StretchHeight" evaluationTime="Report">
 								<reportElement x="0" y="0" width="45" height="15" uuid="7dfda501-aa2f-4464-967b-4c0536f33bc7"/>
 								<box rightPadding="0"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -470,7 +470,7 @@ group by examCode,examName,examYear
 						</jr:groupHeader>
 						<jr:groupHeader groupName="Group2">
 							<jr:cell style="Table_TD" height="15" rowSpan="1">
-								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+								<textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="Group2">
 									<reportElement x="0" y="0" width="45" height="15" printWhenGroupChanges="Group2" uuid="3a503069-b0e5-4594-8c9c-880b9987657f"/>
 									<box rightPadding="0"/>
 									<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -486,7 +486,7 @@ group by examCode,examName,examYear
 							</jr:cell>
 						</jr:groupHeader>
 						<jr:detailCell height="15">
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="Row" mode="Opaque" x="0" y="0" width="45" height="15" uuid="b1fd0c57-bfee-4e1d-8efe-cbdf3efdc8b1"/>
 								<box rightPadding="0">
 									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -502,7 +502,7 @@ group by examCode,examName,examYear
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
-							<textField isStretchWithOverflow="true" evaluationTime="Report">
+							<textField textAdjust="StretchHeight" evaluationTime="Report">
 								<reportElement x="0" y="0" width="45" height="15" uuid="a7433c95-aad7-4204-8208-78595b7fe317"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Open Sans" size="9" isBold="true"/>
@@ -529,7 +529,7 @@ group by examCode,examName,examYear
 						</jr:groupHeader>
 						<jr:groupHeader groupName="Group2">
 							<jr:cell style="Table_TD" height="15" rowSpan="1">
-								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+								<textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="Group2">
 									<reportElement x="0" y="0" width="45" height="15" printWhenGroupChanges="Group2" uuid="1f6af7ca-4188-48f7-b41d-cbe781371a91"/>
 									<textElement textAlignment="Right" verticalAlignment="Middle">
 										<font fontName="Open Sans" size="9" isBold="true"/>
@@ -560,7 +560,7 @@ group by examCode,examName,examYear
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
-							<textField isStretchWithOverflow="true" evaluationTime="Report">
+							<textField textAdjust="StretchHeight" evaluationTime="Report">
 								<reportElement x="0" y="0" width="45" height="15" uuid="191a7a98-f41e-4721-bb78-45c20cea3324"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Open Sans" size="9" isBold="true"/>
@@ -587,7 +587,7 @@ group by examCode,examName,examYear
 						</jr:groupHeader>
 						<jr:groupHeader groupName="Group2">
 							<jr:cell style="Table_TD" height="15" rowSpan="1">
-								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+								<textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="Group2">
 									<reportElement x="0" y="0" width="45" height="15" printWhenGroupChanges="Group2" uuid="fc1022af-713f-4aff-9efc-8ace3d2baf44"/>
 									<textElement textAlignment="Right" verticalAlignment="Middle">
 										<font fontName="Open Sans" size="9" isBold="true"/>
@@ -602,7 +602,7 @@ group by examCode,examName,examYear
 							</jr:cell>
 						</jr:groupHeader>
 						<jr:detailCell height="15">
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="Row" mode="Opaque" x="0" y="0" width="45" height="15" uuid="1392d539-5b16-4be5-bba5-38d692415606"/>
 								<box>
 									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -618,7 +618,7 @@ group by examCode,examName,examYear
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
-							<textField isStretchWithOverflow="true" evaluationTime="Report">
+							<textField textAdjust="StretchHeight" evaluationTime="Report">
 								<reportElement x="0" y="0" width="45" height="15" uuid="8217e39a-e44b-446a-88e3-ab0d3d83e3a2"/>
 								<box rightPadding="0"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -646,7 +646,7 @@ group by examCode,examName,examYear
 						</jr:groupHeader>
 						<jr:groupHeader groupName="Group2">
 							<jr:cell style="Table_TD" height="15" rowSpan="1">
-								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+								<textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="Group2">
 									<reportElement x="0" y="0" width="45" height="15" printWhenGroupChanges="Group2" uuid="ad1edec1-a9c8-48bf-80a2-c45520e495bd"/>
 									<box rightPadding="0"/>
 									<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -662,7 +662,7 @@ group by examCode,examName,examYear
 							</jr:cell>
 						</jr:groupHeader>
 						<jr:detailCell height="15">
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="Row" mode="Opaque" x="0" y="0" width="45" height="15" uuid="9cbc5455-7c3c-4d07-b8d6-504d1bc2407d"/>
 								<box rightPadding="0">
 									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -677,7 +677,7 @@ group by examCode,examName,examYear
 					<jr:column width="45" uuid="e55e3a02-0827-4e78-99e5-c6f60fbe5223">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
-							<textField isStretchWithOverflow="true" evaluationTime="Report">
+							<textField textAdjust="StretchHeight" evaluationTime="Report">
 								<reportElement x="0" y="0" width="45" height="15" uuid="22d33623-06a4-4822-b8a7-2b0f59b45dae"/>
 								<box rightPadding="0"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -705,7 +705,7 @@ group by examCode,examName,examYear
 						</jr:groupHeader>
 						<jr:groupHeader groupName="Group2">
 							<jr:cell style="Table_CH" height="15" rowSpan="1">
-								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+								<textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="Group2">
 									<reportElement x="0" y="0" width="45" height="15" printWhenGroupChanges="Group2" uuid="a9203868-143b-4185-b50c-f6d258a7982c"/>
 									<box rightPadding="0"/>
 									<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -721,7 +721,7 @@ group by examCode,examName,examYear
 							</jr:cell>
 						</jr:groupHeader>
 						<jr:detailCell style="Table_TD" height="15">
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="Row" mode="Opaque" x="0" y="0" width="45" height="15" uuid="85f3f555-9a2f-4ec1-8cdb-54f397f59e62"/>
 								<box>
 									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -736,7 +736,7 @@ group by examCode,examName,examYear
 					<jr:column width="45" uuid="c4190512-31a0-449f-ab2c-07761d1688ba">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
-							<textField isStretchWithOverflow="true" evaluationTime="Report">
+							<textField textAdjust="StretchHeight" evaluationTime="Report">
 								<reportElement x="0" y="0" width="45" height="15" uuid="2134e79f-2676-429a-86c1-cc4f3f02d1c6"/>
 								<box rightPadding="0"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -764,7 +764,7 @@ group by examCode,examName,examYear
 						</jr:groupHeader>
 						<jr:groupHeader groupName="Group2">
 							<jr:cell style="Table_CH" height="15" rowSpan="1">
-								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+								<textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="Group2">
 									<reportElement x="0" y="0" width="45" height="15" printWhenGroupChanges="Group2" uuid="1a5f7402-8a38-432f-ab24-22cb1316cddf"/>
 									<box rightPadding="0"/>
 									<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -780,7 +780,7 @@ group by examCode,examName,examYear
 							</jr:cell>
 						</jr:groupHeader>
 						<jr:detailCell style="Table_TD" height="15">
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="Row" mode="Opaque" x="0" y="0" width="45" height="15" uuid="48833d4e-1b28-4605-a17c-10e738508a10"/>
 								<box rightPadding="0">
 									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -796,7 +796,7 @@ group by examCode,examName,examYear
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
-							<textField isStretchWithOverflow="true" evaluationTime="Report">
+							<textField textAdjust="StretchHeight" evaluationTime="Report">
 								<reportElement x="0" y="0" width="45" height="15" uuid="62bb3f51-d150-4dce-9b58-ef88abebc547"/>
 								<box rightPadding="0"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -824,7 +824,7 @@ group by examCode,examName,examYear
 						</jr:groupHeader>
 						<jr:groupHeader groupName="Group2">
 							<jr:cell style="Table_CH" height="15" rowSpan="1">
-								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+								<textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="Group2">
 									<reportElement x="0" y="0" width="45" height="15" printWhenGroupChanges="Group2" uuid="69d1c7e9-eb2a-4598-85d7-d6cfdc0fe724"/>
 									<box rightPadding="0"/>
 									<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -841,7 +841,7 @@ group by examCode,examName,examYear
 						</jr:groupHeader>
 						<jr:detailCell style="Table_TD" height="15">
 							<property name="com.jaspersoft.studio.unit.width" value="px"/>
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="Row" mode="Opaque" x="0" y="0" width="45" height="15" uuid="0f8473ed-44ad-4b65-a733-e7cae1beca2c"/>
 								<box>
 									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -856,7 +856,7 @@ group by examCode,examName,examYear
 					<jr:column width="45" uuid="bf8f5c26-4e92-4d7b-9632-3098914dbcac">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
 						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
-							<textField isStretchWithOverflow="true" evaluationTime="Report">
+							<textField textAdjust="StretchHeight" evaluationTime="Report">
 								<reportElement x="0" y="0" width="45" height="15" uuid="be8a4d60-019e-4ab7-b021-a2cc51344617"/>
 								<box rightPadding="0"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -884,7 +884,7 @@ group by examCode,examName,examYear
 						</jr:groupHeader>
 						<jr:groupHeader groupName="Group2">
 							<jr:cell style="Table_CH" height="15" rowSpan="1">
-								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+								<textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="Group2">
 									<reportElement x="0" y="0" width="45" height="15" printWhenGroupChanges="Group2" uuid="a70ecbac-9eb0-426b-a82b-6511d33ad3fe"/>
 									<box rightPadding="0"/>
 									<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -901,7 +901,7 @@ group by examCode,examName,examYear
 						</jr:groupHeader>
 						<jr:detailCell style="Table_TD" height="15">
 							<property name="com.jaspersoft.studio.unit.width" value="px"/>
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="Row" mode="Opaque" x="0" y="0" width="45" height="15" uuid="99b52819-ad4f-4ea0-bea0-8db84ba8c3c1"/>
 								<box rightPadding="0">
 									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -917,7 +917,7 @@ group by examCode,examName,examYear
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<jr:tableFooter style="Table_TH" height="15" rowSpan="1">
-							<textField isStretchWithOverflow="true" evaluationTime="Report">
+							<textField textAdjust="StretchHeight" evaluationTime="Report">
 								<reportElement x="0" y="0" width="52" height="15" uuid="86d09a84-030b-47da-9cf8-41cf867b5d8c"/>
 								<box rightPadding="1"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -945,7 +945,7 @@ group by examCode,examName,examYear
 						</jr:groupHeader>
 						<jr:groupHeader groupName="Group2">
 							<jr:cell style="Table_CH" height="15" rowSpan="1">
-								<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="Group2">
+								<textField textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="Group2">
 									<reportElement x="0" y="0" width="52" height="15" printWhenGroupChanges="Group2" uuid="ce633f8c-4340-4dba-91a2-e90be4fa69ef"/>
 									<box rightPadding="1"/>
 									<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -960,7 +960,7 @@ group by examCode,examName,examYear
 						</jr:groupHeader>
 						<jr:detailCell style="Table_TD" height="15">
 							<property name="com.jaspersoft.studio.unit.width" value="px"/>
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement style="Row" mode="Opaque" x="0" y="0" width="52" height="15" uuid="7bc41cda-af3f-495b-844d-6240658e35ca"/>
 								<box rightPadding="1">
 									<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>

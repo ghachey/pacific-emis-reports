@@ -62,4 +62,16 @@
 	</style>
 	<style name="Detail Header 1" mode="Opaque" forecolor="#FFFFFF" backcolor="#4A3015" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true"/>
 	<style name="Title_Image" fontName="Open Sans"/>
+	<style name="Detail Header Dark" mode="Opaque" forecolor="#FFFFFF" backcolor="#301C07" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+		<pen lineWidth="0.0"/>
+	</style>
+	<style name="Detail Header Darker" mode="Opaque" forecolor="#FFFFFF" backcolor="#190D00" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+		<pen lineWidth="0.0"/>
+	</style>
+	<style name="Detail Header Light" mode="Opaque" forecolor="#FFFFFF" backcolor="#624628" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+		<pen lineWidth="0.0"/>
+	</style>
+	<style name="Detail Header Lighter" mode="Opaque" forecolor="#FFFFFF" backcolor="#826649" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+		<pen lineWidth="0.0"/>
+	</style>
 </jasperTemplate>
