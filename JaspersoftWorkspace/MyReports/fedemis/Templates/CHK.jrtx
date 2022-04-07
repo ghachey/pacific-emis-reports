@@ -11,7 +11,7 @@
 	<style name="Column header" mode="Opaque" forecolor="#373435" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans" fontSize="11" isBold="true"/>
 	<style name="Column header 2" forecolor="#605E5F" hTextAlign="Center" fontName="Open Sans Semibold" fontSize="10" isBold="true"/>
 	<style name="Page footer" mode="Opaque" forecolor="#000000" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle" rotation="None" fontName="Open Sans" fontSize="10" isBold="false"/>
-	<style name="Group header" mode="Opaque" forecolor="#FFFFFF" backcolor="#4A3015" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans" fontSize="12" isBold="true">
+	<style name="Group header" mode="Transparent" forecolor="#FFFFFF" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans" fontSize="16" isBold="true">
 		<box leftPadding="5" rightPadding="5"/>
 	</style>
 	<style name="Base" isDefault="true" fontName="Open Sans" fontSize="12"/>

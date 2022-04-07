@@ -964,7 +964,7 @@
 	<pageFooter>
 		<band height="26" splitType="Stretch">
 			<frame>
-				<reportElement style="Frame" mode="Transparent" x="-20" y="2" width="612" height="24" uuid="5d8169bd-4a75-48c8-8a68-6d3ad5ba9402"/>
+				<reportElement style="Page footer" x="-20" y="2" width="612" height="24" uuid="5d8169bd-4a75-48c8-8a68-6d3ad5ba9402"/>
 				<textField evaluationTime="Report">
 					<reportElement style="Page footer" x="550" y="2" width="40" height="20" uuid="e5e27efa-b599-499b-9ca3-848cb511cb7b"/>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>

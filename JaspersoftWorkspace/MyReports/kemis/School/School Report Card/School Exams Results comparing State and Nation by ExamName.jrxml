@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams School Results by Year ExamName" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
@@ -41,8 +41,8 @@
 		<defaultValueExpression><![CDATA["KSA205"]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT * FROM [warehouse].[examsSchoolDistrictNationByStandardResults2]($P{Year},$P{SchoolNo}) 
-ORDER BY ExamCode,ExamStandard, CASE 
+		<![CDATA[SELECT * FROM [warehouse].[examsSchoolDistrictNationByStandardResults]($P{SchoolNo},$P{Year}) 
+ORDER BY ExamCode,ExamName, CASE 
 						WHEN Cohort = 'Nation' THEN 1
 						WHEN Cohort = 'School' THEN 3
 						ELSE 2
@@ -51,7 +51,6 @@ ORDER BY ExamCode,ExamStandard, CASE
 	<field name="Cohort" class="java.lang.String"/>
 	<field name="ExamCode" class="java.lang.String"/>
 	<field name="ExamName" class="java.lang.String"/>
-	<field name="ExamStandard" class="java.lang.String"/>
 	<field name="Candidates" class="java.lang.Integer"/>
 	<field name="Tot2" class="java.lang.Integer"/>
 	<field name="Tot1" class="java.lang.Integer"/>
@@ -104,24 +103,25 @@ ORDER BY ExamCode,ExamStandard, CASE
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
+					<dataset resetType="Report"/>
 					<categorySeries>
 						<seriesExpression><![CDATA["Approaching competence"]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{ExamStandard} + "^" + $F{Cohort}]]></categoryExpression>
+						<categoryExpression><![CDATA[$F{ExamName} + "^" + $F{Cohort}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{2P}]]></valueExpression>
 					</categorySeries>
 					<categorySeries>
 						<seriesExpression><![CDATA["Well below competent"]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{ExamStandard} + "^" + $F{Cohort}]]></categoryExpression>
+						<categoryExpression><![CDATA[$F{ExamName} + "^" + $F{Cohort}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{1P}]]></valueExpression>
 					</categorySeries>
 					<categorySeries>
 						<seriesExpression><![CDATA["Minimally competent"]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{ExamStandard} + "^" + $F{Cohort}]]></categoryExpression>
+						<categoryExpression><![CDATA[$F{ExamName} + "^" + $F{Cohort}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{3P}]]></valueExpression>
 					</categorySeries>
 					<categorySeries>
 						<seriesExpression><![CDATA["Competent"]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{ExamStandard} + "^" + $F{Cohort}]]></categoryExpression>
+						<categoryExpression><![CDATA[$F{ExamName} + "^" + $F{Cohort}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{4P}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
@@ -259,7 +259,7 @@ ORDER BY ExamCode,ExamStandard, CASE
 	<detail>
 		<band height="15" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" mode="Opaque" x="-20" y="0" width="275" height="15" uuid="e52e588f-1cd5-4546-81c7-bcc4c9366e9c">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -269,7 +269,7 @@ ORDER BY ExamCode,ExamStandard, CASE
 				<textElement textAlignment="Left">
 					<font fontName="Open Sans" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{ExamStandard}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ExamName}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="359" y="0" width="52" height="15" uuid="e5de5ef1-0226-4ab5-9e85-1488b33a5561">

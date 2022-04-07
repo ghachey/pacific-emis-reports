@@ -49,42 +49,82 @@
 	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT [examName]
-      ,[State]
+      ,[District]
       ,[schName]
       ,CONCAT([standardCode], ': ', [standardDesc]) AS ExamStandard
 	  ,[standardCode]
 	  ,[standardDesc]
-	  ,SUM(CASE WHEN examYear = $P{Year}-2 THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year1]
-      ,SUM(CASE WHEN examYear = $P{Year}-1 THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year2]
-	  ,SUM(CASE WHEN examYear = $P{Year} THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year3]   
-FROM [warehouse].[ExamSchoolStandardsX]
-INNER JOIN Schools ON [warehouse].[ExamSchoolStandardsX].schNo = Schools.schNo
+	  , [Level34Year1] / [CandidatesYear1] [Year1]
+	  , [Level34Year2] / [CandidatesYear2] [Year2]
+	  , [Level34Year3] / [CandidatesYear3] [Year3]
+FROM (
+SELECT [examName]
+      ,[District]
+      ,[schName]
+      ,CONCAT([standardCode], ': ', [standardDesc]) AS ExamStandard
+	  ,[standardCode]
+	  ,[standardDesc]
+	  ,SUM(CASE WHEN examYear = $P{Year}-2 THEN [Candidates] END) [CandidatesYear1]
+	  ,SUM(CASE WHEN examYear = $P{Year}-1 THEN [Candidates] END) [CandidatesYear2]
+	  ,SUM(CASE WHEN examYear = $P{Year} THEN [Candidates] END) [CandidatesYear3]
+	  ,SUM(CASE WHEN examYear = $P{Year}-2 THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)),2) END) [Level34Year1]
+      ,SUM(CASE WHEN examYear = $P{Year}-1 THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)),2) END) [Level34Year2]
+	  ,SUM(CASE WHEN examYear = $P{Year} THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)),2) END) [Level34Year3]   
+FROM [warehouse].[ExamResultsStandardsSchoolX] ERSSX
+INNER JOIN Schools S ON ERSSX.schNo = S.schNo
 WHERE examCode = $P{Exam}
 GROUP BY [examName]
-      ,[State]
+      ,[District]
       ,[schName]
 	  ,[standardCode]
 	  ,[standardDesc]
-ORDER BY ExamStandard, State, schName]]>
+) S
+ORDER BY ExamStandard, District, schName]]>
 	</queryString>
-	<field name="examName" class="java.lang.String"/>
-	<field name="State" class="java.lang.String"/>
-	<field name="schName" class="java.lang.String"/>
-	<field name="ExamStandard" class="java.lang.String"/>
-	<field name="Year1" class="java.lang.Double"/>
-	<field name="Year2" class="java.lang.Double"/>
-	<field name="Year3" class="java.lang.Double"/>
+	<field name="examName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="examName"/>
+		<property name="com.jaspersoft.studio.field.label" value="examName"/>
+	</field>
+	<field name="District" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="District"/>
+		<property name="com.jaspersoft.studio.field.label" value="District"/>
+	</field>
+	<field name="schName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schName"/>
+		<property name="com.jaspersoft.studio.field.label" value="schName"/>
+	</field>
+	<field name="ExamStandard" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ExamStandard"/>
+		<property name="com.jaspersoft.studio.field.label" value="ExamStandard"/>
+	</field>
+	<field name="standardCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="standardCode"/>
+		<property name="com.jaspersoft.studio.field.label" value="standardCode"/>
+	</field>
+	<field name="standardDesc" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="standardDesc"/>
+		<property name="com.jaspersoft.studio.field.label" value="standardDesc"/>
+	</field>
+	<field name="Year1" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="Year1"/>
+		<property name="com.jaspersoft.studio.field.label" value="Year1"/>
+	</field>
+	<field name="Year2" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="Year2"/>
+		<property name="com.jaspersoft.studio.field.label" value="Year2"/>
+	</field>
+	<field name="Year3" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="Year3"/>
+		<property name="com.jaspersoft.studio.field.label" value="Year3"/>
+	</field>
 	<group name="ExamStandard">
 		<groupExpression><![CDATA[$F{ExamStandard}]]></groupExpression>
 		<groupHeader>
 			<band height="25">
 				<frame>
-					<reportElement mode="Opaque" x="-21" y="1" width="613" height="24" forecolor="#5168AE" backcolor="#0658A5" uuid="db391ec9-3299-4f35-8af5-45ce83227e87"/>
+					<reportElement style="Detail Header Dark" x="-21" y="1" width="613" height="24" uuid="db391ec9-3299-4f35-8af5-45ce83227e87"/>
 					<rectangle>
-						<reportElement mode="Opaque" x="21" y="0" width="36" height="24" backcolor="#073C78" uuid="98858ba2-4ebb-4539-a2c6-3812ef5b157e"/>
-						<graphicElement>
-							<pen lineWidth="0.0"/>
-						</graphicElement>
+						<reportElement style="Detail Header Darker" x="21" y="0" width="36" height="24" uuid="98858ba2-4ebb-4539-a2c6-3812ef5b157e"/>
 					</rectangle>
 					<textField>
 						<reportElement style="Group header" x="68" y="0" width="545" height="24" uuid="d6deeb2d-cb6e-4276-b479-943ffc40e54a"/>
@@ -99,21 +139,21 @@ ORDER BY ExamStandard, State, schName]]>
 			</band>
 		</groupFooter>
 	</group>
-	<group name="State">
-		<groupExpression><![CDATA[$F{State}]]></groupExpression>
+	<group name="District">
+		<groupExpression><![CDATA[$F{District}]]></groupExpression>
 		<groupHeader>
-			<band height="25">
+			<band height="24">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<frame>
-					<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="-21" y="1" width="613" height="24" forecolor="#5168AE" backcolor="#0658A5" uuid="c8de9620-af3a-4bdd-a0e0-405be09f1ce4"/>
+					<reportElement style="Detail Header Lighter" positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="-21" y="0" width="613" height="24" uuid="c8de9620-af3a-4bdd-a0e0-405be09f1ce4">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
 					<rectangle>
-						<reportElement mode="Opaque" x="21" y="0" width="53" height="24" forecolor="#FFFFFF" backcolor="#073C78" uuid="1536213d-26dc-4d9d-bbac-3d076be1d0e7"/>
-						<graphicElement>
-							<pen lineWidth="0.0"/>
-						</graphicElement>
+						<reportElement style="Detail Header Light" x="21" y="0" width="53" height="24" uuid="1536213d-26dc-4d9d-bbac-3d076be1d0e7"/>
 					</rectangle>
 					<textField>
 						<reportElement style="Group header" x="80" y="0" width="533" height="24" uuid="caa205a8-b986-45b8-9d83-185029f9274e"/>
-						<textFieldExpression><![CDATA[$F{State}]]></textFieldExpression>
+						<textFieldExpression><![CDATA[$F{District}]]></textFieldExpression>
 					</textField>
 				</frame>
 			</band>
@@ -307,7 +347,7 @@ ORDER BY ExamStandard, State, schName]]>
 				</textField>
 				<textField pattern="EEEEE dd MMMMM yyyy">
 					<reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="0616f3fe-0354-456f-8911-ec30ec51a5ae"/>
-					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Generated by FedEMIS on " + new java.util.Date()]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

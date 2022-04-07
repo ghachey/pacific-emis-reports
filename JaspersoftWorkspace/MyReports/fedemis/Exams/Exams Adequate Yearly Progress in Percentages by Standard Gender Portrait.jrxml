@@ -85,35 +85,61 @@
 	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT [examName]
-      ,[State]
+      ,[District]
       ,[schName]
       ,CONCAT([standardCode], ': ', [standardDesc]) AS ExamStandard
 	  ,[standardCode]
 	  ,[standardDesc]
-	  ,SUM(CASE WHEN examYear = $P{Year} - 2 AND Gender = 'F' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year1F]
-      ,SUM(CASE WHEN examYear = $P{Year} -1 AND Gender = 'F' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year2F]
-	  ,SUM(CASE WHEN examYear = $P{Year} AND Gender = 'F' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year3F]     
-	  ,SUM(CASE WHEN examYear = $P{Year} -2 AND Gender = 'M' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year1M]
-      ,SUM(CASE WHEN examYear = $P{Year} -1 AND Gender = 'M' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year2M]
-	  ,SUM(CASE WHEN examYear =  $P{Year} AND Gender = 'M' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year3M]     
-	  ,SUM(CASE WHEN examYear = $P{Year} -2 AND Gender IS NULL THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year1NA]
-      ,SUM(CASE WHEN examYear = $P{Year} -1 AND Gender IS NULL THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year2NA]
-	  ,SUM(CASE WHEN examYear = $P{Year} AND Gender IS NULL THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)) / Candidates,2) END) [Year3NA]     
-FROM [warehouse].[ExamSchoolStandardsX] AS ESS
-INNER JOIN Schools AS S ON ESS.schNo = S.schNo
+	  ,[Level34Year1F] / [CandidatesYear1F] [Year1F]
+  	  ,[Level34Year2F] / [CandidatesYear2F] [Year2F]
+  	  ,[Level34Year3F] / [CandidatesYear3F] [Year3F]
+	  ,[Level34Year1M] / [CandidatesYear1M] [Year1M]
+	  ,[Level34Year2M] / [CandidatesYear2M] [Year2M]
+	  ,[Level34Year3M] / [CandidatesYear3M] [Year3M]	  	  	  	  	  	  
+	  ,[Level34Year1NA] / [CandidatesYear1NA] [Year1NA]
+	  ,[Level34Year2NA] / [CandidatesYear2NA] [Year2NA]
+	  ,[Level34Year3NA] / [CandidatesYear3NA] [Year3NA]
+FROM (
+SELECT [examName]
+      ,[District]
+      ,[schName]
+      ,CONCAT([standardCode], ': ', [standardDesc]) AS ExamStandard
+	  ,[standardCode]
+	  ,[standardDesc]
+	  ,SUM(CASE WHEN examYear = $P{Year} - 2 AND Gender = 'F' THEN [Candidates] END) [CandidatesYear1F]
+      ,SUM(CASE WHEN examYear = $P{Year} -1 AND Gender = 'F' THEN [Candidates] END) [CandidatesYear2F]
+	  ,SUM(CASE WHEN examYear = $P{Year} AND Gender = 'F' THEN [Candidates] END) [CandidatesYear3F]     
+	  ,SUM(CASE WHEN examYear = $P{Year} -2 AND Gender = 'M' THEN [Candidates] END) [CandidatesYear1M]
+      ,SUM(CASE WHEN examYear = $P{Year} -1 AND Gender = 'M' THEN [Candidates] END) [CandidatesYear2M]
+	  ,SUM(CASE WHEN examYear =  $P{Year} AND Gender = 'M' THEN [Candidates] END) [CandidatesYear3M]     
+	  ,SUM(CASE WHEN examYear = $P{Year} -2 AND Gender IS NULL THEN [Candidates] END) [CandidatesYear1NA]
+      ,SUM(CASE WHEN examYear = $P{Year} -1 AND Gender IS NULL THEN [Candidates] END) [CandidatesYear2NA]
+	  ,SUM(CASE WHEN examYear = $P{Year} AND Gender IS NULL THEN [Candidates] END) [CandidatesYear3NA]	  
+	  ,SUM(CASE WHEN examYear = $P{Year} - 2 AND Gender = 'F' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)),2) END) [Level34Year1F]
+      ,SUM(CASE WHEN examYear = $P{Year} -1 AND Gender = 'F' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)),2) END) [Level34Year2F]
+	  ,SUM(CASE WHEN examYear = $P{Year} AND Gender = 'F' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)),2) END) [Level34Year3F]     
+	  ,SUM(CASE WHEN examYear = $P{Year} -2 AND Gender = 'M' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)),2) END) [Level34Year1M]
+      ,SUM(CASE WHEN examYear = $P{Year} -1 AND Gender = 'M' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)),2) END) [Level34Year2M]
+	  ,SUM(CASE WHEN examYear =  $P{Year} AND Gender = 'M' THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)),2) END) [Level34Year3M]     
+	  ,SUM(CASE WHEN examYear = $P{Year} -2 AND Gender IS NULL THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)),2) END) [Level34Year1NA]
+      ,SUM(CASE WHEN examYear = $P{Year} -1 AND Gender IS NULL THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)),2) END) [Level34Year2NA]
+	  ,SUM(CASE WHEN examYear = $P{Year} AND Gender IS NULL THEN ROUND((convert(float,ISNULL([3], 0)) + ISNULL([4], 0)),2) END) [Level34Year3NA]     
+FROM [warehouse].[ExamResultsStandardsSchoolX] ERSSX
+INNER JOIN Schools AS S ON ERSSX.schNo = S.schNo
 WHERE examCode = $P{Exam}
 GROUP BY [examName]
-      ,[State]
+      ,[District]
       ,[schName]
 	  ,[standardCode]
 	  ,[standardDesc]
-ORDER BY ExamStandard, State, schName]]>
+	  ) S
+ORDER BY ExamStandard, District, schName]]>
 	</queryString>
 	<field name="examName" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="examName"/>
 	</field>
-	<field name="State" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="State"/>
+	<field name="District" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="District"/>
 	</field>
 	<field name="schName" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="schName"/>
@@ -159,12 +185,11 @@ ORDER BY ExamStandard, State, schName]]>
 		<groupHeader>
 			<band height="25">
 				<frame>
-					<reportElement mode="Opaque" x="-21" y="1" width="612" height="24" forecolor="#5168AE" backcolor="#0658A5" uuid="db391ec9-3299-4f35-8af5-45ce83227e87"/>
+					<reportElement style="Detail Header Dark" x="-21" y="1" width="613" height="24" uuid="db391ec9-3299-4f35-8af5-45ce83227e87">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
 					<rectangle>
-						<reportElement mode="Opaque" x="21" y="0" width="36" height="24" backcolor="#073C78" uuid="98858ba2-4ebb-4539-a2c6-3812ef5b157e"/>
-						<graphicElement>
-							<pen lineWidth="0.0"/>
-						</graphicElement>
+						<reportElement style="Detail Header Darker" x="21" y="0" width="36" height="24" uuid="98858ba2-4ebb-4539-a2c6-3812ef5b157e"/>
 					</rectangle>
 					<textField>
 						<reportElement style="Group header" x="68" y="0" width="482" height="24" uuid="d6deeb2d-cb6e-4276-b479-943ffc40e54a"/>
@@ -179,21 +204,22 @@ ORDER BY ExamStandard, State, schName]]>
 			</band>
 		</groupFooter>
 	</group>
-	<group name="State">
-		<groupExpression><![CDATA[$F{State}]]></groupExpression>
+	<group name="District">
+		<groupExpression><![CDATA[$F{District}]]></groupExpression>
 		<groupHeader>
-			<band height="25">
+			<band height="24">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<frame>
-					<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="-21" y="1" width="612" height="24" forecolor="#5168AE" backcolor="#0658A5" uuid="c8de9620-af3a-4bdd-a0e0-405be09f1ce4"/>
+					<reportElement style="Detail Header Lighter" positionType="FixRelativeToBottom" x="-21" y="0" width="613" height="24" uuid="c8de9620-af3a-4bdd-a0e0-405be09f1ce4">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
 					<rectangle>
-						<reportElement mode="Opaque" x="21" y="0" width="69" height="24" forecolor="#FFFFFF" backcolor="#073C78" uuid="1536213d-26dc-4d9d-bbac-3d076be1d0e7"/>
-						<graphicElement>
-							<pen lineWidth="0.0"/>
-						</graphicElement>
+						<reportElement style="Detail Header Light" x="21" y="0" width="69" height="24" uuid="1536213d-26dc-4d9d-bbac-3d076be1d0e7"/>
 					</rectangle>
 					<textField>
 						<reportElement style="Group header" x="100" y="0" width="450" height="24" uuid="caa205a8-b986-45b8-9d83-185029f9274e"/>
-						<textFieldExpression><![CDATA[$F{State}]]></textFieldExpression>
+						<textFieldExpression><![CDATA[$F{District}]]></textFieldExpression>
 					</textField>
 				</frame>
 			</band>
@@ -568,7 +594,9 @@ ORDER BY ExamStandard, State, schName]]>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<frame>
-				<reportElement mode="Opaque" x="-21" y="1" width="612" height="24" forecolor="#8298C0" backcolor="#0658A5" uuid="183682bc-d976-4756-83e0-6625a3f98ed1"/>
+				<reportElement mode="Opaque" x="-21" y="1" width="613" height="24" forecolor="#8298C0" backcolor="#0658A5" uuid="183682bc-d976-4756-83e0-6625a3f98ed1">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<textField evaluationTime="Report">
 					<reportElement style="Page footer" x="533" y="0" width="40" height="20" uuid="0193f9b3-1559-491a-8580-b6988863b6a1"/>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
@@ -579,8 +607,8 @@ ORDER BY ExamStandard, State, schName]]>
 					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 				</textField>
 				<textField pattern="EEEEE dd MMMMM yyyy">
-					<reportElement style="Page footer" x="22" y="1" width="197" height="20" uuid="0616f3fe-0354-456f-8911-ec30ec51a5ae"/>
-					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+					<reportElement style="Page footer" x="22" y="1" width="288" height="20" uuid="0616f3fe-0354-456f-8911-ec30ec51a5ae"/>
+					<textFieldExpression><![CDATA["Generated by FedEMIS on " + new java.util.Date()]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

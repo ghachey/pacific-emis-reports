@@ -41,12 +41,15 @@
 			<defaultValueExpression><![CDATA["CHK"]]></defaultValueExpression>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[Select 
+			<![CDATA[SELECT 
 CONCAT(examCode,': ',examName) ExamTitle
 ,examYear
 ,CONCAT([exstdCode],': ',[exstdDescription]) AS ExamStandard
 ,exbnchCode
 ,Sum(Candidates) TotalCandidates
+,Sum(Case when gender = 'F' then Candidates end) as TotalCandidatesF
+,Sum(Case when gender = 'M' then Candidates end) as TotalCandidatesM
+,Sum(Case when gender IS NULL then Candidates end) as TotalCandidatesNA
 ,Sum(Case when gender = 'F' then [1] else 0 end) as 'WellBelow_F'
 ,Sum(Case when gender = 'F' then [2] else 0 end) as 'Approaching_F'
 ,Sum(Case when gender = 'F' then [3] else 0 end) as 'Minimally_F'
@@ -55,15 +58,17 @@ CONCAT(examCode,': ',examName) ExamTitle
 ,Sum(Case when gender = 'M' then [2] else 0 end) as 'Approaching_M'
 ,Sum(Case when gender = 'M' then [3] else 0 end) as 'Minimally_M'
 ,Sum(Case when gender = 'M' then [4] else 0 end) as 'Competent_M'
-
-
- from warehouse.ExamSchoolResultsX AS ESR
-	  INNER JOIN ExamBenchmarks EB on ESR.examID = EB.exID
-	  INNER JOIN [dbo].[ExamStandards] AS ES ON ESR.examID = ES.exID AND EB.exstdID = ES.exstdID
-Where examYear = $P{Year}
-and [DistrictCode] = $P{District}
-group by examCode,examName,examYear
-,[exstdCode],[exstdDescription],exbnchCode]]>
+,Sum(Case when gender IS NULL then [1] else 0 end) as 'WellBelow_NA'
+,Sum(Case when gender IS NULL then [2] else 0 end) as 'Approaching_NA'
+,Sum(Case when gender IS NULL then [3] else 0 end) as 'Minimally_NA'
+,Sum(Case when gender IS NULL then [4] else 0 end) as 'Competent_NA'
+FROM warehouse.ExamResultsBenchmarksDistrictX AS ERBDX
+INNER JOIN ExamBenchmarks EB on ERBDX.examID = EB.exID AND ERBDX.benchmarkCode = EB.exbnchCode
+INNER JOIN [dbo].[ExamStandards] AS ES ON EB.exID = ES.exID AND EB.exstdID = ES.exstdID
+WHERE examYear = $P{Year}
+AND [DistrictCode] = $P{District}
+GROUP BY examCode,examName,examYear,[exstdCode],[exstdDescription],exbnchCode
+ORDER BY examCode,examName,examYear,[exstdCode],[exstdDescription],exbnchCode]]>
 		</queryString>
 		<field name="ExamTitle" class="java.lang.String"/>
 		<field name="examYear" class="java.lang.Integer"/>
@@ -166,7 +171,7 @@ group by examCode,examName,examYear
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["State Exam Results by Exam, Year, Standard, Benchmark, Level of Achievement and Gender"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["State Exam Results by Exam, Year, Standard, Benchmark, Level of Achievement and Gender (missing N/A gender)"]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

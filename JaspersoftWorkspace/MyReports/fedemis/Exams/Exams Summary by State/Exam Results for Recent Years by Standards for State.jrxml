@@ -52,57 +52,69 @@ from (
 	SELECT [examName]
 		  ,[examYear]
 		  ,Gender
-		  ,CONCAT([exstdCode],': ',[exstdDescription]) AS ExamStandard
+		  ,CONCAT([standardCode],': ',[standardDesc]) AS ExamStandard
 		  ,SUM([Candidates]) AS Candidates
 		  ,SUM(ISNULL([2], 0)) AS [Tot2]
 		  ,SUM(ISNULL([1], 0)) AS [Tot1]
 		  ,SUM(ISNULL([3], 0)) AS [Tot3]
 		  ,SUM(ISNULL([4], 0)) AS [Tot4]
-	  FROM warehouse.examSchoolResultsX AS ESR
-	  INNER JOIN [dbo].[ExamStandards] AS ES ON ESR.examID = ES.exID
-	  where examYear between $P{Year} - 2 and $P{Year}
+	  FROM warehouse.ExamResultsStandardsDistrictX AS ERSDX
+	  where examYear between 2021 - 2 and 2021
 	  and [DistrictCode] = $P{District}
-	  GROUP BY [examName], [examYear], [exstdCode], [exstdDescription],Gender
+	  GROUP BY [examName], [examYear], [standardCode], [standardDesc],Gender
   ) t1
   Order by [examName], ExamStandard, examYear, Gender]]>
 	</queryString>
 	<field name="examName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="examName"/>
 		<property name="com.jaspersoft.studio.field.label" value="examName"/>
 	</field>
 	<field name="examYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="examYear"/>
 		<property name="com.jaspersoft.studio.field.label" value="examYear"/>
 	</field>
 	<field name="ExamStandard" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ExamStandard"/>
 		<property name="com.jaspersoft.studio.field.label" value="ExamStandard"/>
 	</field>
 	<field name="Gender" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Gender"/>
 		<property name="com.jaspersoft.studio.field.label" value="Gender"/>
 	</field>
 	<field name="Candidates" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Candidates"/>
 		<property name="com.jaspersoft.studio.field.label" value="Candidates"/>
 	</field>
 	<field name="Tot2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Tot2"/>
 		<property name="com.jaspersoft.studio.field.label" value="Tot2"/>
 	</field>
 	<field name="Tot1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Tot1"/>
 		<property name="com.jaspersoft.studio.field.label" value="Tot1"/>
 	</field>
 	<field name="Tot3" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Tot3"/>
 		<property name="com.jaspersoft.studio.field.label" value="Tot3"/>
 	</field>
 	<field name="Tot4" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Tot4"/>
 		<property name="com.jaspersoft.studio.field.label" value="Tot4"/>
 	</field>
 	<field name="2" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="2"/>
 		<property name="com.jaspersoft.studio.field.label" value="2"/>
 	</field>
 	<field name="1" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="1"/>
 		<property name="com.jaspersoft.studio.field.label" value="1"/>
 	</field>
 	<field name="3" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="3"/>
 		<property name="com.jaspersoft.studio.field.label" value="3"/>
 	</field>
 	<field name="4" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="4"/>
 		<property name="com.jaspersoft.studio.field.label" value="4"/>
 	</field>
 	<group name="Exam Name">
