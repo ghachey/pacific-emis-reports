@@ -10,8 +10,8 @@
 		</box>
 	</style>
 	<style name="Column header 2" forecolor="#666666" hTextAlign="Center" fontName="Open Sans" fontSize="11" isBold="true"/>
-	<style name="Page footer" forecolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle" rotation="None" fontName="Open Sans" fontSize="10" isBold="false"/>
-	<style name="Group header" forecolor="#FFFFFF" vTextAlign="Middle" fontName="Open Sans" fontSize="8" isBold="true"/>
+	<style name="Page footer" mode="Opaque" forecolor="#FFFFFF" backcolor="#0658A5" hTextAlign="Left" vTextAlign="Middle" rotation="None" fontName="Open Sans" fontSize="10" isBold="false"/>
+	<style name="Group header" forecolor="#FFFFFF" vTextAlign="Middle" fontName="Open Sans" fontSize="16" isBold="true"/>
 	<style name="Base" isDefault="true" fontName="DejaVu Sans" fontSize="12"/>
 	<style name="Group footer" hTextAlign="Right" vTextAlign="Middle" fontName="DejaVu Sans" fontSize="7" isBold="true"/>
 	<style name="Title text" hTextAlign="Center" vTextAlign="Middle" fontName="Open Sans" fontSize="10"/>
@@ -68,4 +68,11 @@
 	<style name="Detail Header Lighter" mode="Opaque" forecolor="#FFFFFF" backcolor="#3683CD" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
 		<pen lineWidth="0.0"/>
 	</style>
+	<style name="Detail Header Light2" mode="Opaque" forecolor="#FFFFFF" backcolor="#589AD9" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+		<pen lineWidth="0.0"/>
+	</style>
+	<style name="Detail Header Lighter2" mode="Opaque" forecolor="#FFFFFF" backcolor="#84B6E6" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+		<pen lineWidth="0.0"/>
+	</style>
+	<style name="Group header fields" forecolor="#333333" hTextAlign="Left" fontName="Open Sans" fontSize="8" isBold="true"/>
 </jasperTemplate>

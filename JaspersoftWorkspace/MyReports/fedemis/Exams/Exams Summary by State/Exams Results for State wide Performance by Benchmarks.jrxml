@@ -50,11 +50,11 @@ from (
 		  ,SUM(ISNULL([1], 0)) AS [Tot1]
 		  ,SUM(ISNULL([3], 0)) AS [Tot3]
 		  ,SUM(ISNULL([4], 0)) AS [Tot4]
-	  FROM warehouse.examSchoolResultsX AS ESR
-	  INNER JOIN ExamBenchmarks EB on ESR.examID = EB.exID
-	  INNER JOIN [dbo].[ExamStandards] AS ES ON ESR.examID = ES.exID AND EB.exstdID = ES.exstdID
-	  WHERE [examYear] = $P{Year}
-	  and [DistrictCode] = $P{District}
+	  FROM warehouse.ExamResultsBenchmarksDistrictX AS ERBDX
+INNER JOIN ExamBenchmarks EB on ERBDX.examID = EB.exID AND ERBDX.benchmarkCode = EB.exbnchCode
+INNER JOIN [dbo].[ExamStandards] AS ES ON EB.exID = ES.exID AND EB.exstdID = ES.exstdID
+	  WHERE [examYear] = $P{Year}	  
+	  AND [DistrictCode] = $P{District}
 	  GROUP BY [examName], [exstdCode], [exstdDescription], [exbnchDescription], [exbnchCode],Gender
   ) t1
   Order by examName, ExamStandard, Benchmark]]>

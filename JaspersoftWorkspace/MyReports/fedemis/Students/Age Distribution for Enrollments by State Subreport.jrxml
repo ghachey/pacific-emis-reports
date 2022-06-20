@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Age Distribution for Enrollments by State Subreport" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="33b88790-51a6-4f41-847f-45b41139e09f">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -19,31 +19,31 @@
 		<parameter name="Year" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
 		</parameter>
-		<parameter name="State" class="java.lang.String">
+		<parameter name="District" class="java.lang.String">
 			<defaultValueExpression><![CDATA["CHK"]]></defaultValueExpression>
 		</parameter>
 		<queryString language="SQL">
 			<![CDATA[select surveyYear,'UnderAge' as Age,sum(UnderAge) as AgeSum
-from [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b 
+from [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b 
 on a.districtCode=b.dID
 
 where  surveyYear between  $P{Year} -5 and  $P{Year} 
-and dID= $P{State} 
+and dID= $P{District} 
 group by surveyYear
 
 union 
 select surveyYear,'officialAge' as Age,sum(officialAge) as AgeSum
-from  [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b
+from  [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b
  on a.districtCode=b.dID
 where   surveyYear between  $P{Year} -5 and  $P{Year} 
-and dID= $P{State} 
+and dID= $P{District} 
 group by surveyYear
 union
 select surveyYear,'overAge'as age,sum(overAge) as AgeSum
-from [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b
+from [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b
  on a.districtCode=b.dID
 where   surveyYear between  $P{Year} -5 and  $P{Year} 
-and dID= $P{State} 
+and dID= $P{District} 
 group by  surveyYear]]>
 		</queryString>
 		<field name="surveyYear" class="java.lang.Integer"/>
@@ -56,27 +56,27 @@ group by  surveyYear]]>
 		<parameter name="Year" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
 		</parameter>
-		<parameter name="State" class="java.lang.String">
+		<parameter name="District" class="java.lang.String">
 			<defaultValueExpression><![CDATA["CHK"]]></defaultValueExpression>
 		</parameter>
 		<queryString language="SQL">
 			<![CDATA[select districtCode,'UnderAge' as Age,isnull(sum(UnderAge),0) as AgeSum
-from [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 where  surveyYear=  $P{Year}  and districtCode is not null
-and dID= $P{State} 
+and dID= $P{District} 
 group by districtCode
 
 union 
 select districtCode,'officialAge' as Age,isnull(sum(officialAge),0) as AgeSum
-from  [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from  [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 where  surveyYear=  $P{Year}     and districtCode is not null
-and dID= $P{State} 
+and dID= $P{District} 
 group by districtCode
 union
 select districtCode,'overAge'as age,isnull(sum(overAge),0) as AgeSum
-from [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 where  surveyYear=   $P{Year}  and districtCode is not null
-and dID= $P{State} 
+and dID= $P{District} 
 group by districtCode]]>
 		</queryString>
 		<field name="districtCode" class="java.lang.String"/>
@@ -89,30 +89,30 @@ group by districtCode]]>
 		<parameter name="Year" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
 		</parameter>
-		<parameter name="State" class="java.lang.String">
+		<parameter name="District" class="java.lang.String">
 			<defaultValueExpression><![CDATA["CHK"]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[select * from 
 
 (select a.classlevel,'UnderAge' as Age,sum(a.UnderAge) as AgeSum
-from  [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from  [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 where  a.surveyYear=  $P{Year} 
-and dID= $P{State} 
+and dID= $P{District} 
 group by a.classlevel
 
 union 
 select a.classlevel,'officialAge' as Age,sum(a.officialAge) as AgeSum
-from   [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from   [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 
 where  a.surveyYear=  $P{Year} 
-and dID= $P{State} 
+and dID= $P{District} 
 group by a.classlevel
 union
 select a.classlevel,'overAge'as age,sum(a.overAge) as AgeSum
-from  [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from  [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 where  a.surveyYear=  $P{Year} 
-and dID= $P{State} 
+and dID= $P{District} 
 group by  a.classlevel) as a
 order by case when classlevel='GK' then 0  
             when  classlevel='G1' then 1 
@@ -136,56 +136,56 @@ order by case when classlevel='GK' then 0
 	<parameter name="Year" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
 	</parameter>
-	<parameter name="State" class="java.lang.String">
+	<parameter name="District" class="java.lang.String">
 		<defaultValueExpression><![CDATA["CHK"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[Select surveyYear, ClassLevel, EdLevel, GenderCode, sum(UnderAge)  as AgeValue,'UnderAge' as Age, 1 as id
-from  [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from  [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 Where surveyYear<= $P{Year}  and surveyYear>= ( $P{Year} -4)
-and b.dID=$P{State} 
+and b.dID=$P{District} 
 group by surveyYear,ClassLevel,EdLevel,GenderCode
 union
 Select surveyYear, ClassLevel, EdLevel, GenderCode, sum(OfficialAge)  as AgeValue,'OfficialAge' as Age, 2 as id
-from  [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from  [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 Where surveyYear<= $P{Year}  and surveyYear>= ( $P{Year} -4) 
-and b.dID=$P{State} 
+and b.dID=$P{District} 
 group by surveyYear,ClassLevel,EdLevel,GenderCode
 union
 Select surveyYear, ClassLevel, EdLevel, GenderCode, sum(OverAge)  as AgeValue,'OverAge' as Age, 3 as id
-from  [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from  [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 Where surveyYear<= $P{Year}  and surveyYear>= ( $P{Year} -4)
-and b.dID=$P{State}  
+and b.dID=$P{District}  
 group by surveyYear,ClassLevel,EdLevel,GenderCode
 union
 Select surveyYear, ClassLevel, EdLevel, GenderCode, sum(Enrol)  as AgeValue,'Enrolled' as Age, 4 as id
-from  [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from  [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 Where surveyYear<= $P{Year}  and surveyYear>= ( $P{Year} -4) 
-and b.dID=$P{State} 
+and b.dID=$P{District} 
 group by surveyYear,ClassLevel,EdLevel,GenderCode
 union
 Select surveyYear, ClassLevel, EdLevel,'' AS  GenderCode, sum(UnderAge)  as AgeValue,'Total UnderAge' as Age, 5 as id
-from  [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from  [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 Where surveyYear<= $P{Year}  and surveyYear>= ( $P{Year} -4)
-and b.dID=$P{State}  
+and b.dID=$P{District}  
 group by surveyYear,ClassLevel,EdLevel
 union
 Select surveyYear, ClassLevel, EdLevel, '' As GenderCode, sum(OfficialAge)  as AgeValue,'Total OfficialAge' as Age, 6 as id
-from  [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from  [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 Where surveyYear<= $P{Year}  and surveyYear>= ( $P{Year} -4) 
-and b.dID=$P{State} 
+and b.dID=$P{District} 
 group by surveyYear,ClassLevel,EdLevel
 union
 Select surveyYear, ClassLevel, EdLevel, '' As GenderCode, sum(OverAge)  as AgeValue,'Total OverAge' as Age, 7 as id
-from [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 Where surveyYear<= $P{Year}  and surveyYear>= ( $P{Year} -4)
-and b.dID=$P{State}  
+and b.dID=$P{District}  
 group by surveyYear,ClassLevel,EdLevel
 union
 Select surveyYear, ClassLevel, EdLevel, '' AS GenderCode, sum(Enrol)  as AgeValue,'Total Enrolled' as Age , 8 as id
-from  [warehouse].[DistrictEdLevelAge] a inner join [DBO].[Districts] b on a.districtCode=b.dID
+from  [warehouse].[EdLevelAgeDistrict] a inner join [DBO].[Districts] b on a.districtCode=b.dID
 Where surveyYear<= $P{Year}  and surveyYear>= ( $P{Year} -4)
-and b.dID=$P{State}  
+and b.dID=$P{District}  
 group by surveyYear,ClassLevel,EdLevel
 order by surveyYear,EdLevel,ClassLevel]]>
 	</queryString>
@@ -206,19 +206,19 @@ order by surveyYear,EdLevel,ClassLevel]]>
 					<reportElement positionType="Float" x="2" y="5" width="551" height="179" uuid="e67dc400-aa24-4d0a-adac-0b198afd7523"/>
 					<chartTitle>
 						<font fontName="Open Sans" size="12" isBold="true"/>
-						<titleExpression><![CDATA["Age Distribution for  State - "+$P{State} + " and  Year - "+$P{Year}]]></titleExpression>
+						<titleExpression><![CDATA["Age Distribution for  State - "+$P{District} + " and  Year - "+$P{Year}]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
-					<dataset>
+					<dataset resetType="Report">
 						<datasetRun subDataset="Age Distribution for the Year" uuid="7b1874d5-8c32-4a47-989a-cd733bff3863">
 							<datasetParameter name="Year">
 								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
 							</datasetParameter>
-							<datasetParameter name="State">
-								<datasetParameterExpression><![CDATA[$P{State}]]></datasetParameterExpression>
+							<datasetParameter name="District">
+								<datasetParameterExpression><![CDATA[$P{District}]]></datasetParameterExpression>
 							</datasetParameter>
 						</datasetRun>
 					</dataset>
@@ -245,19 +245,19 @@ order by surveyYear,EdLevel,ClassLevel]]>
 					<reportElement positionType="Float" x="2" y="193" width="551" height="200" uuid="aee844b2-6c24-412a-8c8f-28cb5344a0fe"/>
 					<chartTitle>
 						<font fontName="Open Sans" size="12" isBold="true"/>
-						<titleExpression><![CDATA["Age Distribution Trend for State - "+$P{State} +" and  Year - "+$P{Year}]]></titleExpression>
+						<titleExpression><![CDATA["Age Distribution Trend for State - "+$P{District} +" and  Year - "+$P{Year}]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
-					<dataset>
+					<dataset resetType="Report">
 						<datasetRun subDataset="Age Distibution Trend Dataset" uuid="3872d17b-2fce-4f46-926d-194ee5f22ba8">
 							<datasetParameter name="Year">
 								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
 							</datasetParameter>
-							<datasetParameter name="State">
-								<datasetParameterExpression><![CDATA[$P{State}]]></datasetParameterExpression>
+							<datasetParameter name="District">
+								<datasetParameterExpression><![CDATA[$P{District}]]></datasetParameterExpression>
 							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
@@ -284,16 +284,16 @@ order by surveyYear,EdLevel,ClassLevel]]>
 					<reportElement positionType="Float" x="2" y="414" width="551" height="182" uuid="4adc24c4-7791-44ae-b898-621a47b44d8e"/>
 					<chartTitle>
 						<font fontName="Open Sans" size="12" isBold="true"/>
-						<titleExpression><![CDATA["Age Distribution By State - " +$P{State}  +" and  Year - "+$P{Year}]]></titleExpression>
+						<titleExpression><![CDATA["Age Distribution By State - " +$P{District}  +" and  Year - "+$P{Year}]]></titleExpression>
 					</chartTitle>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
-					<dataset>
+					<dataset resetType="Report">
 						<datasetRun subDataset="Age Distribution by State and Gender by Year Dataset" uuid="46d51215-993f-456f-89d5-bc3d5177e194">
-							<datasetParameter name="State">
-								<datasetParameterExpression><![CDATA[$P{State}]]></datasetParameterExpression>
+							<datasetParameter name="District">
+								<datasetParameterExpression><![CDATA[$P{District}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="Year">
 								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams Results for Nation wide Performance by Benchmarks" pageWidth="572" pageHeight="792" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
@@ -46,9 +46,9 @@ from (
 		  ,SUM(ISNULL([1], 0)) AS [Tot1]
 		  ,SUM(ISNULL([3], 0)) AS [Tot3]
 		  ,SUM(ISNULL([4], 0)) AS [Tot4]
-	  FROM warehouse.examSchoolResultsX AS ESR
-	  INNER JOIN ExamBenchmarks EB on ESR.examID = EB.exID
-	  INNER JOIN [dbo].[ExamStandards] AS ES ON ESR.examID = ES.exID AND EB.exstdID = ES.exstdID
+	  FROM warehouse.ExamResultsBenchmarksNationX AS ERBNX
+INNER JOIN ExamBenchmarks EB on ERBNX.examID = EB.exID AND ERBNX.benchmarkCode = EB.exbnchCode
+INNER JOIN [dbo].[ExamStandards] AS ES ON EB.exID = ES.exID AND EB.exstdID = ES.exstdID
 	  WHERE [examYear] = $P{Year}
 	  GROUP BY [examName], [exstdCode], [exstdDescription], [exbnchDescription], [exbnchCode],Gender
   ) t1
@@ -125,16 +125,13 @@ from (
 		<groupHeader>
 			<band height="24">
 				<frame>
-					<reportElement mode="Opaque" x="0" y="0" width="572" height="24" forecolor="rgba(6, 88, 165, 0.39215687)" backcolor="#0658A5" uuid="f871ff1c-a634-42fe-a4be-f6f89704d9d1">
+					<reportElement style="Detail Header Dark" x="0" y="0" width="572" height="24" uuid="f871ff1c-a634-42fe-a4be-f6f89704d9d1">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<rectangle>
-						<reportElement mode="Opaque" x="0" y="0" width="36" height="24" backcolor="#073C78" uuid="38c58cf7-f8f7-4663-a618-4c7d67066467"/>
-						<graphicElement>
-							<pen lineWidth="0.0"/>
-						</graphicElement>
+						<reportElement style="Detail Header Darker" x="0" y="0" width="36" height="24" uuid="38c58cf7-f8f7-4663-a618-4c7d67066467"/>
 					</rectangle>
 					<textField>
 						<reportElement style="Group header" x="40" y="0" width="430" height="24" uuid="de5751e6-a4ee-4192-ab60-c78c9c05d5b8">
@@ -161,18 +158,14 @@ from (
 		<groupHeader>
 			<band height="24">
 				<frame>
-					<reportElement mode="Opaque" x="0" y="0" width="572" height="24" forecolor="#5168AE" backcolor="rgba(6, 88, 165, 0.39215687)" uuid="fd6dbcb4-487f-46e0-87e6-d4a20f4d80fc">
+					<reportElement style="Detail Header Lighter" x="0" y="0" width="572" height="24" uuid="fd6dbcb4-487f-46e0-87e6-d4a20f4d80fc">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					</reportElement>
-					<box rightPadding="20"/>
 					<rectangle>
-						<reportElement mode="Opaque" x="0" y="0" width="72" height="24" forecolor="#FFFFFF" backcolor="rgba(7, 60, 120, 0.39215687)" uuid="aec5df30-5257-4093-8fc6-2a25d0525349">
+						<reportElement style="Detail Header Light" x="0" y="0" width="72" height="24" uuid="aec5df30-5257-4093-8fc6-2a25d0525349">
 							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						</reportElement>
-						<graphicElement>
-							<pen lineWidth="0.0"/>
-						</graphicElement>
 					</rectangle>
 					<textField>
 						<reportElement style="Group header" x="80" y="0" width="390" height="24" uuid="ffc3ddef-375b-4b6c-b8ad-30d9d71ed297">
@@ -371,7 +364,7 @@ from (
 	<detail>
 		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="1" y="0" width="258" height="20" uuid="e52e588f-1cd5-4546-81c7-bcc4c9366e9c">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>

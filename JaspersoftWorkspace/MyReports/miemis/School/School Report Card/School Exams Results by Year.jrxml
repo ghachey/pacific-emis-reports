@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams_School_Results_by_Year" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
@@ -32,18 +32,18 @@
 	  ,[exbnchCode]
 	  ,[exbnchDescription]
 	  ,[Candidates]
-	  ,ISNULL([2] * 1, 0) AS [Tot2]
-	  ,ISNULL([1] * 1, 0) AS [Tot1]
+	  ,ISNULL([2], 0) AS [Tot2]
+	  ,ISNULL([1], 0) AS [Tot1]
 	  ,ISNULL([3], 0) AS [Tot3]
 	  ,ISNULL([4], 0) AS [Tot4]
-	  ,ROUND(ISNULL(convert(float, [1] * 1)/ Candidates, 0), 2) as [1]
-      ,ROUND(ISNULL(convert(float, [2] * 1)/ Candidates, 0), 2) as [2]
+	  ,ROUND(ISNULL(convert(float, [1] * -1)/ Candidates, 0), 2) as [1]
+      ,ROUND(ISNULL(convert(float, [2] * -1)/ Candidates, 0), 2) as [2]
 	  ,ROUND(ISNULL(convert(float, [3] ) / Candidates, 0), 2) as [3]
 	  ,ROUND(ISNULL(convert(float, [4] ) / Candidates, 0), 2) as [4]
-  FROM warehouse.examSchoolResultsX AS ESR
-  INNER JOIN [dbo].[ExamBenchmarks] AS EB ON ESR.examID = EB.exID
-  INNER JOIN [dbo].[ExamStandards] AS ES ON ESR.examID = ES.exID AND EB.exstdID = ES.exstdID
-  WHERE [schNo] = $P{SchoolNo} AND [examYear] = $P{Year}
+  FROM warehouse.ExamResultsBenchmarksSchoolX AS ERBSX
+INNER JOIN ExamBenchmarks EB on ERBSX.examID = EB.exID AND ERBSX.benchmarkCode = EB.exbnchCode
+INNER JOIN [dbo].[ExamStandards] AS ES ON EB.exID = ES.exID AND EB.exstdID = ES.exstdID
+  WHERE [schNo] = $P{SchoolNo} AND [examYear] = $P{Year} 
   ORDER BY [examName], ExamStandard, exbnchCode]]>
 	</queryString>
 	<field name="examName" class="java.lang.String">
@@ -130,15 +130,14 @@
 	<group name="Exam Name">
 		<groupExpression><![CDATA[$F{examName}]]></groupExpression>
 		<groupHeader>
-			<band height="25">
-				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<band height="24">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<frame>
-					<reportElement mode="Opaque" x="-21" y="1" width="613" height="24" forecolor="#5168AE" backcolor="#9BC2FF" uuid="f871ff1c-a634-42fe-a4be-f6f89704d9d1"/>
+					<reportElement style="Detail Header Dark" x="-21" y="0" width="613" height="24" uuid="f871ff1c-a634-42fe-a4be-f6f89704d9d1">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
 					<rectangle>
-						<reportElement mode="Opaque" x="0" y="-1" width="36" height="24" backcolor="#08298C" uuid="38c58cf7-f8f7-4663-a618-4c7d67066467"/>
-						<graphicElement>
-							<pen lineWidth="0.0"/>
-						</graphicElement>
+						<reportElement style="Detail Header Darker" x="0" y="0" width="36" height="23" uuid="38c58cf7-f8f7-4663-a618-4c7d67066467"/>
 					</rectangle>
 					<textField>
 						<reportElement style="Group header" x="44" y="0" width="486" height="24" uuid="de5751e6-a4ee-4192-ab60-c78c9c05d5b8"/>
@@ -156,15 +155,14 @@
 	<group name="Exam Standard">
 		<groupExpression><![CDATA[$F{ExamStandard}]]></groupExpression>
 		<groupHeader>
-			<band height="25">
+			<band height="24">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<frame>
-					<reportElement mode="Opaque" x="-21" y="1" width="613" height="24" forecolor="#5168AE" backcolor="#9BC2FF" uuid="fd6dbcb4-487f-46e0-87e6-d4a20f4d80fc"/>
-					<box rightPadding="20"/>
+					<reportElement style="Detail Header Lighter" x="-21" y="0" width="613" height="24" uuid="fd6dbcb4-487f-46e0-87e6-d4a20f4d80fc">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
 					<rectangle>
-						<reportElement mode="Opaque" x="0" y="-1" width="70" height="24" forecolor="#FFFFFF" backcolor="#08298C" uuid="aec5df30-5257-4093-8fc6-2a25d0525349"/>
-						<graphicElement>
-							<pen lineWidth="0.0"/>
-						</graphicElement>
+						<reportElement style="Detail Header Light" x="0" y="0" width="70" height="23" uuid="aec5df30-5257-4093-8fc6-2a25d0525349"/>
 					</rectangle>
 					<textField>
 						<reportElement style="Group header" x="80" y="0" width="439" height="24" uuid="ffc3ddef-375b-4b6c-b8ad-30d9d71ed297"/>
@@ -356,10 +354,10 @@
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
 				</box>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Well below competent]]></text>
+				<text><![CDATA[Beginning]]></text>
 			</staticText>
 			<staticText>
 				<reportElement key="" style="Column header" x="401" y="0" width="52" height="22" uuid="fef0a29b-3fcf-47ec-bb0f-dff462b43247">
@@ -369,10 +367,10 @@
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
 				</box>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Approaching competence]]></text>
+				<text><![CDATA[Developing]]></text>
 			</staticText>
 			<staticText>
 				<reportElement key="" style="Column header" x="453" y="0" width="52" height="22" uuid="d0cca58d-f64b-4b41-8b9c-0138b6718c6d">
@@ -382,10 +380,10 @@
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
 				</box>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Minimally competent]]></text>
+				<text><![CDATA[Proficient]]></text>
 			</staticText>
 			<staticText>
 				<reportElement key="" style="Column header" x="505" y="0" width="67" height="22" uuid="ca5ecf96-d65c-46dd-abf2-c75ffee2b83d">
@@ -395,10 +393,10 @@
 				<box rightPadding="20">
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
 				</box>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Competent]]></text>
+				<text><![CDATA[Advanced]]></text>
 			</staticText>
 			<staticText>
 				<reportElement key="" style="Column header" x="245" y="0" width="52" height="22" uuid="73e1c2ab-2db1-4bfa-a412-823851e08b3f">
@@ -430,7 +428,7 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="-21" y="0" width="266" height="20" uuid="e52e588f-1cd5-4546-81c7-bcc4c9366e9c"/>
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -449,7 +447,7 @@
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Tot1}]]></textFieldExpression>
@@ -463,7 +461,7 @@
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Tot2}]]></textFieldExpression>
@@ -477,20 +475,20 @@
 				<box>
 					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Tot3}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="505" y="0" width="62" height="20" uuid="0ce8929e-2b56-4f2a-9259-900801e7e618">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="505" y="0" width="66" height="20" uuid="0ce8929e-2b56-4f2a-9259-900801e7e618">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<box rightPadding="20">
 					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Tot4}]]></textFieldExpression>

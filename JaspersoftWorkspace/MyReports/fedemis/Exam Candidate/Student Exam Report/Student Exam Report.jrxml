@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Student Exam Report" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Exam_Candidate/Student_Exam_Report"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Exam_Candidate/Student_Exam_Report_files/main_jrxml"/>
+	<template><![CDATA["../../Templates/FedEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="CandidateID" class="java.lang.String">
+		<defaultValueExpression><![CDATA["A180F5E7-EBFB-4B81-9C3C-D42B884C72C0"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT ECR.excID
+	, ECR.exCode
+	, LET.exName
+	, E.exYear
+	, EC.excGiven
+	, EC.excMiddleNames
+	, EC.excFamilyName
+	, EC.schNo
+	, S.schName
+	, SUM(CASE WHEN excrLevel >= 3 THEN excrWeight ELSE 0 END) AYP
+FROM [dbo].[ExamCandidateResults] ECR
+INNER JOIN [dbo].[ExamCandidates] EC ON ECR.excID = EC.excID
+INNER JOIN [dbo].[Schools] S ON EC.schNo = S.schNo
+INNER JOIN [dbo].[Exams] E ON EC.exID = E.exID
+INNER JOIN [dbo].[lkpExamTypes] LET ON ECR.exCode = LET.exCode
+WHERE ECR.exCode IS NOT NULL AND ECR.excID = $P{CandidateID}
+GROUP BY ECR.excID
+	, ECR.exCode
+	, LET.exName
+	, E.exYear
+	, EC.excGiven
+	, EC.excMiddleNames
+	, EC.excFamilyName
+	, EC.schNo
+	, S.schName]]>
+	</queryString>
+	<field name="excID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="excID"/>
+		<property name="com.jaspersoft.studio.field.label" value="excID"/>
+	</field>
+	<field name="exCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="exCode"/>
+		<property name="com.jaspersoft.studio.field.label" value="exCode"/>
+	</field>
+	<field name="exName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="exName"/>
+		<property name="com.jaspersoft.studio.field.label" value="exName"/>
+	</field>
+	<field name="exYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="exYear"/>
+		<property name="com.jaspersoft.studio.field.label" value="exYear"/>
+	</field>
+	<field name="excGiven" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="excGiven"/>
+		<property name="com.jaspersoft.studio.field.label" value="excGiven"/>
+	</field>
+	<field name="excMiddleNames" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="excMiddleNames"/>
+		<property name="com.jaspersoft.studio.field.label" value="excMiddleNames"/>
+	</field>
+	<field name="excFamilyName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="excFamilyName"/>
+		<property name="com.jaspersoft.studio.field.label" value="excFamilyName"/>
+	</field>
+	<field name="schNo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schNo"/>
+		<property name="com.jaspersoft.studio.field.label" value="schNo"/>
+	</field>
+	<field name="schName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schName"/>
+		<property name="com.jaspersoft.studio.field.label" value="schName"/>
+	</field>
+	<field name="AYP" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="AYP"/>
+		<property name="com.jaspersoft.studio.field.label" value="AYP"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="424" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<image>
+				<reportElement x="0" y="0" width="126" height="126" uuid="1c003177-754c-448f-8ce1-16868856f545">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["../../images/fsm_seal.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="126" y="0" width="319" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
+				<textElement>
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[Student Exam Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="126" y="62" width="319" height="64" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9"/>
+				<text><![CDATA[Department of Education
+Federated States of Micronesia]]></text>
+			</staticText>
+			<image>
+				<reportElement x="445" y="0" width="126" height="126" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["../../images/fsm_ndoe.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Opaque" x="-21" y="-20" width="614" height="10" forecolor="#08298C" backcolor="#08298C" uuid="a879b5ed-22f8-4e7b-9093-811aaea43211"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-21" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="0a58d963-ec76-492f-9d28-8419cff95766">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="572" y="-15" width="20" height="20" forecolor="#08298C" backcolor="#08298C" uuid="f0a00416-98e9-4650-b25b-a7e2a9f68561">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-21" y="-10" width="38" height="38" forecolor="#FFFFFF" uuid="503401c2-412f-4738-a96a-cf6a43061701">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="554" y="-10" width="38" height="38" forecolor="#FFFFFF" uuid="70a1c065-3f91-4751-8e67-c995a73a7656">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</ellipse>
+			<textField>
+				<reportElement style="Column header 2" x="0" y="132" width="572" height="48" uuid="30a210b9-837f-4e2f-aa05-c97d082534e6"/>
+				<textFieldExpression><![CDATA["NDOE Accountability System\n" + 
+$F{exCode} + ": " + $F{exName} + ", NMCT\n" + 
+$F{exYear} + " Student Report"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Title text" x="0" y="186" width="290" height="20" uuid="ebd5e97c-5fc6-4f0c-b2ce-d0e5a31cef36"/>
+				<textElement textAlignment="Left">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Student Name: " + $F{excGiven} + " " + $F{excMiddleNames} + " " + $F{excFamilyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Title text" x="291" y="186" width="281" height="20" uuid="1cf5edd6-01a7-4c09-882c-ab8fd6e6c15c"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["School: " + $F{schNo} + ": " + $F{schName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Title text" x="20" y="210" width="530" height="38" uuid="5d81df78-8243-45d4-a3b7-5762b695fb63"/>
+				<text><![CDATA[The NDOE Standards-Based Assessments provides both accountability data for NDOE and SDOEs and a measure of your student’s knowledge and skills related to important FSM standards and benchmarks. Student scores are reported in four levels of mastery as follows]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="87" y="254" width="397" height="114" uuid="535dd8ac-baf4-4cbf-a489-422005a32ad9">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement style="Title text" x="122" y="279" width="352" height="20" uuid="821dcf17-ba1a-4bf9-95f0-449fdfa997fd"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["Competent: student exceeds grade level expectations"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Title text" x="122" y="299" width="352" height="20" uuid="55b244a9-0f97-41ff-949c-6b32b477bba1"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["Minimum Competency: student meets grade level expectations"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Title text" x="122" y="339" width="352" height="20" uuid="30b73a78-11c3-4157-b3cf-b07054ece97b"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["Well Below Minimum Competency: student has limited knowledge or skill"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Title text" x="122" y="319" width="352" height="20" uuid="24b3c350-c6ba-4b64-b911-34cbb4b0fd70"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["Below Minimum Competency: student approaches grade level expectations"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="98" y="279" width="21" height="20" forecolor="#00AF50" backcolor="#00AF50" uuid="ca0718f7-d0d2-4e1d-aa60-b12aa8d9cd02"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="98" y="299" width="21" height="20" forecolor="#92D14F" backcolor="#92D14F" uuid="a59b11c1-f2ba-45f2-9b18-834786369c3b"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="98" y="319" width="21" height="20" forecolor="#FED966" backcolor="#FED966" uuid="85c2d283-663b-4c5c-81c0-267d02d5cb60"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="98" y="339" width="21" height="20" forecolor="#C00000" backcolor="#C00000" uuid="2ba8ca42-3f96-4f62-9539-b087b0117ea1"/>
+			</rectangle>
+			<textField>
+				<reportElement style="Title text" x="98" y="256" width="289" height="20" uuid="91a46dd1-df8d-4119-a74d-4339276549f5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Levels of Achievement"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Title text" x="-1" y="371" width="572" height="19" uuid="ebf24d68-6d5f-4a52-8cb4-0b091decc110">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{excGiven} + " " + $F{excMiddleNames} + " " + $F{excFamilyName} + " has met or exceeded the standard on " + new DecimalFormat("#.##").format($F{AYP}.doubleValue() * 100)+"%" + " percent of the indicators listed below."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Title text" x="0" y="390" width="571" height="28" uuid="b1f2f7c2-820c-4e58-8b88-e3309ddbb2e1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA["The NDOE's " + $F{exCode} + ": " + $F{exName} + "assesses benchmarks specified in the curriculum. Each benchmark specifies different skills. The table below lists this student's skill level for each benchmark."]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="31" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="591" height="20" uuid="6d48e0f7-2842-4626-9aca-f45b25eea73f">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="320" height="20" backcolor="#073C78" uuid="09e30d50-4d76-4e8e-a9b7-f4abb600dc54">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Student's achievement levels for all indicators"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Exams Results for Nation-wide Performance by Benchmarks"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport overflowType="Stretch">
+				<reportElement positionType="Float" x="0" y="21" width="572" height="10" uuid="12b4b859-bcf9-423b-8872-932253ca748d">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<subreportParameter name="CandidateID">
+					<subreportParameterExpression><![CDATA[$P{CandidateID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Student Indicators Performance Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="31">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="591" height="20" uuid="231079d3-0f28-43b9-b462-339f5d10635b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="430" height="20" backcolor="#073C78" uuid="b16d826a-b5cc-4832-9ef5-dddc9696b8eb">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Student's achievement levels for the whole test (count of indicators)"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Exams Results for Nation-wide Performance by Benchmarks"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport overflowType="Stretch">
+				<reportElement positionType="Float" x="0" y="21" width="571" height="10" uuid="b004cf0a-d624-45fb-ac01-df8c334af693">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<subreportParameter name="CandidateID">
+					<subreportParameterExpression><![CDATA[$P{CandidateID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Student Whole Test Performance Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="31">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement style="Frame" mode="Transparent" x="-20" y="0" width="592" height="20" uuid="3acd8193-beec-4a0f-8772-c542ff9ddb85">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textField bookmarkLevel="1">
+					<reportElement style="Detail Header 1" x="0" y="0" width="430" height="20" backcolor="#073C78" uuid="fd7ca54f-27db-4ad5-8bfd-d300e421b227">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Open Sans Semibold" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Student's achievement levels by standard (count of indicators)"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["Exams Results for Nation-wide Performance by Benchmarks"+"&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228&#8228"]]></anchorNameExpression>
+				</textField>
+			</frame>
+			<subreport overflowType="Stretch">
+				<reportElement positionType="Float" x="0" y="21" width="571" height="10" uuid="8c84e006-4666-4439-8b15-dfc69e8273ac">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<subreportParameter name="CandidateID">
+					<subreportParameterExpression><![CDATA[$P{CandidateID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["Student Standards Performance Subreport.jrxml"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement style="Page footer" x="-21" y="1" width="613" height="24" uuid="5d8169bd-4a75-48c8-8a68-6d3ad5ba9402"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="550" y="2" width="40" height="20" uuid="e5e27efa-b599-499b-9ca3-848cb511cb7b"/>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="470" y="2" width="80" height="20" uuid="18cfe1ca-f7d6-48b0-9827-28578b42a5e0"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="238" height="20" uuid="fbce24bb-3cb1-44a3-8eec-8c067ddbe5b5"/>
+					<textFieldExpression><![CDATA["Generated by FedEMIS on " + new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</summary>
+</jasperReport>

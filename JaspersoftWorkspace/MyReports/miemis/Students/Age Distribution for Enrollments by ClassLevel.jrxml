@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Age Distribution for Enrollments ClassLevel" pageWidth="940" pageHeight="950" columnWidth="900" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9481939d-968e-457c-9597-9f3b3ef41d9e">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-NEW"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="298"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="695"/>
-	<template><![CDATA["miemis/Templates/MIEMIS_Style.jrtx"]]></template>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
 	<style name="Crosstab_CH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -236,7 +236,7 @@ order by YearOfEd, OfficialAge,t1.Age]]>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<imageExpression><![CDATA["miemis/images/rmi-seal.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/images/rmi_seal.png"]]></imageExpression>
 			</image>
 			<image>
 				<reportElement x="798" y="0" width="100" height="100" uuid="1fc3d34f-5a38-43c0-bac0-57a100645874">
@@ -244,7 +244,7 @@ order by YearOfEd, OfficialAge,t1.Age]]>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
-				<imageExpression><![CDATA["miemis/images/rmi-pss.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/images/rmi_pss.png"]]></imageExpression>
 			</image>
 			<rectangle>
 				<reportElement mode="Opaque" x="-20" y="-20" width="940" height="10" forecolor="#08298C" backcolor="#08298C" uuid="b0cfdc93-5106-4fd7-8c72-ada2038ca677">
@@ -280,7 +280,7 @@ order by YearOfEd, OfficialAge,t1.Age]]>
 	</title>
 	<summary>
 		<band height="760" splitType="Stretch">
-			<textField isStretchWithOverflow="true">
+			<textField textAdjust="StretchHeight">
 				<reportElement x="0" y="5" width="900" height="20" uuid="103e15f7-fc60-491e-82d9-c13411151ba5">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
@@ -299,6 +299,9 @@ order by YearOfEd, OfficialAge,t1.Age]]>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
+				<crosstabDataset>
+					<dataset resetType="Report"/>
+				</crosstabDataset>
 				<rowGroup name="Age" width="150" totalPosition="End">
 					<bucket class="java.lang.Integer">
 						<bucketExpression><![CDATA[$F{Age}]]></bucketExpression>
@@ -363,7 +366,7 @@ order by YearOfEd, OfficialAge,t1.Age]]>
 								<bottomPen lineWidth="1.0" lineColor="#000000"/>
 								<rightPen lineWidth="1.0" lineColor="#000000"/>
 							</box>
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement mode="Opaque" x="0" y="0" width="150" height="20" backcolor="#F0F8FF" uuid="00446a4c-4a77-4bee-9936-dd37213e355f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Open Sans"/>
@@ -389,7 +392,7 @@ order by YearOfEd, OfficialAge,t1.Age]]>
 							<box>
 								<topPen lineWidth="1.0"/>
 							</box>
-							<textField isStretchWithOverflow="true">
+							<textField textAdjust="StretchHeight">
 								<reportElement x="0" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="71722b11-1d99-49cf-97ac-4d944bb37f7f"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Open Sans"/>
@@ -450,6 +453,9 @@ order by YearOfEd, OfficialAge,t1.Age]]>
 						</textField>
 					</cellContents>
 				</crosstabCell>
+				<crosstabCell height="20" rowTotalGroup="Age" columnTotalGroup="surveyYear">
+					<cellContents/>
+				</crosstabCell>
 			</crosstab>
 			<textField>
 				<reportElement mode="Opaque" x="0" y="30" width="150" height="20" forecolor="#FFFFFF" backcolor="#666699" uuid="8b0228da-9cc8-488e-8d35-97b365fa2ade">
@@ -474,7 +480,7 @@ order by YearOfEd, OfficialAge,t1.Age]]>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
-					<dataset>
+					<dataset resetType="Report">
 						<datasetRun subDataset="Chart1 : NER and GER" uuid="bd21b7f3-77b8-4f24-9266-ab8a3a2f5e9d">
 							<datasetParameter name="Year">
 								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
@@ -515,7 +521,7 @@ order by YearOfEd, OfficialAge,t1.Age]]>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
-					<dataset>
+					<dataset resetType="Report">
 						<datasetRun subDataset="Chart2: Age Participation Rate" uuid="c19e95e8-c4f4-4616-96dd-6c74a92543ca">
 							<datasetParameter name="Year">
 								<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
