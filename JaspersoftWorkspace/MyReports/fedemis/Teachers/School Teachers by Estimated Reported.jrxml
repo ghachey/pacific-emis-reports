@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="School Enrollments by Estimated Reported" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="School Teachers by Estimated Reported" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
-	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.url" value="http://fedemis.doe.fm:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Schools/School_Enrollments_by_Estimated_vs_Reported"/>
-	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Schools/School_Enrollments_by_Estimated_vs_Reported_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Teachers/School_Teachers_by_Estimated_vs_Reported"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Teachers/School_Teachers_by_Estimated_vs_Reported_files/main_jrxml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
@@ -38,54 +38,59 @@
 		<defaultValueExpression><![CDATA[2021]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT [schNo]
-		  ,[surveyYear]
-		  ,[Estimate]
-		  ,[Survey Data Year]
-		  ,[School No]
-		  ,[School Name]
-		  ,[District Code]
-		  ,[District]
-		  ,[Year Closed]
-		  ,SUM([Enrol]) Enrol
-		  ,SUM([Rep]) Repeaters
-		  ,SUM([Trin]) TransfersIn
-		  ,SUM([Trout]) TransfersOut
-		  ,SUM([Boarders]) Boarders
-		  ,SUM([Disab]) Disab
-		  ,SUM([Dropout]) Dropouts
-		  ,SUM([PSA]) PSA
-		  ,SUM([Expelled]) Expelled
-		  ,SUM([Completed]) Completed
-FROM [warehouse].[enrol] E
-INNER JOIN [warehouse].[dimensionSchoolSurvey] DSS ON E.SurveyDimensionID = DSS.[Survey ID]
-WHERE surveyYear = $P{Year}
-GROUP BY [schNo]
-		  ,[surveyYear]
-		  ,[Estimate]
-		  ,[Survey Data Year]
-		  ,[School No]
-		  ,[School Name]
-		  ,[District Code]
-		  ,[District]
-		  ,[Year Closed]
+		<![CDATA[SELECT COUNT([TID]) Teachers
+	  --,[Source]
+      --,[Role]
+      ,SUM([Certified]) Certified
+      ,SUM([Qualified]) Qualified
+      --,[TAMX]
+      --,[GenderCode]
+      --,[BirthYear]
+	  --,[SurveyYear]
+	  ,[SchNo]
+      ,[SurveySchNo]
+	  ,[School No]
+	  ,[School Name]
+	  ,[District Code]
+	  ,[District]
+	  ,[Year Closed]
+      ,[SurveyRole]
+      ,[SurveyDataYear]
+      ,[Estimate]
+FROM [warehouse].[TeacherLocation] TL
+INNER JOIN [warehouse].[dimensionSchoolSurvey] DSS ON TL.SurveySchNo = DSS.[School No] AND TL.SurveyDataYear = DSS.[Survey Data Year]
+WHERE SurveyYear = $P{Year} AND (TAMX = 'T' OR TAMX = 'M')
+GROUP BY [SchNo]
+      ,[SurveySchNo]
+	  ,[School No]
+	  ,[School Name]
+	  ,[District Code]
+	  ,[District]
+	  ,[Year Closed]
+      ,[SurveyRole]
+      ,[SurveyDataYear]
+      ,[Estimate]
 ORDER BY [Estimate] DESC, [District], [School Name]]]>
 	</queryString>
-	<field name="schNo" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="schNo"/>
-		<property name="com.jaspersoft.studio.field.label" value="schNo"/>
+	<field name="Teachers" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Teachers"/>
+		<property name="com.jaspersoft.studio.field.label" value="Teachers"/>
 	</field>
-	<field name="surveyYear" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="surveyYear"/>
-		<property name="com.jaspersoft.studio.field.label" value="surveyYear"/>
+	<field name="Certified" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Certified"/>
+		<property name="com.jaspersoft.studio.field.label" value="Certified"/>
 	</field>
-	<field name="Estimate" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="Estimate"/>
-		<property name="com.jaspersoft.studio.field.label" value="Estimate"/>
+	<field name="Qualified" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Qualified"/>
+		<property name="com.jaspersoft.studio.field.label" value="Qualified"/>
 	</field>
-	<field name="Survey Data Year" class="java.lang.Short">
-		<property name="com.jaspersoft.studio.field.name" value="Survey Data Year"/>
-		<property name="com.jaspersoft.studio.field.label" value="Survey Data Year"/>
+	<field name="SchNo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SchNo"/>
+		<property name="com.jaspersoft.studio.field.label" value="SchNo"/>
+	</field>
+	<field name="SurveySchNo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SurveySchNo"/>
+		<property name="com.jaspersoft.studio.field.label" value="SurveySchNo"/>
 	</field>
 	<field name="School No" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="School No"/>
@@ -107,45 +112,17 @@ ORDER BY [Estimate] DESC, [District], [School Name]]]>
 		<property name="com.jaspersoft.studio.field.name" value="Year Closed"/>
 		<property name="com.jaspersoft.studio.field.label" value="Year Closed"/>
 	</field>
-	<field name="Enrol" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="Enrol"/>
-		<property name="com.jaspersoft.studio.field.label" value="Enrol"/>
+	<field name="SurveyRole" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SurveyRole"/>
+		<property name="com.jaspersoft.studio.field.label" value="SurveyRole"/>
 	</field>
-	<field name="Repeaters" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="Repeaters"/>
-		<property name="com.jaspersoft.studio.field.label" value="Repeaters"/>
+	<field name="SurveyDataYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="SurveyDataYear"/>
+		<property name="com.jaspersoft.studio.field.label" value="SurveyDataYear"/>
 	</field>
-	<field name="TransfersIn" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="TransfersIn"/>
-		<property name="com.jaspersoft.studio.field.label" value="TransfersIn"/>
-	</field>
-	<field name="TransfersOut" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="TransfersOut"/>
-		<property name="com.jaspersoft.studio.field.label" value="TransfersOut"/>
-	</field>
-	<field name="Boarders" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="Boarders"/>
-		<property name="com.jaspersoft.studio.field.label" value="Boarders"/>
-	</field>
-	<field name="Disab" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="Disab"/>
-		<property name="com.jaspersoft.studio.field.label" value="Disab"/>
-	</field>
-	<field name="Dropouts" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="Dropouts"/>
-		<property name="com.jaspersoft.studio.field.label" value="Dropouts"/>
-	</field>
-	<field name="PSA" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="PSA"/>
-		<property name="com.jaspersoft.studio.field.label" value="PSA"/>
-	</field>
-	<field name="Expelled" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="Expelled"/>
-		<property name="com.jaspersoft.studio.field.label" value="Expelled"/>
-	</field>
-	<field name="Completed" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="Completed"/>
-		<property name="com.jaspersoft.studio.field.label" value="Completed"/>
+	<field name="Estimate" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Estimate"/>
+		<property name="com.jaspersoft.studio.field.label" value="Estimate"/>
 	</field>
 	<group name="Estimated">
 		<groupExpression><![CDATA[$F{Estimate}]]></groupExpression>
@@ -163,34 +140,34 @@ ORDER BY [Estimate] DESC, [District], [School Name]]]>
 					</textField>
 				</frame>
 				<staticText>
-					<reportElement key="" style="Group header fields" x="494" y="25" width="50" height="14" uuid="fe030780-a957-4025-a4c7-cf3c175463f4">
+					<reportElement key="" style="Group header fields" x="372" y="25" width="50" height="14" uuid="fe030780-a957-4025-a4c7-cf3c175463f4">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement textAlignment="Right"/>
-					<text><![CDATA[Transfer In]]></text>
+					<text><![CDATA[Certified]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="" style="Group header fields" x="544" y="25" width="58" height="14" uuid="ce5237d8-cd23-4dad-94e4-c9950d18d81d">
+					<reportElement key="" style="Group header fields" x="598" y="25" width="72" height="14" uuid="ce5237d8-cd23-4dad-94e4-c9950d18d81d">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<textElement textAlignment="Right"/>
-					<text><![CDATA[Transfer Out]]></text>
+					<text><![CDATA[Survey SchNo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="" style="Group header fields" x="394" y="25" width="50" height="14" uuid="47311a2e-b81b-4535-a553-e70bc059bc89">
+					<reportElement key="" style="Group header fields" x="272" y="25" width="50" height="14" uuid="47311a2e-b81b-4535-a553-e70bc059bc89">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<textElement textAlignment="Right"/>
-					<text><![CDATA[Enrollments]]></text>
+					<text><![CDATA[Teachers]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="" style="Group header fields" x="2" y="25" width="392" height="14" uuid="fa856e9f-1559-418c-b2c9-0f64890dd763">
+					<reportElement key="" style="Group header fields" x="2" y="25" width="270" height="14" uuid="fa856e9f-1559-418c-b2c9-0f64890dd763">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -198,40 +175,31 @@ ORDER BY [Estimate] DESC, [District], [School Name]]]>
 					<text><![CDATA[School]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="" style="Group header fields" x="702" y="25" width="50" height="14" uuid="a9d3df85-3cd5-43c8-b860-7fef4dc05ba8">
+					<reportElement key="" style="Group header fields" x="670" y="25" width="82" height="14" uuid="9aa6d3d0-88ec-4e7d-bf13-6d486e417750">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<textElement textAlignment="Right"/>
-					<text><![CDATA[Completed]]></text>
+					<text><![CDATA[Survey Data Year]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="" style="Group header fields" x="652" y="25" width="50" height="14" uuid="9aa6d3d0-88ec-4e7d-bf13-6d486e417750">
+					<reportElement key="" style="Group header fields" x="322" y="25" width="50" height="14" uuid="cdfd9684-74c4-46b1-9eec-b43a27458fd6">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<textElement textAlignment="Right"/>
-					<text><![CDATA[SpEd]]></text>
+					<text><![CDATA[Qualified]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="" style="Group header fields" x="444" y="25" width="50" height="14" uuid="cdfd9684-74c4-46b1-9eec-b43a27458fd6">
+					<reportElement key="" style="Group header fields" x="422" y="25" width="176" height="14" uuid="b53d5ffd-2b01-432d-bea0-0d9cf1c1cd8e">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<textElement textAlignment="Right"/>
-					<text><![CDATA[Repeaters]]></text>
-				</staticText>
-				<staticText>
-					<reportElement key="" style="Group header fields" x="602" y="25" width="50" height="14" uuid="b53d5ffd-2b01-432d-bea0-0d9cf1c1cd8e">
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					</reportElement>
-					<textElement textAlignment="Right"/>
-					<text><![CDATA[Dropouts]]></text>
+					<text><![CDATA[Survey Role]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
@@ -258,11 +226,11 @@ ORDER BY [Estimate] DESC, [District], [School Name]]]>
 				<textElement>
 					<font size="45"/>
 				</textElement>
-				<text><![CDATA[School Enrollments]]></text>
+				<text><![CDATA[School Teachers]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="SubTitle" x="126" y="62" width="499" height="48" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9"/>
-				<text><![CDATA[Grouped by schools with their enrollments estimated by the EMIS and those with enrollments reported (i.e. census) for chosen year]]></text>
+				<text><![CDATA[Grouped by schools with their teachers estimated by the EMIS and those with teachers reported (i.e. census) for chosen year]]></text>
 			</staticText>
 			<image>
 				<reportElement x="625" y="0" width="126" height="126" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959">
@@ -323,7 +291,7 @@ ORDER BY [Estimate] DESC, [District], [School Name]]]>
 		<band height="15" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField textAdjust="StretchHeight">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="2" y="0" width="392" height="15" uuid="e52e588f-1cd5-4546-81c7-bcc4c9366e9c">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="2" y="0" width="270" height="15" uuid="e52e588f-1cd5-4546-81c7-bcc4c9366e9c">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -336,7 +304,7 @@ ORDER BY [Estimate] DESC, [District], [School Name]]]>
 				<textFieldExpression><![CDATA[$F{School No} + ": " + $F{School Name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="494" y="0" width="50" height="15" uuid="e5de5ef1-0226-4ab5-9e85-1488b33a5561">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="372" y="0" width="50" height="15" uuid="e5de5ef1-0226-4ab5-9e85-1488b33a5561">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -346,10 +314,10 @@ ORDER BY [Estimate] DESC, [District], [School Name]]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{TransfersIn} != null) ? $F{TransfersIn} : 0]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Certified}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="544" y="0" width="58" height="15" uuid="da5a284b-49c6-4685-be6f-46646416e35d">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="598" y="0" width="72" height="15" uuid="da5a284b-49c6-4685-be6f-46646416e35d">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -359,10 +327,10 @@ ORDER BY [Estimate] DESC, [District], [School Name]]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{TransfersOut} != null) ? $F{TransfersOut} : 0]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{SurveySchNo}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="602" y="0" width="50" height="15" uuid="0f6a6313-438a-49a8-abb3-c03d08cbd74c">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="422" y="0" width="176" height="15" uuid="0f6a6313-438a-49a8-abb3-c03d08cbd74c">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -372,10 +340,10 @@ ORDER BY [Estimate] DESC, [District], [School Name]]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{Dropouts} != null) ? $F{Dropouts} : 0]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{SurveyRole}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="652" y="0" width="50" height="15" uuid="0ce8929e-2b56-4f2a-9259-900801e7e618">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="670" y="0" width="82" height="15" uuid="0ce8929e-2b56-4f2a-9259-900801e7e618">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -385,10 +353,10 @@ ORDER BY [Estimate] DESC, [District], [School Name]]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{Disab} != null) ? $F{Disab} : 0]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{SurveyDataYear}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="444" y="0" width="50" height="15" uuid="6b357b28-299c-4809-86bd-b62510ceef16">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="322" y="0" width="50" height="15" uuid="6b357b28-299c-4809-86bd-b62510ceef16">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -398,10 +366,10 @@ ORDER BY [Estimate] DESC, [District], [School Name]]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{Repeaters} != null) ? $F{Repeaters} : 0]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Qualified}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="394" y="0" width="50" height="15" uuid="08ddf433-d338-4002-81a9-ff171ab8e4ba">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="272" y="0" width="50" height="15" uuid="08ddf433-d338-4002-81a9-ff171ab8e4ba">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -411,20 +379,7 @@ ORDER BY [Estimate] DESC, [District], [School Name]]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Enrol}]]></textFieldExpression>
-			</textField>
-			<textField textAdjust="StretchHeight">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="702" y="0" width="50" height="15" uuid="35c4c6d6-9e95-4476-80e1-8f7cbf48c466">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<box>
-					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Open Sans Semibold" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[($F{Completed} != null) ? $F{Completed} : 0]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Teachers}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
