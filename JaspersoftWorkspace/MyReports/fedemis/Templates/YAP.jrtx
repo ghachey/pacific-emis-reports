@@ -10,10 +10,7 @@
 	</style>
 	<style name="Column header" mode="Opaque" forecolor="#373435" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans" fontSize="11" isBold="true"/>
 	<style name="Column header 2" forecolor="#666666" hTextAlign="Center" fontName="Open Sans Semibold" fontSize="10" isBold="true"/>
-	<style name="Page footer" mode="Opaque" forecolor="#000000" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle" rotation="None" fontName="Open Sans" fontSize="10" isBold="false"/>
-	<style name="Group header" mode="Opaque" forecolor="#FFFFFF" backcolor="#924D34" vTextAlign="Middle" fontName="Open Sans" fontSize="16" isBold="true">
-		<box leftPadding="5"/>
-	</style>
+	<style name="Page footer" mode="Opaque" forecolor="#FFFFFF" backcolor="#924D34" hTextAlign="Left" vTextAlign="Middle" rotation="None" fontName="Open Sans" fontSize="10" isBold="false"/>
 	<style name="Base" isDefault="true" fontName="Open Sans" fontSize="12"/>
 	<style name="Group footer" hTextAlign="Right" vTextAlign="Middle" fontName="Open Sans" fontSize="7" isBold="true"/>
 	<style name="Title text" hTextAlign="Center" vTextAlign="Middle" fontName="Open Sans" fontSize="10"/>
@@ -73,4 +70,6 @@
 	<style name="Detail Header Lighter" mode="Opaque" forecolor="#FFFFFF" backcolor="#DBA08A" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
 		<pen lineWidth="0.0"/>
 	</style>
+	<style name="Group header fields" forecolor="#333333" hTextAlign="Left" fontName="Open Sans" fontSize="8" isBold="true"/>
+	<style name="Group header" forecolor="#FFFFFF" vTextAlign="Middle" fontName="Open Sans" fontSize="16" isBold="true"/>
 </jasperTemplate>
