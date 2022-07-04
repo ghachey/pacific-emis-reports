@@ -5,8 +5,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
 	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Exams/High_School_Passing_List"/>
-	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Exams/High_School_Passing_List_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Exams/High_School_Passing_List_Proficient_Above"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Exams/High_School_Passing_List_Proficient_Above_files/main_jrxml"/>
 	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
 	<style name="Row" mode="Transparent">
 		<conditionalStyle>
@@ -24,6 +24,32 @@
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
 			<style mode="Opaque" backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<style name="AchievementLevels" mode="Transparent" forecolor="#FFFFFF" backcolor="#FFFFFF">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{FinalLevel} == 1]]></conditionExpression>
+			<style mode="Opaque" forecolor="#C00000" backcolor="#C00000" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{FinalLevel} == 2]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FED966" backcolor="#FED966" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{FinalLevel} == 3]]></conditionExpression>
+			<style mode="Opaque" forecolor="#92D14F" backcolor="#92D14F" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{FinalLevel} == 4]]></conditionExpression>
+			<style mode="Opaque" forecolor="#00AF50" backcolor="#00AF50" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
 		</conditionalStyle>
 	</style>
 	<subDataset name="School Name" uuid="b1b779f0-43b3-4da2-a687-ea288048927b">
@@ -230,7 +256,7 @@ ORDER BY S2.schName ASC, E.NextGradeProfAboveRule, E.NextGrade60PercRule, E.schN
 		</groupFooter>
 	</group>
 	<group name="Next Grade">
-		<groupExpression><![CDATA[$F{NextGrade60PercRule}]]></groupExpression>
+		<groupExpression><![CDATA[$F{NextGradeProfAboveRule}]]></groupExpression>
 		<groupHeader>
 			<band height="36">
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -244,7 +270,7 @@ ORDER BY S2.schName ASC, E.NextGradeProfAboveRule, E.NextGrade60PercRule, E.schN
 					</rectangle>
 					<textField>
 						<reportElement style="Group header" x="80" y="0" width="512" height="24" uuid="ffc3ddef-375b-4b6c-b8ad-30d9d71ed297"/>
-						<textFieldExpression><![CDATA[$F{NextGrade60PercRule}]]></textFieldExpression>
+						<textFieldExpression><![CDATA[$F{NextGradeProfAboveRule}]]></textFieldExpression>
 					</textField>
 				</frame>
 				<staticText>
@@ -314,7 +340,7 @@ ORDER BY S2.schName ASC, E.NextGradeProfAboveRule, E.NextGrade60PercRule, E.schN
 					<textElement textAlignment="Right">
 						<font size="8"/>
 					</textElement>
-					<text><![CDATA[% Correct]]></text>
+					<text><![CDATA[Achievement Level]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
@@ -344,11 +370,11 @@ ORDER BY S2.schName ASC, E.NextGradeProfAboveRule, E.NextGrade60PercRule, E.schN
 				<text><![CDATA[High School Entrance Test]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="SubTitle" x="126" y="80" width="321" height="46" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9"/>
+				<reportElement style="SubTitle" x="126" y="70" width="321" height="56" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[List of students passing the High School Entrance Test and those requiring to go to Pre-Nine]]></text>
+				<text><![CDATA[List of students passing the High School Entrance Test and those requiring to go to Pre-Nine (Proficient and above rule)]]></text>
 			</staticText>
 			<image>
 				<reportElement x="447" y="0" width="126" height="126" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959">
@@ -438,7 +464,7 @@ ORDER BY S2.schName ASC, E.NextGradeProfAboveRule, E.NextGrade60PercRule, E.schN
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[% Correct]]></text>
+				<text><![CDATA[Achievement Level]]></text>
 			</staticText>
 			<staticText>
 				<reportElement key="" style="Column header" x="98" y="0" width="201" height="12" uuid="73e1c2ab-2db1-4bfa-a412-823851e08b3f">
@@ -501,7 +527,7 @@ ORDER BY S2.schName ASC, E.NextGradeProfAboveRule, E.NextGrade60PercRule, E.schN
 				<textFieldExpression><![CDATA[$F{excGender} == null ? "N/A" : $F{excGender}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.0#%;(#,##0.0#-) %">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="490" y="1" width="81" height="14" uuid="0ce8929e-2b56-4f2a-9259-900801e7e618">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="490" y="1" width="63" height="14" uuid="0ce8929e-2b56-4f2a-9259-900801e7e618">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -512,7 +538,7 @@ ORDER BY S2.schName ASC, E.NextGradeProfAboveRule, E.NextGrade60PercRule, E.schN
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{PercentageCorrect}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{FinalLevelDesc}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="300" y="1" width="140" height="14" uuid="6b357b28-299c-4809-86bd-b62510ceef16">
@@ -541,6 +567,20 @@ ORDER BY S2.schName ASC, E.NextGradeProfAboveRule, E.NextGrade60PercRule, E.schN
 					<font fontName="Open Sans Semibold" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{School}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="AchievementLevels" stretchType="RelativeToTallestObject" mode="Opaque" x="553" y="0" width="18" height="15" uuid="fa5ee8e8-8157-4148-9dac-280969b9ee3b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FinalLevelDesc}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
