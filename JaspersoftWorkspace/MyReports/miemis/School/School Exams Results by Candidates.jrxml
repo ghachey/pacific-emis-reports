@@ -78,7 +78,8 @@
       ,ERBCX.[examYear]
       ,ERBCX.[examName]
 	  ,CONCAT(ERBCX.[examCode],': ',ERBCX.[examName]) AS Exam
-      ,ERBCX.[schNo]
+      ,ERBCX.[schNo]	
+	  ,T.[SchoolStudentGroup]
       ,ISNULL(cast(ERBCX.[Gender] as nvarchar(5)),'N/A') as [Gender]
       ,SUM(ERBCX.[CandidateCount]) [Benchmarks]
       ,SUM(ISNULL([2],0)) AS [Tot2]
@@ -95,14 +96,38 @@
   INNER JOIN 
   (
 	SELECT CandidateID
+	, schNo
 	, examID
 	, AchievementLevel
 	, AchievementDesc
+	,CASE 
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 0 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 15 THEN 'Student Group 1-15'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 15 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 30 THEN 'Student Group 16-30'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 30 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 45 THEN 'Student Group 31-45'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 45 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 60 THEN 'Student Group 46-60'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 60 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 75 THEN 'Student Group 61-75'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 75 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 90 THEN 'Student Group 76-90'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 90 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 105 THEN 'Student Group 91-105'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 105 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 120 THEN 'Student Group 106-120'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 120 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 135 THEN 'Student Group 121-135'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 135 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 150 THEN 'Student Group 136-150'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 150 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 165 THEN 'Student Group 151-165'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 165 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 180 THEN 'Student Group 166-180'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 180 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 195 THEN 'Student Group 181-195'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 195 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 210 THEN 'Student Group 196-210'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 210 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 225 THEN 'Student Group 211-225'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 225 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 240 THEN 'Student Group 226-240'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 240 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 255 THEN 'Student Group 241-255'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 255 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 270 THEN 'Student Group 256-270'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 270 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 285 THEN 'Student Group 271-285'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 285 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 300 THEN 'Student Group 286-300'
+		ELSE 'Student Group 301 and more' 
+		END [SchoolStudentGroup]
 	FROM [pExamRead].[CandidateLevelTyped]
-	WHERE RecordType = 'Exam' AND CandidateCount = 1
+	WHERE RecordType = 'Exam' AND CandidateCount = 1 AND ExamYear = $P{Year}
  ) T
   ON ERBCX.excID = T.CandidateID AND ERBCX.examID = T.ExamID
-  WHERE schNo = $P{SchoolNo} AND examYear = $P{Year}
+  WHERE ERBCX.schNo = $P{SchoolNo} AND ERBCX.examYear = $P{Year}
   GROUP BY [excID]
       ,[studentID]
       ,[excGiven]
@@ -113,10 +138,11 @@
       ,ERBCX.[examYear]
       ,ERBCX.[examName]
       ,ERBCX.[schNo]
+	  ,T.[SchoolStudentGroup]
 	  ,ERBCX.[Gender]
 	  ,[AchievementLevel]
 	  ,[AchievementDesc]
-  ORDER BY   
+  ORDER BY
 	CASE 
 		WHEN [examCode] = 'A03' then 1
         WHEN [examCode] = 'B03' then 2
@@ -134,6 +160,29 @@
 		WHEN [examCode] = 'B12' then 14        
 		WHEN [examCode] = 'M12' then 15
         ELSE 16
+	END ASC
+	,CASE 
+		WHEN [SchoolStudentGroup] = 'Student Group 1-15' then 1
+		WHEN [SchoolStudentGroup] = 'Student Group 16-30' then 2
+		WHEN [SchoolStudentGroup] = 'Student Group 31-45' then 3
+		WHEN [SchoolStudentGroup] = 'Student Group 46-60' then 4
+		WHEN [SchoolStudentGroup] = 'Student Group 61-75' then 5
+		WHEN [SchoolStudentGroup] = 'Student Group 76-90' then 6
+		WHEN [SchoolStudentGroup] = 'Student Group 91-105' then 7
+		WHEN [SchoolStudentGroup] = 'Student Group 106-120' then 8
+		WHEN [SchoolStudentGroup] = 'Student Group 121-135' then 9
+		WHEN [SchoolStudentGroup] = 'Student Group 136-150' then 10
+		WHEN [SchoolStudentGroup] = 'Student Group 151-165' then 11
+		WHEN [SchoolStudentGroup] = 'Student Group 166-180' then 12
+		WHEN [SchoolStudentGroup] = 'Student Group 181-195' then 13
+		WHEN [SchoolStudentGroup] = 'Student Group 196-210' then 14
+		WHEN [SchoolStudentGroup] = 'Student Group 211-225' then 15
+		WHEN [SchoolStudentGroup] = 'Student Group 226-240' then 16
+		WHEN [SchoolStudentGroup] = 'Student Group 241-255' then 17
+		WHEN [SchoolStudentGroup] = 'Student Group 256-270' then 18
+		WHEN [SchoolStudentGroup] = 'Student Group 271-285' then 19
+		WHEN [SchoolStudentGroup] = 'Student Group 286-300' then 20
+        ELSE 21
 	END ASC, [examCode] ASC, [GivenName], [FamilyName]]]>
 	</queryString>
 	<field name="excID" class="java.lang.String">
@@ -179,6 +228,10 @@
 	<field name="schNo" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="schNo"/>
 		<property name="com.jaspersoft.studio.field.label" value="schNo"/>
+	</field>
+	<field name="SchoolStudentGroup" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SchoolStudentGroup"/>
+		<property name="com.jaspersoft.studio.field.label" value="SchoolStudentGroup"/>
 	</field>
 	<field name="Gender" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="Gender"/>
@@ -231,7 +284,7 @@
 	<group name="Exam Name">
 		<groupExpression><![CDATA[$F{examName}]]></groupExpression>
 		<groupHeader>
-			<band height="280">
+			<band height="24">
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<frame>
 					<reportElement style="Detail Header Dark" x="-21" y="0" width="793" height="24" uuid="f871ff1c-a634-42fe-a4be-f6f89704d9d1">
@@ -246,17 +299,21 @@
 						<textFieldExpression><![CDATA[$F{examName}]]></textFieldExpression>
 					</textField>
 				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Student Group">
+		<groupExpression><![CDATA[$F{SchoolStudentGroup}]]></groupExpression>
+		<groupHeader>
+			<band height="280">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<staticText>
-					<reportElement key="" style="Group header fields" x="580" y="268" width="50" height="12" uuid="ba3c3753-04c1-4f54-89a7-b2a61687ee5e">
-						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<textElement textAlignment="Right"/>
-					<text><![CDATA[Advanced]]></text>
-				</staticText>
-				<staticText>
-					<reportElement key="" style="Group header fields" x="0" y="268" width="380" height="12" uuid="815dd11c-9f52-4481-90f9-922c7a7a8fcb">
+					<reportElement key="" style="Group header fields" x="0" y="268" width="380" height="12" uuid="8b5395d2-a023-4f54-ac67-f6cb5b1c244f">
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -264,16 +321,16 @@
 					<text><![CDATA[Candidate]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="" style="Group header fields" x="530" y="268" width="50" height="12" uuid="b4b3b5c8-940f-45f8-ae33-b1ba33e4cff5">
+					<reportElement key="" style="Group header fields" x="630" y="268" width="122" height="12" uuid="508ea8e5-77a8-4f59-82c4-1d65481f16d8">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement textAlignment="Right"/>
-					<text><![CDATA[Proficient]]></text>
+					<text><![CDATA[Final Level]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="" style="Group header fields" x="480" y="268" width="50" height="12" uuid="3efaffca-4c1a-42a3-9714-e4b744c67aac">
+					<reportElement key="" style="Group header fields" x="480" y="268" width="50" height="12" uuid="d08665d5-9b99-46ab-9ae5-a92e9034ea73">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -282,16 +339,7 @@
 					<text><![CDATA[Developing]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="" style="Group header fields" x="430" y="268" width="50" height="12" uuid="6faf4fc1-9314-44d4-86af-b7007d090909">
-						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<textElement textAlignment="Right"/>
-					<text><![CDATA[Beginning]]></text>
-				</staticText>
-				<staticText>
-					<reportElement key="" style="Group header fields" x="380" y="268" width="50" height="12" uuid="8540ffae-7f7a-43d9-922b-2e7211c1649d">
+					<reportElement key="" style="Group header fields" x="380" y="268" width="50" height="12" uuid="73fe01bb-9492-4d1f-8b4f-db4d88ecf5f1">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -300,17 +348,35 @@
 					<text><![CDATA[Benchmarks]]></text>
 				</staticText>
 				<staticText>
-					<reportElement key="" style="Group header fields" x="630" y="268" width="122" height="12" uuid="b47946b0-10b5-405e-b3d7-e88970dea605">
+					<reportElement key="" style="Group header fields" x="580" y="268" width="50" height="12" uuid="8868a8e4-058e-4afa-926a-2313b87a2147">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement textAlignment="Right"/>
-					<text><![CDATA[Final Level]]></text>
+					<text><![CDATA[Advanced]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="" style="Group header fields" x="530" y="268" width="50" height="12" uuid="6edc49dc-6d3a-4ead-865e-4a601c5ad459">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Proficient]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="" style="Group header fields" x="430" y="268" width="50" height="12" uuid="ae1852f1-0378-4697-a82e-cbc784a1c867">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Beginning]]></text>
 				</staticText>
 				<stackedBarChart>
-					<chart isShowLegend="false" evaluationTime="Group" evaluationGroup="Exam Name" theme="default">
-						<reportElement x="0" y="24" width="752" height="220" uuid="b96774e3-0ac0-4320-b9fe-d09548f939a9">
+					<chart isShowLegend="false" evaluationTime="Group" evaluationGroup="Student Group" theme="default">
+						<reportElement x="1" y="27" width="752" height="220" uuid="8cc458f1-4b3e-48ab-9537-ceb5a4230d40">
 							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 							<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -331,7 +397,7 @@
 						<chartLegend/>
 					</chart>
 					<categoryDataset>
-						<dataset resetType="Group" resetGroup="Exam Name"/>
+						<dataset resetType="Group" resetGroup="Student Group"/>
 						<categorySeries>
 							<seriesExpression><![CDATA["Developing"]]></seriesExpression>
 							<categoryExpression><![CDATA[(($F{GivenName} == null) ? "" : $F{GivenName} + " ") + (($F{FamilyName} == null) ? "" : $F{FamilyName})]]></categoryExpression>
@@ -392,37 +458,37 @@
 					</barPlot>
 				</stackedBarChart>
 				<rectangle>
-					<reportElement x="80" y="245" width="600" height="17" uuid="4802ebfe-d50d-45e7-a03a-ae3b0aec6dd7"/>
+					<reportElement x="81" y="248" width="600" height="17" uuid="d566784c-9575-474e-87e0-0d34c0ef2f13"/>
 					<graphicElement>
 						<pen lineWidth="0.35"/>
 					</graphicElement>
 				</rectangle>
 				<rectangle>
-					<reportElement x="83" y="247" width="13" height="13" forecolor="#C00000" backcolor="#C00000" uuid="c9c129ba-1151-412b-95a2-0f168b1df78d"/>
+					<reportElement x="84" y="250" width="13" height="13" forecolor="#C00000" backcolor="#C00000" uuid="06aed39c-d6d4-418d-8438-72854c223ed4"/>
 					<graphicElement>
 						<pen lineWidth="0.0"/>
 					</graphicElement>
 				</rectangle>
 				<rectangle>
-					<reportElement x="230" y="247" width="13" height="13" forecolor="#FFD966" backcolor="#FFD966" uuid="374d9397-4505-4b44-a6cb-208fa3bec1e6"/>
+					<reportElement x="231" y="250" width="13" height="13" forecolor="#FFD966" backcolor="#FFD966" uuid="8eb16678-f5ad-4964-b1d3-b6102e28190b"/>
 					<graphicElement>
 						<pen lineWidth="0.0"/>
 					</graphicElement>
 				</rectangle>
 				<rectangle>
-					<reportElement x="530" y="247" width="13" height="13" forecolor="#00B050" backcolor="#00B050" uuid="2ec3f6bc-cbd8-4c9e-907f-d5556cbee7cc"/>
+					<reportElement x="531" y="250" width="13" height="13" forecolor="#00B050" backcolor="#00B050" uuid="7182647c-d242-4ac3-b58b-2f6fbf4b2950"/>
 					<graphicElement>
 						<pen lineWidth="0.0"/>
 					</graphicElement>
 				</rectangle>
 				<rectangle>
-					<reportElement x="380" y="247" width="13" height="13" forecolor="#92D050" backcolor="#92D050" uuid="b7137a42-a16e-449a-913a-bdebae36a78d"/>
+					<reportElement x="381" y="250" width="13" height="13" forecolor="#92D050" backcolor="#92D050" uuid="d3340536-255c-4790-b613-aca79b83974c"/>
 					<graphicElement>
 						<pen lineWidth="0.0"/>
 					</graphicElement>
 				</rectangle>
 				<staticText>
-					<reportElement x="98" y="246" width="130" height="16" uuid="044c86e3-a810-4e58-901e-966b18d15edb">
+					<reportElement x="99" y="249" width="130" height="16" uuid="3a9a75a5-108d-495c-9608-c8b63b947f28">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -431,7 +497,7 @@
 					<text><![CDATA[Beginning]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="245" y="246" width="134" height="16" uuid="6af9af28-9642-426b-9216-90ab96eddc34">
+					<reportElement x="246" y="249" width="134" height="16" uuid="68eaa237-a1e1-4c58-b34b-6e935ec8ff3b">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -440,7 +506,7 @@
 					<text><![CDATA[Developing]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="395" y="246" width="134" height="16" uuid="f6daf65e-c294-41af-bf2d-8ff8669c1986">
+					<reportElement x="396" y="249" width="134" height="16" uuid="6ad4116a-6c03-40cb-b8ce-e8de0cf8e7e2">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -449,7 +515,7 @@
 					<text><![CDATA[Proficient]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="545" y="246" width="134" height="16" uuid="73aa0d58-91b2-4101-894d-9e2d7d69c088">
+					<reportElement x="546" y="249" width="134" height="16" uuid="60592d0b-7ada-4836-86da-a43f7c32b1eb">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -457,12 +523,23 @@
 					</textElement>
 					<text><![CDATA[Advanced]]></text>
 				</staticText>
+				<frame>
+					<reportElement style="Detail Header Light" x="-21" y="0" width="793" height="24" uuid="ffd2e503-327c-4821-b872-1ec5c989df44">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<rectangle>
+						<reportElement style="Detail Header Dark" x="21" y="0" width="36" height="24" uuid="e8788ab8-d451-4608-a53e-7f7cd9ee8835"/>
+					</rectangle>
+					<textField>
+						<reportElement style="Group header" x="68" y="0" width="704" height="24" uuid="202deb0e-7c94-46c1-bf7c-9e63dec851e6"/>
+						<textFieldExpression><![CDATA[$F{SchoolStudentGroup}]]></textFieldExpression>
+					</textField>
+				</frame>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band>
-				<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			</band>
+			<band/>
 		</groupFooter>
 	</group>
 	<background>
@@ -477,17 +554,6 @@
 				</reportElement>
 				<imageExpression><![CDATA["repo:/images/rmi_seal.png"]]></imageExpression>
 			</image>
-			<staticText>
-				<reportElement style="Title" x="126" y="0" width="499" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
-				<textElement>
-					<font size="45"/>
-				</textElement>
-				<text><![CDATA[Exams School Results]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="SubTitle" x="126" y="62" width="499" height="48" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9"/>
-				<text><![CDATA[The candidates results of the school for all their benchmarks for chosen year (all exams)]]></text>
-			</staticText>
 			<image>
 				<reportElement x="625" y="0" width="126" height="126" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -525,33 +591,56 @@
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 			</ellipse>
+			<textField>
+				<reportElement style="SubTitle" x="126" y="62" width="499" height="41" uuid="30a210b9-837f-4e2f-aa05-c97d082534e6"/>
+				<textFieldExpression><![CDATA["MISAT Exam Results " + $P{Year}]]></textFieldExpression>
+			</textField>
 			<componentElement>
-				<reportElement x="251" y="111" width="250" height="20" uuid="36e4b943-4883-4e76-918c-e264f9722323">
+				<reportElement style="Title" x="126" y="0" width="499" height="62" uuid="4a5d1d7b-830b-4a02-b344-1e0ce5626b43">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
-					<datasetRun subDataset="School Name" uuid="3c64e555-1e1a-471a-aa70-d71e4432fdbc">
+					<datasetRun subDataset="School Name" uuid="23bed170-a857-4c71-a352-aedc68baf7b3">
 						<datasetParameter name="SchoolNo">
 							<datasetParameterExpression><![CDATA[$P{SchoolNo}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:listContents height="20" width="250">
+					<jr:listContents height="62" width="499">
 						<textField>
-							<reportElement style="Title text" x="0" y="0" width="250" height="20" uuid="21bcb351-c77d-46ae-aac7-414f029ae950">
+							<reportElement style="Title" x="0" y="0" width="499" height="62" uuid="7b5d5028-bea1-4833-9283-19e8b6e329c9">
 								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 							</reportElement>
-							<textFieldExpression><![CDATA["Report for the School " + $P{SchoolNo} + ": " +$F{schName}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
 						</textField>
 					</jr:listContents>
 				</jr:list>
 			</componentElement>
-			<textField>
-				<reportElement style="Title text" x="226" y="132" width="300" height="20" uuid="30a210b9-837f-4e2f-aa05-c97d082534e6"/>
-				<textFieldExpression><![CDATA["Year " + $P{Year} + " and all exams."]]></textFieldExpression>
-			</textField>
+			<componentElement>
+				<reportElement style="Title text" x="126" y="103" width="499" height="57" uuid="0f7e80c3-7698-4ad3-8e13-e745c17952ea">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="School Name" uuid="3603b110-7082-40a2-b173-f0e4f5c8dfc1">
+						<datasetParameter name="SchoolNo">
+							<datasetParameterExpression><![CDATA[$P{SchoolNo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="57" width="499">
+						<textField>
+							<reportElement style="Title text" x="0" y="0" width="499" height="57" uuid="7d1504b7-b5b9-4e75-867a-0c5a3665ce06">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+							</reportElement>
+							<textFieldExpression><![CDATA["The candidates results for school " + $P{SchoolNo} + ": " +$F{schName} + "by benchmarks (all exams)"]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
 		</band>
 	</title>
 	<pageHeader>
