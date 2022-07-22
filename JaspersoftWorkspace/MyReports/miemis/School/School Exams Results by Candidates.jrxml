@@ -2,7 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams_School_Results_by_Year" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS"/>
 	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
 	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/School/School_Exams_Results_by_Candidates"/>
@@ -101,30 +101,30 @@
 	, AchievementLevel
 	, AchievementDesc
 	,CASE 
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 0 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 15 THEN 'Student Group 1-15'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 15 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 30 THEN 'Student Group 16-30'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 30 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 45 THEN 'Student Group 31-45'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 45 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 60 THEN 'Student Group 46-60'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 60 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 75 THEN 'Student Group 61-75'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 75 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 90 THEN 'Student Group 76-90'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 90 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 105 THEN 'Student Group 91-105'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 105 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 120 THEN 'Student Group 106-120'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 120 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 135 THEN 'Student Group 121-135'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 135 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 150 THEN 'Student Group 136-150'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 150 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 165 THEN 'Student Group 151-165'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 165 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 180 THEN 'Student Group 166-180'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 180 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 195 THEN 'Student Group 181-195'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 195 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 210 THEN 'Student Group 196-210'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 210 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 225 THEN 'Student Group 211-225'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 225 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 240 THEN 'Student Group 226-240'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 240 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 255 THEN 'Student Group 241-255'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 255 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 270 THEN 'Student Group 256-270'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 270 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 285 THEN 'Student Group 271-285'
-		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 285 AND ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) <= 300 THEN 'Student Group 286-300'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 0 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 15 THEN 'Student Group 1-15'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 15 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 30 THEN 'Student Group 16-30'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 30 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 45 THEN 'Student Group 31-45'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 45 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 60 THEN 'Student Group 46-60'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 60 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 75 THEN 'Student Group 61-75'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 75 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 90 THEN 'Student Group 76-90'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 90 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 105 THEN 'Student Group 91-105'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 105 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 120 THEN 'Student Group 106-120'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 120 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 135 THEN 'Student Group 121-135'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 135 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 150 THEN 'Student Group 136-150'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 150 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 165 THEN 'Student Group 151-165'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 165 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 180 THEN 'Student Group 166-180'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 180 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 195 THEN 'Student Group 181-195'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 195 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 210 THEN 'Student Group 196-210'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 210 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 225 THEN 'Student Group 211-225'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 225 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 240 THEN 'Student Group 226-240'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 240 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 255 THEN 'Student Group 241-255'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 255 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 270 THEN 'Student Group 256-270'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 270 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 285 THEN 'Student Group 271-285'
+		WHEN ROW_NUMBER() OVER(PARTITION BY schNo ORDER BY schNo) > 285 AND ROW_NUMBER() OVER(PARTITION BY schNo, examID ORDER BY schNo) <= 300 THEN 'Student Group 286-300'
 		ELSE 'Student Group 301 and more' 
 		END [SchoolStudentGroup]
 	FROM [pExamRead].[CandidateLevelTyped]
-	WHERE RecordType = 'Exam' AND CandidateCount = 1 AND ExamYear = $P{Year}
+	WHERE RecordType = 'Exam' AND CandidateCount = 1 AND schNo = $P{SchoolNo} AND ExamYear = $P{Year}
  ) T
   ON ERBCX.excID = T.CandidateID AND ERBCX.examID = T.ExamID
   WHERE ERBCX.schNo = $P{SchoolNo} AND ERBCX.examYear = $P{Year}
