@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams_School_Results_by_Year" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Exams/Exams_Atoll_Ranking_by_Year____of_Benchmark_"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Exams/Exams_Atoll_Ranking_by_Year____of_Benchmark__files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.report.unit.description" value="Proportion of students at each level of achievement for chosen school and year (all exams)"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC" fontName="Open Sans Semibold" fontSize="9"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2022]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Education_Levels" class="java.lang.String">
+		<defaultValueExpression><![CDATA["PRI"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT [examCode]
+      ,[examName]
+      ,[examYear]
+      ,[examNameShort]
+      ,[ExamClassLevel]
+      ,[ExamClassLevelYear]
+      ,[EdLevelCode]
+      ,[EdLevelMaxYear]
+      ,[EdLevelMinYear]
+      ,ER.[DistrictCode]
+      ,ER.[District]
+      ,[MinimumProficiencyC]
+      ,[TotalLevelCount]
+      ,[MinimumProficiencyP]
+	  ,RN.RANK [Rank]
+	  ,RN.ROW_NUMBER [Row_Number]
+	  ,RN.DENSE_RANK [Dense_Rank]
+FROM (
+	SELECT [examCode]
+		  ,[examName]
+		  ,[examYear]
+		  ,[examNameShort]
+		  ,[ExamClassLevel]
+		  ,[ExamClassLevelYear]
+		  ,[EdLevelCode]
+		  ,[EdLevelMaxYear]
+		  ,[EdLevelMinYear]
+		  ,CASE
+				WHEN [AuthorityGroup] = 'Public' THEN ERPS.[DistrictCode]
+				WHEN [AuthorityGroup] = 'Private' THEN 0
+				ELSE ERPS.[DistrictCode]
+			END [DistrictCode]
+		  ,CASE
+				WHEN [AuthorityGroup] = 'Public' THEN ERPS.[District]
+				WHEN [AuthorityGroup] = 'Private' THEN 'Private Schools'
+				ELSE ERPS.[District]
+			END [District]
+		  ,[MinimumProficiencyC]
+		  ,[TotalLevelCount]
+		  ,[MinimumProficiencyP]
+	FROM [warehouse].[ExamResultsTestMinimumProficiencyLevelCountSchool] ERPS
+	LEFT OUTER JOIN DimensionSchoolSurvey DSS ON ERPS.schNo = DSS.[School No] AND ERPS.examYear = DSS.[Survey Year]
+) ER
+INNER JOIN (
+	SELECT CASE
+			WHEN [AuthorityGroup] = 'Public' THEN [DistrictCode]
+			WHEN [AuthorityGroup] = 'Private' THEN 0
+			ELSE [DistrictCode]
+			END [DistrictCode]
+		,CASE
+			WHEN [AuthorityGroup] = 'Public' THEN ES.[District]
+			WHEN [AuthorityGroup] = 'Private' THEN 'Private Schools'
+			ELSE ES.[District]
+			END [District]
+		,SUM([MinimumProficiencyC]) TotMinimumProficiencyC
+		,SUM([TotalLevelCount]) TotTotalLevelCount
+		,SUM([MinimumProficiencyC]) / SUM([TotalLevelCount]) TotScore
+		,RANK() OVER(ORDER BY SUM([MinimumProficiencyC]) / SUM([TotalLevelCount]) DESC) 'RANK'
+		,ROW_NUMBER() OVER(ORDER BY SUM([MinimumProficiencyC]) / SUM([TotalLevelCount]) DESC) 'ROW_NUMBER'
+		,DENSE_RANK() OVER(ORDER BY SUM([MinimumProficiencyC]) / SUM([TotalLevelCount]) DESC) 'DENSE_RANK'
+	FROM [warehouse].[ExamResultsTestMinimumProficiencyLevelCountSchool] ES
+	LEFT OUTER JOIN DimensionSchoolSurvey DSS ON ES.schNo = DSS.[School No] AND ES.examYear = DSS.[Survey Year]
+	WHERE examYear = $P{Year} AND edLevelCode = $P{Education_Levels}
+	GROUP BY CASE
+			WHEN [AuthorityGroup] = 'Public' THEN ES.[DistrictCode]
+			WHEN [AuthorityGroup] = 'Private' THEN 0
+			ELSE ES.[DistrictCode]
+			END
+		,CASE
+			WHEN [AuthorityGroup] = 'Public' THEN ES.[District]
+			WHEN [AuthorityGroup] = 'Private' THEN 'Private Schools'
+			ELSE ES.[District]
+			END
+) RN ON ER.DistrictCode = RN.DistrictCode
+WHERE examYear = $P{Year} AND edLevelCode = $P{Education_Levels}
+ORDER BY RN.Rank ASC
+]]>
+	</queryString>
+	<field name="examCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="examCode"/>
+		<property name="com.jaspersoft.studio.field.label" value="examCode"/>
+	</field>
+	<field name="examName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="examName"/>
+		<property name="com.jaspersoft.studio.field.label" value="examName"/>
+	</field>
+	<field name="examYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="examYear"/>
+		<property name="com.jaspersoft.studio.field.label" value="examYear"/>
+	</field>
+	<field name="examNameShort" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="examNameShort"/>
+		<property name="com.jaspersoft.studio.field.label" value="examNameShort"/>
+	</field>
+	<field name="ExamClassLevel" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ExamClassLevel"/>
+		<property name="com.jaspersoft.studio.field.label" value="ExamClassLevel"/>
+	</field>
+	<field name="ExamClassLevelYear" class="java.lang.Short">
+		<property name="com.jaspersoft.studio.field.name" value="ExamClassLevelYear"/>
+		<property name="com.jaspersoft.studio.field.label" value="ExamClassLevelYear"/>
+	</field>
+	<field name="EdLevelCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="EdLevelCode"/>
+		<property name="com.jaspersoft.studio.field.label" value="EdLevelCode"/>
+	</field>
+	<field name="EdLevelMaxYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="EdLevelMaxYear"/>
+		<property name="com.jaspersoft.studio.field.label" value="EdLevelMaxYear"/>
+	</field>
+	<field name="EdLevelMinYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="EdLevelMinYear"/>
+		<property name="com.jaspersoft.studio.field.label" value="EdLevelMinYear"/>
+	</field>
+	<field name="DistrictCode" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="DistrictCode"/>
+		<property name="com.jaspersoft.studio.field.label" value="DistrictCode"/>
+	</field>
+	<field name="District" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="District"/>
+		<property name="com.jaspersoft.studio.field.label" value="District"/>
+	</field>
+	<field name="MinimumProficiencyC" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="MinimumProficiencyC"/>
+		<property name="com.jaspersoft.studio.field.label" value="MinimumProficiencyC"/>
+	</field>
+	<field name="TotalLevelCount" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="TotalLevelCount"/>
+		<property name="com.jaspersoft.studio.field.label" value="TotalLevelCount"/>
+	</field>
+	<field name="MinimumProficiencyP" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="MinimumProficiencyP"/>
+		<property name="com.jaspersoft.studio.field.label" value="MinimumProficiencyP"/>
+	</field>
+	<field name="Rank" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="Rank"/>
+		<property name="com.jaspersoft.studio.field.label" value="Rank"/>
+	</field>
+	<field name="Row_Number" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="Row_Number"/>
+		<property name="com.jaspersoft.studio.field.label" value="Row_Number"/>
+	</field>
+	<field name="Dense_Rank" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="Dense_Rank"/>
+		<property name="com.jaspersoft.studio.field.label" value="Dense_Rank"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="126" height="126" uuid="1c003177-754c-448f-8ce1-16868856f545">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["repo:/images/rmi_seal.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="126" y="0" width="499" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="45"/>
+				</textElement>
+				<text><![CDATA[Exams Atolls Ranking]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="140" y="62" width="470" height="48" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Percent of benchmarks (indicators) at minimally competent and competent level of achievement (level count version)]]></text>
+			</staticText>
+			<image>
+				<reportElement x="625" y="0" width="126" height="126" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["repo:/images/rmi_pss.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Opaque" x="-21" y="-20" width="793" height="10" forecolor="#08298C" backcolor="#08298C" uuid="a879b5ed-22f8-4e7b-9093-811aaea43211">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-21" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="0a58d963-ec76-492f-9d28-8419cff95766">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="752" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="f0a00416-98e9-4650-b25b-a7e2a9f68561">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-21" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="503401c2-412f-4738-a96a-cf6a43061701">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="735" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="70a1c065-3f91-4751-8e67-c995a73a7656">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</ellipse>
+			<textField>
+				<reportElement style="Title text" x="126" y="111" width="499" height="20" uuid="552bbbc7-baa1-40c9-ac39-017f6334661f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA["Atoll Ranking Report for year " + $P{Year} + " and education level " + $P{Education_Levels}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement style="Page footer" x="-21" y="1" width="793" height="24" uuid="5d8169bd-4a75-48c8-8a68-6d3ad5ba9402"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="726" y="1" width="40" height="20" uuid="e5e27efa-b599-499b-9ca3-848cb511cb7b">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="646" y="1" width="80" height="20" uuid="18cfe1ca-f7d6-48b0-9827-28578b42a5e0">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="288" height="20" uuid="fbce24bb-3cb1-44a3-8eec-8c067ddbe5b5"/>
+					<textFieldExpression><![CDATA["Generated by MIEMIS on " + new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="287" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<crosstab horizontalPosition="Center">
+				<reportElement x="1" y="0" width="751" height="287" uuid="8b3c15ac-d0bd-4956-92a8-84e3ffbc83da">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+				</reportElement>
+				<crosstabDataset>
+					<dataset resetType="Report"/>
+				</crosstabDataset>
+				<rowGroup name="District" width="250" totalPosition="End">
+					<bucket order="Descending" class="java.lang.String">
+						<bucketExpression><![CDATA[$F{Rank} + " - " + $F{District}]]></bucketExpression>
+						<orderByExpression><![CDATA[$V{MinimumProficiencyC_SUM_MEASURE} / $V{TotalLevelCount_SUM_MEASURE}]]></orderByExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque">
+							<textField>
+								<reportElement style="Crosstab_CH" x="0" y="0" width="250" height="20" uuid="f2facca5-65d2-46c1-9bbe-8ec4d9fa8130"/>
+								<textFieldExpression><![CDATA[$V{District}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque">
+							<staticText>
+								<reportElement style="Crosstab_CT" x="0" y="0" width="250" height="20" uuid="b83cd3cb-3d01-45ec-843a-21dce24882b8"/>
+								<text><![CDATA[Total Atolls]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="examNameShort" height="20" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{examNameShort}]]></bucketExpression>
+						<orderByExpression><![CDATA[$V{examNameShortForSorting}]]></orderByExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque">
+							<textField>
+								<reportElement style="Crosstab_CH" x="0" y="0" width="60" height="20" uuid="035f762b-ff1f-4d8a-8132-61225bdbcf41"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{examNameShort}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque">
+							<staticText>
+								<reportElement style="Crosstab_CT" x="0" y="0" width="60" height="20" uuid="fd3994d3-5521-44dc-9873-3abcffb8d8c0"/>
+								<textElement textAlignment="Right"/>
+								<text><![CDATA[Total examNameShort]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="MinimumProficiencyP_MEASURE" class="java.lang.Double">
+					<measureExpression><![CDATA[$F{MinimumProficiencyP}]]></measureExpression>
+				</measure>
+				<measure name="MinimumProficiencyP_AVG_MEASURE" class="java.lang.Double" calculation="Average">
+					<measureExpression><![CDATA[$F{MinimumProficiencyP}]]></measureExpression>
+				</measure>
+				<measure name="examNameShortForSorting" class="java.lang.Integer">
+					<measureExpression><![CDATA[$F{examNameShort}.equals("3 Eng") ? 1 : 
+$F{examNameShort}.equals("3 KM") ? 2 : 
+$F{examNameShort}.equals("3 Math A") ? 3 : 
+$F{examNameShort}.equals("6 Eng") ? 4 : 
+$F{examNameShort}.equals("6 KM") ? 5 : 
+$F{examNameShort}.equals("6 Math A") ? 6 : 
+$F{examNameShort}.equals("8 HSET") ? 7 : 
+$F{examNameShort}.equals("10 Eng") ? 8 : 
+$F{examNameShort}.equals("12 Eng") ? 9 : 10]]></measureExpression>
+				</measure>
+				<measure name="MinimumProficiencyC_SUM_MEASURE" class="java.lang.Double" calculation="Sum">
+					<measureExpression><![CDATA[$F{MinimumProficiencyC}]]></measureExpression>
+				</measure>
+				<measure name="TotalLevelCount_SUM_MEASURE" class="java.lang.Double" calculation="Sum">
+					<measureExpression><![CDATA[$F{TotalLevelCount}]]></measureExpression>
+				</measure>
+				<crosstabCell width="60" height="20">
+					<cellContents mode="Opaque">
+						<textField pattern="#,##0.##%;(#,##0.##-) %">
+							<reportElement x="0" y="0" width="60" height="20" uuid="866e21db-f6c2-4614-a216-cbe263308151"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression><![CDATA[$V{MinimumProficiencyP_MEASURE} == null ? "N/A" : $V{MinimumProficiencyP_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" columnTotalGroup="examNameShort">
+					<cellContents mode="Opaque">
+						<textField pattern="#,##0.0#%;(#,##0.0#-) %">
+							<reportElement style="Crosstab_CT" x="0" y="0" width="60" height="20" uuid="7d5557f6-5227-41a5-9103-1ee3855f5319"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression><![CDATA[new BigDecimal($V{MinimumProficiencyC_SUM_MEASURE} / $V{TotalLevelCount_SUM_MEASURE}).setScale(3, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="District">
+					<cellContents mode="Opaque">
+						<textField pattern="#,##0.0#%;(#,##0.0#-) %">
+							<reportElement style="Crosstab_CT" x="0" y="0" width="60" height="20" uuid="842fecdd-2eb6-4307-9a2a-b6a4510df979"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression><![CDATA[new BigDecimal($V{MinimumProficiencyC_SUM_MEASURE} / $V{TotalLevelCount_SUM_MEASURE}).setScale(3, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="District" columnTotalGroup="examNameShort">
+					<cellContents mode="Opaque">
+						<textField pattern="#,##0.0#%;(#,##0.0#-) %">
+							<reportElement style="Crosstab_CT" x="0" y="0" width="60" height="20" uuid="0acf1c64-efbf-4bc7-a5e8-cf8bbf77e311"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression><![CDATA[new BigDecimal($V{MinimumProficiencyC_SUM_MEASURE} / $V{TotalLevelCount_SUM_MEASURE}).setScale(3, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>
