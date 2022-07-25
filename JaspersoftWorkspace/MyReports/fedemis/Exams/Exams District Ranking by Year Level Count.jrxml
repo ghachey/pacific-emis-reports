@@ -2,11 +2,11 @@
 <!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Exams_School_Results_by_Year" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
-	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://fedemis.doe.fm:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Exams/Exams_School_Ranking_by_Year____of_Benchmark_"/>
-	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Exams/Exams_School_Ranking_by_Year____of_Benchmark__files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Exams/Exams_State_Ranking_by_Year____of_Benchmark_"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Exams/Exams_State_Ranking_by_Year____of_Benchmark__files/main_jrxml"/>
 	<property name="com.jaspersoft.studio.report.unit.description" value="Proportion of students at each level of achievement for chosen school and year (all exams)"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
@@ -17,7 +17,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<template><![CDATA["repo:/Templates/FedEMIS_Style.jrtx"]]></template>
 	<style name="Row" mode="Transparent">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
@@ -25,7 +25,7 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="Year" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[2015]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[2022]]></defaultValueExpression>
 	</parameter>
 	<parameter name="Education_Levels" class="java.lang.String">
 		<defaultValueExpression><![CDATA["PRI"]]></defaultValueExpression>
@@ -40,9 +40,8 @@
       ,[EdLevelCode]
       ,[EdLevelMaxYear]
       ,[EdLevelMinYear]
-      ,ER.[schNo] + ': ' + ER.schName School
-      ,[DistrictCode]
-      ,[District]
+      ,ER.[DistrictCode]
+      ,ER.[District]
       ,[MinimumProficiencyC]
       ,[TotalLevelCount]
       ,[MinimumProficiencyP]
@@ -51,8 +50,8 @@
 	  ,RN.DENSE_RANK [Dense_Rank]
 FROM [warehouse].[ExamResultsTestMinimumProficiencyLevelCountSchool] ER
 INNER JOIN (
-	SELECT [schNo]
-		,schName
+	SELECT [DistrictCode]
+		,District
 		,SUM([MinimumProficiencyC]) TotMinimumProficiencyC
 		,SUM([TotalLevelCount]) TotTotalLevelCount
 		,SUM([MinimumProficiencyC]) / SUM([TotalLevelCount]) TotScore
@@ -61,9 +60,9 @@ INNER JOIN (
 		,DENSE_RANK() OVER(ORDER BY SUM([MinimumProficiencyC]) / SUM([TotalLevelCount]) DESC) 'DENSE_RANK'
 	FROM [warehouse].[ExamResultsTestMinimumProficiencyLevelCountSchool]
 	WHERE examYear = $P{Year} AND edLevelCode = $P{Education_Levels}
-	GROUP BY [schNo]
-		  ,[schName]
-) RN ON ER.schNo = RN.schNo
+	GROUP BY [DistrictCode]
+		  ,[District]
+) RN ON ER.DistrictCode = RN.DistrictCode
 WHERE examYear = $P{Year} AND edLevelCode = $P{Education_Levels}
 ORDER BY Rank ASC]]>
 	</queryString>
@@ -102,10 +101,6 @@ ORDER BY Rank ASC]]>
 	<field name="EdLevelMinYear" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="EdLevelMinYear"/>
 		<property name="com.jaspersoft.studio.field.label" value="EdLevelMinYear"/>
-	</field>
-	<field name="School" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="School"/>
-		<property name="com.jaspersoft.studio.field.label" value="School"/>
 	</field>
 	<field name="DistrictCode" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="DistrictCode"/>
@@ -148,7 +143,7 @@ ORDER BY Rank ASC]]>
 				<reportElement x="0" y="0" width="126" height="126" uuid="1c003177-754c-448f-8ce1-16868856f545">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
-				<imageExpression><![CDATA["repo:/images/rmi_seal.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/images/fsm_seal.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement style="Title" x="126" y="0" width="499" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd">
@@ -157,13 +152,13 @@ ORDER BY Rank ASC]]>
 				<textElement>
 					<font size="45"/>
 				</textElement>
-				<text><![CDATA[Exams School Ranking]]></text>
+				<text><![CDATA[Exams States Ranking]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="SubTitle" x="126" y="62" width="499" height="48" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9">
+				<reportElement style="SubTitle" x="140" y="62" width="470" height="48" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<text><![CDATA[Percent of benchmarks at proficient and advanced level of achievement]]></text>
+				<text><![CDATA[Percent of indicators at minimally competent and competent level of achievement (level count version)]]></text>
 			</staticText>
 			<image>
 				<reportElement x="625" y="0" width="126" height="126" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959">
@@ -171,7 +166,7 @@ ORDER BY Rank ASC]]>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
-				<imageExpression><![CDATA["repo:/images/rmi_pss.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/images/fsm_ndoe.png"]]></imageExpression>
 			</image>
 			<rectangle>
 				<reportElement mode="Opaque" x="-21" y="-20" width="793" height="10" forecolor="#08298C" backcolor="#08298C" uuid="a879b5ed-22f8-4e7b-9093-811aaea43211">
@@ -209,7 +204,7 @@ ORDER BY Rank ASC]]>
 				<reportElement style="Title text" x="126" y="111" width="499" height="20" uuid="552bbbc7-baa1-40c9-ac39-017f6334661f">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA["School Ranking Report for year " + $P{Year} + " and education level " + $P{Education_Levels}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["State Ranking Report for year " + $P{Year} + " and education level " + $P{Education_Levels}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -246,7 +241,7 @@ ORDER BY Rank ASC]]>
 				</textField>
 				<textField pattern="EEEEE dd MMMMM yyyy">
 					<reportElement style="Page footer" x="22" y="1" width="288" height="20" uuid="fbce24bb-3cb1-44a3-8eec-8c067ddbe5b5"/>
-					<textFieldExpression><![CDATA["Generated by MIEMIS on " + new java.util.Date()]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Generated by FedEMIS on " + new java.util.Date()]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
@@ -265,16 +260,16 @@ ORDER BY Rank ASC]]>
 				<crosstabDataset>
 					<dataset resetType="Report"/>
 				</crosstabDataset>
-				<rowGroup name="School" width="250" totalPosition="End">
+				<rowGroup name="District" width="250" totalPosition="End">
 					<bucket order="Descending" class="java.lang.String">
-						<bucketExpression><![CDATA[$F{Rank} + " - " + $F{School}]]></bucketExpression>
+						<bucketExpression><![CDATA[$F{Rank} + " - " + $F{District}]]></bucketExpression>
 						<orderByExpression><![CDATA[$V{MinimumProficiencyC_SUM_MEASURE} / $V{TotalLevelCount_SUM_MEASURE}]]></orderByExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents mode="Opaque">
 							<textField>
 								<reportElement style="Crosstab_CH" x="0" y="0" width="250" height="20" uuid="f2facca5-65d2-46c1-9bbe-8ec4d9fa8130"/>
-								<textFieldExpression><![CDATA[$V{School}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{District}]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabRowHeader>
@@ -282,7 +277,7 @@ ORDER BY Rank ASC]]>
 						<cellContents mode="Opaque">
 							<staticText>
 								<reportElement style="Crosstab_CT" x="0" y="0" width="250" height="20" uuid="b83cd3cb-3d01-45ec-843a-21dce24882b8"/>
-								<text><![CDATA[Total School]]></text>
+								<text><![CDATA[Total States]]></text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalRowHeader>
@@ -352,7 +347,7 @@ $F{examNameShort}.equals("12 Eng") ? 9 : 10]]></measureExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="60" height="20" rowTotalGroup="School">
+				<crosstabCell width="60" height="20" rowTotalGroup="District">
 					<cellContents mode="Opaque">
 						<textField pattern="#,##0.0#%;(#,##0.0#-) %">
 							<reportElement style="Crosstab_CT" x="0" y="0" width="60" height="20" uuid="842fecdd-2eb6-4307-9a2a-b6a4510df979"/>
@@ -361,7 +356,7 @@ $F{examNameShort}.equals("12 Eng") ? 9 : 10]]></measureExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="60" height="20" rowTotalGroup="School" columnTotalGroup="examNameShort">
+				<crosstabCell width="60" height="20" rowTotalGroup="District" columnTotalGroup="examNameShort">
 					<cellContents mode="Opaque">
 						<textField pattern="#,##0.0#%;(#,##0.0#-) %">
 							<reportElement style="Crosstab_CT" x="0" y="0" width="60" height="20" uuid="0acf1c64-efbf-4bc7-a5e8-cf8bbf77e311"/>
