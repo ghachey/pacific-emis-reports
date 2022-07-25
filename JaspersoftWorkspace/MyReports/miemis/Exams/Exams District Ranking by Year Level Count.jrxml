@@ -42,14 +42,17 @@
       ,[EdLevelMinYear]
       ,ER.[DistrictCode]
       ,ER.[District]
-      ,[MinimumProficiencyC]
-      ,[TotalLevelCount]
-      ,[MinimumProficiencyP]
+      ,SUM([MinimumProficiencyC]) [MinimumProficiencyC]
+      ,SUM([TotalLevelCount]) [TotalLevelCount]
+	  ,SUM([MinimumProficiencyC]) / SUM([TotalLevelCount]) [MinimumProficiencyP]
+      ,AVG([MinimumProficiencyP]) [MinimumProficiencyP2]
 	  ,RN.RANK [Rank]
 	  ,RN.ROW_NUMBER [Row_Number]
 	  ,RN.DENSE_RANK [Dense_Rank]
 FROM (
-	SELECT [examCode]
+	SELECT ERPS.[schNo]
+		  ,[schName]
+		  ,[examCode]
 		  ,[examName]
 		  ,[examYear]
 		  ,[examNameShort]
@@ -73,6 +76,7 @@ FROM (
 		  ,[MinimumProficiencyP]
 	FROM [warehouse].[ExamResultsTestMinimumProficiencyLevelCountSchool] ERPS
 	LEFT OUTER JOIN DimensionSchoolSurvey DSS ON ERPS.schNo = DSS.[School No] AND ERPS.examYear = DSS.[Survey Year]
+	WHERE examYear = $P{Year} AND edLevelCode = $P{Education_Levels}
 ) ER
 INNER JOIN (
 	SELECT CASE
@@ -105,9 +109,24 @@ INNER JOIN (
 			ELSE ES.[District]
 			END
 ) RN ON ER.DistrictCode = RN.DistrictCode
-WHERE examYear = $P{Year} AND edLevelCode = $P{Education_Levels}
-ORDER BY RN.Rank ASC
-]]>
+GROUP BY [examCode]
+      ,[examName]
+      ,[examYear]
+      ,[examNameShort]
+      ,[ExamClassLevel]
+      ,[ExamClassLevelYear]
+      ,[EdLevelCode]
+      ,[EdLevelMaxYear]
+      ,[EdLevelMinYear]
+      ,ER.[DistrictCode]
+      ,ER.[District]
+      ,[MinimumProficiencyC]
+      ,[TotalLevelCount]
+      ,[MinimumProficiencyP]
+	  ,RN.RANK
+	  ,RN.ROW_NUMBER
+	  ,RN.DENSE_RANK
+ORDER BY RN.Rank ASC]]>
 	</queryString>
 	<field name="examCode" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="examCode"/>
