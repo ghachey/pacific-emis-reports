@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="National_Standard_Performance_Scores_by_School_Year" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-NEW"/>
-	<property name="ireport.jasperserver.url" value="http://192.168.2.81:6040/jasperserver/"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
 	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/School/School_Standard_Performance_Scores_by_Year"/>
 	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/School/School_Standard_Performance_Scores_by_Year_files/main_jrxml"/>
@@ -35,200 +35,280 @@
 		<field name="schName" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="Year" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[2014]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[2022]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SchoolNo" class="java.lang.String">
-		<defaultValueExpression><![CDATA["MAJ123"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["AIL108"]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT 1 AS 'Standard score',
-       'Does not meet the accreditation standard' AS 'Standard'
-       ,SUM(CASE WHEN [L1]=1 THEN 1 ELSE 0 END) AS 'L1'
-       ,SUM(CASE WHEN [L2]=1 THEN 1 ELSE 0 END) AS 'L2'
-       ,SUM(CASE WHEN [L3]=1 THEN 1 ELSE 0 END) AS 'L3'
-       ,SUM(CASE WHEN [L4]=1 THEN 1 ELSE 0 END) AS 'L4'
-	   ,SUM(CASE WHEN [L1]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [L2]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [L3]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [L4]=1 THEN 1 ELSE 0 END) AS 'LT'
-       ,SUM(CASE WHEN [T1]=1 THEN 1 ELSE 0 END) AS 'T1'
-       ,SUM(CASE WHEN [T2]=1 THEN 1 ELSE 0 END) AS 'T2'
-       ,SUM(CASE WHEN [T3]=1 THEN 1 ELSE 0 END) AS 'T3'
-       ,SUM(CASE WHEN [T4]=1 THEN 1 ELSE 0 END) AS 'T4'
-	   ,SUM(CASE WHEN [T1]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [T2]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [T3]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [T4]=1 THEN 1 ELSE 0 END) AS 'TT'
-       ,SUM(CASE WHEN [D1]=1 THEN 1 ELSE 0 END) AS 'D1'
-       ,SUM(CASE WHEN [D2]=1 THEN 1 ELSE 0 END) AS 'D2'
-       ,SUM(CASE WHEN [D3]=1 THEN 1 ELSE 0 END) AS 'D3'
-       ,SUM(CASE WHEN [D4]=1 THEN 1 ELSE 0 END) AS 'D4'
-	   ,SUM(CASE WHEN [D1]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [D2]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [D3]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [D4]=1 THEN 1 ELSE 0 END) AS 'DT'
-       ,SUM(CASE WHEN [N1]=1 THEN 1 ELSE 0 END) AS 'N1'
-       ,SUM(CASE WHEN [N2]=1 THEN 1 ELSE 0 END) AS 'N2'
-       ,SUM(CASE WHEN [N3]=1 THEN 1 ELSE 0 END) AS 'N3'
-       ,SUM(CASE WHEN [N4]=1 THEN 1 ELSE 0 END) AS 'N4'
-	   ,SUM(CASE WHEN [N1]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [N2]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [N3]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [N4]=1 THEN 1 ELSE 0 END) AS 'NT'
-       ,SUM(CASE WHEN [F1]=1 THEN 1 ELSE 0 END) AS 'F1'
-       ,SUM(CASE WHEN [F2]=1 THEN 1 ELSE 0 END) AS 'F2'
-       ,SUM(CASE WHEN [F3]=1 THEN 1 ELSE 0 END) AS 'F3'
-       ,SUM(CASE WHEN [F4]=1 THEN 1 ELSE 0 END) AS 'F4'
-	   ,SUM(CASE WHEN [F1]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [F2]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [F3]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [F4]=1 THEN 1 ELSE 0 END) AS 'FT'
-       ,SUM(CASE WHEN [S1]=1 THEN 1 ELSE 0 END) AS 'S1'
-       ,SUM(CASE WHEN [S2]=1 THEN 1 ELSE 0 END) AS 'S2'
-       ,SUM(CASE WHEN [S3]=1 THEN 1 ELSE 0 END) AS 'S3'
-       ,SUM(CASE WHEN [S4]=1 THEN 1 ELSE 0 END) AS 'S4'
-	   ,SUM(CASE WHEN [S1]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [S2]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [S3]=1 THEN 1 ELSE 0 END) + SUM(CASE WHEN [S4]=1 THEN 1 ELSE 0 END) AS 'ST'
-       ,SUM(CASE WHEN [CO1]=1 THEN 1 ELSE 0 END) AS 'CO1'
-       ,SUM(CASE WHEN [CO2]=1 THEN 1 ELSE 0 END) AS 'CO2'
-  FROM warehouse.TempSchoolAccreditationsAll
-WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}
-
-UNION
-
-SELECT 2 AS 'Standard score',
-       'Substantially complies' AS 'Standard'
-       ,SUM(CASE WHEN [L1]=2 THEN 1 ELSE 0 END) AS 'L1'
-       ,SUM(CASE WHEN [L2]=2 THEN 1 ELSE 0 END) AS 'L2'
-       ,SUM(CASE WHEN [L3]=2 THEN 1 ELSE 0 END) AS 'L3'
-       ,SUM(CASE WHEN [L4]=2 THEN 1 ELSE 0 END) AS 'L4'
-	   ,SUM(CASE WHEN [L1]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [L2]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [L3]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [L4]=2 THEN 1 ELSE 0 END) AS 'LT'
-       ,SUM(CASE WHEN [T1]=2 THEN 1 ELSE 0 END) AS 'T1'
-       ,SUM(CASE WHEN [T2]=2 THEN 1 ELSE 0 END) AS 'T2'
-       ,SUM(CASE WHEN [T3]=2 THEN 1 ELSE 0 END) AS 'T3'
-       ,SUM(CASE WHEN [T4]=2 THEN 1 ELSE 0 END) AS 'T4'
-	   ,SUM(CASE WHEN [T1]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [T2]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [T3]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [T4]=2 THEN 1 ELSE 0 END) AS 'TT'
-       ,SUM(CASE WHEN [D1]=2 THEN 1 ELSE 0 END) AS 'D1'
-       ,SUM(CASE WHEN [D2]=2 THEN 1 ELSE 0 END) AS 'D2'
-       ,SUM(CASE WHEN [D3]=2 THEN 1 ELSE 0 END) AS 'D3'
-       ,SUM(CASE WHEN [D4]=2 THEN 1 ELSE 0 END) AS 'D4'
-	   ,SUM(CASE WHEN [D1]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [D2]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [D3]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [D4]=2 THEN 1 ELSE 0 END) AS 'DT'
-       ,SUM(CASE WHEN [N1]=2 THEN 1 ELSE 0 END) AS 'N1'
-       ,SUM(CASE WHEN [N2]=2 THEN 1 ELSE 0 END) AS 'N2'
-       ,SUM(CASE WHEN [N3]=2 THEN 1 ELSE 0 END) AS 'N3'
-       ,SUM(CASE WHEN [N4]=2 THEN 1 ELSE 0 END) AS 'N4'
-	   ,SUM(CASE WHEN [N1]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [N2]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [N3]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [N4]=2 THEN 1 ELSE 0 END) AS 'NT'
-       ,SUM(CASE WHEN [F1]=2 THEN 1 ELSE 0 END) AS 'F1'
-       ,SUM(CASE WHEN [F2]=2 THEN 1 ELSE 0 END) AS 'F2'
-       ,SUM(CASE WHEN [F3]=2 THEN 1 ELSE 0 END) AS 'F3'
-       ,SUM(CASE WHEN [F4]=2 THEN 1 ELSE 0 END) AS 'F4'
-	   ,SUM(CASE WHEN [F1]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [F2]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [F3]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [F4]=2 THEN 1 ELSE 0 END) AS 'FT'
-       ,SUM(CASE WHEN [S1]=2 THEN 1 ELSE 0 END) AS 'S1'
-       ,SUM(CASE WHEN [S2]=2 THEN 1 ELSE 0 END) AS 'S2'
-       ,SUM(CASE WHEN [S3]=2 THEN 1 ELSE 0 END) AS 'S3'
-       ,SUM(CASE WHEN [S4]=2 THEN 1 ELSE 0 END) AS 'S4'
-	   ,SUM(CASE WHEN [S1]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [S2]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [S3]=2 THEN 1 ELSE 0 END) + SUM(CASE WHEN [S4]=2 THEN 1 ELSE 0 END) AS 'ST'
-       ,SUM(CASE WHEN [CO1]=2 THEN 1 ELSE 0 END) AS 'CO1'
-       ,SUM(CASE WHEN [CO2]=2 THEN 1 ELSE 0 END) AS 'CO2'
-  FROM warehouse.TempSchoolAccreditationsAll
-WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}
-
-UNION
-
-SELECT 3 AS 'Standard score',
-       'Complies with the accreditation standards' AS 'Standard'
-       ,SUM(CASE WHEN [L1]=3 THEN 1 ELSE 0 END) AS 'L1'
-       ,SUM(CASE WHEN [L2]=3 THEN 1 ELSE 0 END) AS 'L2'
-       ,SUM(CASE WHEN [L3]=3 THEN 1 ELSE 0 END) AS 'L3'
-       ,SUM(CASE WHEN [L4]=3 THEN 1 ELSE 0 END) AS 'L4'
-	   ,SUM(CASE WHEN [L1]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [L2]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [L3]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [L4]=3 THEN 1 ELSE 0 END) AS 'LT'
-       ,SUM(CASE WHEN [T1]=3 THEN 1 ELSE 0 END) AS 'T1'
-       ,SUM(CASE WHEN [T2]=3 THEN 1 ELSE 0 END) AS 'T2'
-       ,SUM(CASE WHEN [T3]=3 THEN 1 ELSE 0 END) AS 'T3'
-       ,SUM(CASE WHEN [T4]=3 THEN 1 ELSE 0 END) AS 'T4'
-	   ,SUM(CASE WHEN [T1]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [T2]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [T3]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [T4]=3 THEN 1 ELSE 0 END) AS 'TT'
-       ,SUM(CASE WHEN [D1]=3 THEN 1 ELSE 0 END) AS 'D1'
-       ,SUM(CASE WHEN [D2]=3 THEN 1 ELSE 0 END) AS 'D2'
-       ,SUM(CASE WHEN [D3]=3 THEN 1 ELSE 0 END) AS 'D3'
-       ,SUM(CASE WHEN [D4]=3 THEN 1 ELSE 0 END) AS 'D4'
-	   ,SUM(CASE WHEN [D1]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [D2]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [D3]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [D4]=3 THEN 1 ELSE 0 END) AS 'DT'
-       ,SUM(CASE WHEN [N1]=3 THEN 1 ELSE 0 END) AS 'N1'
-       ,SUM(CASE WHEN [N2]=3 THEN 1 ELSE 0 END) AS 'N2'
-       ,SUM(CASE WHEN [N3]=3 THEN 1 ELSE 0 END) AS 'N3'
-       ,SUM(CASE WHEN [N4]=3 THEN 1 ELSE 0 END) AS 'N4'
-	   ,SUM(CASE WHEN [N1]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [N2]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [N3]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [N4]=3 THEN 1 ELSE 0 END) AS 'NT'
-       ,SUM(CASE WHEN [F1]=3 THEN 1 ELSE 0 END) AS 'F1'
-       ,SUM(CASE WHEN [F2]=3 THEN 1 ELSE 0 END) AS 'F2'
-       ,SUM(CASE WHEN [F3]=3 THEN 1 ELSE 0 END) AS 'F3'
-       ,SUM(CASE WHEN [F4]=3 THEN 1 ELSE 0 END) AS 'F4'
-	   ,SUM(CASE WHEN [F1]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [F2]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [F3]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [F4]=3 THEN 1 ELSE 0 END) AS 'FT'
-       ,SUM(CASE WHEN [S1]=3 THEN 1 ELSE 0 END) AS 'S1'
-       ,SUM(CASE WHEN [S2]=3 THEN 1 ELSE 0 END) AS 'S2'
-       ,SUM(CASE WHEN [S3]=3 THEN 1 ELSE 0 END) AS 'S3'
-       ,SUM(CASE WHEN [S4]=3 THEN 1 ELSE 0 END) AS 'S4'
-	   ,SUM(CASE WHEN [S1]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [S2]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [S3]=3 THEN 1 ELSE 0 END) + SUM(CASE WHEN [S4]=3 THEN 1 ELSE 0 END) AS 'ST'
-       ,SUM(CASE WHEN [CO1]=3 THEN 1 ELSE 0 END) AS 'CO1'
-       ,SUM(CASE WHEN [CO2]=3 THEN 1 ELSE 0 END) AS 'CO2'
-  FROM warehouse.TempSchoolAccreditationsAll
-WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}
-
-UNION
-
-SELECT 4 AS 'Standard score',
-       'Exceeds the accreditation standards' AS 'Standard'
-       ,SUM(CASE WHEN [L1]=4 THEN 1 ELSE 0 END) AS 'L1'
-       ,SUM(CASE WHEN [L2]=4 THEN 1 ELSE 0 END) AS 'L2'
-       ,SUM(CASE WHEN [L3]=4 THEN 1 ELSE 0 END) AS 'L3'
-       ,SUM(CASE WHEN [L4]=4 THEN 1 ELSE 0 END) AS 'L4'
-	   ,SUM(CASE WHEN [L1]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [L2]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [L3]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [L4]=4 THEN 1 ELSE 0 END) AS 'LT'
-       ,SUM(CASE WHEN [T1]=4 THEN 1 ELSE 0 END) AS 'T1'
-       ,SUM(CASE WHEN [T2]=4 THEN 1 ELSE 0 END) AS 'T2'
-       ,SUM(CASE WHEN [T3]=4 THEN 1 ELSE 0 END) AS 'T3'
-       ,SUM(CASE WHEN [T4]=4 THEN 1 ELSE 0 END) AS 'T4'
-	   ,SUM(CASE WHEN [T1]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [T2]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [T3]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [T4]=4 THEN 1 ELSE 0 END) AS 'TT'
-       ,SUM(CASE WHEN [D1]=4 THEN 1 ELSE 0 END) AS 'D1'
-       ,SUM(CASE WHEN [D2]=4 THEN 1 ELSE 0 END) AS 'D2'
-       ,SUM(CASE WHEN [D3]=4 THEN 1 ELSE 0 END) AS 'D3'
-       ,SUM(CASE WHEN [D4]=4 THEN 1 ELSE 0 END) AS 'D4'
-	   ,SUM(CASE WHEN [D1]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [D2]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [D3]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [D4]=4 THEN 1 ELSE 0 END) AS 'DT'
-       ,SUM(CASE WHEN [N1]=4 THEN 1 ELSE 0 END) AS 'N1'
-       ,SUM(CASE WHEN [N2]=4 THEN 1 ELSE 0 END) AS 'N2'
-       ,SUM(CASE WHEN [N3]=4 THEN 1 ELSE 0 END) AS 'N3'
-       ,SUM(CASE WHEN [N4]=4 THEN 1 ELSE 0 END) AS 'N4'
-	   ,SUM(CASE WHEN [N1]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [N2]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [N3]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [N4]=4 THEN 1 ELSE 0 END) AS 'NT'
-       ,SUM(CASE WHEN [F1]=4 THEN 1 ELSE 0 END) AS 'F1'
-       ,SUM(CASE WHEN [F2]=4 THEN 1 ELSE 0 END) AS 'F2'
-       ,SUM(CASE WHEN [F3]=4 THEN 1 ELSE 0 END) AS 'F3'
-       ,SUM(CASE WHEN [F4]=4 THEN 1 ELSE 0 END) AS 'F4'
-	   ,SUM(CASE WHEN [F1]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [F2]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [F3]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [F4]=4 THEN 1 ELSE 0 END) AS 'FT'
-       ,SUM(CASE WHEN [S1]=4 THEN 1 ELSE 0 END) AS 'S1'
-       ,SUM(CASE WHEN [S2]=4 THEN 1 ELSE 0 END) AS 'S2'
-       ,SUM(CASE WHEN [S3]=4 THEN 1 ELSE 0 END) AS 'S3'
-       ,SUM(CASE WHEN [S4]=4 THEN 1 ELSE 0 END) AS 'S4'
-	   ,SUM(CASE WHEN [S1]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [S2]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [S3]=4 THEN 1 ELSE 0 END) + SUM(CASE WHEN [S4]=4 THEN 1 ELSE 0 END) AS 'ST'
-       ,SUM(CASE WHEN [CO1]=4 THEN 1 ELSE 0 END) AS 'CO1'
-       ,SUM(CASE WHEN [CO2]=4 THEN 1 ELSE 0 END) AS 'CO2'
-  FROM warehouse.TempSchoolAccreditationsAll
-WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
+		<![CDATA[SELECT [SurveyYear]
+      ,[schNo]
+      ,[School Name]
+      ,[DistrictCode]
+      ,[District]
+      ,[AuthorityCode]
+      ,[Authority]
+      ,[AuthorityGovtCode]
+      ,[AuthorityGovt]
+      ,[SchoolTypeCode]
+      ,[SchoolType]
+      ,[inspID]
+      ,[ResultValue] AS [Standard score]
+      ,[SE.1.1_Count] AS [L1] 
+      ,[SE.1.2_Count] AS [L2]
+      ,[SE.1.3_Count] AS [L3]
+      ,[SE.1.4_Count] AS [L4]
+	  ,[SE.1.1_Count] + [SE.1.2_Count] + [SE.1.3_Count] + [SE.1.4_Count] AS [LT2]
+      ,[SE.1_Count] AS [LT]
+      ,[SE.2.1_Count] AS [T1]
+      ,[SE.2.2_Count] AS [T2]
+      ,[SE.2.3_Count] AS [T3]
+      ,[SE.2.4_Count] AS [T4]
+	  ,[SE.2.1_Count] + [SE.2.2_Count] + [SE.2.3_Count] + [SE.2.4_Count] AS [TT2]
+      ,[SE.2_Count] AS [TT]
+      ,[SE.3.1_Count] AS [D1]
+      ,[SE.3.2_Count] AS [D2]
+      ,[SE.3.3_Count] AS [D3]
+      ,[SE.3.4_Count] AS [D4]
+	  ,[SE.3.1_Count] + [SE.3.2_Count] + [SE.3.3_Count] + [SE.3.4_Count] AS [DT2]
+      ,[SE.3_Count] AS [DT]
+      ,[SE.4.1_Count] AS [N1]
+      ,[SE.4.2_Count] AS [N2]
+      ,[SE.4.3_Count] AS [N3]
+      ,[SE.4.4_Count] AS [N4]
+	  ,[SE.4.1_Count] + [SE.4.2_Count] + [SE.4.3_Count] + [SE.4.4_Count] AS [NT2]
+      ,[SE.4_Count] AS [NT]
+      ,[SE.5.1_Count] AS [F1]
+      ,[SE.5.2_Count] AS [F2]
+      ,[SE.5.3_Count] AS [F3]
+      ,[SE.5.4_Count] AS [F4]
+	  ,[SE.5.1_Count] + [SE.5.2_Count] + [SE.5.3_Count] + [SE.5.4_Count] AS [FT2]
+      ,[SE.5_Count] AS [FT]
+      ,[SE.6.1_Count] AS [S1]
+      ,[SE.6.2_Count] AS [S2]
+      ,[SE.6.3_Count] AS [S3]
+      ,[SE.6.4_Count] AS [S4]
+	  ,[SE.6.1_Count] + [SE.6.2_Count] + [SE.6.3_Count] + [SE.6.4_Count] AS [ST2]
+      ,[SE.6_Count] AS [ST]
+      ,[CO.1_Count] [CO1]
+      ,[CO.2_Count] [CO2]
+      ,[ResultDescription] AS [Standard]
+      ,[ResultLevel]
+  FROM [warehouse].[AccreditationPerformanceSchool]
+  WHERE schNo = $P{SchoolNo} and SurveyYear = $P{Year}]]>
 	</queryString>
-	<field name="Standard score" class="java.lang.Integer"/>
-	<field name="Standard" class="java.lang.String"/>
-	<field name="L1" class="java.lang.Integer"/>
-	<field name="L2" class="java.lang.Integer"/>
-	<field name="L3" class="java.lang.Integer"/>
-	<field name="L4" class="java.lang.Integer"/>
-	<field name="LT" class="java.lang.Integer"/>
-	<field name="T1" class="java.lang.Integer"/>
-	<field name="T2" class="java.lang.Integer"/>
-	<field name="T3" class="java.lang.Integer"/>
-	<field name="T4" class="java.lang.Integer"/>
-	<field name="TT" class="java.lang.Integer"/>
-	<field name="D1" class="java.lang.Integer"/>
-	<field name="D2" class="java.lang.Integer"/>
-	<field name="D3" class="java.lang.Integer"/>
-	<field name="D4" class="java.lang.Integer"/>
-	<field name="DT" class="java.lang.Integer"/>
-	<field name="N1" class="java.lang.Integer"/>
-	<field name="N2" class="java.lang.Integer"/>
-	<field name="N3" class="java.lang.Integer"/>
-	<field name="N4" class="java.lang.Integer"/>
-	<field name="NT" class="java.lang.Integer"/>
-	<field name="F1" class="java.lang.Integer"/>
-	<field name="F2" class="java.lang.Integer"/>
-	<field name="F3" class="java.lang.Integer"/>
-	<field name="F4" class="java.lang.Integer"/>
-	<field name="FT" class="java.lang.Integer"/>
-	<field name="S1" class="java.lang.Integer"/>
-	<field name="S2" class="java.lang.Integer"/>
-	<field name="S3" class="java.lang.Integer"/>
-	<field name="S4" class="java.lang.Integer"/>
-	<field name="ST" class="java.lang.Integer"/>
-	<field name="CO1" class="java.lang.Integer"/>
-	<field name="CO2" class="java.lang.Integer"/>
+	<field name="SurveyYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="SurveyYear"/>
+		<property name="com.jaspersoft.studio.field.label" value="SurveyYear"/>
+	</field>
+	<field name="schNo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schNo"/>
+		<property name="com.jaspersoft.studio.field.label" value="schNo"/>
+	</field>
+	<field name="School Name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="School Name"/>
+		<property name="com.jaspersoft.studio.field.label" value="School Name"/>
+	</field>
+	<field name="DistrictCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DistrictCode"/>
+		<property name="com.jaspersoft.studio.field.label" value="DistrictCode"/>
+	</field>
+	<field name="District" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="District"/>
+		<property name="com.jaspersoft.studio.field.label" value="District"/>
+	</field>
+	<field name="AuthorityCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="AuthorityCode"/>
+		<property name="com.jaspersoft.studio.field.label" value="AuthorityCode"/>
+	</field>
+	<field name="Authority" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Authority"/>
+		<property name="com.jaspersoft.studio.field.label" value="Authority"/>
+	</field>
+	<field name="AuthorityGovtCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="AuthorityGovtCode"/>
+		<property name="com.jaspersoft.studio.field.label" value="AuthorityGovtCode"/>
+	</field>
+	<field name="AuthorityGovt" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="AuthorityGovt"/>
+		<property name="com.jaspersoft.studio.field.label" value="AuthorityGovt"/>
+	</field>
+	<field name="SchoolTypeCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SchoolTypeCode"/>
+		<property name="com.jaspersoft.studio.field.label" value="SchoolTypeCode"/>
+	</field>
+	<field name="SchoolType" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SchoolType"/>
+		<property name="com.jaspersoft.studio.field.label" value="SchoolType"/>
+	</field>
+	<field name="inspID" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="inspID"/>
+		<property name="com.jaspersoft.studio.field.label" value="inspID"/>
+	</field>
+	<field name="Standard score" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Standard score"/>
+		<property name="com.jaspersoft.studio.field.label" value="Standard score"/>
+	</field>
+	<field name="L1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="L1"/>
+		<property name="com.jaspersoft.studio.field.label" value="L1"/>
+	</field>
+	<field name="L2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="L2"/>
+		<property name="com.jaspersoft.studio.field.label" value="L2"/>
+	</field>
+	<field name="L3" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="L3"/>
+		<property name="com.jaspersoft.studio.field.label" value="L3"/>
+	</field>
+	<field name="L4" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="L4"/>
+		<property name="com.jaspersoft.studio.field.label" value="L4"/>
+	</field>
+	<field name="LT" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="LT"/>
+		<property name="com.jaspersoft.studio.field.label" value="LT"/>
+	</field>
+	<field name="LT2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="LT2"/>
+		<property name="com.jaspersoft.studio.field.label" value="LT2"/>
+	</field>
+	<field name="T1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="T1"/>
+		<property name="com.jaspersoft.studio.field.label" value="T1"/>
+	</field>
+	<field name="T2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="T2"/>
+		<property name="com.jaspersoft.studio.field.label" value="T2"/>
+	</field>
+	<field name="T3" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="T3"/>
+		<property name="com.jaspersoft.studio.field.label" value="T3"/>
+	</field>
+	<field name="T4" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="T4"/>
+		<property name="com.jaspersoft.studio.field.label" value="T4"/>
+	</field>
+	<field name="TT" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="TT"/>
+		<property name="com.jaspersoft.studio.field.label" value="TT"/>
+	</field>
+	<field name="TT2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="TT2"/>
+		<property name="com.jaspersoft.studio.field.label" value="TT2"/>
+	</field>
+	<field name="D1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="D1"/>
+		<property name="com.jaspersoft.studio.field.label" value="D1"/>
+	</field>
+	<field name="D2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="D2"/>
+		<property name="com.jaspersoft.studio.field.label" value="D2"/>
+	</field>
+	<field name="D3" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="D3"/>
+		<property name="com.jaspersoft.studio.field.label" value="D3"/>
+	</field>
+	<field name="D4" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="D4"/>
+		<property name="com.jaspersoft.studio.field.label" value="D4"/>
+	</field>
+	<field name="DT" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="DT"/>
+		<property name="com.jaspersoft.studio.field.label" value="DT"/>
+	</field>
+	<field name="DT2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="DT2"/>
+		<property name="com.jaspersoft.studio.field.label" value="DT2"/>
+	</field>
+	<field name="N1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="N1"/>
+		<property name="com.jaspersoft.studio.field.label" value="N1"/>
+	</field>
+	<field name="N2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="N2"/>
+		<property name="com.jaspersoft.studio.field.label" value="N2"/>
+	</field>
+	<field name="N3" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="N3"/>
+		<property name="com.jaspersoft.studio.field.label" value="N3"/>
+	</field>
+	<field name="N4" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="N4"/>
+		<property name="com.jaspersoft.studio.field.label" value="N4"/>
+	</field>
+	<field name="NT" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="NT"/>
+		<property name="com.jaspersoft.studio.field.label" value="NT"/>
+	</field>
+	<field name="NT2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="NT2"/>
+		<property name="com.jaspersoft.studio.field.label" value="NT2"/>
+	</field>
+	<field name="F1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="F1"/>
+		<property name="com.jaspersoft.studio.field.label" value="F1"/>
+	</field>
+	<field name="F2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="F2"/>
+		<property name="com.jaspersoft.studio.field.label" value="F2"/>
+	</field>
+	<field name="F3" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="F3"/>
+		<property name="com.jaspersoft.studio.field.label" value="F3"/>
+	</field>
+	<field name="F4" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="F4"/>
+		<property name="com.jaspersoft.studio.field.label" value="F4"/>
+	</field>
+	<field name="FT" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="FT"/>
+		<property name="com.jaspersoft.studio.field.label" value="FT"/>
+	</field>
+	<field name="FT2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="FT2"/>
+		<property name="com.jaspersoft.studio.field.label" value="FT2"/>
+	</field>
+	<field name="S1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="S1"/>
+		<property name="com.jaspersoft.studio.field.label" value="S1"/>
+	</field>
+	<field name="S2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="S2"/>
+		<property name="com.jaspersoft.studio.field.label" value="S2"/>
+	</field>
+	<field name="S3" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="S3"/>
+		<property name="com.jaspersoft.studio.field.label" value="S3"/>
+	</field>
+	<field name="S4" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="S4"/>
+		<property name="com.jaspersoft.studio.field.label" value="S4"/>
+	</field>
+	<field name="ST" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="ST"/>
+		<property name="com.jaspersoft.studio.field.label" value="ST"/>
+	</field>
+	<field name="ST2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="ST2"/>
+		<property name="com.jaspersoft.studio.field.label" value="ST2"/>
+	</field>
+	<field name="CO1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="CO1"/>
+		<property name="com.jaspersoft.studio.field.label" value="CO1"/>
+	</field>
+	<field name="CO2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="CO2"/>
+		<property name="com.jaspersoft.studio.field.label" value="CO2"/>
+	</field>
+	<field name="Standard" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Standard"/>
+		<property name="com.jaspersoft.studio.field.label" value="Standard"/>
+	</field>
+	<field name="ResultLevel" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ResultLevel"/>
+		<property name="com.jaspersoft.studio.field.label" value="ResultLevel"/>
+	</field>
 	<variable name="LT" class="java.lang.Integer" resetType="None">
 		<variableExpression><![CDATA[$F{L4} + $F{L3} + $F{L2} + $F{L1}]]></variableExpression>
 	</variable>
@@ -409,33 +489,13 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 				<text><![CDATA[This report shows the scores of the school and year below]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="Title text" x="200" y="120" width="131" height="20" uuid="6c925f9e-1559-4a8d-bd99-2f851e3e1bbd"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$P{SchoolNo}]]></textFieldExpression>
+				<reportElement style="Title text" x="200" y="120" width="291" height="20" uuid="6c925f9e-1559-4a8d-bd99-2f851e3e1bbd"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{SchoolNo} + ": " + $F{School Name}]]></textFieldExpression>
 			</textField>
-			<componentElement>
-				<reportElement style="Title text" x="331" y="120" width="160" height="20" uuid="5652f1b9-b26b-426f-b62e-f4f5cc0c74e5"/>
-				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
-					<datasetRun subDataset="School Name" uuid="c71c246d-a9f7-469e-a3c8-db91843d0a51">
-						<datasetParameter name="SchoolNo">
-							<datasetParameterExpression><![CDATA[$P{SchoolNo}]]></datasetParameterExpression>
-						</datasetParameter>
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					</datasetRun>
-					<jr:listContents height="20" width="160">
-						<textField>
-							<reportElement style="Title text" x="0" y="0" width="160" height="20" uuid="2f06eff4-2bd7-4306-ac4d-95277bfce078"/>
-							<textElement textAlignment="Center">
-								<font fontName="DejaVu Sans"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$F{schName}]]></textFieldExpression>
-						</textField>
-					</jr:listContents>
-				</jr:list>
-			</componentElement>
 			<textField>
 				<reportElement style="Title text" x="491" y="120" width="82" height="20" uuid="6d8ddea8-d783-435a-ab49-a989651e13c1"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$P{Year}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -885,7 +945,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="752" height="15" uuid="fa7cec56-4ec1-48e6-a26e-7266a995d174">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" x="0" y="0" width="17" height="15" uuid="963e65b3-259a-44a9-9fc2-cfe6dfc6d218">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -898,7 +958,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Standard score}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="17" y="0" width="240" height="15" uuid="923e6e2b-34fe-4648-95ed-ec204095f5e6"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -908,7 +968,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Standard}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="257" y="0" width="19" height="15" uuid="0612aeaa-207a-4a21-9ede-a070f722a8c6">
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -922,7 +982,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{L1}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="276" y="0" width="19" height="15" uuid="e525bb11-a479-491b-a9c3-2b40a0c6292b"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -932,7 +992,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{L2}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="295" y="0" width="19" height="15" uuid="6119274e-2e5a-4354-8102-52a7be309640"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -942,7 +1002,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{L3}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="314" y="0" width="19" height="15" uuid="bb89bd23-a6dd-4dce-be02-dc398eaafe60"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -952,7 +1012,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{L4}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="333" y="0" width="19" height="15" uuid="1dc6b05a-ab75-425d-a33e-95a740b25cd4"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -962,7 +1022,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{T1}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="352" y="0" width="19" height="15" uuid="9a66ad1e-73ab-4b99-94af-1ccce08a3215"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -972,7 +1032,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{T2}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="371" y="0" width="19" height="15" uuid="35609cdf-54fb-4f79-8b72-67e9ede04aa5"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -982,7 +1042,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{T3}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="390" y="0" width="19" height="15" uuid="67cd4520-3a04-45cb-b943-686d238a6edc"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -992,7 +1052,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{T4}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="409" y="0" width="19" height="15" uuid="92da0461-58c8-493d-9979-7de6ce768e35"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1002,7 +1062,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{D1}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="428" y="0" width="19" height="15" uuid="c4f0eed7-313b-46a2-b2aa-009a4f07c9d6"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1012,7 +1072,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{D2}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="447" y="0" width="19" height="15" uuid="43f22068-c1f4-41ae-b857-1679fccb9927"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1022,7 +1082,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{D3}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="466" y="0" width="19" height="15" uuid="12a27776-8653-4e59-b480-e0eac0add576"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1032,7 +1092,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{D4}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="485" y="0" width="19" height="15" uuid="7fba6b0b-8bb5-41b5-8852-a54bd1824a29"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1042,7 +1102,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{N1}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="504" y="0" width="19" height="15" uuid="7c348fcb-0fc4-4267-a62b-c26a7c48fc5f"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1052,7 +1112,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{N2}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="523" y="0" width="19" height="15" uuid="c1757f2f-46b8-4fd7-8e6d-49c758db2e82"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1062,7 +1122,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{N3}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="542" y="0" width="19" height="15" uuid="474e101c-b6cd-4617-ade8-29e87903183d"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1072,7 +1132,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{N4}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="561" y="0" width="19" height="15" uuid="7511757d-e378-4b58-92ae-f64dc3fcebaa"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1082,7 +1142,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{F1}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="580" y="0" width="19" height="15" uuid="3f9824da-56f4-435e-9e8a-c6b4a16bf1c7"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1092,7 +1152,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{F2}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="599" y="0" width="19" height="15" uuid="33056c66-617c-47c1-8c8b-e61f7135edd1"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1102,7 +1162,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{F3}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="618" y="0" width="19" height="15" uuid="4bc292c2-7bd0-453d-bc00-3fc3101f2db1"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1112,7 +1172,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{F4}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="637" y="0" width="19" height="15" uuid="94dadfbd-0476-4bef-be6d-ce56d222f0db"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1122,7 +1182,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{S1}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="656" y="0" width="19" height="15" uuid="ddbeee0d-6341-4973-b923-d4ae027e9df1"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1132,7 +1192,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{S2}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="675" y="0" width="19" height="15" uuid="0dde8695-d62d-4b6a-98f9-041c3ad8b28c"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1142,7 +1202,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{S3}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="694" y="0" width="19" height="15" uuid="5a58efda-cad2-4589-8b8c-86c4bf310366"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1152,7 +1212,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{S4}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="713" y="0" width="19" height="15" uuid="7376cd02-5c42-488a-9f26-e3d77bc86514"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1162,7 +1222,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{CO1}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 					<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="732" y="0" width="19" height="15" uuid="1cbbf2c8-d171-41c4-b463-1dbf21bcd866"/>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
@@ -1199,7 +1259,7 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="64" splitType="Stretch">
+		<band height="19" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="16" width="750" height="2" uuid="9b91d1f8-1864-4980-a4fb-4b056f1ce665">
@@ -1407,10 +1467,6 @@ WHERE schNo = $P{SchoolNo} and inspYear = $P{Year}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{CO2_Tot}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="381" y="30" width="100" height="30" uuid="ead15230-b2a2-4479-b963-24fe0cd43f6d"/>
-				<text><![CDATA[CHART TODO]]></text>
-			</staticText>
 		</band>
 	</summary>
 </jasperReport>
