@@ -5,8 +5,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
 	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Exam_Candidate/Student_Exam_Report"/>
-	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Exam_Candidate/Student_Exam_Report_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Exams/Student_Exam_Report"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Exams/Student_Exam_Report_files/main_jrxml"/>
 	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
 	<style name="Row" mode="Transparent">
 		<conditionalStyle>
@@ -14,6 +14,8 @@
 			<style backcolor="#ECECEC"/>
 		</conditionalStyle>
 	</style>
+	<parameter name="Year" class="java.lang.Integer"/>
+	<parameter name="ExamIDByYear" class="java.lang.Integer"/>
 	<parameter name="CandidateID" class="java.lang.String">
 		<defaultValueExpression><![CDATA["CE0C1AA3-CAD6-4B10-BBC0-0005832F50D1"]]></defaultValueExpression>
 	</parameter>
@@ -166,7 +168,7 @@ $F{exYear} + " Student Report"]]></textFieldExpression>
 				<textElement textAlignment="Left">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Student Name: " + $F{excGiven} + " " + $F{excMiddleNames} + " " + $F{excFamilyName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Student Name: " + ($F{excGiven} == null ? "" : $F{excGiven}) + " " + ($F{excMiddleNames} == null ? "" : $F{excMiddleNames} + " ") + ($F{excFamilyName} == null ? "" : $F{excFamilyName})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Title text" x="291" y="186" width="281" height="20" uuid="1cf5edd6-01a7-4c09-882c-ab8fd6e6c15c"/>
@@ -231,13 +233,13 @@ $F{exYear} + " Student Report"]]></textFieldExpression>
 				<reportElement style="Title text" x="-1" y="371" width="572" height="19" uuid="ebf24d68-6d5f-4a52-8cb4-0b091decc110">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{excGiven} + " " + $F{excMiddleNames} + " " + $F{excFamilyName} + " has met or exceeded the standard on " + new DecimalFormat("#.##").format($F{AYP}.doubleValue() * 100)+"%" + " percent of the indicators listed below."]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{excGiven} == null ? "" : $F{excGiven}) + " " + ($F{excMiddleNames} == null ? "" : $F{excMiddleNames} + " ") + ($F{excFamilyName} == null ? "" : $F{excFamilyName}) + " has met or exceeded the standard on " + new DecimalFormat("#.##").format($F{AYP}.doubleValue() * 100)+"%" + " percent of the indicators listed below."]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Title text" x="0" y="390" width="571" height="28" uuid="b1f2f7c2-820c-4e58-8b88-e3309ddbb2e1">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA["The Ministry of Education's " + $F{exCode} + ": " + $F{exName} + "assesses benchmarks specified in the curriculum. Each benchmark specifies different skills. The table below lists this student's skill level for each benchmark."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["The Ministry of Education's " + $F{exCode} + ": " + $F{exName} + " assesses benchmarks specified in the curriculum. Each benchmark specifies different skills. The table below lists this student's skill level for each benchmark."]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

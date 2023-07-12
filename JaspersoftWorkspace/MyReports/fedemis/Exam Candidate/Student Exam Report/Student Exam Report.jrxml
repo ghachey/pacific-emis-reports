@@ -3,17 +3,19 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Student Exam Report" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
-	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.url" value="http://fedemis.doe.fm:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Exam_Candidate/Student_Exam_Report"/>
-	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Exam_Candidate/Student_Exam_Report_files/main_jrxml"/>
-	<template><![CDATA["../../Templates/FedEMIS_Style.jrtx"]]></template>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Exams/Student_Exam_Report"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Exams/Student_Exam_Report_files/main_jrxml"/>
+	<template><![CDATA["repo:/Templates/FedEMIS_Style.jrtx"]]></template>
 	<style name="Row" mode="Transparent">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
 			<style backcolor="#ECECEC"/>
 		</conditionalStyle>
 	</style>
+	<parameter name="Year" class="java.lang.Integer"/>
+	<parameter name="ExamIDByYear" class="java.lang.Integer"/>
 	<parameter name="CandidateID" class="java.lang.String">
 		<defaultValueExpression><![CDATA["A180F5E7-EBFB-4B81-9C3C-D42B884C72C0"]]></defaultValueExpression>
 	</parameter>
@@ -94,7 +96,7 @@ GROUP BY ECR.excID
 				<reportElement x="0" y="0" width="126" height="126" uuid="1c003177-754c-448f-8ce1-16868856f545">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
-				<imageExpression><![CDATA["../../images/fsm_seal.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/images/fsm_seal.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement style="Title" x="126" y="0" width="319" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
@@ -113,7 +115,7 @@ Federated States of Micronesia]]></text>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<imageExpression><![CDATA["../../images/fsm_ndoe.png"]]></imageExpression>
+				<imageExpression><![CDATA["repo:/images/fsm_ndoe.png"]]></imageExpression>
 			</image>
 			<rectangle>
 				<reportElement mode="Opaque" x="-21" y="-20" width="614" height="10" forecolor="#08298C" backcolor="#08298C" uuid="a879b5ed-22f8-4e7b-9093-811aaea43211"/>
@@ -165,7 +167,7 @@ $F{exYear} + " Student Report"]]></textFieldExpression>
 				<textElement textAlignment="Left">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Student Name: " + $F{excGiven} + " " + $F{excMiddleNames} + " " + $F{excFamilyName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Student Name: " + ($F{excGiven} == null ? "" : $F{excGiven}) + " " + ($F{excMiddleNames} == null ? "" : $F{excMiddleNames} + " ") + ($F{excFamilyName} == null ? "" : $F{excFamilyName})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Title text" x="291" y="186" width="281" height="20" uuid="1cf5edd6-01a7-4c09-882c-ab8fd6e6c15c"/>
@@ -179,7 +181,7 @@ $F{exYear} + " Student Report"]]></textFieldExpression>
 				<text><![CDATA[The NDOE Standards-Based Assessments provides both accountability data for NDOE and SDOEs and a measure of your student’s knowledge and skills related to important FSM standards and benchmarks. Student scores are reported in four levels of mastery as follows]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="87" y="254" width="397" height="114" uuid="535dd8ac-baf4-4cbf-a489-422005a32ad9">
+				<reportElement x="1" y="254" width="571" height="114" uuid="535dd8ac-baf4-4cbf-a489-422005a32ad9">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -188,36 +190,36 @@ $F{exYear} + " Student Report"]]></textFieldExpression>
 				</graphicElement>
 			</rectangle>
 			<textField>
-				<reportElement style="Title text" x="122" y="279" width="352" height="20" uuid="821dcf17-ba1a-4bf9-95f0-449fdfa997fd"/>
+				<reportElement style="Title text" x="26" y="279" width="545" height="20" uuid="821dcf17-ba1a-4bf9-95f0-449fdfa997fd"/>
 				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA["Competent: student exceeds grade level expectations"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Competent: means able, proficient, skilled or adept."]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Title text" x="122" y="299" width="352" height="20" uuid="55b244a9-0f97-41ff-949c-6b32b477bba1"/>
+				<reportElement style="Title text" x="26" y="299" width="545" height="20" uuid="55b244a9-0f97-41ff-949c-6b32b477bba1"/>
 				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA["Minimum Competency: student meets grade level expectations"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Minimum Competency: means that students have almost but not quite mastered the skills and concepts"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Title text" x="122" y="339" width="352" height="20" uuid="30b73a78-11c3-4157-b3cf-b07054ece97b"/>
+				<reportElement style="Title text" x="26" y="339" width="545" height="20" uuid="30b73a78-11c3-4157-b3cf-b07054ece97b"/>
 				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA["Well Below Minimum Competency: student has limited knowledge or skill"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Well Below Minimum Competency: means that students have failed to understand or master the skills and concepts"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Title text" x="122" y="319" width="352" height="20" uuid="24b3c350-c6ba-4b64-b911-34cbb4b0fd70"/>
+				<reportElement style="Title text" x="26" y="319" width="545" height="20" uuid="24b3c350-c6ba-4b64-b911-34cbb4b0fd70"/>
 				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA["Below Minimum Competency: student approaches grade level expectations"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Below Minimum Competency:  means that students have not  sufficiently understood the content"]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="98" y="279" width="21" height="20" forecolor="#00AF50" backcolor="#00AF50" uuid="ca0718f7-d0d2-4e1d-aa60-b12aa8d9cd02"/>
+				<reportElement x="3" y="279" width="21" height="20" forecolor="#00AF50" backcolor="#00AF50" uuid="ca0718f7-d0d2-4e1d-aa60-b12aa8d9cd02"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="98" y="299" width="21" height="20" forecolor="#92D14F" backcolor="#92D14F" uuid="a59b11c1-f2ba-45f2-9b18-834786369c3b"/>
+				<reportElement x="3" y="299" width="21" height="20" forecolor="#92D14F" backcolor="#92D14F" uuid="a59b11c1-f2ba-45f2-9b18-834786369c3b"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="98" y="319" width="21" height="20" forecolor="#FED966" backcolor="#FED966" uuid="85c2d283-663b-4c5c-81c0-267d02d5cb60"/>
+				<reportElement x="3" y="319" width="21" height="20" forecolor="#FED966" backcolor="#FED966" uuid="85c2d283-663b-4c5c-81c0-267d02d5cb60"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="98" y="339" width="21" height="20" forecolor="#C00000" backcolor="#C00000" uuid="2ba8ca42-3f96-4f62-9539-b087b0117ea1"/>
+				<reportElement x="3" y="339" width="21" height="20" forecolor="#C00000" backcolor="#C00000" uuid="2ba8ca42-3f96-4f62-9539-b087b0117ea1"/>
 			</rectangle>
 			<textField>
 				<reportElement style="Title text" x="98" y="256" width="289" height="20" uuid="91a46dd1-df8d-4119-a74d-4339276549f5"/>
@@ -230,13 +232,13 @@ $F{exYear} + " Student Report"]]></textFieldExpression>
 				<reportElement style="Title text" x="-1" y="371" width="572" height="19" uuid="ebf24d68-6d5f-4a52-8cb4-0b091decc110">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{excGiven} + " " + $F{excMiddleNames} + " " + $F{excFamilyName} + " has met or exceeded the standard on " + new DecimalFormat("#.##").format($F{AYP}.doubleValue() * 100)+"%" + " percent of the indicators listed below."]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{excGiven} == null ? "" : $F{excGiven}) + " " + ($F{excMiddleNames} == null ? "" : $F{excMiddleNames} + " ") + ($F{excFamilyName} == null ? "" : $F{excFamilyName}) + " has met or exceeded the standard on " + new DecimalFormat("#.##").format($F{AYP}.doubleValue() * 100)+"%" + " percent of the indicators listed below."]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Title text" x="0" y="390" width="571" height="28" uuid="b1f2f7c2-820c-4e58-8b88-e3309ddbb2e1">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA["The NDOE's " + $F{exCode} + ": " + $F{exName} + "assesses benchmarks specified in the curriculum. Each benchmark specifies different skills. The table below lists this student's skill level for each benchmark."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["The NDOE's " + $F{exCode} + ": " + $F{exName} + " assesses benchmarks specified in the curriculum. Each benchmark specifies different skills. The table below lists this student's skill level for each benchmark."]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
