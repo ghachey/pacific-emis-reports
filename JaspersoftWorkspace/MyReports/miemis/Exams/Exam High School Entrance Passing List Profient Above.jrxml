@@ -122,8 +122,8 @@ SELECT E.exID exID
 		END NextGradeProfAboveRule
 	, CONVERT(FLOAT, SUM(ECI.exciResult)) / CONVERT(FLOAT, COUNT(ECI.exciResult)) PercentageCorrect
 	, CASE 
-		WHEN CONVERT(FLOAT, SUM(ECI.exciResult)) / CONVERT(FLOAT, COUNT(ECI.exciResult)) >= 0.60 THEN 'Nine Grade'
-		WHEN CONVERT(FLOAT, SUM(ECI.exciResult)) / CONVERT(FLOAT, COUNT(ECI.exciResult)) < 0.60 THEN 'Pre-Nine Grade'
+		WHEN CONVERT(FLOAT, SUM(ECI.exciResult)) / CONVERT(FLOAT, COUNT(ECI.exciResult)) >= 0.516 THEN 'Nine Grade'
+		WHEN CONVERT(FLOAT, SUM(ECI.exciResult)) / CONVERT(FLOAT, COUNT(ECI.exciResult)) < 0.516 THEN 'Pre-Nine Grade'
 		END NextGrade60PercRule
 FROM 
 Exams E
