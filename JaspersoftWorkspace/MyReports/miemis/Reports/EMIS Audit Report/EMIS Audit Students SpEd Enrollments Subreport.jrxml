@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EMIS Audit Students SpEd Enrollments Subreport" pageWidth="752" pageHeight="572" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://data.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Schools/School/School_Exams_Results_by_Year"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Schools/School/School_Exams_Results_by_Year_files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="250"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="742"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Transparent" backcolor="#ECECEC" fontName="Open Sans Semibold" fontSize="9"/>
+		</conditionalStyle>
+	</style>
+	<style name="Flag" style="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{trComplete} == null || $F{trComplete} == false]]></conditionExpression>
+			<style mode="Transparent" forecolor="#C00000" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{trComplete} == true]]></conditionExpression>
+			<style mode="Transparent" forecolor="#00AF50" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#EFEFEF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#C1C1C1">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#959393">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Row_Crosstab" style="Crosstab Data" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#ECECEC" hTextAlign="Right"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="StartDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2022-10-01")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="EndDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2023-09-30")]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT [stuGiven]
+      ,[stuMiddleNames]
+      ,[stuFamilyName]
+	  ,SE.[schNo]
+      ,S.[schName]
+      ,common.schoolYearFormat([stueYear]) [School Year]
+      ,[stueClass]
+      ,[stueSpEd]
+      ,CASE 
+		WHEN [stueCompleted] IS NULL THEN 'Unknown'
+		WHEN [stueCompleted] = 'Y' THEN 'Yes'
+		WHEN [stueCompleted] = 'N' THEN 'No'
+		ELSE 'Unknown'
+		END [Completed Status]
+      ,[stueOutcome]
+      ,[stueOutcomeReason]
+      ,SE.[pCreateDateTime]
+      ,SE.[pCreateUser]
+      ,SE.[pEditDateTime]
+	  ,MONTH(SE.[pEditDateTime]) [EditMonth]	  
+	  ,CONVERT(date, SE.[pEditDateTime]) [Date]
+      ,SE.[pEditUser]
+  FROM [dbo].[StudentEnrolment_] SE
+  INNER JOIN [dbo].[Student_] ST ON SE.stuID = ST.stuID
+  INNER JOIN [dbo].[Schools] S ON SE.schNo = S.schNo
+  WHERE stueSpEd = 1 AND 
+  ((SE.pCreateDateTime > $P{StartDate} AND SE.pCreateDateTime < $P{EndDate}) OR 
+	(SE.pEditDateTime > $P{StartDate} AND SE.pEditDateTime < $P{EndDate}));]]>
+	</queryString>
+	<field name="stuGiven" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="stuGiven"/>
+		<property name="com.jaspersoft.studio.field.label" value="stuGiven"/>
+	</field>
+	<field name="stuMiddleNames" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="stuMiddleNames"/>
+		<property name="com.jaspersoft.studio.field.label" value="stuMiddleNames"/>
+	</field>
+	<field name="stuFamilyName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="stuFamilyName"/>
+		<property name="com.jaspersoft.studio.field.label" value="stuFamilyName"/>
+	</field>
+	<field name="schNo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schNo"/>
+		<property name="com.jaspersoft.studio.field.label" value="schNo"/>
+	</field>
+	<field name="schName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schName"/>
+		<property name="com.jaspersoft.studio.field.label" value="schName"/>
+	</field>
+	<field name="School Year" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="School Year"/>
+		<property name="com.jaspersoft.studio.field.label" value="School Year"/>
+	</field>
+	<field name="stueClass" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="stueClass"/>
+		<property name="com.jaspersoft.studio.field.label" value="stueClass"/>
+	</field>
+	<field name="stueSpEd" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="stueSpEd"/>
+		<property name="com.jaspersoft.studio.field.label" value="stueSpEd"/>
+	</field>
+	<field name="Completed Status" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Completed Status"/>
+		<property name="com.jaspersoft.studio.field.label" value="Completed Status"/>
+	</field>
+	<field name="stueOutcome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="stueOutcome"/>
+		<property name="com.jaspersoft.studio.field.label" value="stueOutcome"/>
+	</field>
+	<field name="stueOutcomeReason" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="stueOutcomeReason"/>
+		<property name="com.jaspersoft.studio.field.label" value="stueOutcomeReason"/>
+	</field>
+	<field name="pCreateDateTime" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="pCreateDateTime"/>
+		<property name="com.jaspersoft.studio.field.label" value="pCreateDateTime"/>
+	</field>
+	<field name="pCreateUser" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pCreateUser"/>
+		<property name="com.jaspersoft.studio.field.label" value="pCreateUser"/>
+	</field>
+	<field name="pEditDateTime" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="pEditDateTime"/>
+		<property name="com.jaspersoft.studio.field.label" value="pEditDateTime"/>
+	</field>
+	<field name="EditMonth" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="EditMonth"/>
+		<property name="com.jaspersoft.studio.field.label" value="EditMonth"/>
+	</field>
+	<field name="Date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="Date"/>
+		<property name="com.jaspersoft.studio.field.label" value="Date"/>
+	</field>
+	<field name="pEditUser" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pEditUser"/>
+		<property name="com.jaspersoft.studio.field.label" value="pEditUser"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="60">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="0" width="752" height="60" uuid="2d9fd573-c348-44e7-b7cc-876763e78144">
+					<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph spacingBefore="10"/>
+				</textElement>
+				<text><![CDATA[The audit table below summarized special education student enrollments. The total here should be the number of special education students you expect in the whole country. Any number way below or above should trigger a call from management to the data office.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="80" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<crosstab horizontalPosition="Center">
+				<reportElement x="0" y="0" width="752" height="80" uuid="045dd697-6521-48e1-8aff-3ce3d3f96478">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+				</reportElement>
+				<crosstabDataset>
+					<dataset resetType="Report"/>
+				</crosstabDataset>
+				<rowGroup name="pEditUser" width="290" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{pEditUser}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement x="0" y="0" width="290" height="40" uuid="3f17c34e-95f5-49c0-a4a8-ad2b0f297559"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{pEditUser}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<staticText>
+								<reportElement x="0" y="0" width="410" height="20" forecolor="#FFFFFF" uuid="01b15991-96a1-4a5c-8885-a799f4f028b6"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Total pEditUser]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="Date" width="120" totalPosition="End">
+					<bucket class="java.sql.Date">
+						<bucketExpression><![CDATA[$F{Date}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField pattern="MMMM d, yyyy">
+								<reportElement x="0" y="0" width="120" height="20" uuid="67678e7e-a3f2-434c-a28a-98b30ce08a50"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{Date}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="20" uuid="684cc9df-9d89-4d9a-835b-5b471259f928"/>
+								<text><![CDATA[Total Date]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="Completed Status" height="20" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{Completed Status}]]></bucketExpression>
+						<orderByExpression><![CDATA[$V{outcomeForSort_MEASURE}]]></orderByExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement x="0" y="0" width="70" height="20" uuid="336f83d5-deb0-429f-a552-c09df733bfc7"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{Completed Status}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<staticText>
+								<reportElement x="0" y="0" width="110" height="20" forecolor="#FFFFFF" uuid="43299303-58e5-42c1-8898-815fa8873fb0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<text><![CDATA[Total Completed Status]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="stuGiven_MEASURE" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{stuGiven}]]></measureExpression>
+				</measure>
+				<measure name="outcomeForSort_MEASURE" class="java.lang.Object">
+					<measureExpression><![CDATA[$F{Completed Status}.equals("Yes") ? 1 : $F{Completed Status}.equals("No") ? 2 : 3]]></measureExpression>
+				</measure>
+				<crosstabCell width="70" height="20">
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<textField pattern="#,##0.###;#,##0.###-">
+							<reportElement style="Row_Crosstab" x="0" y="0" width="70" height="20" uuid="2a110bd2-8322-4ea0-af4e-3c8a96eabbb8"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{stuGiven_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="110" height="20" columnTotalGroup="Completed Status">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField pattern="#,##0.###;#,##0.###-">
+							<reportElement x="0" y="0" width="110" height="20" forecolor="#FFFFFF" uuid="7f219832-893e-4fd1-b4ec-732c8fc07d50"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{stuGiven_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="70" height="20" rowTotalGroup="pEditUser">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField pattern="#,##0.###;#,##0.###-">
+							<reportElement x="0" y="0" width="70" height="20" forecolor="#FFFFFF" uuid="a77456fb-21f5-4b0b-8c2d-2a58986d2e30"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{stuGiven_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="110" height="20" rowTotalGroup="pEditUser" columnTotalGroup="Completed Status">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField pattern="#,##0.###;#,##0.###-">
+							<reportElement x="0" y="0" width="110" height="20" forecolor="#FFFFFF" uuid="a1292d12-e50b-459c-9b8a-1e21ca5eda9e"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{stuGiven_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="70" height="20" rowTotalGroup="Date">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<textField pattern="#,##0.###;#,##0.###-">
+							<reportElement x="0" y="0" width="70" height="20" uuid="ce3e7671-2e52-44b7-97bf-de72a4b00fb3"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{stuGiven_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="110" height="20" rowTotalGroup="Date" columnTotalGroup="Completed Status">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField pattern="#,##0.###;#,##0.###-">
+							<reportElement x="0" y="0" width="110" height="20" forecolor="#FFFFFF" uuid="47b9fe30-00ad-4bb8-971c-320a4a044f69"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{stuGiven_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EMIS Audit Report Book" pageWidth="595" pageHeight="842" sectionType="Part" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" whenResourceMissingType="Key" uuid="d2716064-8ae4-40cf-a575-33afba400e3a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="true"/>
+	<property name="com.jaspersoft.studio.book.group.cover.header" value="Cover and Table of Contents"/>
+	<property name="com.jaspersoft.studio.book.group.cover.footer" value="Backcover"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.jasperserver.url" value="http://data.pss.edu.mh:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Indicators/Indicators_Report_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Indicators/Indicators_Report"/>
+	<parameter name="StartDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2022-10-01")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="EndDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2023-09-30")]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select 'One' as one]]>
+	</queryString>
+	<field name="one" class="java.lang.String"/>
+	<group name="cover">
+		<groupHeader>
+			<part uuid="7aed05b9-1301-4a53-b47e-34289560bc0c">
+				<p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd">
+					<subreportParameter name="StartDate">
+						<subreportParameterExpression><![CDATA[$P{StartDate}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="EndDate">
+						<subreportParameterExpression><![CDATA[$P{EndDate}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportExpression><![CDATA["EMIS Audit Report Cover Page.jrxml"]]></subreportExpression>
+				</p:subreportPart>
+			</part>
+			<part evaluationTime="Report" uuid="56ab525c-754f-4f48-a52c-7cc23934be3d">
+				<property name="net.sf.jasperreports.bookmarks.data.source.parameter" value="REPORT_DATA_SOURCE"/>
+				<p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd">
+					<subreportExpression><![CDATA["EMIS Audit Report Table Of Content.jrxml"]]></subreportExpression>
+				</p:subreportPart>
+			</part>
+		</groupHeader>
+	</group>
+	<detail>
+		<part uuid="08970d74-ff71-4d40-9ebc-3d0c794b59ad">
+			<p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd">
+				<subreportParameter name="REPORT_CONNECTION">
+					<subreportParameterExpression><![CDATA[$P{REPORT_CONNECTION}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="StartDate">
+					<subreportParameterExpression><![CDATA[$P{StartDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="EndDate">
+					<subreportParameterExpression><![CDATA[$P{EndDate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA["EMIS Audit Report.jrxml"]]></subreportExpression>
+			</p:subreportPart>
+		</part>
+	</detail>
+</jasperReport>
