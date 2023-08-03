@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EMIS Audit Budgets Expenditures Subreport" pageWidth="752" pageHeight="572" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Reports/MIEMIS_Audit_Report_Book"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Reports/MIEMIS_Audit_Report_Book_files/EMIS_Audit_Budgets_Expenditures_Subreport.jrxml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="250"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="742"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Transparent" backcolor="#ECECEC" fontName="Open Sans Semibold" fontSize="9"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="StartDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2022-10-01")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="EndDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2023-09-30")]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT [fnmYear] [Year]
+	  ,CC.ccDescription CostCentre
+      -- ,EES.[sofCode]
+      ,[sofDesc] [Fund Source]
+      ,[xedTotA] [Total Expenditure Actual]
+      ,[xedCurrentA] [Current Expenditure Actual]
+      ,[xedTotB] [Total Expenditure Budgeted]
+      ,[xedCurrentB] [Current Expenditure Budgeted]
+      ,EES.[pCreateUser]
+      ,EES.[pCreateDateTime]
+      ,EES.[pEditUser]
+      ,EES.[pEditDateTime]
+  FROM [dbo].[EdExpenditureState] EES
+  INNER JOIN [dbo].[GovtExpenditureState] GES ON EES.fnmID = GES.fnmID
+  INNER JOIN [dbo].[CostCentres] CC ON EES.xedCostCentre = CC.ccCode
+  INNER JOIN [dbo].[SourceOfFunds] SOF ON EES.sofCode = SOF.sofCode
+  WHERE (EES.pCreateDateTime > $P{StartDate} AND EES.pCreateDateTime < $P{EndDate}) OR 
+	(EES.pEditDateTime > $P{StartDate} AND EES.pEditDateTime < $P{EndDate})]]>
+	</queryString>
+	<field name="Year" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Year"/>
+		<property name="com.jaspersoft.studio.field.label" value="Year"/>
+	</field>
+	<field name="CostCentre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="CostCentre"/>
+		<property name="com.jaspersoft.studio.field.label" value="CostCentre"/>
+	</field>
+	<field name="Fund Source" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Fund Source"/>
+		<property name="com.jaspersoft.studio.field.label" value="Fund Source"/>
+	</field>
+	<field name="Total Expenditure Actual" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="Total Expenditure Actual"/>
+		<property name="com.jaspersoft.studio.field.label" value="Total Expenditure Actual"/>
+	</field>
+	<field name="Current Expenditure Actual" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="Current Expenditure Actual"/>
+		<property name="com.jaspersoft.studio.field.label" value="Current Expenditure Actual"/>
+	</field>
+	<field name="Total Expenditure Budgeted" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="Total Expenditure Budgeted"/>
+		<property name="com.jaspersoft.studio.field.label" value="Total Expenditure Budgeted"/>
+	</field>
+	<field name="Current Expenditure Budgeted" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="Current Expenditure Budgeted"/>
+		<property name="com.jaspersoft.studio.field.label" value="Current Expenditure Budgeted"/>
+	</field>
+	<field name="pCreateUser" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pCreateUser"/>
+		<property name="com.jaspersoft.studio.field.label" value="pCreateUser"/>
+	</field>
+	<field name="pCreateDateTime" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="pCreateDateTime"/>
+		<property name="com.jaspersoft.studio.field.label" value="pCreateDateTime"/>
+	</field>
+	<field name="pEditUser" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pEditUser"/>
+		<property name="com.jaspersoft.studio.field.label" value="pEditUser"/>
+	</field>
+	<field name="pEditDateTime" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="pEditDateTime"/>
+		<property name="com.jaspersoft.studio.field.label" value="pEditDateTime"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="74">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement style="Base" x="0" y="0" width="752" height="74" uuid="3fe77234-72b3-4266-985a-596999678c14">
+					<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph spacingBefore="10"/>
+				</textElement>
+				<text><![CDATA[This second audit table should consist of many more records and the source intends to record all the detailed expenditures of the education ministry or department. Ideally, the year data in the table would be the same is this year (completely up-to-date data). There should be records for all the different types of sources of funds capturing all the available money spent throughout the year. Nothing at all in this table should trigger a call from management to data office.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement style="Column header 3" x="0" y="0" width="30" height="14" uuid="bce346a9-49d8-423f-a515-c89e6e2cd8b6"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="30" y="0" width="120" height="14" uuid="03eb0d25-6849-492e-9466-b3b45ce18a37">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Account]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="14" width="752" height="1" uuid="8bc2941a-b92b-4ddf-bd93-4fb5a6d916ff">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header 3" x="510" y="0" width="60" height="14" uuid="b7b1f91e-f85a-4409-afe1-957e53f8e484"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Created On]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="570" y="0" width="120" height="14" uuid="b51ab098-9d05-4cd5-bb5d-76038d207a9b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Last Edit By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="690" y="0" width="62" height="14" uuid="18e2fa4d-1aa0-4d37-966d-f42fb6b30d25"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Last Edit On]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="390" y="0" width="120" height="14" uuid="e2030157-c2b6-43a9-b537-653068f39a1c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<paragraph leftIndent="10"/>
+				</textElement>
+				<text><![CDATA[Created By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="150" y="0" width="72" height="14" uuid="c417ae10-f8bf-4764-8ce3-0fc5077a2c4c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Fund source]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="222" y="0" width="84" height="14" uuid="c92edd8d-21e3-4efc-9671-7d885e516c2e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Tot Expenditure]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="306" y="0" width="84" height="14" uuid="4ce1b831-8643-4a78-a39f-2ada9861cab8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Tot Capital]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="30" height="20" uuid="bd0db6a2-3de4-4875-8cfd-6aecdfaacf42">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="30" y="0" width="120" height="20" uuid="b25dfc7e-a229-41d8-a39b-afb6ebe63b55">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CostCentre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="390" y="0" width="120" height="20" uuid="70c5dc54-6826-4a53-bfae-ae6d86b4b339">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+					<paragraph leftIndent="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pCreateUser}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="510" y="0" width="60" height="20" uuid="b6eb8d0e-b1da-424c-bcb4-98e4f6324c16">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format($F{pCreateDateTime})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="570" y="0" width="120" height="20" uuid="0441a920-8521-46fe-87be-822e801c2edb">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pEditUser}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="690" y="0" width="62" height="20" uuid="42ab67c6-a321-4f36-aa29-e8756b5a97f6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format($F{pEditDateTime})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="150" y="0" width="72" height="20" uuid="377bdcae-ae0f-4b32-aeda-1f6877440746">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Fund Source}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0;¤-#,##0">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="222" y="0" width="84" height="20" uuid="4dea3f0f-3532-46af-8ac6-29cdeb4f711a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Total Expenditure Budgeted}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0;¤-#,##0">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="306" y="0" width="84" height="20" uuid="71653144-f203-4dc6-bbb8-9d71885884d2">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Current Expenditure Budgeted}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="1" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<line>
+				<reportElement x="0" y="0" width="752" height="1" uuid="27707ed2-0b6a-41df-97ec-806c7b2e722e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

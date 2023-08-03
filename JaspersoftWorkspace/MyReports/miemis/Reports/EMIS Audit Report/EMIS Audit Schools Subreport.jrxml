@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EMIS Audit Schools Subreport" pageWidth="752" pageHeight="572" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://data.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Schools/School/School_Exams_Results_by_Year"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Schools/School/School_Exams_Results_by_Year_files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="250"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="742"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Transparent" backcolor="#ECECEC" fontName="Open Sans Semibold" fontSize="9"/>
+		</conditionalStyle>
+	</style>
+	<style name="Flag" style="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{trComplete} == null || $F{trComplete} == false]]></conditionExpression>
+			<style mode="Transparent" forecolor="#C00000" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{trComplete} == true]]></conditionExpression>
+			<style mode="Transparent" forecolor="#00AF50" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#EFEFEF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#C1C1C1">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#959393">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Row_Crosstab" style="Crosstab Data" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#ECECEC" hTextAlign="Right"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="StartDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2022-10-01")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="EndDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2023-09-30")]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT S.[schNo]
+      ,S.[schName]
+	  ,D.dName [Atoll/Island]
+	  ,S.schType
+	  ,ST.stDescription [School Type]
+      ,S.[schAddr1]
+      ,S.[schAddr2]
+      ,S.[schPh1]
+      ,S.[schEmail]
+      ,S.[schClosed]
+      ,S.[schCloseReason]
+      ,S2.schName [NextSchool]
+      ,S.[pCreateDateTime]
+      ,S.[pCreateUser]
+      ,S.[pEditDateTime]
+      ,S.[pEditUser]
+  FROM [dbo].[Schools] S
+  INNER JOIN [dbo].[Islands] I ON S.iCode = I.iCode
+  INNER JOIN [dbo].[Districts] D ON I.iGroup = D.dID
+  INNER JOIN [dbo].[SchoolTypes] ST ON S.schType = ST.stCode
+  LEFT JOIN [dbo].[Schools] S2 ON S2.schNo = S.schNextSchool
+  WHERE S.schClosed = 0 AND ((S.pCreateDateTime > $P{StartDate} AND S.pCreateDateTime < $P{EndDate}) OR 
+	(S.pEditDateTime > $P{StartDate} AND S.pEditDateTime < $P{EndDate}))]]>
+	</queryString>
+	<field name="schNo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schNo"/>
+		<property name="com.jaspersoft.studio.field.label" value="schNo"/>
+	</field>
+	<field name="schName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schName"/>
+		<property name="com.jaspersoft.studio.field.label" value="schName"/>
+	</field>
+	<field name="Atoll/Island" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Atoll/Island"/>
+		<property name="com.jaspersoft.studio.field.label" value="Atoll/Island"/>
+	</field>
+	<field name="schType" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schType"/>
+		<property name="com.jaspersoft.studio.field.label" value="schType"/>
+	</field>
+	<field name="School Type" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="School Type"/>
+		<property name="com.jaspersoft.studio.field.label" value="School Type"/>
+	</field>
+	<field name="schAddr1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schAddr1"/>
+		<property name="com.jaspersoft.studio.field.label" value="schAddr1"/>
+	</field>
+	<field name="schAddr2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schAddr2"/>
+		<property name="com.jaspersoft.studio.field.label" value="schAddr2"/>
+	</field>
+	<field name="schPh1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schPh1"/>
+		<property name="com.jaspersoft.studio.field.label" value="schPh1"/>
+	</field>
+	<field name="schEmail" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schEmail"/>
+		<property name="com.jaspersoft.studio.field.label" value="schEmail"/>
+	</field>
+	<field name="schClosed" class="java.lang.Short">
+		<property name="com.jaspersoft.studio.field.name" value="schClosed"/>
+		<property name="com.jaspersoft.studio.field.label" value="schClosed"/>
+	</field>
+	<field name="schCloseReason" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="schCloseReason"/>
+		<property name="com.jaspersoft.studio.field.label" value="schCloseReason"/>
+	</field>
+	<field name="NextSchool" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NextSchool"/>
+		<property name="com.jaspersoft.studio.field.label" value="NextSchool"/>
+	</field>
+	<field name="pCreateDateTime" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="pCreateDateTime"/>
+		<property name="com.jaspersoft.studio.field.label" value="pCreateDateTime"/>
+	</field>
+	<field name="pCreateUser" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pCreateUser"/>
+		<property name="com.jaspersoft.studio.field.label" value="pCreateUser"/>
+	</field>
+	<field name="pEditDateTime" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="pEditDateTime"/>
+		<property name="com.jaspersoft.studio.field.label" value="pEditDateTime"/>
+	</field>
+	<field name="pEditUser" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pEditUser"/>
+		<property name="com.jaspersoft.studio.field.label" value="pEditUser"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="98">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="0" width="752" height="24" uuid="956744c9-3f34-4ca8-8f5e-e0d91c977fad">
+					<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph spacingBefore="10"/>
+				</textElement>
+				<text><![CDATA[Schools data is loaded into several places but observing two different things provides a good yearly audit for school data.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="24" width="752" height="74" uuid="5c96a55c-7f1e-4ecf-acff-c1d86447d3da">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph spacingBefore="10"/>
+				</textElement>
+				<text><![CDATA[The first audit table looks at a source with too many records and thus summarizes it. It shows the number of schools (as oppose to each school) that was edited in the last year. Since an annual census typically edits this data source, you should expect to see the same total number of schools edited (e.g. if you have 100 schools then the last cell at the right and bottom should be 100). If you don't see the same total it is worth a call from management to data office.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="100" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<crosstab horizontalPosition="Center">
+				<reportElement x="0" y="1" width="752" height="99" uuid="71f95769-2ea0-4bdc-9b3b-4ba1f2ae42e5">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+				</reportElement>
+				<crosstabDataset>
+					<dataset resetType="Report"/>
+				</crosstabDataset>
+				<rowGroup name="pEditUser" width="220" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{pEditUser}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement x="0" y="0" width="220" height="40" uuid="aba71d63-492a-4bf2-89c7-77e91f944a31"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{pEditUser}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<staticText>
+								<reportElement x="0" y="0" width="380" height="20" forecolor="#FFFFFF" uuid="307044ca-0983-471b-8ca7-ce7c59f8204c"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Total pEditUser]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="pEditDateTime" width="160" totalPosition="End">
+					<bucket class="java.sql.Timestamp">
+						<bucketExpression><![CDATA[$F{pEditDateTime}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField pattern="MMMM d, yyyy h:mm a">
+								<reportElement x="0" y="0" width="160" height="20" uuid="2e16d063-a716-4e88-a0f5-1e9f5d28290f"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[java.time.format.DateTimeFormatter.ofPattern("MMMM d, yyyy h:mm a").withZone(java.time.ZoneId.of("Asia/Calcutta")).format($V{pEditDateTime}.toInstant())]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<staticText>
+								<reportElement x="0" y="0" width="160" height="20" uuid="71921827-c3a2-4325-b782-f7f8a4ad6abb"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Total pEditDateTime]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="School Type" height="20" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{School Type}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement x="0" y="0" width="120" height="20" uuid="e2e5129b-0faf-47f9-a1d0-71ce21ce6978"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{School Type}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="9b92ac20-d178-4d40-9547-63e2a958d964"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<text><![CDATA[Total School Type]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="schNo_MEASURE" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{schNo}]]></measureExpression>
+				</measure>
+				<crosstabCell width="120" height="20">
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<textField>
+							<reportElement x="0" y="0" width="120" height="20" uuid="f7054b0b-16bf-479f-acab-663b5e1a0461"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{schNo_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" columnTotalGroup="School Type">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="37bdad52-7f6e-4024-9a4b-9d542d1a9b50"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{schNo_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="120" height="20" rowTotalGroup="pEditUser">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="120" height="20" forecolor="#FFFFFF" uuid="7dc17968-66db-4942-b251-d460684efc83"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{schNo_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="pEditUser" columnTotalGroup="School Type">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="cff669cf-0fc9-4b2e-bdae-b4abdc5c2a24"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{schNo_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="120" height="20" rowTotalGroup="pEditDateTime">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<textField>
+							<reportElement x="0" y="0" width="120" height="20" uuid="ddc1576b-3b85-4f68-af8a-f5f660762e3e"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{schNo_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="pEditDateTime" columnTotalGroup="School Type">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField>
+							<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="731b83e3-52cb-450d-a7e7-9c38bd69b36a"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[$V{schNo_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

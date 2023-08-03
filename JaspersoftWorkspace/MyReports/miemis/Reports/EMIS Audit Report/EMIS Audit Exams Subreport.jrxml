@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EMIS Audit Exams Subreport" pageWidth="752" pageHeight="572" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://miemis.pss.edu.mh:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/miemis/Reports/MIEMIS_Audit_Report_Book"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/miemis/Reports/MIEMIS_Audit_Report_Book_files/EMIS_Audit_Exams_Subreport.jrxml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="250"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="742"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Transparent" backcolor="#ECECEC" fontName="Open Sans Semibold" fontSize="9"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="StartDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2022-10-01")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="EndDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2023-09-30")]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT [exName] [Exam Name]
+	  ,[exLevel] [Exam Grade]
+      ,[exYear] [Exam Year]
+      ,[exCandidates] [Candidates]
+      ,[exMarks] [Marks]
+      ,[exUser] [pCreateUser]
+      ,[exDate] [pCreateDateTime]
+  FROM [dbo].[Exams] E
+  INNER JOIN [dbo].[lkpExamTypes] ET ON E.exCode = ET.exCode
+  WHERE exDate > $P{StartDate} AND exDate < $P{EndDate}]]>
+	</queryString>
+	<field name="Exam Name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Exam Name"/>
+		<property name="com.jaspersoft.studio.field.label" value="Exam Name"/>
+	</field>
+	<field name="Exam Grade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Exam Grade"/>
+		<property name="com.jaspersoft.studio.field.label" value="Exam Grade"/>
+	</field>
+	<field name="Exam Year" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Exam Year"/>
+		<property name="com.jaspersoft.studio.field.label" value="Exam Year"/>
+	</field>
+	<field name="Candidates" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Candidates"/>
+		<property name="com.jaspersoft.studio.field.label" value="Candidates"/>
+	</field>
+	<field name="Marks" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Marks"/>
+		<property name="com.jaspersoft.studio.field.label" value="Marks"/>
+	</field>
+	<field name="pCreateUser" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pCreateUser"/>
+		<property name="com.jaspersoft.studio.field.label" value="pCreateUser"/>
+	</field>
+	<field name="pCreateDateTime" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="pCreateDateTime"/>
+		<property name="com.jaspersoft.studio.field.label" value="pCreateDateTime"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="84">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="0" width="752" height="24" uuid="d9ca3098-d5a7-4a19-83ac-e709153f6164">
+					<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph spacingBefore="10"/>
+				</textElement>
+				<text><![CDATA[Exams data is entered once a year and there are two primary audit tables to observe.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="24" width="752" height="60" uuid="6b4eb749-4396-4bd8-8205-9107028efc40">
+					<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph spacingBefore="10"/>
+				</textElement>
+				<text><![CDATA[The first audit table below summarizes exams loaded in the system. If you have 4 different exams (e.g. Math G4, Math G6, Reading G4 and Reading G6) you need to have a record for each of them in this table. Any missing one should trigger a call from management to Exams division and data office.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement style="Column header 3" x="0" y="0" width="45" height="14" uuid="bce346a9-49d8-423f-a515-c89e6e2cd8b6">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="45" y="0" width="55" height="14" uuid="03eb0d25-6849-492e-9466-b3b45ce18a37">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Grade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="390" y="0" width="120" height="14" uuid="bd42767d-029b-4128-929f-405c7795c2da">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Created By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="510" y="0" width="60" height="14" uuid="36c231a8-2d21-42af-84d7-92a3ab4552b5"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Created On]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="570" y="0" width="120" height="14" uuid="52c0d9ba-8345-49df-9401-afe36e0dae4f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Last Edit By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="690" y="0" width="62" height="14" uuid="49de6283-fff1-4357-a50c-d0a6b3dacf78"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Last Edit On]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="14" width="752" height="1" uuid="8bc2941a-b92b-4ddf-bd93-4fb5a6d916ff">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header 3" x="100" y="0" width="160" height="14" uuid="15edd48e-478a-4e21-9974-cf06e3dc8232">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="260" y="0" width="70" height="14" uuid="43ec4bce-79a5-457e-b59e-1cbc965ebdbb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Candidates]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="330" y="0" width="60" height="14" uuid="6bc0d049-c654-4e69-bdb8-ddd104bf7a63">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<paragraph rightIndent="10"/>
+				</textElement>
+				<text><![CDATA[Marks]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="45" height="20" uuid="bd0db6a2-3de4-4875-8cfd-6aecdfaacf42">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Exam Year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="45" y="0" width="55" height="20" uuid="b25dfc7e-a229-41d8-a39b-afb6ebe63b55">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Exam Grade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="390" y="0" width="120" height="20" uuid="a1799cb5-c5f4-45c0-b8c5-1918ca37572a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pCreateUser}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="510" y="0" width="60" height="20" uuid="8582423c-9738-4dfe-b4f7-4442f2cd12a1">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format($F{pCreateDateTime})]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.##;¤-#,##0.##" isBlankWhenNull="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="100" y="0" width="160" height="20" uuid="53fdd9f0-d3e7-4cb6-b20a-6e6b389ae511">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Exam Name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;#,##0.###-" isBlankWhenNull="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="0" width="70" height="20" uuid="1f22ab20-aeaf-4f9e-851c-34ac684786e2">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Candidates}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;#,##0.###-" isBlankWhenNull="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="330" y="0" width="60" height="20" uuid="842106b9-f2fc-421b-8a8d-7a4b53e2b49b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+					<paragraph rightIndent="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Marks}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Row" mode="Opaque" x="570" y="0" width="120" height="20" uuid="5239bc77-8197-41e4-91d5-d424f22bf4fb">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[N/A]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Row" mode="Opaque" x="690" y="0" width="62" height="20" uuid="b679378d-16ea-462b-a170-421cab4bb9e1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[N/A]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="1" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<line>
+				<reportElement x="0" y="0" width="752" height="1" uuid="27707ed2-0b6a-41df-97ec-806c7b2e722e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

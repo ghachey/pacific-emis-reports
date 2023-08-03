@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EMIS Audit Teachers Certifications Subreport" pageWidth="752" pageHeight="572" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MIEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://data.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Schools/School/School_Exams_Results_by_Year"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Schools/School/School_Exams_Results_by_Year_files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="250"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="742"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["repo:/Templates/MIEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Transparent" backcolor="#ECECEC" fontName="Open Sans Semibold" fontSize="9"/>
+		</conditionalStyle>
+	</style>
+	<style name="Completed" style="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{trComplete} == null || $F{trComplete} == false]]></conditionExpression>
+			<style mode="Transparent" forecolor="#C00000" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{trComplete} == true]]></conditionExpression>
+			<style mode="Transparent" forecolor="#00AF50" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+	</style>
+	<style name="Expired" style="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{EffectiveYear} + $V{YearsValid} <= $V{YearToday}]]></conditionExpression>
+			<style mode="Transparent" forecolor="#C00000" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{EffectiveYear} + $V{YearsValid}) > $V{YearToday}]]></conditionExpression>
+			<style mode="Transparent" forecolor="#00AF50" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+	</style>
+	<parameter name="StartDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2022-10-01")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="EndDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2023-09-30")]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT [tGiven]
+      ,[tMiddleNames]
+      ,[tSurname]
+	  ,TQ.codeGroup
+      ,[trYear]
+      ,[trComplete]
+	  ,TQ.[codeDurationYears] [Years Valid]
+	  ,TQ.codeDescription
+      ,[trComment]
+      ,[trEffectiveDate]
+      ,[trExpirationDate]
+      ,TT.[pCreateDateTime]
+      ,TT.[pCreateUser]
+      ,TT.[pEditDateTime]
+      ,TT.[pEditUser]
+  FROM [dbo].[TeacherTraining] TT
+  INNER JOIN [dbo].[TeacherIdentity] TI ON TT.tID = TI.tID
+  INNER JOIN [dbo].[lkpTeacherQual] TQ ON TT.trQual = TQ.codeCode
+  WHERE TQ.codeGroup = 'RMI Certification' AND
+  ((TT.pCreateDateTime > $P{StartDate} AND TT.pCreateDateTime < $P{EndDate}) OR 
+	(TT.pEditDateTime > $P{StartDate} AND TT.pEditDateTime < $P{EndDate}))
+	ORDER BY [tGiven]
+      ,[tMiddleNames]
+      ,[tSurname];]]>
+	</queryString>
+	<field name="tGiven" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tGiven"/>
+		<property name="com.jaspersoft.studio.field.label" value="tGiven"/>
+	</field>
+	<field name="tMiddleNames" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tMiddleNames"/>
+		<property name="com.jaspersoft.studio.field.label" value="tMiddleNames"/>
+	</field>
+	<field name="tSurname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tSurname"/>
+		<property name="com.jaspersoft.studio.field.label" value="tSurname"/>
+	</field>
+	<field name="codeGroup" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="codeGroup"/>
+		<property name="com.jaspersoft.studio.field.label" value="codeGroup"/>
+	</field>
+	<field name="trYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="trYear"/>
+		<property name="com.jaspersoft.studio.field.label" value="trYear"/>
+	</field>
+	<field name="trComplete" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="trComplete"/>
+		<property name="com.jaspersoft.studio.field.label" value="trComplete"/>
+	</field>
+	<field name="Years Valid" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Years Valid"/>
+		<property name="com.jaspersoft.studio.field.label" value="Years Valid"/>
+	</field>
+	<field name="codeDescription" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="codeDescription"/>
+		<property name="com.jaspersoft.studio.field.label" value="codeDescription"/>
+	</field>
+	<field name="trComment" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="trComment"/>
+		<property name="com.jaspersoft.studio.field.label" value="trComment"/>
+	</field>
+	<field name="trEffectiveDate" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="trEffectiveDate"/>
+		<property name="com.jaspersoft.studio.field.label" value="trEffectiveDate"/>
+	</field>
+	<field name="trExpirationDate" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="trExpirationDate"/>
+		<property name="com.jaspersoft.studio.field.label" value="trExpirationDate"/>
+	</field>
+	<field name="pCreateDateTime" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="pCreateDateTime"/>
+		<property name="com.jaspersoft.studio.field.label" value="pCreateDateTime"/>
+	</field>
+	<field name="pCreateUser" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pCreateUser"/>
+		<property name="com.jaspersoft.studio.field.label" value="pCreateUser"/>
+	</field>
+	<field name="pEditDateTime" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="pEditDateTime"/>
+		<property name="com.jaspersoft.studio.field.label" value="pEditDateTime"/>
+	</field>
+	<field name="pEditUser" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pEditUser"/>
+		<property name="com.jaspersoft.studio.field.label" value="pEditUser"/>
+	</field>
+	<variable name="YearToday" class="java.lang.Integer">
+		<variableExpression><![CDATA[Integer.parseInt((new SimpleDateFormat("yyyy")).format(new Date()))]]></variableExpression>
+	</variable>
+	<variable name="EffectiveYear" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{trYear} != null ? $F{trYear} :
+$F{trEffectiveDate} != null ? Integer.parseInt(((new SimpleDateFormat("yyyy")).format($F{trEffectiveDate}))) :
+$F{trEffectiveDate} == null ? 2016 : 2016]]></variableExpression>
+	</variable>
+	<variable name="YearsValid" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{Years Valid} != null ? $F{Years Valid} : 100]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="150">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="0" width="752" height="80" uuid="5bc1d13a-e415-43b6-bb97-64286c27b8b2">
+					<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph spacingBefore="10"/>
+				</textElement>
+				<text><![CDATA[A highly important teacher data source is the certification data. The following table looks at all certification records that were updated in the set timeframe (generally throughout the year). Let's say your teacher and staff development office report certifying 100 new teachers then you should expect to see every single one of them here. If not, the data was not entered into the system and will not be reported in the yearly reports and indicators. This should trigger a call from management to the data office and become high priority.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="752" height="70" uuid="cea99b50-aba7-4a48-b04b-90d20a01a8fe">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.spacingBefore" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph spacingBefore="10"/>
+				</textElement>
+				<text><![CDATA[Another thing to be on the lookout for is the "Expired" column which will be flagged red if any of the recently edited certification has expired. This would mean that while the certification record was added it is no longer valid. Management should seek details about this. Is there a missing certificate record for that teacher? Is that teacher scheduled to be re-certified?]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement style="Column header 3" x="0" y="0" width="105" height="14" uuid="bce346a9-49d8-423f-a515-c89e6e2cd8b6">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Teacher]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="105" y="0" width="30" height="14" uuid="03eb0d25-6849-492e-9466-b3b45ce18a37">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="390" y="0" width="120" height="14" uuid="bd42767d-029b-4128-929f-405c7795c2da">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<paragraph leftIndent="10"/>
+				</textElement>
+				<text><![CDATA[Created By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="510" y="0" width="60" height="14" uuid="36c231a8-2d21-42af-84d7-92a3ab4552b5"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Created On]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="570" y="0" width="120" height="14" uuid="52c0d9ba-8345-49df-9401-afe36e0dae4f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Last Edit By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="690" y="0" width="62" height="14" uuid="49de6283-fff1-4357-a50c-d0a6b3dacf78"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Last Edit On]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="14" width="752" height="1" uuid="8bc2941a-b92b-4ddf-bd93-4fb5a6d916ff">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header 3" x="240" y="0" width="50" height="14" uuid="6bc0d049-c654-4e69-bdb8-ddd104bf7a63">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Complete]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="135" y="0" width="105" height="14" uuid="44caf9fc-4cbb-4dbe-bee9-6d620d973e3d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Certification]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="290" y="0" width="59" height="14" uuid="d2df6d93-bb68-4c18-9787-e19305d9027a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Years Valid]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header 3" x="349" y="0" width="41" height="14" uuid="93315d43-f975-4481-850e-fa14dc014dda">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Expired]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField textAdjust="ScaleFont">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="105" height="20" uuid="bd0db6a2-3de4-4875-8cfd-6aecdfaacf42">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tGiven} + ($F{tMiddleNames} != null ? " "+$F{tMiddleNames}+" " : " ") + $F{tSurname}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="105" y="0" width="30" height="20" uuid="b25dfc7e-a229-41d8-a39b-afb6ebe63b55">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trYear}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="390" y="0" width="120" height="20" uuid="a1799cb5-c5f4-45c0-b8c5-1918ca37572a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+					<paragraph leftIndent="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pCreateUser}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="510" y="0" width="60" height="20" uuid="8582423c-9738-4dfe-b4f7-4442f2cd12a1">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format($F{pCreateDateTime})]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0.###;#,##0.###-" isBlankWhenNull="false">
+				<reportElement style="Completed" stretchType="RelativeToTallestObject" mode="Opaque" x="240" y="0" width="50" height="20" uuid="842106b9-f2fc-421b-8a8d-7a4b53e2b49b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trComplete} == null ? "Unknown" :
+$F{trComplete} == true ? "Yes" : 
+$F{trComplete} == false ? "No" : "Error"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="570" y="0" width="120" height="20" uuid="892c4b4f-a294-4147-be51-6af191a47919">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pEditUser}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="690" y="0" width="62" height="20" uuid="da38e901-7f58-48bd-900e-d45b5ac719d3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format($F{pEditDateTime})]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="135" y="0" width="105" height="20" uuid="6f4bc785-cd1e-4fc8-b7d4-ff3884bc389d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codeDescription}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="ScaleFont" pattern="#,##0.###;#,##0.###-" isBlankWhenNull="false">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="290" y="0" width="59" height="20" uuid="11f98ccd-f3c5-4f06-8db5-e6be0fad0196">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Years Valid} == null ? "Forever" :
+$F{Years Valid} != null ? $F{Years Valid} : "Error"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Expired" stretchType="RelativeToTallestObject" mode="Opaque" x="349" y="0" width="41" height="20" uuid="e7c6014d-e24d-42b4-96f6-cdb251da2a70">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{EffectiveYear} + $V{YearsValid} > $V{YearToday} ? "No" : "Yes"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="1" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<line>
+				<reportElement x="0" y="0" width="752" height="1" uuid="27707ed2-0b6a-41df-97ec-806c7b2e722e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>
