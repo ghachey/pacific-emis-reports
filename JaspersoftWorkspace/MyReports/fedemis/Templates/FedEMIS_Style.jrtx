@@ -3,13 +3,10 @@
 <jasperTemplate xmlns="http://jasperreports.sourceforge.net/jasperreports/template" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/template http://jasperreports.sourceforge.net/xsd/jaspertemplate.xsd">
 	<style name="Title" hTextAlign="Center" vTextAlign="Middle" fontName="Open Sans" fontSize="30" isBold="true"/>
 	<style name="SubTitle" forecolor="#08298C" hTextAlign="Center" fontName="Open Sans" fontSize="16"/>
-	<style name="Detail" hTextAlign="Right" vTextAlign="Middle" fontName="Open Sans" fontSize="12"/>
-	<style name="Column header" forecolor="#08298C" hTextAlign="Center" fontName="Open Sans" fontSize="11" isBold="true">
-		<box>
-			<bottomPen lineWidth="0.0" lineColor="#A5A5A5"/>
-		</box>
-	</style>
-	<style name="Column header 2" forecolor="#666666" hTextAlign="Center" fontName="Open Sans" fontSize="11" isBold="true"/>
+	<style name="Detail" hTextAlign="Right" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12"/>
+	<style name="Column header" forecolor="#08298C" hTextAlign="Left" fontName="Open Sans" fontSize="10" isBold="true"/>
+	<style name="Column header 2" forecolor="#666666" hTextAlign="Center" fontName="Open Sans" fontSize="11" isBold="true"/>	
+	<style name="Column header 3" forecolor="#000000" hTextAlign="Left" fontName="Open Sans" fontSize="10" isBold="true"/>
 	<style name="Page footer" mode="Opaque" forecolor="#FFFFFF" backcolor="#0658A5" hTextAlign="Left" vTextAlign="Middle" rotation="None" fontName="Open Sans" fontSize="10" isBold="false"/>
 	<style name="Group header" forecolor="#FFFFFF" vTextAlign="Middle" fontName="Open Sans" fontSize="16" isBold="true"/>
 	<style name="Base" isDefault="true" fontName="DejaVu Sans" fontSize="12"/>
@@ -59,10 +56,10 @@
 	<style name="Detail Header Dark" mode="Opaque" forecolor="#FFFFFF" backcolor="#044584" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
 		<pen lineWidth="0.0"/>
 	</style>
-	<style name="Detail Header Light" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E70CF" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+	<style name="Detail Header Darker" mode="Opaque" forecolor="#FFFFFF" backcolor="#033566" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
 		<pen lineWidth="0.0"/>
 	</style>
-	<style name="Detail Header Darker" mode="Opaque" forecolor="#FFFFFF" backcolor="#033566" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+	<style name="Detail Header Light" mode="Opaque" forecolor="#FFFFFF" backcolor="#0E70CF" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
 		<pen lineWidth="0.0"/>
 	</style>
 	<style name="Detail Header Lighter" mode="Opaque" forecolor="#FFFFFF" backcolor="#3683CD" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">

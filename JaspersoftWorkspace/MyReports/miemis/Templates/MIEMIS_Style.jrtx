@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio -->
 <jasperTemplate xmlns="http://jasperreports.sourceforge.net/jasperreports/template" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/template http://jasperreports.sourceforge.net/xsd/jaspertemplate.xsd">
-	<style name="Title" hTextAlign="Center" vTextAlign="Middle" fontName="Open Sans" fontSize="36" isBold="true"/>
+	<style name="Title" hTextAlign="Center" vTextAlign="Middle" fontName="Open Sans" fontSize="30" isBold="true"/>
 	<style name="SubTitle" forecolor="#08298C" hTextAlign="Center" fontName="Open Sans" fontSize="16"/>
 	<style name="Detail" hTextAlign="Right" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12"/>
 	<style name="Column header" forecolor="#08298C" hTextAlign="Left" fontName="Open Sans" fontSize="10" isBold="true"/>
@@ -53,10 +53,10 @@
 			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#0C34AB"/>
 		</box>
 	</style>
-	<style name="Detail Header Darker" mode="Opaque" forecolor="#FFFFFF" backcolor="#042F60" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+	<style name="Detail Header Dark" mode="Opaque" forecolor="#FFFFFF" backcolor="#002E7B" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
 		<pen lineWidth="0.0"/>
 	</style>
-	<style name="Detail Header Dark" mode="Opaque" forecolor="#FFFFFF" backcolor="#002E7B" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
+	<style name="Detail Header Darker" mode="Opaque" forecolor="#FFFFFF" backcolor="#042F60" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">
 		<pen lineWidth="0.0"/>
 	</style>
 	<style name="Detail Header Light" mode="Opaque" forecolor="#FFFFFF" backcolor="#0B4A91" hTextAlign="Left" vTextAlign="Middle" fontName="Open Sans Semibold" fontSize="12" isBold="true">

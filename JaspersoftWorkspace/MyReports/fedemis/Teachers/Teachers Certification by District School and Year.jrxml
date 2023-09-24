@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Teachers_Certification_By_District_School_Snd_Year" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
+	<property name="ireport.jasperserver.url" value="http://fedemis.doe.fm:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Exams/Exams_State_Ranking_by_Year"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Exams/Exams_State_Ranking_by_Year_files/main_jrxml"/>
+	<property name="com.jaspersoft.studio.report.unit.description" value="Proportion of students at each level of achievement for chosen school and year (all exams)"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<template><![CDATA["../Templates/FedEMIS_Style.jrtx"]]></template>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<style name="Failure" mode="Transparent" forecolor="#FFFFFF" backcolor="#FFFFFF">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{PercentageCorrect} < 0.5]]></conditionExpression>
+			<style mode="Opaque" forecolor="#C00000" backcolor="#C00000" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Year" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2023]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT *
+FROM
+(
+	SELECT TI.tID TID
+		, tGiven tGiven
+		, tSurname tSurname
+		, tSex tSex
+		, LTQ.codeCode QualificationCode
+		, LTQ.codeDescription QualificationDescription
+		, TT2.trYear trYear
+		, coalesce(YEAR(trEffectiveDate),TT2.trYear) trYearEffective
+		, coalesce(common.SchoolYearInt(trEffectiveDate, common.sysParam('TEACHERCERTIFICATION_CUTOFFDATE')), TT2.trYear, null, 0) trYearEffectiveCertified
+		, TT.trEffectiveDate trEffectiveDate
+		, TT.trExpirationDate trExpirationDate
+		, LTQ.codeGroup QualificationGroup
+		, isnull(LTQ.codeDurationYears, 0) CertificationDuration
+		, TL.SurveySchNo SurveySchNo
+		, DSS.[School Name] SchoolName
+		, DSS.District District
+		, TL.SurveyDataYear SurveyDataYear
+		, TL.SurveyYear SurveyYear
+		, ISNULL(TL.Certified, -1) Certified
+		, ISNULL(TL.Qualified, -1) Qualified
+		, ISNULL(TL.TAMX, 'NA') TAMX
+		, CASE
+			WHEN $P{Year} < coalesce(common.SchoolYearInt(trEffectiveDate, common.sysParam('TEACHERCERTIFICATION_CUTOFFDATE')), TT2.trYear, null, 0) + LTQ.codeDurationYears THEN 1
+			WHEN isnull(LTQ.codeDurationYears, 0) = 0 THEN 1
+			ELSE 0
+			END Certified2
+	from TeacherIdentity TI
+	INNER JOIN (
+		-- Include only the certifications
+		SELECT tID, trYear, trQual, trEffectiveDate, trExpirationDate
+		FROM TeacherTraining TT INNER JOIN lkpTeacherQual LTQ ON TT.trQual = LTQ.codeCode WHERE LTQ.codeCertified = 1
+	) TT ON TI.tID = TT.tID
+	INNER JOIN (
+		-- Include only the most recent certification
+		SELECT tID, MAX(trYear) trYear, trQual
+		FROM TeacherTraining TT INNER JOIN lkpTeacherQual LTQ ON TT.trQual = LTQ.codeCode WHERE LTQ.codeCertified = 1
+		GROUP BY tID
+			, trQual
+	) TT2 ON TI.tID = TT2.tID AND TT.trYear = TT2.trYear AND TT.trQual = TT2.trQual
+	INNER JOIN lkpTeacherQual LTQ ON TT.trQual = LTQ.codeCode -- 365
+	LEFT OUTER JOIN (select * FROM warehouse.TeacherLocation where SurveyYear = $P{Year}) AS TL ON TI.tID = TL.TID
+	LEFT OUTER JOIN DimensionSchoolSurvey DSS ON DSS.[School No] = TL.SurveySchNo AND DSS.[Survey Data Year] = TL.SurveyDataYear
+) T
+WHERE NOT (SurveySchNo IS NULL AND Certified2 = 0)
+ORDER BY CASE WHEN District IS NOT NULL THEN 0 ELSE 1 END, District, SurveySchNo, trYearEffectiveCertified DESC, tGiven, tSurname]]>
+	</queryString>
+	<field name="TID" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="TID"/>
+		<property name="com.jaspersoft.studio.field.label" value="TID"/>
+	</field>
+	<field name="tGiven" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tGiven"/>
+		<property name="com.jaspersoft.studio.field.label" value="tGiven"/>
+	</field>
+	<field name="tSurname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tSurname"/>
+		<property name="com.jaspersoft.studio.field.label" value="tSurname"/>
+	</field>
+	<field name="tSex" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tSex"/>
+		<property name="com.jaspersoft.studio.field.label" value="tSex"/>
+	</field>
+	<field name="QualificationCode" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="QualificationCode"/>
+		<property name="com.jaspersoft.studio.field.label" value="QualificationCode"/>
+	</field>
+	<field name="QualificationDescription" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="QualificationDescription"/>
+		<property name="com.jaspersoft.studio.field.label" value="QualificationDescription"/>
+	</field>
+	<field name="trYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="trYear"/>
+		<property name="com.jaspersoft.studio.field.label" value="trYear"/>
+	</field>
+	<field name="trYearEffective" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="trYearEffective"/>
+		<property name="com.jaspersoft.studio.field.label" value="trYearEffective"/>
+	</field>
+	<field name="trYearEffectiveCertified" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="trYearEffectiveCertified"/>
+		<property name="com.jaspersoft.studio.field.label" value="trYearEffectiveCertified"/>
+	</field>
+	<field name="trEffectiveDate" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="trEffectiveDate"/>
+		<property name="com.jaspersoft.studio.field.label" value="trEffectiveDate"/>
+	</field>
+	<field name="trExpirationDate" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="trExpirationDate"/>
+		<property name="com.jaspersoft.studio.field.label" value="trExpirationDate"/>
+	</field>
+	<field name="QualificationGroup" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="QualificationGroup"/>
+		<property name="com.jaspersoft.studio.field.label" value="QualificationGroup"/>
+	</field>
+	<field name="CertificationDuration" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="CertificationDuration"/>
+		<property name="com.jaspersoft.studio.field.label" value="CertificationDuration"/>
+	</field>
+	<field name="SurveySchNo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SurveySchNo"/>
+		<property name="com.jaspersoft.studio.field.label" value="SurveySchNo"/>
+	</field>
+	<field name="SchoolName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SchoolName"/>
+		<property name="com.jaspersoft.studio.field.label" value="SchoolName"/>
+	</field>
+	<field name="District" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="District"/>
+		<property name="com.jaspersoft.studio.field.label" value="District"/>
+	</field>
+	<field name="SurveyDataYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="SurveyDataYear"/>
+		<property name="com.jaspersoft.studio.field.label" value="SurveyDataYear"/>
+	</field>
+	<field name="SurveyYear" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="SurveyYear"/>
+		<property name="com.jaspersoft.studio.field.label" value="SurveyYear"/>
+	</field>
+	<field name="Certified" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Certified"/>
+		<property name="com.jaspersoft.studio.field.label" value="Certified"/>
+	</field>
+	<field name="Qualified" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Qualified"/>
+		<property name="com.jaspersoft.studio.field.label" value="Qualified"/>
+	</field>
+	<field name="TAMX" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TAMX"/>
+		<property name="com.jaspersoft.studio.field.label" value="TAMX"/>
+	</field>
+	<field name="Certified2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Certified2"/>
+		<property name="com.jaspersoft.studio.field.label" value="Certified2"/>
+	</field>
+	<group name="District">
+		<groupExpression><![CDATA[$F{District}]]></groupExpression>
+		<groupHeader>
+			<band height="24">
+				<frame>
+					<reportElement style="Detail Header Dark" x="-21" y="0" width="793" height="24" uuid="e128b138-4c97-460d-a388-895c2a17bc4c">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<rectangle>
+						<reportElement style="Detail Header Darker" x="21" y="0" width="36" height="24" uuid="1816c3b2-4d4b-4221-b490-03f197a5d99e"/>
+					</rectangle>
+					<textField>
+						<reportElement style="Group header" x="68" y="0" width="524" height="24" uuid="ab0c7c87-df10-4fc6-9ad4-169f98f35f94"/>
+						<textFieldExpression><![CDATA[$F{District} != null ? $F{District} : "Not teaching in any state"]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="School">
+		<groupExpression><![CDATA[$F{SchoolName}]]></groupExpression>
+		<groupHeader>
+			<band height="43">
+				<frame>
+					<reportElement style="Detail Header Lighter" x="-21" y="0" width="793" height="24" uuid="1339feee-b485-4723-be4b-57f900b07fc8">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<rectangle>
+						<reportElement style="Detail Header Light" x="21" y="0" width="47" height="24" uuid="4af90b7e-b918-49a5-8749-b6d388d6487f"/>
+					</rectangle>
+					<textField>
+						<reportElement style="Group header" x="80" y="0" width="512" height="24" uuid="52a17e0d-480f-4b3c-aeab-9c9776316f70"/>
+						<textFieldExpression><![CDATA[$F{SurveySchNo} != null ? $F{SurveySchNo} + ": " + $F{SchoolName} : "Not teaching in any school"]]></textFieldExpression>
+					</textField>
+				</frame>
+				<staticText>
+					<reportElement key="" style="Column header" x="371" y="29" width="80" height="12" uuid="30dd0b20-2200-46da-a7a6-350f43a9f054">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Effective Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="" style="Column header" x="341" y="29" width="30" height="12" uuid="6a58999f-d685-4eb2-bb4c-bff89abc78d2">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Year]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="" style="Column header" x="130" y="29" width="211" height="12" uuid="fe73c076-1844-429f-b8f0-02d3135fdbf0">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Certification]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="" style="Column header" x="0" y="29" width="130" height="12" uuid="7ddc4863-f183-4ad1-b2e8-e7e726888c12">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Teacher]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="" style="Column header" x="451" y="29" width="80" height="12" uuid="005233b7-a074-4115-99dd-02773adaca0a">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Expiry Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="" style="Column header" x="602" y="29" width="40" height="12" uuid="10a9db13-3c4a-4bc7-8200-681ef12a1309">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Certified]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="" style="Column header" x="531" y="29" width="71" height="12" uuid="2a490f56-390e-4ae9-b3f2-89ae4ff3ad99">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Years Valid]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="" style="Column header" x="690" y="29" width="61" height="12" uuid="1a3f31a1-0568-4278-9550-3cd84c65901f">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Duties]]></text>
+				</staticText>
+				<textField textAdjust="StretchHeight" pattern="M/d/yy">
+					<reportElement style="Column header" mode="Transparent" x="642" y="29" width="48" height="12" uuid="73674450-d95e-4f17-aa2c-8b8ff2fec866">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0" lineColor="#C8C8C8"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Open Sans Semibold" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Qualified} != -1 ? "Qualified" : ""]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="126" height="126" uuid="1c003177-754c-448f-8ce1-16868856f545">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["repo:/images/fsm_seal.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="126" y="0" width="499" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="45"/>
+				</textElement>
+				<text><![CDATA[Teachers Certification]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="140" y="62" width="470" height="48" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[A list of teachers with their most recent certification information for a chosen year grouped by states and schools. Teachers that are currently certified but not teaching to any school are also included.]]></text>
+			</staticText>
+			<image>
+				<reportElement x="625" y="0" width="126" height="126" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["repo:/images/fsm_ndoe.png"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Opaque" x="-21" y="-20" width="793" height="10" forecolor="#08298C" backcolor="#08298C" uuid="a879b5ed-22f8-4e7b-9093-811aaea43211">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-21" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="0a58d963-ec76-492f-9d28-8419cff95766">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="752" y="-10" width="20" height="10" forecolor="#08298C" backcolor="#08298C" uuid="f0a00416-98e9-4650-b25b-a7e2a9f68561">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</rectangle>
+			<ellipse>
+				<reportElement x="-21" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="503401c2-412f-4738-a96a-cf6a43061701">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</ellipse>
+			<ellipse>
+				<reportElement x="735" y="-9" width="38" height="38" forecolor="#FFFFFF" uuid="70a1c065-3f91-4751-8e67-c995a73a7656">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</ellipse>
+			<textField>
+				<reportElement style="Title text" x="126" y="111" width="499" height="20" uuid="552bbbc7-baa1-40c9-ac39-017f6334661f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA["School year " + $P{Year}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="130" y="1" width="211" height="14" uuid="6596f86e-3347-462e-b1b8-a5113eed991a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{QualificationDescription}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="1" width="130" height="14" uuid="afe58eca-7a4d-4313-9799-a1e34359040d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tGiven} + " " + $F{tSurname}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="341" y="1" width="30" height="14" uuid="47e82f2e-a61f-4faa-963f-ecf2b80b1fb1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trYear}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="MMM d, yyyy" isBlankWhenNull="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="371" y="1" width="80" height="14" uuid="329fdd70-4466-4a7f-b3df-f6d3dcf76201">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trEffectiveDate}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="MMM d, yyyy" isBlankWhenNull="true">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="451" y="1" width="80" height="14" uuid="03fb1f15-7c60-4260-92af-5253604ab433">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trExpirationDate}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="M/d/yy">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="642" y="1" width="48" height="14" uuid="8ad0e5ba-4c71-4ab8-b223-a02cae65a1ca">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Qualified} == 1 ? "Yes" :
+$F{Qualified} == 0 ? "No" : 
+$F{Qualified} == -1 ? "" : "N/A"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="531" y="1" width="71" height="14" uuid="331a0dbe-c082-4122-992c-b3a5ca073e2d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CertificationDuration} == 0 ? "Permanent" : $F{CertificationDuration}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="M/d/yy">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="690" y="1" width="61" height="14" uuid="168958d5-3ae1-45e0-9013-a2b0b749bbdd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TAMX}.equals("T") ? "Teacher" :
+$F{TAMX}.equals("A") ? "Admin" :
+$F{TAMX}.equals("M") ? "Mixed" :
+$F{TAMX}.equals("X") ? "Other" : 
+$F{TAMX}.equals("NA") ? "No duties" : "N/A"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="false">
+				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="602" y="1" width="40" height="14" uuid="361b0a1f-6d86-4633-9131-d20cad9c6965">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#C8C8C8"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Open Sans Semibold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Certified} == 1 ? "Yes" : 
+$F{Certified} == 0 ? "No" :
+$F{Certified} == -1 ? $F{Certified2} : "N/A"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement style="Page footer" x="-21" y="1" width="793" height="24" uuid="5d8169bd-4a75-48c8-8a68-6d3ad5ba9402"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Page footer" x="726" y="1" width="40" height="20" uuid="e5e27efa-b599-499b-9ca3-848cb511cb7b">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Page footer" x="646" y="1" width="80" height="20" uuid="18cfe1ca-f7d6-48b0-9827-28578b42a5e0">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Page footer" x="22" y="1" width="288" height="20" uuid="fbce24bb-3cb1-44a3-8eec-8c067ddbe5b5"/>
+					<textFieldExpression><![CDATA["Generated by FedEMIS on " + new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</summary>
+</jasperReport>
