@@ -5,8 +5,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FEDEMIS-TEST"/>
 	<property name="ireport.jasperserver.url" value="http://fedemis.doe.fm:8080/jasperserver/"/>
 	<property name="ireport.jasperserver.user" value="jasperadmin"/>
-	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Exams/Exams_State_Ranking_by_Year"/>
-	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Exams/Exams_State_Ranking_by_Year_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/fedemis/Teachers/Teachers_Certification_by_State_School_and_Year"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/fedemis/Teachers/Teachers_Certification_by_State_School_and_Year_files/main_jrxml"/>
 	<property name="com.jaspersoft.studio.report.unit.description" value="Proportion of students at each level of achievement for chosen school and year (all exams)"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
@@ -17,23 +17,59 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<template><![CDATA["../Templates/FedEMIS_Style.jrtx"]]></template>
+	<template><![CDATA["repo:/Templates/FedEMIS_Style.jrtx"]]></template>
 	<style name="Row" mode="Transparent">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
 			<style backcolor="#ECECEC"/>
 		</conditionalStyle>
 	</style>
-	<style name="Failure" mode="Transparent" forecolor="#FFFFFF" backcolor="#FFFFFF">
+	<style name="NotCertified" mode="Transparent">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[$F{PercentageCorrect} < 0.5]]></conditionExpression>
-			<style mode="Opaque" forecolor="#C00000" backcolor="#C00000" fontName="Open Sans Semibold" fontSize="9">
+			<conditionExpression><![CDATA[$F{Certified} == 0]]></conditionExpression>
+			<style mode="Opaque" forecolor="#C00000" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{Certified} == 1]]></conditionExpression>
+			<style mode="Opaque" forecolor="#009900" fontName="Open Sans Semibold" fontSize="9">
 				<pen lineWidth="0.0"/>
 			</style>
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
-			<style mode="Opaque" backcolor="#ECECEC"/>
+			<style backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<style name="NotQualified" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{Qualified} == 0]]></conditionExpression>
+			<style mode="Opaque" forecolor="#C00000" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{Qualified} == 1]]></conditionExpression>
+			<style mode="Opaque" forecolor="#009900" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC"/>
+		</conditionalStyle>
+	</style>
+	<style name="SuspiciousYear" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($F{trYear} != $F{trYearEffective})]]></conditionExpression>
+			<style mode="Opaque" forecolor="#C00000" fontName="Open Sans Semibold" fontSize="9">
+				<pen lineWidth="0.0"/>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#ECECEC"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="Year" class="java.lang.Integer">
@@ -63,7 +99,7 @@ FROM
 		, TL.SurveyYear SurveyYear
 		, ISNULL(TL.Certified, -1) Certified
 		, ISNULL(TL.Qualified, -1) Qualified
-		, ISNULL(TL.TAMX, 'NA') TAMX
+		, ISNULL(TL.TAMX, 'U') TAMX
 		, CASE
 			WHEN $P{Year} < coalesce(common.SchoolYearInt(trEffectiveDate, common.sysParam('TEACHERCERTIFICATION_CUTOFFDATE')), TT2.trYear, null, 0) + LTQ.codeDurationYears THEN 1
 			WHEN isnull(LTQ.codeDurationYears, 0) = 0 THEN 1
@@ -368,7 +404,10 @@ ORDER BY CASE WHEN District IS NOT NULL THEN 0 ELSE 1 END, District, SurveySchNo
 				<reportElement style="SubTitle" x="140" y="62" width="470" height="48" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<text><![CDATA[A list of teachers with their most recent certification information for a chosen year grouped by states and schools. Teachers that are currently certified but not teaching to any school are also included.]]></text>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[A list of teachers with their most recent certification information for a chosen year grouped by states and schools. Only teachers with at least one certification record recorded are included. Teachers that are currently certified but not teaching to any school are also included.]]></text>
 			</staticText>
 			<image>
 				<reportElement x="625" y="0" width="126" height="126" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959">
@@ -414,7 +453,7 @@ ORDER BY CASE WHEN District IS NOT NULL THEN 0 ELSE 1 END, District, SurveySchNo
 				<reportElement style="Title text" x="126" y="111" width="499" height="20" uuid="552bbbc7-baa1-40c9-ac39-017f6334661f">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA["School year " + $P{Year}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["School Year " + $P{Year}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -498,7 +537,7 @@ ORDER BY CASE WHEN District IS NOT NULL THEN 0 ELSE 1 END, District, SurveySchNo
 				<textFieldExpression><![CDATA[$F{trExpirationDate}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="M/d/yy">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="642" y="1" width="48" height="14" uuid="8ad0e5ba-4c71-4ab8-b223-a02cae65a1ca">
+				<reportElement style="NotQualified" stretchType="RelativeToTallestObject" mode="Opaque" x="642" y="1" width="48" height="14" uuid="8ad0e5ba-4c71-4ab8-b223-a02cae65a1ca">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -543,10 +582,10 @@ $F{Qualified} == -1 ? "" : "N/A"]]></textFieldExpression>
 $F{TAMX}.equals("A") ? "Admin" :
 $F{TAMX}.equals("M") ? "Mixed" :
 $F{TAMX}.equals("X") ? "Other" : 
-$F{TAMX}.equals("NA") ? "No duties" : "N/A"]]></textFieldExpression>
+$F{TAMX}.equals("U") ? "No duties" : "N/A"]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="false">
-				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="602" y="1" width="40" height="14" uuid="361b0a1f-6d86-4633-9131-d20cad9c6965">
+				<reportElement style="NotCertified" stretchType="RelativeToTallestObject" mode="Opaque" x="602" y="1" width="40" height="14" uuid="361b0a1f-6d86-4633-9131-d20cad9c6965">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -559,7 +598,7 @@ $F{TAMX}.equals("NA") ? "No duties" : "N/A"]]></textFieldExpression>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Certified} == 1 ? "Yes" : 
 $F{Certified} == 0 ? "No" :
-$F{Certified} == -1 ? $F{Certified2} : "N/A"]]></textFieldExpression>
+($F{Certified} == -1 && $F{Certified2} == 1) ? "Yes" : "N/A"]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
